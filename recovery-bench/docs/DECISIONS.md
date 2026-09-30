@@ -774,3 +774,149 @@ is irrelevant, correctness is not.
 **Both halves were needed.** Sequential probing alone still tripped the empty
 stream on back-to-back requests; the retry alone would have masked a real
 outage. Together the gate passes honestly, and when it fails it says why.
+
+---
+
+## D21 — Oracle localisation is faithful, and it costs nothing
+
+The original picks the file to edit out of the gold patch:
+
+```python
+def extract_target_files(gold_patch):
+    paths = re.findall(r"^--- a/(.+)$", gold_patch, re.MULTILINE)
+target_files = extract_target_files(task["patch"])
+file_path = target_files[0]
+```
+
+This is **declared method, not an oversight.** The dissertation describes its
+own system as *"single-shot, oracle-localised, single-file patch generation"* and
+its configuration table records *"File localisation | Oracle — target path
+parsed from the gold patch"*, noting the term of art. Reproducing Chapter 5
+therefore requires reproducing this exactly, so `tasks/localise.ts` does.
+
+Two things were checked rather than assumed.
+
+**Only the path crosses the boundary.** `localise()` returns a string. There is
+no route by which the gold diff could reach a prompt, and
+`tests/tasksLayer.test.ts` asserts directly that a rendered prompt contains the
+current file content but not the reference solution — including the case where
+the gold patch's replacement text would be a giveaway.
+
+**`[0]` discards nothing.** The original silently takes the first target. I
+measured every instance in the frozen export: **all 300 SWE-bench Lite gold
+patches touch exactly one file.** So the single-file restriction belongs to the
+benchmark, not to the study's design, and the study loses no task to it. The
+test asserts this across all 300, and `localise()` now *refuses* a multi-file
+patch instead of quietly dropping edits — the measured invariant is the
+justification for taking the first, and an unchecked assumption that happens to
+hold is one dataset revision away from silent data loss.
+
+---
+
+## D22 — Diagnose+Revise cannot always be honoured, so provenance became data
+
+This is the hardest problem in step 5 and the reasoning matters more than the
+code.
+
+Diagnose+Revise is *defined* by what it adds to Reflection-only: the real result
+of running the previous patch against the real test suite. Its prompt says so to
+the model in as many words —
+
+> *"Here is the REAL, ACTUAL result of running your previous patch against the
+> real test suite (ground truth, not a guess)"*
+
+That single placeholder, `{real_evidence}`, is the manipulated variable of the
+entire study. `tests/promptOracle.test.ts` proves it is the only difference
+between the L2 and L2.5 templates.
+
+**This pipeline cannot run tests.** D6 forbids Docker, permanently. So for a
+newly attempted task the strongest available evidence is `git`'s refusal of the
+patch: real, but categorically weaker than test output, and available only when
+the patch failed to apply at all.
+
+Three ways to handle that, and only one is defensible:
+
+1. **Synthesise plausible test output.** Fabrication. Never.
+2. **Quietly substitute the apply error and still call it Diagnose+Revise.**
+   This is the tempting one and it is the worst, because the condition would
+   silently mean two different things depending on the task and no reader could
+   tell which. It would make the result unfalsifiable.
+3. **Record the provenance and let the analysis refuse to pool incomparable
+   cells.**
+
+Option 3. `EvidenceSource` is `"archived_test" | "apply_error" | "none"`, and it
+travels with the cell exactly as `Row<"test">` versus `Row<"apply">` travels
+with a verification (step 1). Every row carries `comparableToChapter5`.
+
+Consequences, all deliberate:
+
+- **`archived_test` exists only for cells the original already evaluated.** Those
+  Docker results are in the archive and cannot be regenerated. This pipeline can
+  read that evidence; it can never produce more of it.
+- **An archived *apply failure* is labelled `apply_error`, not
+  `archived_test`.** Being in the archive does not make it test output. Getting
+  this wrong would inflate the count of comparable cells, so it is tested.
+- **`none` refuses the cell.** A Diagnose+Revise prompt with an empty evidence
+  block tells the model it is receiving ground truth and then shows it nothing.
+  The strategy declines and the row records why — it is not run as
+  Reflection-only under an L2.5 label.
+
+The original's truncation is preserved exactly — an 800-character window on the
+apply error, a 3000-character tail on the whole block, with the
+`...[earlier output trimmed]...` prefix — because those are part of the prompt
+and therefore part of the experiment.
+
+---
+
+## D23 — Exact Round 2 replication is impossible, and new Round 2 is not
+
+Round 2 fed the model its **round-1 raw response**:
+
+```python
+with open(f"attempts/{instance_id}_diagnoserevise_v2_raw.txt") as f:
+    round1_diagnose = f.read()
+```
+
+`attempts/` is gone (D0). The `predictions*.json` files preserve the 61
+*patches* (D14), but a patch is not the response: the prose — the REFLECTION,
+the DIAGNOSIS, the EXPLANATION — is what round 2 was shown, and it was never
+archived anywhere.
+
+So **Chapter 5's Round 2 cannot be reproduced cell-for-cell, and this is
+permanent.** No amount of engineering recovers deleted text. The archived R2
+results in `master_table.md` remain the record, and step 3 regenerates them
+byte-identically from the evaluation logs.
+
+**New multi-round runs are unaffected.** This pipeline keeps each round's full
+response in the `Attempt` it hands forward, so round 2 gets exactly what the
+original's round 2 got. The capability is intact going forward; only the
+backward replication of those specific cells is lost.
+
+Recorded because it is a viva-relevant limitation that a reader might otherwise
+mistake for an implementation gap.
+
+---
+
+## D24 — Symbol-mode context compression is deferred, and why
+
+`configs/base.yaml` declares `tasks.context.mode: symbol` with
+`padding_lines: 50`. D7 explains the motive: `astropy/wcs/wcs.py` is 3300 lines
+and pasting it whole costs **31,098 tokens per call**, which is what makes n=5
+repeats unaffordable. The warm-cache run confirms the file size.
+
+Step 5 implements `whole_file` only, and the reason is methodological rather
+than practical.
+
+To send only the relevant function or class, something must decide which one.
+The honest sources are the problem statement, which is unreliable, or the gold
+patch's hunk headers — **which is strictly more oracle information than the file
+path alone.** Oracle localisation is already declared method (D21); oracle
+*symbol* selection would be a further concession, changing what the system is
+and what its results mean. That deserves its own decision and its own
+disclosure, not a quiet default.
+
+So `whole_file` is what the replication arms use, because it is what Chapter 5
+used. Symbol mode stays declared and unimplemented until the localisation
+question is settled deliberately. A prompt built under a different context mode
+is a different prompt, so the mode belongs on the row alongside evidence
+provenance whenever it is added.

@@ -1,0 +1,38 @@
+{
+  "astropy/astropy@d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5:astropy/wcs/wcs.py": {
+    "repo": "astropy/astropy",
+    "commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
+    "path": "astropy/wcs/wcs.py",
+    "sha256": "b9586ff03d59f635a27d6a322375e64e8b1900cb3b81d4d3f1b2a4b7c936fbdb",
+    "bytes": 124394,
+    "lines": 3300,
+    "fetchedAt": "2026-09-30T07:01:58.213Z"
+  },
+  "django/django@08a4ee06510ae45562c228eefbdcaac84bd38c7a:django/contrib/auth/migrations/0011_update_proxy_permissions.py": {
+    "repo": "django/django",
+    "commit": "08a4ee06510ae45562c228eefbdcaac84bd38c7a",
+    "path": "django/contrib/auth/migrations/0011_update_proxy_permissions.py",
+    "sha256": "045b314108999ebf9c264287cbbe0932ec625aefb4f81c56a99e7d7a77cb274f",
+    "bytes": 1923,
+    "lines": 49,
+    "fetchedAt": "2026-09-30T07:01:58.896Z"
+  },
+  "django/django@580e644f24f1c5ae5b94784fb73a9953a178fd26:django/conf/__init__.py": {
+    "repo": "django/django",
+    "commit": "580e644f24f1c5ae5b94784fb73a9953a178fd26",
+    "path": "django/conf/__init__.py",
+    "sha256": "532203cfb24e67a43cb8f03608aae3ae0d2bc9c0ca70fdb80a085029c2faf080",
+    "bytes": 9138,
+    "lines": 244,
+    "fetchedAt": "2026-09-30T07:01:59.249Z"
+  },
+  "django/django@93e892bb645b16ebaf287beb5fe7f3ffe8d10408:django/forms/widgets.py": {
+    "repo": "django/django",
+    "commit": "93e892bb645b16ebaf287beb5fe7f3ffe8d10408",
+    "path": "django/forms/widgets.py",
+    "sha256": "291f99edff7153d954b60dae8fd13ba44fd980574064437fe2ab2e47720ea196",
+    "bytes": 37371,
+    "lines": 1084,
+    "fetchedAt": "2026-09-30T07:01:58.561Z"
+  }
+}

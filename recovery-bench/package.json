@@ -14,7 +14,9 @@
     "report": "bun packages/pipeline/cli.ts report",
     "sweep": "bun packages/pipeline/cli.ts sweep",
     "test": "bun test",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "try": "bun --env-file ../.env.local packages/pipeline/cli.ts try",
+    "warm-cache": "bun packages/pipeline/cli.ts warm-cache"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",

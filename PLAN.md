@@ -468,7 +468,7 @@ text, and editing their content would make them no longer match what produced
 
 The document is done. Work moved to `recovery-bench/`, which builds the §8
 future-work items as a real program. Full rationale in
-`recovery-bench/docs/DECISIONS.md` (D0–D20); the build order is
+`recovery-bench/docs/DECISIONS.md` (D0–D24); the build order is
 `ARCHITECTURE.md` §6.
 
 | Step | State |
@@ -478,8 +478,9 @@ future-work items as a real program. Full rationale in
 | 2 · `edits/` + tests | ✅ 138 tests |
 | 3 · `analysis/` + `replay` | ✅ Chapter 5 regenerates byte-identically, offline |
 | 4 · providers + budget ledger | ✅ 248 tests; ceiling enforced before dispatch, all 5 keys live |
-| 5 · strategies | next — the recovery loop itself |
-| 6–8 · sweep · dashboard · extensions | planned |
+| 5 · strategies + task layer | ✅ 319 tests; prompts byte-verified against the originals, one real cell APPLIED |
+| 6 · sweep | next — the full grid, no holes |
+| 7–8 · dashboard · extensions | planned |
 
 Three constraints, decided and fixed: **TypeScript on Bun** (D10), **no Docker
 anywhere** (D6), **conditions live in config, not scripts** (D9).
@@ -546,7 +547,30 @@ and because a viva question may reach them. **None of them change `Self.docx`.**
    `8_000_000` string defect again, in a different field: declared, believed,
    never transmitted.
 
-8. **Two corrections to this plan's own evidence.** D0 claimed the code was never
+8. **The reimplementation's prompts are byte-verified against the originals**
+   (step 5). The three condition prompts are not retyped: they are extracted
+   from the original Python into `data/original_prompts.json` with the SHA-256
+   of each source file, and a test proves each committed template is a verbatim
+   substring of the script it came from. A second test proves the *only*
+   difference between the Reflection-only and Diagnose+Revise templates is the
+   `{real_evidence}` placeholder — which is the study's manipulated variable,
+   now pinned rather than asserted.
+
+9. **Diagnose+Revise cannot always be honoured without Docker, so provenance
+   became data** (D22). The condition is defined by receiving real test output;
+   this pipeline cannot run tests. Rather than quietly substituting `git`'s
+   apply error and still calling it Diagnose+Revise — which would make the
+   condition mean two different things depending on the task — every cell
+   records `evidenceSource` and `comparableToChapter5`. A cell with no evidence
+   is **refused and recorded**, not silently downgraded.
+
+10. **Oracle localisation costs nothing** (D21). The original picks the target
+    file from the gold patch and takes the first — declared method, and the
+    dissertation says so. Measured: **all 300 SWE-bench Lite gold patches touch
+    exactly one file**, so nothing is lost to `[0]`. The single-file constraint
+    belongs to the benchmark, not to the study.
+
+11. **Two corrections to this plan's own evidence.** D0 claimed the code was never
    version-controlled — wrong, the check ran against the enclosing home-directory
    repo; the code is at `Lagadnakul/Dissertation`. And SWE-bench Lite spans **12**
    repositories, not 11 — flask was missing, with 3 instances, which is exactly
@@ -556,12 +580,13 @@ and because a viva question may reach them. **None of them change `Self.docx`.**
 
 ## 12. Next action
 
-Step 5 — `strategies/`: the recovery loop itself. Baseline, Blind Retry,
-Reflection-only and Diagnose+Revise as four implementations of one interface,
-each driving `callCell` and terminating every cell in a recorded outcome. This
-is the first step whose output is comparable to Chapter 5's — and the first
-that can produce a *new* row rather than replay an old one.
+Step 6 — `matrix/` + the sweep: enumerate every cell of the grid up front, run
+it to a recorded outcome, resume without double-spending, and write the rows
+`analysis/` already knows how to read. Step 5 proved one cell end to end; step 6
+is the claim that **no cell can go missing**, which is the defect the whole
+project was built against (D2, D15).
 
-The prerequisites are now in place: the budget refuses to overspend before a
-request is sent (D3/step 4), `thinking` is actually transmitted (D19), and
-provider capacity failures are distinguishable from model silence (D20).
+Two measurements from step 5 that size the work: one `muse_30b` cell cost
+**2,251 tokens and 135 seconds**, so arm a2's 120 cells are roughly 4.5 hours
+wall-clock and 270k tokens — comfortably inside the 8M ceiling, but concurrency
+has to respect the capacity limit found in D20.

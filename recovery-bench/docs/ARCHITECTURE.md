@@ -435,7 +435,7 @@ to a commit. That chain — not tidiness — is what "research-grade" means here
 | 2 | `edits/` + tests | ✅ the core claim, pure functions — 138 tests; the format finding measured at 30/51 vs 10/10 (D14) |
 | 3 | ✅ `analysis/` + `replay` | **every Chapter 5 number and figure, offline, no key** — `master_table.md` regenerates byte-identically; 22 cells the original could not see recovered (D15); `FAILURE_CLASS` derived and matching (D16) |
 | 4 | ✅ `providers/` + budget ledger | ceiling **refuses before dispatch**, usage captured per cell, all 3 providers live — and four defects found by making the first call (D17–D20), including `thinking: false` never being sent on the wire (D19) |
-| 5 | `strategies/` L0–L2.5 | reproduces Nakul's three conditions |
+| 5 | ✅ `strategies/` L0–L2.5 + `tasks/` | prompts byte-verified against the originals (D21); evidence provenance recorded rather than assumed (D22); one real cell run end to end to APPLIED |
 | 6 | `matrix/` + `verify/` | full sweep, zero holes |
 | 7 | `dashboard/` | the visual |
 | 8 | `context.ts`, L3, L4, variance runs | the §8 extensions |

@@ -12,18 +12,31 @@
 
 import { doctor } from "./doctor.ts";
 import { replay, report } from "./analysis/replay.ts";
+import { tryCell } from "./tryCell.ts";
+import { warmCache } from "./warmCache.ts";
 
 const USAGE = `recovery-bench
 
   doctor [--config <path>] [--live]   run every precondition check
   replay                               rebuild every cell from the archive
   report [--stdout]                    regenerate master_table.md and figure data
+  try [options]                        run ONE cell end to end and print it all
+  warm-cache [--set <name>]            pre-fetch task files so runs are offline
   sweep                                (step 6) execute the grid
   serve                                (step 7) open the dashboard
 
   --config   default configs/base.yaml
   --live     permit network calls (doctor only)
   --stdout   write the table to stdout instead of to disk (report only)
+
+try options:
+  --task <instance_id>   default: first task of failure_pool
+  --strategy <id>        default: l1_blind_retry
+  --model <id>           default: muse_30b
+  --round <n>            default: 1
+  --show-prompt          print the entire prompt rather than the first 600 chars
+  --dry-run              build the prompt and stop; no request, no spend
+  --offline              refuse to fetch task files; use the cache only
 
 \`replay\` and \`report\` need archive/legacy_runs/, which is gitignored. Their
 derived output is committed, so the results are readable without it.
@@ -50,6 +63,23 @@ switch (command) {
 
   case "report":
     process.exit(await report(flag("stdout")));
+
+  case "try":
+    process.exit(
+      await tryCell({
+        configPath,
+        ...(option("task", "") ? { taskId: option("task", "") } : {}),
+        strategy: option("strategy", "l1_blind_retry"),
+        model: option("model", "muse_30b"),
+        round: Number(option("round", "1")),
+        showPrompt: flag("show-prompt"),
+        dryRun: flag("dry-run"),
+        allowNetwork: !flag("offline"),
+      }),
+    );
+
+  case "warm-cache":
+    process.exit(await warmCache(configPath, option("set", "failure_pool")));
 
   case "sweep":
   case "serve":
