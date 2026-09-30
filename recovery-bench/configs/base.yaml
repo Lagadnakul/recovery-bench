@@ -1,0 +1,203 @@
+# recovery-bench — full configuration
+# Schema: docs/CONFIG.md   Rationale: docs/DECISIONS.md
+# Nothing here is duplicated in source. This file IS the experiment.
+
+run:
+  name: full_grid
+  seed: 20260926          # D0: the original never set one
+  resume: true
+  dry_run: false
+
+# ---------------------------------------------------------------- providers
+# api_key_env holds VARIABLE NAMES ONLY. Values stay in .env.local.
+providers:
+  nvidia:
+    kind: openai_compat
+    base_url: https://integrate.api.nvidia.com/v1
+    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3]   # key pool
+    timeout_s: 300
+    max_retries: 4
+
+  qwencloud:
+    kind: openai_compat
+    base_url: https://maas.qwencloudapi.com/compatible-mode/v1
+    api_key_env: qwen_api_key
+    timeout_s: 300
+    max_retries: 4
+
+  gemini:
+    kind: gemini
+    api_key_env: gemini_api_key
+    timeout_s: 300
+    max_retries: 4
+
+# ------------------------------------------------------------------- models
+# Measured throughput is recorded for the record; `doctor` re-measures.
+models:
+  gemini_flash:                       # A1 — replication only
+    provider: gemini
+    model: gemini-3.6-flash
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 8192
+    thinking: false
+    supports_tools: false
+
+  muse_30b:                           # A2 workhorse — 29.46 TPS, 2.12 s TTFT
+    provider: nvidia
+    model: meta/muse-glimmer-30b
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 8192
+    thinking: false
+    supports_tools: true
+
+  nemotron_ultra:                     # A3 capability — 164.33 TPS, 1.65 s TTFT
+    provider: nvidia
+    model: nvidia/nemotron-3-ultra-550b-a55b
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 16384
+    thinking: false
+    reasoning_budget: null
+    supports_tools: false
+
+  nemotron_nano:                      # A4 reasoning — 48.93 TPS, 1.27 s TTFT
+    provider: nvidia
+    model: nvidia/nemotron-3-nano-omni-30b-a3b-reasoning
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 16384
+    thinking: false                   # overridden per-arm in A4
+    reasoning_budget: 4096            # D5: NOT the 16384 in the vendor sample
+    supports_tools: true
+
+  qwen_max:                           # A6 optional
+    provider: qwencloud
+    model: qwen3.8-max
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 8192
+    thinking: false
+    supports_tools: true
+
+  # DROPPED (D4) — kept documented so the exclusion is auditable:
+  #   z-ai/glm-5-3-flash                    13.24 TPS · 23.99 s TTFT
+  #   nvidia/nemotron-3.5-lightning-30b-a3b  9.61 TPS · 65.07 s TTFT
+  #   happyhorse-1.1-t2v                     text-to-video, not applicable
+
+# -------------------------------------------------------------------- tasks
+tasks:
+  dataset: princeton-nlp/SWE-bench_Lite
+  split: test
+  # Frozen by step 0. The pipeline reads the local file and never touches the
+  # network for tasks; `revision` is asserted against data/swebench_lite.meta.json
+  # so a re-export from a different upstream commit fails loudly.
+  source: data/swebench_lite.jsonl
+  revision: 6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2
+  expected_rows: 300
+
+  failure_pool:                       # PLAN.md §7 — the 4 genuine logic failures
+    selection: explicit
+    ids:
+      - astropy__astropy-7746
+      - django__django-11019
+      - django__django-11283
+      - django__django-11564
+
+  stratified_60:                      # PLAN.md §8.3 — fixes D5 sampling bias
+    selection: stratified
+    n: 60
+    per_repo_min: 3
+
+  context:
+    mode: symbol                      # D7: was whole_file — 31,098 tokens for wcs.py
+    padding_lines: 50
+
+# --------------------------------------------------------------------- edit
+edit:
+  formats: [search_replace, unified_diff]
+  fuzzy_match: false
+
+# ------------------------------------------------------------------- verify
+verify:
+  backend: git_apply                  # D6: the only legal value. No Docker.
+  contamination:
+    enabled: true
+    threshold: 0.95
+
+# ------------------------------------------------------------------- budget
+budget:
+  estimate_before_run: true
+  stop_on_exhaustion: skip_arm
+  nvidia:
+    max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
+    max_calls: 1500
+  qwencloud:
+    max_tokens: 900000                # under the 1M free quota, deliberately
+    max_calls: 100
+  gemini:
+    max_tokens: 500000
+    max_calls: 30                     # ~20/day ceiling
+
+# --------------------------------------------------------------------- grid
+grid:
+  a1_replication:
+    enabled: true
+    models: [gemini_flash]
+    tasks: failure_pool
+    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    edit_formats: [search_replace]
+    thinking: [false]
+    rounds: 2
+    repeats: 1                        # 24 cells
+
+  a2_workhorse:
+    enabled: true
+    models: [muse_30b]
+    tasks: failure_pool
+    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    edit_formats: [search_replace]
+    thinking: [false]
+    rounds: 2
+    repeats: 5                        # 120 cells
+
+  a3_capability:
+    enabled: true
+    models: [nemotron_ultra]
+    tasks: failure_pool
+    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    edit_formats: [search_replace]
+    thinking: [false]
+    rounds: 2
+    repeats: 5                        # 120 cells
+
+  a4_reasoning:
+    enabled: true
+    models: [nemotron_nano]
+    tasks: failure_pool
+    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    edit_formats: [search_replace]
+    thinking: [false, true]           # the manipulated variable
+    rounds: 2
+    repeats: 5                        # 240 cells
+
+  a5_format_at_scale:
+    enabled: true
+    models: [muse_30b, nemotron_ultra]
+    tasks: stratified_60
+    strategies: [l0_baseline]
+    edit_formats: [unified_diff, search_replace]
+    thinking: [false]
+    rounds: 1
+    repeats: 3                        # 720 cells
+
+  a6_qwencloud:
+    enabled: false                    # spends finite free quota — opt in
+    models: [qwen_max]
+    tasks: failure_pool
+    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    edit_formats: [search_replace]
+    thinking: [false]
+    rounds: 2
+    repeats: 3                        # 72 cells

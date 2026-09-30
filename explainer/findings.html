@@ -1,0 +1,375 @@
+<title>What Changed Since Submission</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html" class="here"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">The page to read before a viva</p>
+    <h1>Four things we learned after the document was finished</h1>
+
+    <p class="standfirst">
+      None of these change <code>Self.docx</code>, and none of them make anything in
+      it wrong. Two add evidence you did not have. One sharpens how the central
+      mechanism should be described. One confirms a judgement you made by hand.
+    </p>
+
+    <div class="key">
+      <p class="lede">The short version, if you read nothing else.</p>
+      <p>Your numbers are right — an independent re-implementation reproduced your
+      Chapter 5 tables exactly. What is new is that the <em>format-class</em> finding
+      can now be measured on 61 real patches instead of argued from 4, and that the
+      reason bad diffs fail is more specific than the document says.</p>
+    </div>
+
+    <h2>Where this work came from</h2>
+
+    <p>
+      Worth stating plainly before the findings, because it frames all four of them.
+    </p>
+
+    <div class="provenance">
+      <span class="tag">Provenance</span>
+      <p>
+        <strong>The dissertation is yours.</strong> The research question, the
+        experimental design, the runs, the analysis and the writing are your work,
+        submitted and final.
+      </p>
+      <p>
+        <strong>The software described on these pages is not part of it.</strong>
+        <code>recovery-bench</code> was built <em>after</em> submission by Aayush,
+        working with an AI assistant, as follow-up work on the agenda your Chapter 6
+        sets out. It has never been submitted for assessment and is not offered as
+        your own coding.
+      </p>
+      <p>
+        What it contributes is verification: an independent check that the numbers in
+        your Chapter 5 follow from your logs, plus additional evidence drawn from data
+        your own experiments produced.
+      </p>
+    </div>
+
+    <p>
+      That distinction is a strength rather than something to manage. Independent
+      reproduction is worth more precisely <em>because</em> the person doing it was not
+      the person who produced the original result — a check you run on yourself is a
+      weaker check. Say it early and it is a methodological point in your favour.
+      Leave it to be discovered and it becomes a different kind of conversation.
+    </p>
+
+    <h2>1 &middot; The finding now rests on 61 patches, not 4</h2>
+
+    <p>
+      Your archive turned out to contain something nobody had noticed: the
+      <code>predictions*.json</code> files preserve the <strong>actual patch text the
+      model wrote</strong> for every instance it touched. Sixty-one of them. That is
+      the only surviving trace of the model's raw output, since the per-attempt
+      folder was deleted long ago.
+    </p>
+
+    <p>
+      Running all 61 through a tested validator separates them by era — the ones the
+      model wrote as unified diffs by hand, and the ones generated programmatically
+      after your retrofit:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 150" role="img" aria-label="Model-written diffs: 30 of 51 structurally clean, 58.8 percent. Programmatically generated diffs: 10 of 10 clean, 100 percent.">
+        <text x="0" y="12" font-family="IBM Plex Sans, sans-serif" font-size="13" fill="var(--ink)">Model wrote the diff by hand</text>
+        <rect x="0" y="22" width="560" height="26" rx="3" fill="var(--surface-2)"/>
+        <rect x="0" y="22" width="329" height="26" rx="3" fill="var(--format)"/>
+        <text x="12" y="40" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500" fill="#ffffff">30 / 51 clean</text>
+        <text x="572" y="40" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--format)">58.8%</text>
+
+        <text x="0" y="82" font-family="IBM Plex Sans, sans-serif" font-size="13" fill="var(--ink)">Generated from SEARCH/REPLACE blocks</text>
+        <rect x="0" y="92" width="560" height="26" rx="3" fill="var(--surface-2)"/>
+        <rect x="0" y="92" width="560" height="26" rx="3" fill="var(--good)"/>
+        <text x="12" y="110" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500" fill="#ffffff">10 / 10 clean</text>
+        <text x="572" y="110" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--good)">100%</text>
+
+        <text x="0" y="142" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">Of the 21 defective diffs: 16 miscounted their own line totals, 6 had no file header at all.</text>
+      </svg>
+      <figcaption>
+        Computed offline from committed data, with no API call. The 100% row is not
+        luck — a diff built by a program cannot miscount, which is precisely what the
+        retrofit was for.
+      </figcaption>
+    </figure>
+
+    <p>
+      <strong>If asked why this matters:</strong> the thesis argued from four tasks
+      that the failure was mechanical. This shows the same mechanism operating across
+      51 independent generations, and shows the fix working on all 10 it was applied to.
+    </p>
+
+    <h2>2 &middot; “The model cannot count lines” is too coarse</h2>
+
+    <p>
+      The document explains format-class failure as the model being unable to compute
+      line numbers correctly. We tested that against real <code>git apply</code>, and
+      it turns out git is far more forgiving than that framing assumes.
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>What the patch got wrong</th><th>git's verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Hunk claims to start at line 999 in a 12-line file</td><td><strong style="color:var(--good)">accepted</strong> — git rescans for the context</td></tr>
+          <tr><td>Prose or junk text before the file header</td><td><strong style="color:var(--good)">accepted</strong></td></tr>
+          <tr><td>Declared line counts disagree with the hunk body</td><td><strong style="color:var(--format)">rejected</strong> — “corrupt patch”</td></tr>
+          <tr><td>The quoted surrounding source does not match the real file</td><td><strong style="color:var(--format)">rejected</strong></td></tr>
+          <tr><td>No file header at all</td><td><strong style="color:var(--format)">rejected</strong> — nothing to patch</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fix">
+      <span class="tag">Sharper statement of the same result</span>
+      <p>
+        The decisive weakness is not arithmetic in general — it is
+        <strong>reproducing surrounding source code exactly</strong>, and keeping a
+        hunk's declared size consistent with its contents. Six of the 51 real diffs
+        had no file header whatsoever, which is not an arithmetic error of any kind.
+      </p>
+      <p>
+        This makes your conclusion <em>stronger</em>, not weaker.
+        <code>SEARCH</code>/<code>REPLACE</code> removes both failure modes at once:
+        the model quotes a snippet instead of reconstructing context, and a program
+        does the counting.
+      </p>
+    </div>
+
+    <h2>3 &middot; Twenty-two evaluations were invisible to your tables</h2>
+
+    <p>
+      The evaluation harness writes a <code>report.json</code> for each task. Your
+      table-building script collects those files. But when <code>git apply</code>
+      refuses a patch, the harness <strong>raises an error before writing the
+      report</strong> — so those runs left behind a patch file and a log, and nothing
+      the script could find.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 186" role="img" aria-label="95 evaluated directories produce 73 report.json files and 22 with no report, which are the apply failures.">
+        <rect x="0" y="20" width="200" height="56" rx="5" fill="var(--surface)" stroke="var(--rule-strong)"/>
+        <text x="100" y="44" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="19" font-weight="500" fill="var(--ink)">95</text>
+        <text x="100" y="63" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink-soft)">evaluated directories</text>
+
+        <path d="M200 40 L268 40" stroke="var(--rule-strong)" stroke-width="1.5" fill="none"/>
+        <path d="M200 56 L236 56 L236 118 L268 118" stroke="var(--format)" stroke-width="1.5" fill="none"/>
+
+        <rect x="272" y="16" width="236" height="48" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+        <text x="288" y="38" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="500" fill="var(--accent)">73</text>
+        <text x="322" y="38" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">wrote report.json</text>
+        <text x="288" y="54" font-family="IBM Plex Sans, sans-serif" font-size="11.5" fill="var(--ink-soft)">the only cells your tables could see</text>
+
+        <rect x="272" y="94" width="236" height="48" rx="5" fill="var(--format-soft)" stroke="var(--format)"/>
+        <text x="288" y="116" font-family="IBM Plex Mono, monospace" font-size="17" font-weight="500" fill="var(--format)">22</text>
+        <text x="322" y="116" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">patch + log, no report</text>
+        <text x="288" y="132" font-family="IBM Plex Sans, sans-serif" font-size="11.5" fill="var(--ink-soft)">every one an apply failure</text>
+
+        <text x="0" y="172" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">The gap is not missing data. It is the format-class failure, recorded in a place nothing was reading.</text>
+      </svg>
+      <figcaption>
+        This is the same defect the new pipeline was designed against — a failed cell
+        leaving no record — found in the project's own evidence base rather than
+        argued about in the abstract.
+      </figcaption>
+    </figure>
+
+    <p>
+      The replay now reads directories rather than report files, so those cells exist
+      again. They can never be counted as successes: the type system marks them as
+      “applied-check only, never tested”, and the function that computes a resolve
+      rate refuses to accept them.
+    </p>
+
+    <h2>4 &middot; Your logic/format split was correct — and now something checks it</h2>
+
+    <p>
+      Your script says at the top: <em>“Nothing in this script invents a number. Every
+      cell is read from a report.json.”</em> That holds for 38 of its 42 records. The
+      other four — the format-class rows — are written from a list typed by hand, and
+      the count <code>4/20</code> is a fixed piece of text.
+    </p>
+
+    <p>
+      That was unavoidable. An apply failure produces no report, and the script reads
+      nothing else, so it <em>could not</em> have derived them. The evidence was in
+      the logs the whole time.
+    </p>
+
+    <p>So we derived the classification independently, from outcomes, and compared:</p>
+
+    <pre><code>failure pool matches declared    yes
+failure class matches hardcoded  yes</code></pre>
+
+    <div class="key">
+      <p class="lede">All eight tasks, both classes, no discrepancy.</p>
+      <p>
+        The hand-written judgement was right. What is new is its status: a constant
+        that nothing could contradict has become a result with a test attached. The
+        same now applies to the whole table — a second, independently written
+        implementation regenerates <code>master_table.md</code>
+        <strong>byte-for-byte</strong>.
+      </p>
+    </div>
+
+    <h3>Two smaller corrections, for completeness</h3>
+
+    <ul>
+      <li>
+        SWE-bench Lite spans <strong>12 repositories, not 11</strong>. The missing one
+        was <code>pallets/flask</code>, with 3 instances — which happens to be exactly
+        the floor the sampling plan was written against.
+      </li>
+      <li>
+        An early note claimed the original code had never been version-controlled.
+        That was wrong; the check had been run in the wrong folder. All 30 scripts and
+        427 log files are in your repository. The note is struck through rather than
+        deleted, so the error stays visible.
+      </li>
+    </ul>
+
+    <h2>5 &middot; The reasoning setting was never actually sent</h2>
+
+    <p>
+      Every model in the configuration is marked <code>thinking: false</code>. When
+      phase 4 made the first real API call, it turned out that setting had
+      <strong>never been transmitted</strong> — the request simply did not mention
+      it, so the service applied its own default, which is thinking <em>on</em>.
+      This was true of your original runs too.
+    </p>
+
+    <p>
+      Measured on a one-word question, the cost difference is large, and one model
+      refuses to comply at all:
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Model</th><th class="num">Default</th><th class="num">Thinking off</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td><code>nemotron_ultra</code></td><td class="num">38</td><td class="num">2</td><td>19&times; cheaper</td></tr>
+          <tr><td><code>nemotron_nano</code></td><td class="num">49</td><td class="num">3</td><td>16&times; cheaper</td></tr>
+          <tr><td><code>muse_30b</code></td><td class="num">84</td><td class="num">41</td><td><strong style="color:var(--format)">still thinking</strong></td></tr>
+          <tr><td><code>gemini_flash</code></td><td class="num">93</td><td class="num">0</td><td>obeys, different setting name</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <code>muse_30b</code> is the one that matters for the argument. A
+      Reflection-only condition is only meaningful if the arm it is compared
+      against is not reflecting — and on that model, asking for no thinking still
+      leaves it thinking. <a href="phase-4.html">Phase 4</a> makes the check report
+      this rather than pass over it.
+    </p>
+
+    <p>
+      This is the same shape of defect as the token ceiling written
+      <code>8_000_000</code>, which YAML read as text so that no comparison against
+      it ever did anything: a setting that existed, was believed to be in force, and
+      was never actually applied. Both now have tests that fail if they regress.
+    </p>
+
+    <h2>6 &middot; A “success” response that contained nothing</h2>
+
+    <p>
+      Probing four NVIDIA models at once returned, for two of them, an HTTP
+      <strong>200 success</strong> with an entirely empty body — while a request
+      beside them returned the honest form of the same condition,
+      <code>503 ResourceExhausted: Worker local total request limit reached</code>.
+      Run one at a time, both models answer in under half a second.
+    </p>
+
+    <p>
+      Worth knowing because of what it would have caused. An empty success reaching
+      the full experiment would have been recorded as <em>the model produced no
+      output</em> — a claim about model behaviour. It was a full queue at the
+      provider's end. The pipeline now names it as provider capacity and retries.
+    </p>
+
+    <div class="key">
+      <p class="lede">The pattern across findings 5 and 6.</p>
+      <p>
+        Neither is visible without spending a token. Both survived three phases of
+        careful offline work, and both would have quietly distorted a result rather
+        than announcing themselves. That is the argument for building the
+        instrument before trusting the measurement — which is, in the end, what your
+        Chapter 6 proposes.
+      </p>
+    </div>
+
+    <h2>If you are asked a hard question</h2>
+
+    <p>Three that are worth having an answer ready for.</p>
+
+    <h3>“Your sample is twenty tasks. Isn't that too small?”</h3>
+    <p>
+      Yes, and the document says so. The honest answer is that the finding is not
+      statistical — it is mechanical. The claim is not “format failures are 20% of
+      failures in general”; it is “these four failures were caused by patch
+      representation, and fixing the representation fixed three of them, while no
+      amount of extra reasoning fixed any of the other four.” The 61-patch audit is
+      what extends the mechanism beyond the small sample.
+    </p>
+
+    <h3>“How do you know the recovery wasn't just luck or resampling?”</h3>
+    <p>
+      On <code>django__django-11019</code>, six independent generations — three
+      strategies across two rounds — returned an <em>identical</em> sub-test score:
+      6 of 16 passing, zero regressions, every time. The retrofit moved that task from
+      0 of 16 with 33 broken tests. Nothing told to the model afterwards moved it again.
+    </p>
+
+    <h3>“Did you build this verification software yourself?”</h3>
+    <p>
+      The straight answer, which costs nothing:
+    </p>
+    <p class="say">
+      “No. The dissertation is my work. The verification tooling was built afterwards
+      by a collaborator using AI assistance, to test whether my results reproduce from
+      my logs. It is not submitted work — it is a check on submitted work, and it
+      found no discrepancy.”
+    </p>
+    <p>
+      Then talk about what it <em>found</em>, which is the interesting part and which
+      you do know thoroughly: the table reproduced exactly, the classification you made
+      by hand was confirmed, and the format finding now rests on 61 patches instead of
+      four.
+    </p>
+
+    <h3>“Did any strategy make things worse?”</h3>
+    <p>
+      Yes, and it is reported rather than averaged away. On
+      <code>django__django-11283</code>, Diagnose+Revise broke <strong>8</strong>
+      previously-passing tests where Blind Retry broke none. The extra diagnostic
+      context made the patch more damaging, not less.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="index.html">&larr; Start from zero</a></span>
+      <span><a href="phase-0.html">Phase 0 &middot; Provenance &rarr;</a></span>
+    </div>
+  </main>
+</div>

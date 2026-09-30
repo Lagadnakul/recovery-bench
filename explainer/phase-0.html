@@ -1,0 +1,206 @@
+<title>Phase 0 — Provenance</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html" class="here"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 0 &middot; complete</p>
+    <h1>Rescue the evidence before touching anything else</h1>
+
+    <p class="standfirst">
+      Before a single line of new code, two things had to be made safe: the data your
+      experiments produced, and the exact set of problems they were run against. Both
+      were more fragile than they looked.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Files pinned</span><span class="v">495</span></div>
+      <div><span class="k">Benchmark</span><span class="v">300 tasks</span></div>
+      <div><span class="k">Repositories</span><span class="v">12</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>Why this had to come first</h2>
+
+    <p>
+      Your results exist in exactly one place: the log files your evaluation runs
+      wrote in August. There is no way to regenerate them — the free-tier quota is
+      gone, the model version has moved on, and the per-attempt working folder was
+      already deleted. If those files were lost or quietly altered, the dissertation
+      would have no evidence behind it.
+    </p>
+
+    <p>So phase 0 does two unglamorous things, and nothing else.</p>
+
+    <h2>1 &middot; Checksum every original file</h2>
+
+    <p>
+      495 files were catalogued and hashed, so any later change is detectable rather
+      than assumed not to have happened.
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>What</th><th class="num">Files</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td>Evaluation logs</td><td class="num">427</td><td>The raw output of every run — the source of every number in Chapter 5</td></tr>
+          <tr><td>Original scripts</td><td class="num">31</td><td>The programs that produced the results, kept as the record of method</td></tr>
+          <tr><td>Aggregate summaries</td><td class="num">25</td><td>Intermediate tables and the two original figures</td></tr>
+          <tr><td>Prediction files</td><td class="num">12</td><td>The patches the model actually wrote &mdash; far more valuable than anyone realised</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key">
+      <p class="lede">The prediction files turned out to be the real find.</p>
+      <p>
+        They preserve the <strong>full patch text</strong> for all 61 attempts across
+        the 20 tasks that were touched. That is the only surviving trace of what the
+        model actually wrote — and it is what makes the whole format-class finding
+        measurable offline in <a href="phase-2.html">phase 2</a>, with no API call.
+      </p>
+    </div>
+
+    <div class="fix">
+      <span class="tag">Correction made during this phase</span>
+      <p>
+        An early note recorded that the original code had <em>never been
+        version-controlled</em>. That was wrong. The check had been run from the wrong
+        directory, against an unrelated repository that tracks nothing. All 30 scripts
+        and all 427 logs are in <code>Lagadnakul/Dissertation</code>, and have been
+        since August.
+      </p>
+      <p>
+        The claim is struck through in the record rather than deleted, so the mistake
+        stays visible. Because the files are safe upstream, the local copy is now
+        treated as convenience rather than as the record — only its checksums are
+        kept, which keeps the repository small without risking the evidence.
+      </p>
+    </div>
+
+    <h2>2 &middot; Freeze the benchmark</h2>
+
+    <p>
+      SWE-bench Lite is a public dataset that can be revised upstream at any time.
+      If it changed between your run and a future one, the two would not be
+      comparable — and nothing would announce it. So the exact 300 problems were
+      exported to a single file, pinned to the revision they came from:
+    </p>
+
+    <pre><code>princeton-nlp/SWE-bench_Lite  default/test
+revision 6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2
+300 instances, sorted by instance_id</code></pre>
+
+    <p>
+      The export script refuses to write anything unless upstream reports exactly 300
+      rows with all nine required fields present. A silent upstream change becomes a
+      loud failure instead of a quiet inconsistency.
+    </p>
+
+    <h3>What the export revealed</h3>
+
+    <figure>
+      <svg viewBox="0 0 640 230" role="img" aria-label="Repository composition of SWE-bench Lite: django 114, sympy 77, matplotlib 23, scikit-learn 23, pytest 17, sphinx 16, astropy 6, requests 6, pylint 6, xarray 5, seaborn 4, flask 3.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="11.5">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">300 INSTANCES ACROSS 12 REPOSITORIES</text>
+
+          <text x="0" y="36" fill="var(--ink)">django</text>
+          <rect x="120" y="26" width="420" height="13" fill="var(--logic)"/>
+          <text x="548" y="36" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">114</text>
+
+          <text x="0" y="55" fill="var(--ink)">sympy</text>
+          <rect x="120" y="45" width="284" height="13" fill="var(--logic)"/>
+          <text x="548" y="55" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">77</text>
+
+          <text x="0" y="74" fill="var(--ink)">matplotlib</text>
+          <rect x="120" y="64" width="85" height="13" fill="var(--accent)"/>
+          <text x="548" y="74" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">23</text>
+
+          <text x="0" y="93" fill="var(--ink)">scikit-learn</text>
+          <rect x="120" y="83" width="85" height="13" fill="var(--accent)"/>
+          <text x="548" y="93" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">23</text>
+
+          <text x="0" y="112" fill="var(--ink)">pytest</text>
+          <rect x="120" y="102" width="63" height="13" fill="var(--accent)"/>
+          <text x="548" y="112" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">17</text>
+
+          <text x="0" y="131" fill="var(--ink)">sphinx</text>
+          <rect x="120" y="121" width="59" height="13" fill="var(--accent)"/>
+          <text x="548" y="131" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">16</text>
+
+          <text x="0" y="150" fill="var(--ink)">astropy</text>
+          <rect x="120" y="140" width="22" height="13" fill="var(--rule-strong)"/>
+          <text x="548" y="150" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">6</text>
+
+          <text x="0" y="169" fill="var(--ink)">requests</text>
+          <rect x="120" y="159" width="22" height="13" fill="var(--rule-strong)"/>
+          <text x="548" y="169" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">6</text>
+
+          <text x="0" y="188" fill="var(--ink)">pylint</text>
+          <rect x="120" y="178" width="22" height="13" fill="var(--rule-strong)"/>
+          <text x="548" y="188" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">6</text>
+
+          <text x="0" y="207" fill="var(--ink)">xarray · seaborn</text>
+          <rect x="120" y="197" width="18" height="13" fill="var(--rule-strong)"/>
+          <text x="548" y="207" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">5 · 4</text>
+
+          <text x="0" y="226" fill="var(--format)">flask</text>
+          <rect x="120" y="216" width="11" height="13" fill="var(--format)"/>
+          <text x="548" y="226" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--format)">3</text>
+        </g>
+      </svg>
+      <figcaption>
+        django alone is 38% of the benchmark. Your 20-task pilot drew only from django
+        and astropy — which is why stratified sampling is in the future-work list.
+      </figcaption>
+    </figure>
+
+    <div class="fix">
+      <span class="tag">Correction made during this phase</span>
+      <p>
+        The planning documents said SWE-bench Lite spans <strong>11</strong>
+        repositories. The export measured <strong>12</strong>. The missing one was
+        <code>pallets/flask</code>, with 3 instances.
+      </p>
+      <p>
+        That is a small error with a neat consequence: the sampling rule written for a
+        future study requires at least 3 tasks per repository, and flask's 3 is
+        exactly the floor that rule was set against. Had the count stayed at 11, the
+        rule would have been impossible to satisfy without anyone noticing why.
+      </p>
+    </div>
+
+    <h2>What phase 0 did not do</h2>
+
+    <p>
+      No analysis, no new results, no changes to anything you wrote. Its entire job
+      was to make sure that everything after it is built on evidence that cannot
+      quietly shift underneath it.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="findings.html">&larr; What changed</a></span>
+      <span><a href="phase-1.html">Phase 1 &middot; Foundations &rarr;</a></span>
+    </div>
+  </main>
+</div>

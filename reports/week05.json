@@ -1,0 +1,62 @@
+{
+  "_comment": "One file per week. Everything here is drawn from work that actually happened; see _evidence on each block. Week numbering is anchored on 2026-08-24 (the Monday of the first evidenced commit week) — change week_number if the department counts from a different date.",
+
+  "week_number": "05",
+  "period_from": "21 September 2026",
+  "period_to": "27 September 2026",
+  "date_signed": "26 September 2026",
+
+  "student_name": "Lagad Nakul Kiran",
+  "enrollment_number": "2503032340022",
+  "project_title": "Self-Reflection and Failure Recovery in Agentic AI Coding Systems: An Empirical Evaluation of Blind Retry, Reflection-only and Diagnose+Revise Strategies",
+
+  "work_planned": [
+    "Complete Chapters 4, 5 and 6 of the dissertation, add the reference list, correct the identified front-matter defects, and submit the Phase II document.",
+    "Author every Chapter 4-6 figure as an editable draw.io source with a rendered export, so figures remain maintainable rather than fixed images.",
+    "Begin the software artefact that implements the future-work items committed to in Chapter 6, starting with provenance capture and a frozen task set."
+  ],
+  "_evidence_work_planned": "PLAN.md §0 scope list and §4 writing order (sessions 1-7); PLAN.md §8 future work bank.",
+
+  "work_completed": [
+    "Chapter 4 (19 sub-sections), Chapter 5 (13 sub-sections) and Chapter 6 (7 sub-sections) written and reviewed; 37 references compiled; front-matter defects corrected. Final document: 26,768 words, 981 paragraphs, 16 tables, 17 figures.",
+    "Eleven figures authored as .drawio sources and exported to PNG, covering the pipeline, context construction, patch generation, information conditions, outcome taxonomy, the format retrofit, the baseline breakdown, sub-test detail, the condition matrix, cost, and the strategy ladder.",
+    "Evaluation repository created and taken through two build stages: a checksum-verified provenance archive of all 495 experiment artefacts with the 300-instance task set frozen to a revision-pinned file, followed by a typed result model, a schema-validated configuration layer, and a precondition checker. 44 automated tests passing."
+  ],
+  "_evidence_work_completed": "Self.docx (submitted); figures/*.drawio + figures/png/*.png (11 each); recovery-bench/archive/SHA256SUMS (495 files verified), data/swebench_lite.meta.json, bun test output.",
+
+  "key_achievements": [
+    "The benchmark task set is now frozen locally with its upstream revision recorded, which removes the original pipeline's dependence on fetching repository source files over the network during a run — previously a silent threat to reproducibility.",
+    "Confirmed that programmatically generated unified diffs are accepted by the version-control apply tool and reproduce the intended file byte-for-byte across eleven edge cases. This is the assumption the fairness correction described in Chapter 4 rests on, and it is now demonstrated rather than assumed.",
+    "Refined the mechanism behind the format-class finding. Controlled measurement showed the apply tool tolerates an incorrect hunk start line but rejects inconsistent hunk line counts and misquoted source context. The decisive weakness is therefore accurate reproduction of surrounding source text, not line-number arithmetic in general — a sharper and more defensible account of the same result."
+  ],
+  "_evidence_key_achievements": "data/swebench_lite.meta.json (revision 6ec7bb89); recovery-bench/tests/toPatch.test.ts (23 tests); recovery-bench/docs/DECISIONS.md D13 (five measured cases).",
+
+  "challenges": [
+    "The directory holding intermediate model responses was excluded by version control and no longer exists. The Round-2 Reflection condition therefore cannot be regenerated, and its reported figures are reproducible only by replaying the archived evaluation reports. This limitation is being documented explicitly rather than worked around.",
+    "The planned experimental grid of 1,296 conditions is estimated at approximately 7.56 million tokens against an 8 million free-tier allowance, leaving roughly 6% headroom. A reduced-repeat fallback has been pre-agreed so the sweep cannot stall partway through an arm.",
+    "Test-level verification requires containerised per-repository environments that are not available in the current setup. The extended study is consequently bounded to apply-level verification and cannot report resolve rates for newly generated runs; historical and new results are kept strictly separate to prevent the two being combined."
+  ],
+  "_evidence_challenges": "recovery-bench/docs/DECISIONS.md D0 (attempts/ loss), BUDGET.md (7.56M of 8M), D6 (no containers) and the Row<test>/Row<apply> separation in packages/core/types.ts.",
+
+  "support_required": [
+    "Confirmation that apply-level verification is methodologically acceptable for the extended experiments where containerised test execution is not feasible, provided the limitation is stated explicitly in the results chapter.",
+    "Guidance on whether the refined account of the format-failure mechanism should be presented at the viva as a clarification of the Chapter 5 discussion, or reserved as future work.",
+    "Advice on the disclosure expected when model generation is carried out on a free trial inference endpoint that logs usage and offers no availability guarantee."
+  ],
+  "_evidence_support_required": "D6 (verification bound), D13 (mechanism refinement), D3 (NVIDIA trial terms disclosure).",
+
+  "next_week_plan": [
+    "Implement and test the edit-format layer: parsing of search-and-replace edit blocks with classified failure reasons, and structural validation of model-written unified diffs.",
+    "Audit the 61 model patches preserved in the archive using the validated tooling, to quantify structural validity separately for each edit format and place a measured figure behind the Chapter 5 claim.",
+    "Build the offline analysis stage so that every Chapter 5 table and figure regenerates from committed logs with no network access and no API credentials."
+  ],
+  "_evidence_next_week_plan": "recovery-bench/docs/ARCHITECTURE.md §6 build order, steps 2 and 3.",
+
+  "progress_status": "On Schedule",
+  "completion_percent": "70",
+
+  "student_remarks": "The Phase II document is complete and submitted. Work has moved to the software artefact that implements the extensions promised in Chapter 6, which is progressing through a planned eight-stage build and is currently at stage two of eight. Two findings this week improve the dissertation rather than merely supporting it: the programmatic diff generation underpinning the fairness correction is now empirically verified, and the mechanism behind the format-class result has been measured more precisely than it was stated. Both are recorded with their evidence in the project decision log.",
+
+  "guide_remarks": "",
+  "_note_guide_remarks": "Left blank deliberately — for the supervisor to complete by hand."
+}

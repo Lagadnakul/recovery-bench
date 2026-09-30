@@ -1,0 +1,927 @@
+{
+  "generated_at": "2026-09-26T14:49:19.720Z",
+  "generated_by": "scripts/audit_legacy_patches.ts",
+  "source": {
+    "dir": "archive/legacy_predictions",
+    "upstream": "Lagadnakul/Dissertation@c8872d070fb0b098394796dfbc68bcf67c3bd957",
+    "files": [
+      "predictions.json",
+      "predictions_batch1.json",
+      "predictions_blind_retry_round2.json",
+      "predictions_blindretry.json",
+      "predictions_blindretry_v2.json",
+      "predictions_diagnose_revise_round2.json",
+      "predictions_diagnoserevise.json",
+      "predictions_diagnoserevise_v2.json",
+      "predictions_pilot20.json",
+      "predictions_reflection_round2.json",
+      "predictions_reflectiononly.json",
+      "predictions_reflectiononly_v2.json"
+    ]
+  },
+  "method": "validateDiff() from packages/pipeline/edits/unified.ts — structural defects detectable without the source file: missing file header, unparseable hunk header, declared @@ counts disagreeing with the hunk body. Not a substitute for git apply, which additionally checks that the context exists (D13).",
+  "totals": {
+    "patches": 61,
+    "by_era": {
+      "unified_diff": {
+        "patches": 51,
+        "clean": 30,
+        "cleanPct": 58.8,
+        "reasonCounts": {
+          "hunk_count_mismatch": 16,
+          "no_file_header": 6
+        },
+        "patchesWithDefect": 21
+      },
+      "search_replace": {
+        "patches": 10,
+        "clean": 10,
+        "cleanPct": 100,
+        "reasonCounts": {},
+        "patchesWithDefect": 0
+      }
+    }
+  },
+  "warnings": [],
+  "rows": [
+    {
+      "file": "predictions.json",
+      "instanceId": "astropy__astropy-12907",
+      "model": "gemini-3.6-flash-attempt2",
+      "era": "unified_diff",
+      "chars": 400,
+      "hunks": 1,
+      "files": [
+        "astropy/modeling/separable.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_batch1.json",
+      "instanceId": "astropy__astropy-12907",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 426,
+      "hunks": 1,
+      "files": [
+        "astropy/modeling/separable.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_batch1.json",
+      "instanceId": "astropy__astropy-14365",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 1805,
+      "hunks": 3,
+      "files": [
+        "astropy/io/ascii/qdp.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 20,21 lines but the body has 21,22 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_batch1.json",
+      "instanceId": "astropy__astropy-14995",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 1057,
+      "hunks": 1,
+      "files": [
+        "astropy/nddata/mixins/ndarithmetic.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 17,17 lines but the body has 16,16 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_batch1.json",
+      "instanceId": "astropy__astropy-6938",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 383,
+      "hunks": 1,
+      "files": [
+        "astropy/io/fits/fitsrec.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blind_retry_round2.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-blindretry-round2",
+      "era": "unified_diff",
+      "chars": 1401,
+      "hunks": 2,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blind_retry_round2.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-blindretry-round2",
+      "era": "unified_diff",
+      "chars": 4383,
+      "hunks": 3,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blind_retry_round2.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-blindretry-round2",
+      "era": "unified_diff",
+      "chars": 845,
+      "hunks": 1,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 1765,
+      "hunks": 3,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 12,17 lines but the body has 13,18 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 4498,
+      "hunks": 2,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch",
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 20,13 lines but the body has 21,13 — git reports this as \"corrupt patch\" (D13)",
+        "header declares 32,47 lines but the body has 41,56 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "django__django-11039",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 485,
+      "hunks": 1,
+      "files": [
+        "django/core/management/commands/sqlmigrate.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 885,
+      "hunks": 1,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 622,
+      "hunks": 1,
+      "files": [],
+      "reasons": [
+        "no_file_header"
+      ],
+      "details": [
+        "no `--- a/path` header, so git cannot know which file to patch; the hunks are unaddressed"
+      ]
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "django__django-11583",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 836,
+      "hunks": 2,
+      "files": [
+        "django/utils/autoreload.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blindretry.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-blindretry-attempt2",
+      "era": "unified_diff",
+      "chars": 586,
+      "hunks": 2,
+      "files": [],
+      "reasons": [
+        "no_file_header"
+      ],
+      "details": [
+        "no `--- a/path` header, so git cannot know which file to patch; the hunks are unaddressed"
+      ]
+    },
+    {
+      "file": "predictions_blindretry_v2.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-blindretry-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 5016,
+      "hunks": 3,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blindretry_v2.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-blindretry-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 955,
+      "hunks": 1,
+      "files": [
+        "django/conf/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_blindretry_v2.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-blindretry-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 799,
+      "hunks": 2,
+      "files": [
+        "django/views/debug.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnose_revise_round2.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-diagnoserevise-round2",
+      "era": "unified_diff",
+      "chars": 1975,
+      "hunks": 3,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnose_revise_round2.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-diagnoserevise-round2",
+      "era": "unified_diff",
+      "chars": 5518,
+      "hunks": 3,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnose_revise_round2.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-diagnoserevise-round2",
+      "era": "unified_diff",
+      "chars": 2243,
+      "hunks": 4,
+      "files": [
+        "django/conf/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnoserevise.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-diagnoserevise-attempt4",
+      "era": "unified_diff",
+      "chars": 2761,
+      "hunks": 5,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch",
+        "hunk_count_mismatch",
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 13,18 lines but the body has 12,17 — git reports this as \"corrupt patch\" (D13)",
+        "header declares 12,7 lines but the body has 11,6 — git reports this as \"corrupt patch\" (D13)",
+        "header declares 12,7 lines but the body has 11,6 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_diagnoserevise.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-diagnoserevise-attempt4",
+      "era": "unified_diff",
+      "chars": 4289,
+      "hunks": 2,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch",
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 21,14 lines but the body has 20,15 — git reports this as \"corrupt patch\" (D13)",
+        "header declares 34,44 lines but the body has 37,47 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_diagnoserevise.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-diagnoserevise-attempt4",
+      "era": "unified_diff",
+      "chars": 1363,
+      "hunks": 2,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnoserevise.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-diagnoserevise-attempt4",
+      "era": "unified_diff",
+      "chars": 1183,
+      "hunks": 2,
+      "files": [
+        "django/conf/__init__.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 5,20 lines but the body has 5,21 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_diagnoserevise.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-diagnoserevise-attempt4",
+      "era": "unified_diff",
+      "chars": 769,
+      "hunks": 2,
+      "files": [
+        "django/views/debug.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 9,9 lines but the body has 8,8 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_diagnoserevise_v2.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-diagnoserevise-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 1773,
+      "hunks": 3,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnoserevise_v2.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-diagnoserevise-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 4654,
+      "hunks": 3,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnoserevise_v2.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-diagnoserevise-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 1512,
+      "hunks": 2,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnoserevise_v2.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-diagnoserevise-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 2043,
+      "hunks": 4,
+      "files": [
+        "django/conf/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_diagnoserevise_v2.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-diagnoserevise-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 628,
+      "hunks": 2,
+      "files": [
+        "django/views/debug.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "astropy__astropy-12907",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 426,
+      "hunks": 1,
+      "files": [
+        "astropy/modeling/separable.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "astropy__astropy-14182",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 660,
+      "hunks": 1,
+      "files": [
+        "astropy/io/ascii/rst.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 8,10 lines but the body has 10,12 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "astropy__astropy-14365",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 1805,
+      "hunks": 3,
+      "files": [
+        "astropy/io/ascii/qdp.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 20,21 lines but the body has 21,22 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "astropy__astropy-14995",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 1057,
+      "hunks": 1,
+      "files": [
+        "astropy/nddata/mixins/ndarithmetic.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 17,17 lines but the body has 16,16 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "astropy__astropy-6938",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 383,
+      "hunks": 1,
+      "files": [
+        "astropy/io/fits/fitsrec.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 1700,
+      "hunks": 2,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-10914",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 510,
+      "hunks": 1,
+      "files": [
+        "django/conf/global_settings.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-10924",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 410,
+      "hunks": 1,
+      "files": [
+        "django/db/models/fields/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11001",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 406,
+      "hunks": 1,
+      "files": [
+        "django/db/models/sql/compiler.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 4386,
+      "hunks": 2,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch",
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 21,16 lines but the body has 22,17 — git reports this as \"corrupt patch\" (D13)",
+        "header declares 36,44 lines but the body has 38,48 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11039",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 381,
+      "hunks": 1,
+      "files": [],
+      "reasons": [
+        "no_file_header"
+      ],
+      "details": [
+        "no `--- a/path` header, so git cannot know which file to patch; the hunks are unaddressed"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11049",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 450,
+      "hunks": 1,
+      "files": [
+        "django/db/models/fields/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11099",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 701,
+      "hunks": 1,
+      "files": [
+        "django/contrib/auth/validators.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11133",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 945,
+      "hunks": 2,
+      "files": [
+        "django/http/response.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11179",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 604,
+      "hunks": 1,
+      "files": [
+        "django/db/models/deletion.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 915,
+      "hunks": 1,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 7,13 lines but the body has 10,16 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11422",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 803,
+      "hunks": 1,
+      "files": [
+        "django/utils/autoreload.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 818,
+      "hunks": 1,
+      "files": [
+        "django/conf/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11583",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 719,
+      "hunks": 2,
+      "files": [],
+      "reasons": [
+        "no_file_header",
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "no `--- a/path` header, so git cannot know which file to patch; the hunks are unaddressed",
+        "header declares 7,7 lines but the body has 8,8 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_pilot20.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-blindretry-attempt1",
+      "era": "unified_diff",
+      "chars": 612,
+      "hunks": 2,
+      "files": [],
+      "reasons": [
+        "no_file_header"
+      ],
+      "details": [
+        "no `--- a/path` header, so git cannot know which file to patch; the hunks are unaddressed"
+      ]
+    },
+    {
+      "file": "predictions_reflection_round2.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-reflection-round2",
+      "era": "unified_diff",
+      "chars": 1948,
+      "hunks": 3,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_reflection_round2.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-reflection-round2",
+      "era": "unified_diff",
+      "chars": 4301,
+      "hunks": 3,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_reflection_round2.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-reflection-round2",
+      "era": "unified_diff",
+      "chars": 973,
+      "hunks": 1,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_reflectiononly.json",
+      "instanceId": "astropy__astropy-7746",
+      "model": "gemini-3.6-flash-reflectiononly-attempt3",
+      "era": "unified_diff",
+      "chars": 1469,
+      "hunks": 1,
+      "files": [
+        "astropy/wcs/wcs.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 13,18 lines but the body has 21,29 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_reflectiononly.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-reflectiononly-attempt3",
+      "era": "unified_diff",
+      "chars": 4459,
+      "hunks": 2,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [
+        "hunk_count_mismatch",
+        "hunk_count_mismatch"
+      ],
+      "details": [
+        "header declares 18,13 lines but the body has 21,14 — git reports this as \"corrupt patch\" (D13)",
+        "header declares 36,49 lines but the body has 42,57 — git reports this as \"corrupt patch\" (D13)"
+      ]
+    },
+    {
+      "file": "predictions_reflectiononly.json",
+      "instanceId": "django__django-11283",
+      "model": "gemini-3.6-flash-reflectiononly-attempt3",
+      "era": "unified_diff",
+      "chars": 779,
+      "hunks": 1,
+      "files": [
+        "django/contrib/auth/migrations/0011_update_proxy_permissions.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_reflectiononly.json",
+      "instanceId": "django__django-11564",
+      "model": "gemini-3.6-flash-reflectiononly-attempt3",
+      "era": "unified_diff",
+      "chars": 682,
+      "hunks": 1,
+      "files": [
+        "django/conf/__init__.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_reflectiononly.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-reflectiononly-attempt3",
+      "era": "unified_diff",
+      "chars": 796,
+      "hunks": 2,
+      "files": [],
+      "reasons": [
+        "no_file_header"
+      ],
+      "details": [
+        "no `--- a/path` header, so git cannot know which file to patch; the hunks are unaddressed"
+      ]
+    },
+    {
+      "file": "predictions_reflectiononly_v2.json",
+      "instanceId": "django__django-11019",
+      "model": "gemini-3.6-flash-reflectiononly-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 3933,
+      "hunks": 2,
+      "files": [
+        "django/forms/widgets.py"
+      ],
+      "reasons": [],
+      "details": []
+    },
+    {
+      "file": "predictions_reflectiononly_v2.json",
+      "instanceId": "django__django-11620",
+      "model": "gemini-3.6-flash-reflectiononly-v2-searchreplace",
+      "era": "search_replace",
+      "chars": 854,
+      "hunks": 2,
+      "files": [
+        "django/views/debug.py"
+      ],
+      "reasons": [],
+      "details": []
+    }
+  ]
+}

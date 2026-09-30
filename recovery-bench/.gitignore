@@ -1,0 +1,34 @@
+# deps
+node_modules/
+packages/*/node_modules/
+
+# build output
+dist/
+packages/dashboard/dist/
+
+# runtime artifacts — regenerable, never committed
+data/cache/
+data/runs/
+# Per-machine spend state, not a derived result. Committing it would make a
+# fresh clone appear to have already spent this machine's diagnostic tokens,
+# and every run would conflict. The derived outputs below ARE committed,
+# because they cannot be rebuilt without the gitignored archive.
+data/ledger.jsonl
+
+# Archived provenance payload. Every file in it already lives upstream at
+# Lagadnakul/Dissertation @ c8872d070fb0b098394796dfbc68bcf67c3bd957, so the copy
+# is convenience, not the record. MANIFEST.md and SHA256SUMS ARE committed —
+# they pin what the copy should contain.
+archive/legacy_runs/
+archive/legacy_predictions/
+archive/legacy_aggregates/
+archive/legacy_code/
+
+# secrets — keys live in .env.local at the project root and are referenced by
+# NAME only, via api_key_env in configs/. Never commit a key.
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store

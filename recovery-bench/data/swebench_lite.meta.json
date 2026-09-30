@@ -1,0 +1,37 @@
+{
+  "dataset": "princeton-nlp/SWE-bench_Lite",
+  "config": "default",
+  "split": "test",
+  "revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+  "rows": 300,
+  "exported_at": "2026-09-26T12:19:24.077Z",
+  "source": "datasets-server.huggingface.co/rows",
+  "fields": [
+    "repo",
+    "instance_id",
+    "base_commit",
+    "patch",
+    "test_patch",
+    "problem_statement",
+    "hints_text",
+    "created_at",
+    "version",
+    "FAIL_TO_PASS",
+    "PASS_TO_PASS",
+    "environment_setup_commit"
+  ],
+  "repos": {
+    "astropy/astropy": 6,
+    "django/django": 114,
+    "matplotlib/matplotlib": 23,
+    "mwaskom/seaborn": 4,
+    "pallets/flask": 3,
+    "psf/requests": 6,
+    "pydata/xarray": 5,
+    "pylint-dev/pylint": 6,
+    "pytest-dev/pytest": 17,
+    "scikit-learn/scikit-learn": 23,
+    "sphinx-doc/sphinx": 16,
+    "sympy/sympy": 77
+  }
+}

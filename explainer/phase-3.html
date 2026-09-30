@@ -1,0 +1,228 @@
+<title>Phase 3 — Replay</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html" class="here"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 3 &middot; complete &middot; the milestone that mattered</p>
+    <h1>Your Chapter 5, rebuilt from raw logs, in one command</h1>
+
+    <p class="standfirst">
+      Every table and figure in Chapter 5 was produced by a script that read your log
+      files. Phase 3 writes a second, independent program that reads the same logs —
+      and checks whether the two agree, character for character.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Cells recovered</span><span class="v">51</span></div>
+      <div><span class="k">Previously invisible</span><span class="v">22</span></div>
+      <div><span class="k">Tests</span><span class="v">191</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>Two commands</h2>
+
+    <pre><code>$ bun run replay
+replay — 51 cells from archive/legacy_runs
+
+  test-verified (report.json)     42
+  apply-verified (no report)       9   of which APPLY_FAIL: 9
+
+  baseline resolved            12/20
+  failure pool                     8   evaluable: 7
+  recovered                      3/7
+    logic-class                  0/4
+    format-class                 3/3
+
+  failure pool matches declared   yes
+  failure class matches hardcoded yes
+
+$ bun run report
+  byte-identical to the committed master_table.md</code></pre>
+
+    <div class="key">
+      <p class="lede">That last line is the whole point of the phase.</p>
+      <p>
+        A program written from scratch, months later, in a different language, reading
+        the same evidence, produced your submitted table with <strong>not one
+        character different</strong>. Your Chapter 5 is now reproducible rather than
+        merely written down.
+      </p>
+    </div>
+
+    <h2>The 22 cells nobody could see</h2>
+
+    <p>
+      The first thing the new reader noticed was an arithmetic problem. The archive
+      holds 95 evaluated task folders and 95 patch files — but only 73 result files.
+    </p>
+
+    <p>
+      The reason is a detail of how the evaluation harness works. When
+      <code>git apply</code> refuses a patch, the harness throws an error
+      <em>before</em> it writes its report. Your table-building script looks for
+      report files. So those 22 attempts — every one of them a patch that failed to
+      apply — were invisible to every table you produced.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 210" role="img" aria-label="Old approach collects 73 report files and misses 22. New approach reads all 95 directories and keeps both groups.">
+        <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">THE OLD READER — COLLECTS RESULT FILES</text>
+        <rect x="0" y="22" width="380" height="30" rx="4" fill="var(--surface-2)"/>
+        <rect x="0" y="22" width="292" height="30" rx="4" fill="var(--accent)"/>
+        <text x="14" y="42" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff">73 seen</text>
+        <text x="300" y="42" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-faint)">22 invisible</text>
+
+        <text x="0" y="90" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">THE NEW READER — WALKS TASK FOLDERS</text>
+        <rect x="0" y="100" width="380" height="30" rx="4" fill="var(--format)"/>
+        <rect x="0" y="100" width="292" height="30" rx="4" fill="var(--accent)"/>
+        <text x="14" y="120" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff">73 tested</text>
+        <text x="300" y="120" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="#ffffff">22 failed</text>
+
+        <text x="0" y="164" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">A missing result file is not missing data. It is the strongest possible evidence that the</text>
+        <text x="0" y="182" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">patch never applied &mdash; which is exactly the failure class the thesis is about.</text>
+        <text x="0" y="204" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--format)">Of the 22, nine fall inside runs the thesis counts; the rest are in excluded smoke tests.</text>
+      </svg>
+      <figcaption>
+        This is the defect the whole pipeline was designed against — “a failed attempt
+        leaves no record” — discovered in the project's own evidence, not argued in
+        the abstract.
+      </figcaption>
+    </figure>
+
+    <p>
+      Those cells can never be mistaken for successes. Each is marked as verified by
+      patch-application only, its “resolved” field is forced to empty, and the
+      function that computes a success rate will not accept them — the safeguard built
+      in <a href="phase-1.html">phase 1</a>, doing its job on real data.
+    </p>
+
+    <h2>The classification you made by hand, checked</h2>
+
+    <p>
+      Your script begins with a promise: <em>“Nothing in this script invents a number.
+      Every cell is read from a report.json.”</em> It keeps that promise for 38 of its
+      42 records. The four format-class rows are written from a list typed by hand,
+      because — as we now know — no result file exists for them to read.
+    </p>
+
+    <p>
+      So phase 3 derives the logic/format split from the outcomes themselves and
+      compares it with your list:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 160" role="img" aria-label="Eight tasks: four derived as logic-class, four as format-class, all matching the hand-written classification.">
+        <g font-family="IBM Plex Mono, monospace" font-size="11.5">
+          <text x="0" y="12" letter-spacing="1" font-size="10.5" fill="var(--ink-faint)">DERIVED FROM OUTCOMES — COMPARED WITH THE HAND-WRITTEN LIST</text>
+
+          <rect x="0" y="22" width="310" height="128" rx="5" fill="var(--logic-soft)"/>
+          <text x="16" y="42" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--logic)">Logic-class — patch applied, tests failed</text>
+          <text x="16" y="64" fill="var(--ink)">astropy-7746</text><text x="294" y="64" text-anchor="end" fill="var(--good)">match</text>
+          <text x="16" y="84" fill="var(--ink)">django-11019</text><text x="294" y="84" text-anchor="end" fill="var(--good)">match</text>
+          <text x="16" y="104" fill="var(--ink)">django-11283</text><text x="294" y="104" text-anchor="end" fill="var(--good)">match</text>
+          <text x="16" y="124" fill="var(--ink)">django-11564</text><text x="294" y="124" text-anchor="end" fill="var(--good)">match</text>
+
+          <rect x="322" y="22" width="310" height="128" rx="5" fill="var(--format-soft)"/>
+          <text x="338" y="42" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="600" fill="var(--format)">Format-class — patch never applied</text>
+          <text x="338" y="64" fill="var(--ink)">astropy-14182</text><text x="616" y="64" text-anchor="end" fill="var(--good)">match</text>
+          <text x="338" y="84" fill="var(--ink)">django-11039</text><text x="616" y="84" text-anchor="end" fill="var(--good)">match</text>
+          <text x="338" y="104" fill="var(--ink)">django-11583</text><text x="616" y="104" text-anchor="end" fill="var(--good)">match</text>
+          <text x="338" y="124" fill="var(--ink)">django-11620</text><text x="616" y="124" text-anchor="end" fill="var(--good)">match</text>
+        </g>
+      </svg>
+      <figcaption>
+        All eight, both classes, no discrepancy — and the derived failure pool matches
+        <code>failure_pool.json</code>, which is a third independent copy of the same
+        list.
+      </figcaption>
+    </figure>
+
+    <p>
+      Your judgement was right. What changes is its <em>status</em>: a constant that
+      nothing could contradict is now a result with a test attached.
+    </p>
+
+    <h2>Proving the check can actually fail</h2>
+
+    <p>
+      A test that always passes proves nothing. So after everything was green, we
+      deliberately broke the analysis in two ways and confirmed the suite noticed.
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Sabotage introduced</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Score the baseline out of 16 (the tasks with results) instead of 20 — the survivorship error</td><td><strong style="color:var(--format)">3 tests failed</strong></td></tr>
+          <tr><td>Go back to collecting result files, dropping the 22 — the original blind spot</td><td><strong style="color:var(--format)">9 tests failed</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Both were then reverted, and all 191 tests pass again. The check has teeth.
+    </p>
+
+    <h2>What was deliberately not done</h2>
+
+    <p>
+      The <code>.drawio</code> figure sources and their exported images are
+      <strong>not</strong> regenerated. Those images are already embedded inside
+      <code>Self.docx</code>, which is final and cannot be re-exported — so rewriting
+      them could only create a difference between the repository and the document you
+      submitted.
+    </p>
+
+    <p>
+      Instead, the <em>data</em> behind figures 5.1 to 5.4 is now computed and
+      committed as a file, and tested against the numbers typed into the figures. The
+      pictures stay exactly as submitted; the numbers in them are now checkable. One
+      quantity resisted: the 1× / 2× / 3× input-cost comparison in figure 5.4. The
+      archive contains no token records at all — the original never wrote any — so
+      that figure's data is carried as a labelled input from your configuration notes,
+      marked in the file as <em>not measured by this pipeline</em>. Phase 4 is what
+      fixes that going forward.
+    </p>
+
+    <h2>Where this leaves the project</h2>
+
+    <p>
+      Four of nine phases were done at this point, and the repository can now do something the
+      original never could: reproduce the entire results chapter, offline, on any
+      machine, in about three seconds — with no API key, no network and no Docker.
+    </p>
+
+    <p>
+      Next was <strong><a href="phase-4.html">phase 4</a></strong>: the first live
+      model call, with a token budget that is enforced rather than merely written
+      down, and usage recorded per attempt. It found four things wrong with the
+      endpoints we thought we understood.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="phase-2.html">&larr; Phase 2 &middot; Edit layer</a></span>
+      <span><a href="findings.html">What changed since submission &rarr;</a></span>
+    </div>
+  </main>
+</div>

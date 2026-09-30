@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────── secrets
+# The API keys. Never commit these, not even to a private repository:
+# a private repo can be shared, forked or made public later, and a key in
+# history survives all three. configs/ references these by NAME only.
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# ──────────────────────────────────────────────── the upstream copy
+# Dissertation-main/ is a downloaded snapshot of Lagadnakul/Dissertation
+# (94 MB). Every file in it already exists in that repository, so committing
+# it here would duplicate a whole second repo inside this one. The recovery
+# pipeline reads it as convenience, never as the record of truth.
+Dissertation-main/
+
+# ───────────────────────────────────────────────────────────── deps
+node_modules/
+**/node_modules/
+
+# ───────────────────────────────────────────────── scratch and OS
+.scratch/
+.DS_Store
+**/.DS_Store
+Thumbs.db
+*~
+*.tmp
+
+# ──────────────────────────────────────────── Word / LaTeX leftovers
+~$*.docx
+~$*.doc
+*.aux
+*.log
+*.out
+*.toc

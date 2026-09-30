@@ -1,0 +1,157 @@
+<title>The Build</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html" class="here"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">The state of the work</p>
+    <h1>Chapter 6 promised future work. This is that work, being built.</h1>
+
+    <p class="standfirst">
+      If you have not read <a href="index.html">Start from zero</a> yet, read that
+      first — it explains the problem this is all about. This page is the status of
+      the software: what exists, what it fixed, and what comes next.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Document</span><span class="v">Final &middot; submitted</span></div>
+      <div><span class="k">Phases done</span><span class="v">5 of 9</span></div>
+      <div><span class="k">Tests</span><span class="v">248 passing</span></div>
+      <div><span class="k">API keys used</span><span class="v">3 &middot; phase 4</span></div>
+    </div>
+
+    <h2>Where to go</h2>
+
+    <div class="cards">
+      <a class="card" href="index.html">
+        <div class="row"><h3>Start from zero</h3><span class="pill next">start</span></div>
+        <p>The whole problem explained assuming no background at all: what the
+           benchmark is, why a correct fix can score zero, and what the experiment
+           showed. Twelve minutes, no code.</p>
+      </a>
+      <a class="card" href="findings.html">
+        <div class="row"><h3>What changed since you submitted</h3><span class="pill done">viva</span></div>
+        <p>Four findings that post-date the document — including one correction to how
+           the central mechanism is described, and a check confirming your
+           classification was right all along.</p>
+      </a>
+    </div>
+
+    <h2>The result, as a reminder</h2>
+
+    <p>
+      Explained in full on <a href="index.html">the entry page</a>; repeated here as a
+      picture, because every number below refers back to it.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 176" role="img" aria-label="Of 20 tasks, 12 resolved, 4 failed on logic, 4 failed on format. Of the failures, 0 of 4 logic-class recovered and 3 of 3 evaluable format-class recovered.">
+        <text x="0" y="14" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">BASELINE — 20 TASKS</text>
+        <rect x="0" y="24" width="336" height="34" fill="var(--accent)"/>
+        <rect x="336" y="24" width="112" height="34" fill="var(--logic)"/>
+        <rect x="448" y="24" width="112" height="34" fill="var(--format)"/>
+        <text x="12" y="46" font-family="IBM Plex Sans, sans-serif" font-size="13" font-weight="600" fill="#ffffff">Resolved · 12</text>
+        <text x="348" y="46" font-family="IBM Plex Sans, sans-serif" font-size="13" font-weight="600" fill="#ffffff">Logic · 4</text>
+        <text x="460" y="46" font-family="IBM Plex Sans, sans-serif" font-size="13" font-weight="600" fill="#ffffff">Format · 4</text>
+
+        <text x="0" y="92" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">RECOVERED AFTER THE RETROFIT</text>
+
+        <rect x="0" y="104" width="180" height="30" rx="4" fill="var(--logic-soft)"/>
+        <text x="14" y="123" font-family="IBM Plex Sans, sans-serif" font-size="13" fill="var(--logic)">Reasoning failures</text>
+        <text x="166" y="123" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="500" fill="var(--logic)">0 / 4</text>
+
+        <rect x="196" y="104" width="180" height="30" rx="4" fill="var(--format-soft)"/>
+        <text x="210" y="123" font-family="IBM Plex Sans, sans-serif" font-size="13" fill="var(--format)">Mechanical failures</text>
+        <text x="362" y="123" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="500" fill="var(--format)">3 / 3</text>
+
+        <text x="0" y="160" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">Changing how the edit was written moved outcomes. Changing what the model was told did not.</text>
+      </svg>
+      <figcaption>
+        The fourth format-class task, <code>astropy__astropy-14182</code>, was
+        excluded: the model refused to generate for it at all, so there was never a
+        patch to evaluate. That leaves three evaluable, and all three recovered.
+      </figcaption>
+    </figure>
+
+    <h2>So why build anything?</h2>
+
+    <p>Because the original study had three problems that no amount of writing could fix.</p>
+
+    <table>
+      <thead><tr><th>Problem</th><th>What the build does</th></tr></thead>
+      <tbody>
+        <tr><td>A failed attempt left <strong>no record at all</strong> — it printed “Not applied” and wrote nothing, so 8 of 24 cells simply vanished</td><td>Every cell is enumerated before anything runs, and must end in a recorded outcome — one of eight, never silence</td></tr>
+        <tr><td>Conditions lived in <strong>30 separate scripts</strong> with no entry point, so nobody could state what had been run</td><td>One config file, one command, a checksum over the config that changes if any setting does</td></tr>
+        <tr><td>The headline numbers were <strong>typed by hand</strong> into tables and figures, so nothing checked them</td><td>They regenerate from the raw logs, and the regenerated table is compared byte-for-byte with yours</td></tr>
+      </tbody>
+    </table>
+
+    <div class="key">
+      <p class="lede">The whole thing runs with no API key, no network and no Docker.</p>
+      <p>That was a deliberate constraint, not a limitation we worked around. It means
+      anyone can verify the results on any laptop — which is the difference between a
+      claim and a result.</p>
+    </div>
+
+    <h2>The nine phases</h2>
+
+    <p>
+      Each phase depends on the one before it, so the order is real rather than
+      administrative. A page is written when a phase finishes, so nothing here
+      describes work that does not exist yet.
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Phase</th><th>What it built</th><th>State</th></tr></thead>
+        <tbody>
+          <tr><td><a href="phase-0.html">0 &middot; Provenance</a></td><td>Rescue the original data, freeze the 300-task benchmark</td><td><span class="pill done">done</span></td></tr>
+          <tr><td><a href="phase-1.html">1 &middot; Foundations</a></td><td>The shared vocabulary, the config schema, the pre-flight check</td><td><span class="pill done">done</span></td></tr>
+          <tr><td><a href="phase-2.html">2 &middot; Edit layer</a></td><td>The part your finding actually lives in — 138 tests</td><td><span class="pill done">done</span></td></tr>
+          <tr><td><a href="phase-3.html">3 &middot; Replay</a></td><td>Chapter 5 regenerated from raw logs, offline</td><td><span class="pill done">done</span></td></tr>
+          <tr><td><a href="phase-4.html">4 &middot; Providers</a></td><td>The first live model call, with a token budget that refuses to overspend</td><td><span class="pill done">done</span></td></tr>
+          <tr><td>5 &middot; Strategies</td><td>Reproduces your three recovery conditions</td><td><span class="pill next">next</span></td></tr>
+          <tr><td>6 &middot; Sweep</td><td>The full grid, with no missing cells</td><td><span class="pill planned">planned</span></td></tr>
+          <tr><td>7 &middot; Dashboard</td><td>The visual layer</td><td><span class="pill planned">planned</span></td></tr>
+          <tr><td>8 &middot; Extensions</td><td>The L3 and L4 rungs your section 8 proposes</td><td><span class="pill planned">planned</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Nothing here changes your document</h2>
+
+    <p>
+      <code>Self.docx</code> is final and is not edited again. Where the build found
+      something the document states differently, it is recorded as a numbered
+      decision in the repository — never applied silently to the text. There are
+      sixteen of those decisions so far; the four that matter to you are on
+      <a href="findings.html">the findings page</a>.
+    </p>
+
+    <p class="foot">
+      Built on top of your own logs and predictions, preserved at
+      <code>Lagadnakul/Dissertation@c8872d0</code>. Every figure on these pages is
+      computed from that data, not copied from the document.
+    </p>
+  </main>
+</div>

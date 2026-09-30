@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="fig5_1_baseline">
+    <mxGraphModel grid="1" gridSize="10" page="1" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="Baseline Outcome Breakdown, 20 Instances" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;fontFamily=Helvetica;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="120" y="10" width="420" height="30" as="geometry" /></mxCell>
+        <mxCell id="n3" value="Resolved&#xa;12" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="70" width="360" height="80" as="geometry" /></mxCell>
+        <mxCell id="n4" value="Logic&#xa;4" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#bfbfbf;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="420" y="70" width="120" height="80" as="geometry" /></mxCell>
+        <mxCell id="n5" value="Format&#xa;4" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#000000;dashed=1;dashPattern=6 4;" vertex="1" parent="1"><mxGeometry x="540" y="70" width="120" height="80" as="geometry" /></mxCell>
+        <mxCell id="n6" value="Outcome" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="210" width="340" height="30" as="geometry" /></mxCell>
+        <mxCell id="n7" value="Count" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="210" width="120" height="30" as="geometry" /></mxCell>
+        <mxCell id="n8" value="Share" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="210" width="140" height="30" as="geometry" /></mxCell>
+        <mxCell id="n9" value="Resolved on first attempt" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="244" width="340" height="34" as="geometry" /></mxCell>
+        <mxCell id="n10" value="12 of 20" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="400" y="244" width="120" height="34" as="geometry" /></mxCell>
+        <mxCell id="n11" value="60 per cent" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="520" y="244" width="140" height="34" as="geometry" /></mxCell>
+        <mxCell id="n12" value="Logic-class failure&#xa;patch applied, required tests failed" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="278" width="340" height="34" as="geometry" /></mxCell>
+        <mxCell id="n13" value="4 of 20" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="400" y="278" width="120" height="34" as="geometry" /></mxCell>
+        <mxCell id="n14" value="20 per cent" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="520" y="278" width="140" height="34" as="geometry" /></mxCell>
+        <mxCell id="n15" value="Format-class failure&#xa;patch could not be applied" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="312" width="340" height="34" as="geometry" /></mxCell>
+        <mxCell id="n16" value="4 of 20" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="400" y="312" width="120" height="34" as="geometry" /></mxCell>
+        <mxCell id="n17" value="20 per cent" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="520" y="312" width="140" height="34" as="geometry" /></mxCell>
+        <mxCell id="n18" value="Failure pool" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="346" width="340" height="34" as="geometry" /></mxCell>
+        <mxCell id="n19" value="8 of 20" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="400" y="346" width="120" height="34" as="geometry" /></mxCell>
+        <mxCell id="n20" value="40 per cent" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="520" y="346" width="140" height="34" as="geometry" /></mxCell>
+        <mxCell id="n21" value="The two failure classes are equal in size. Half the failure pool entered it for a reason&#xa;unconnected with software reasoning." style="text;html=1;align=left;verticalAlign=top;fontSize=9;fontFamily=Helvetica;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="60" y="406" width="600" height="40" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "include": ["packages/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"],
+  "compilerOptions": {
+    "paths": {
+      "@rb/core": ["./packages/core/index.ts"],
+      "@rb/core/*": ["./packages/core/*"]
+    }
+  }
+}

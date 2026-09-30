@@ -1,0 +1,356 @@
+{
+  "generated_at": "2026-09-30T05:31:01.706Z",
+  "generated_by": "packages/pipeline/analysis/figures.ts",
+  "note": "Datasets behind figures 5.1-5.4, derived from archive/legacy_runs. The .drawio sources and PNG exports are NOT regenerated: they are already embedded in the submitted Self.docx, which is final.",
+  "fig5_1": {
+    "title": "Baseline Outcome Breakdown, 20 Instances",
+    "resolved": 12,
+    "logic": 4,
+    "format": 4,
+    "pool": 8,
+    "n": 20,
+    "shares": [
+      {
+        "label": "Resolved on first attempt",
+        "count": 12,
+        "pct": 60
+      },
+      {
+        "label": "Logic-class failure",
+        "count": 4,
+        "pct": 20
+      },
+      {
+        "label": "Format-class failure",
+        "count": 4,
+        "pct": 20
+      },
+      {
+        "label": "Failure pool",
+        "count": 8,
+        "pct": 40
+      }
+    ]
+  },
+  "fig5_2": {
+    "taskId": "django__django-11019",
+    "baseline": {
+      "f2pPassed": 0,
+      "f2pTotal": 16,
+      "p2pBroken": 33
+    },
+    "retrofitted": {
+      "f2pPassed": 6,
+      "f2pTotal": 16,
+      "p2pBroken": 0
+    },
+    "cells": [
+      {
+        "label": "Blind Retry R1",
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pBroken": 0
+      },
+      {
+        "label": "Blind Retry R2",
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pBroken": 0
+      },
+      {
+        "label": "Reflection-only R1",
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pBroken": 0
+      },
+      {
+        "label": "Reflection-only R2",
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pBroken": 0
+      },
+      {
+        "label": "Diagnose+Revise R1",
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pBroken": 0
+      },
+      {
+        "label": "Diagnose+Revise R2",
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pBroken": 0
+      }
+    ],
+    "allIdentical": true
+  },
+  "fig5_3": {
+    "tasks": [
+      "astropy__astropy-7746",
+      "django__django-11019",
+      "django__django-11283",
+      "django__django-11564"
+    ],
+    "conditions": [
+      "Blind Retry",
+      "Reflection-only",
+      "Diagnose+Revise"
+    ],
+    "cells": [
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "score": "0 of 1",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "score": "0 of 1",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "score": "0 of 1",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "score": "0 of 1",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "score": "6 of 16",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "score": "6 of 16",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "score": "6 of 16",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "score": "6 of 16",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "score": "6 of 16",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "score": "6 of 16",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "score": "0 of 1",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "score": "0 of 1",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "score": "0 of 1",
+        "p2pBroken": 8,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "score": "0 of 2",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "score": null,
+        "p2pBroken": 0,
+        "resolved": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "score": "0 of 2",
+        "p2pBroken": 0,
+        "resolved": false
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "score": "0 of 2",
+        "p2pBroken": 0,
+        "resolved": false
+      }
+    ],
+    "evaluatedCells": 16,
+    "totalCells": 24,
+    "resolvedCells": 0,
+    "counterSignal": {
+      "taskId": "django__django-11283",
+      "condition": "Diagnose+Revise",
+      "round": "R1",
+      "p2pBroken": 8
+    }
+  },
+  "fig5_4": {
+    "conditions": [
+      {
+        "condition": "Blind Retry",
+        "relativeInputVolume": 1,
+        "logicResolved": 0
+      },
+      {
+        "condition": "Reflection-only",
+        "relativeInputVolume": 2,
+        "logicResolved": 0
+      },
+      {
+        "condition": "Diagnose+Revise",
+        "relativeInputVolume": 3,
+        "logicResolved": 0
+      }
+    ],
+    "relativeVolumeSource": "reports/data/config.md — token accounting, not measured by this pipeline"
+  },
+  "headline": {
+    "baselineResolved": 12,
+    "baselineN": 20,
+    "baselinePct": 60,
+    "poolSize": 8,
+    "evaluable": 7,
+    "excluded": [
+      "astropy__astropy-14182"
+    ],
+    "recovered": [
+      "django__django-11039",
+      "django__django-11583",
+      "django__django-11620"
+    ],
+    "logicTasks": [
+      "astropy__astropy-7746",
+      "django__django-11019",
+      "django__django-11283",
+      "django__django-11564"
+    ],
+    "formatTasksEvaluable": [
+      "django__django-11039",
+      "django__django-11583",
+      "django__django-11620"
+    ],
+    "recoveredLogic": [],
+    "recoveredFormat": [
+      "django__django-11039",
+      "django__django-11583",
+      "django__django-11620"
+    ],
+    "applyFailedCells": 9
+  }
+}

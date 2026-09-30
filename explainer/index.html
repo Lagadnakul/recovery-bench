@@ -1,0 +1,317 @@
+<title>Why This Exists</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html" class="here"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Read this first &middot; assumes nothing</p>
+    <h1>An AI fixed the bug correctly. It still scored zero.</h1>
+
+    <p class="standfirst">
+      That sentence is the whole dissertation. Everything else — the experiments, the
+      tables, the software being built now — exists to establish that it can happen,
+      how often, and what follows from it.
+    </p>
+
+    <h2>Clearing one thing up first</h2>
+
+    <div class="term">
+      If you are looking at the GitHub page and see <b>Shell 76.2% &middot; Python
+      23.8%</b> — ignore it. That is GitHub counting what kinds of files sit in the
+      repository. It has nothing to do with the research, and nobody here is ranking
+      programming languages.
+    </div>
+
+    <h2>The setting</h2>
+
+    <p>
+      You can now ask an AI to fix a bug in real software. Sometimes it works. Often
+      it does not. To measure how often, researchers built a test called
+      <strong>SWE-bench</strong>, and almost everyone in the field uses it. It works
+      like this:
+    </p>
+
+    <ol class="steps">
+      <li>Take a real bug from a real open-source project — an actual issue an actual developer reported on GitHub.</li>
+      <li>Give the AI the bug report and the code.</li>
+      <li>The AI writes a fix.</li>
+      <li>Run the project's own test suite against it.</li>
+      <li>Tests pass &rarr; solved. Tests fail &rarr; not solved.</li>
+    </ol>
+
+    <p>
+      <strong>Pass or fail. One bit. No partial credit.</strong> This is the
+      scoreboard companies quote when they say a model “scores 49% on SWE-bench”.
+    </p>
+
+    <h2>The question Nakul asked</h2>
+
+    <p>
+      Not “how good is the AI” — plenty of people measure that. Something sharper:
+    </p>
+
+    <div class="key">
+      <p class="lede">When the AI fails, and you tell it that it failed, can it fix itself?</p>
+      <p>
+        Humans do this constantly. You write code, it breaks, you read the error, you
+        fix it. The question is whether an AI can close that same loop.
+      </p>
+    </div>
+
+    <p>
+      So he took 20 real bugs, gave them to one model, and whenever it failed he gave
+      it another attempt — in three different ways, to see which kind of help actually
+      helps:
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Strategy</th><th>What the model is told before trying again</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Blind retry</strong></td><td>Nothing. Just “try again.”</td></tr>
+          <tr><td><strong>Reflection</strong></td><td>Its own previous attempt. “What is wrong with this?”</td></tr>
+          <tr><td><strong>Diagnose &amp; revise</strong></td><td>Its previous attempt <em>and</em> the real error output from the failing tests.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The expected result is obvious. More information should mean better outcomes.
+      Showing it the actual error ought to beat telling it nothing.
+    </p>
+
+    <h2>What he found instead</h2>
+
+    <p>
+      Of the 20 bugs, the model solved <strong>12</strong>. Eight failed. And when he
+      looked at <em>why</em> each one failed, they split into two completely different
+      kinds — which nobody had been separating.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 250" role="img" aria-label="Two different failure paths both end in the same verdict, FAILED. Four tasks failed because the reasoning was wrong. Four failed because the patch was never applied.">
+        <rect x="0" y="16" width="270" height="92" rx="6" fill="var(--logic-soft)" stroke="var(--logic)"/>
+        <text x="18" y="40" font-family="IBM Plex Sans, sans-serif" font-size="13.5" font-weight="600" fill="var(--logic)">The AI was wrong</text>
+        <text x="18" y="62" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink)">It wrote a real fix.</text>
+        <text x="18" y="79" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink)">The fix was applied to the code.</text>
+        <text x="18" y="96" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink)">The tests still failed.</text>
+
+        <rect x="362" y="16" width="270" height="92" rx="6" fill="var(--format-soft)" stroke="var(--format)"/>
+        <text x="380" y="40" font-family="IBM Plex Sans, sans-serif" font-size="13.5" font-weight="600" fill="var(--format)">The paperwork was wrong</text>
+        <text x="380" y="62" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink)">Its fix was never applied at all.</text>
+        <text x="380" y="79" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink)">Rejected before any test ran.</text>
+        <text x="380" y="96" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--ink)">Nobody knows if the idea was good.</text>
+
+        <text x="135" y="130" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--logic)">4 tasks</text>
+        <text x="497" y="130" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--format)">4 tasks</text>
+
+        <path d="M135 140 L135 168 L300 168 L300 186" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M497 140 L497 168 L340 168 L340 186" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M296 180 L300 186 L304 180" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M336 180 L340 186 L344 180" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+
+        <rect x="230" y="190" width="180" height="38" rx="5" fill="var(--ink)"/>
+        <text x="320" y="214" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="14" font-weight="500" fill="var(--paper)">FAILED</text>
+
+        <text x="320" y="246" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">The benchmark records both of these identically. That is the problem.</text>
+      </svg>
+      <figcaption>
+        Half of the failures had nothing to do with the AI's understanding of the bug.
+      </figcaption>
+    </figure>
+
+    <h2>Why a correct fix can score zero</h2>
+
+    <p>
+      When an AI proposes a code change, it cannot simply say “change line 40”. It has
+      to produce a precise technical document called a <strong>patch</strong>, which
+      states exactly which lines are removed, which are added, how many lines are
+      involved — and it must quote the surrounding existing code
+      <em>character for character</em>.
+    </p>
+
+    <p>
+      Get one detail wrong — miscount by one line, mistype a single space — and the
+      tool that applies patches refuses the entire thing. It does not partially apply.
+      It rejects.
+    </p>
+
+    <div class="analogy">
+      <span class="src">The shape of the problem</span>
+      <p>
+        A doctor diagnoses your illness perfectly and prescribes exactly the right
+        drug — but writes it in handwriting the pharmacist cannot read, so you go home
+        with nothing.
+      </p>
+      <p>
+        Did the doctor fail at medicine? No. But if the only thing you measure is
+        “did the patient get the right medicine”, it looks identical to a
+        misdiagnosis.
+      </p>
+    </div>
+
+    <p>
+      That is those four tasks. The AI may well have had the right fix. Nobody will
+      ever know, because the paperwork was malformed — and the benchmark scores that
+      exactly the same as being wrong.
+    </p>
+
+    <h2>The experiment that proves it</h2>
+
+    <p>
+      This is what turns an observation into a finding. Nakul changed
+      <strong>nothing</strong> about the model, the bug, or the reasoning he asked
+      for. He changed only the <em>format the answer had to be written in</em>.
+      Instead of making the AI produce that fussy patch document itself, he asked it
+      to say two simple things:
+    </p>
+
+    <ul>
+      <li><strong>here is the code I want to change</strong> — quote it</li>
+      <li><strong>here is what it should become</strong></li>
+    </ul>
+
+    <p>
+      Then a small program did the fussy part. The program counts the lines. A program
+      cannot miscount.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 120" role="img" aria-label="After the change in format, three of three evaluable mechanical failures were fixed, and zero of four reasoning failures were fixed.">
+        <rect x="0" y="12" width="300" height="60" rx="6" fill="var(--format-soft)"/>
+        <text x="20" y="36" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Paperwork failures fixed</text>
+        <text x="280" y="40" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="22" font-weight="500" fill="var(--format)">3/3</text>
+        <text x="20" y="58" font-family="IBM Plex Sans, sans-serif" font-size="11.5" fill="var(--format)">immediately, same model, same bug</text>
+
+        <rect x="332" y="12" width="300" height="60" rx="6" fill="var(--logic-soft)"/>
+        <text x="352" y="36" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Reasoning failures fixed</text>
+        <text x="612" y="40" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="22" font-weight="500" fill="var(--logic)">0/4</text>
+        <text x="352" y="58" font-family="IBM Plex Sans, sans-serif" font-size="11.5" fill="var(--logic)">three strategies, two rounds each</text>
+
+        <text x="0" y="100" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">Showing the model its own error output changed nothing — at roughly three times the cost.</text>
+      </svg>
+      <figcaption>
+        One of the four paperwork failures had to be excluded: the model refused to
+        generate for it at all, so there was never a patch to judge. That leaves
+        three, and all three recovered.
+      </figcaption>
+    </figure>
+
+    <h2>So the finding is</h2>
+
+    <div class="key">
+      <p class="lede">
+        Self-correction worked only where the problem was clerical.
+      </p>
+      <p>
+        Where the AI was genuinely wrong about the bug, telling it more about its own
+        mistake changed nothing — not once, across three strategies and two rounds —
+        while costing about three times as much.
+      </p>
+    </div>
+
+    <p>
+      This is uncomfortable for a field that largely assumes better feedback produces
+      better results. And it carries a sting for how other work is measured:
+      <strong>some published self-correction results may be measuring format recovery
+      rather than reasoning recovery</strong>, because nobody separated the two.
+    </p>
+
+    <h2>Then why build software?</h2>
+
+    <p>
+      Because the study has three weaknesses that no amount of extra writing can fix.
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Weakness</th><th>What a reviewer can fairly say</th></tr></thead>
+        <tbody>
+          <tr><td>20 tasks, one model, run by hand</td><td>“You got lucky” — or “that is one model's quirk”</td></tr>
+          <tr><td>A badly failed attempt wrote nothing to disk</td><td>“Attempts that failed have vanished from your data”</td></tr>
+          <tr><td>Every number was typed into the tables by hand</td><td>“Nothing checks that these match your logs”</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Chapter 6 of the dissertation promises that a follow-up will do this properly —
+      at scale, across several models, with everything recorded.
+      <strong>That is what is being built.</strong> Not new research: the machine that
+      makes the existing research checkable and repeatable by anyone.
+    </p>
+
+    <h2>What it has already turned up</h2>
+
+    <p>Three things that justified the effort, before any new experiment was run.</p>
+
+    <h3>The numbers are right — and now proven so</h3>
+    <p>
+      A completely separate program, written months later in a different language,
+      read the same log files and reproduced the dissertation's results table
+      <strong>character for character</strong>. That moves Chapter 5 from “trusted” to
+      “reproducible”.
+    </p>
+
+    <h3>The archive held far more evidence than anyone knew</h3>
+    <p>
+      Buried in old files were <strong>61 actual patches</strong> the model had
+      written. Checked: patches the AI wrote by hand were properly formed
+      <strong>30 times out of 51</strong>. Patches written by the program:
+      <strong>10 out of 10</strong>. A finding that rested on 4 tasks now has 61 data
+      points behind it.
+    </p>
+
+    <h3>Twenty-two attempts were invisible</h3>
+    <p>
+      Exactly the “leaves no record” problem, found in the project's own data: 22 runs
+      where the patch was rejected, so no result file was ever written, so the tables
+      never saw them. They are recovered now.
+    </p>
+
+    <div class="cards" style="margin-top:40px">
+      <a class="card" href="findings.html">
+        <div class="row"><h3>What changed since you submitted</h3><span class="pill next">next</span></div>
+        <p>The four findings in detail, and three hard questions with answers ready.</p>
+      </a>
+      <a class="card" href="project.html">
+        <div class="row"><h3>The build</h3><span class="pill done">5 of 9 phases</span></div>
+        <p>What has been built so far, phase by phase, and what comes next.</p>
+      </a>
+      <a class="card" href="run-it.html">
+        <div class="row"><h3>Run it yourself</h3><span class="pill done">Windows</span></div>
+        <p>Verify all of this on your own laptop in about ten minutes. Free, safe, and
+           it ends with you regenerating your own Chapter 5.</p>
+      </a>
+    </div>
+
+    <p class="foot">
+      Nothing here changes <code>Self.docx</code>. The document is final and is not
+      edited again — where the build found something stated differently, it is
+      recorded separately rather than applied silently to the text. The dissertation
+      is Nakul's work; the verification software described here was built afterwards
+      by a collaborator with AI assistance, and is not submitted work —
+      <a href="findings.html">the full note is here</a>.
+    </p>
+  </main>
+</div>

@@ -1,0 +1,219 @@
+<title>Phase 2 — The Edit Layer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html" class="here"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 2 &middot; complete</p>
+    <h1>The layer your finding actually lives in</h1>
+
+    <p class="standfirst">
+      Everything the dissertation concludes depends on one narrow question: can the
+      model's proposed edit be turned into a patch that applies? This phase rebuilds
+      that machinery properly, and then measures it against 61 patches your model
+      really wrote.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Tests</span><span class="v">138</span></div>
+      <div><span class="k">Patches audited</span><span class="v">61</span></div>
+      <div><span class="k">Original bugs found</span><span class="v">3</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>The retrofit, as a picture</h2>
+
+    <p>
+      This is the change that produced your result, so it is worth being precise about
+      what moved.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 250" role="img" aria-label="Before: the model writes a unified diff directly, which often fails to apply. After: the model writes SEARCH and REPLACE blocks, a program computes the diff, which always applies.">
+        <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--format)">BEFORE — THE MODEL WRITES THE DIFF</text>
+
+        <rect x="0" y="24" width="150" height="46" rx="5" fill="var(--surface)" stroke="var(--rule-strong)"/>
+        <text x="75" y="44" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Model</text>
+        <text x="75" y="60" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--ink-soft)">reasons about the bug</text>
+
+        <path d="M150 47 L196 47" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M190 43 L196 47 L190 51" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+
+        <rect x="200" y="24" width="190" height="46" rx="5" fill="var(--format-soft)" stroke="var(--format)"/>
+        <text x="295" y="44" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Hand-written unified diff</text>
+        <text x="295" y="60" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--format)">must count lines, requote source</text>
+
+        <path d="M390 47 L436 47" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M430 43 L436 47 L430 51" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+
+        <rect x="440" y="24" width="150" height="46" rx="5" fill="var(--surface)" stroke="var(--rule-strong)"/>
+        <text x="515" y="44" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)">git apply</text>
+        <text x="515" y="60" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--format)">41% malformed</text>
+
+        <line x1="0" y1="100" x2="632" y2="100" stroke="var(--rule)" stroke-dasharray="3 4"/>
+
+        <text x="0" y="128" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--good)">AFTER — A PROGRAM WRITES THE DIFF</text>
+
+        <rect x="0" y="140" width="150" height="46" rx="5" fill="var(--surface)" stroke="var(--rule-strong)"/>
+        <text x="75" y="160" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Model</text>
+        <text x="75" y="176" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--ink-soft)">same reasoning, same model</text>
+
+        <path d="M150 163 L196 163" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M190 159 L196 163 L190 167" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+
+        <rect x="200" y="140" width="190" height="46" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+        <text x="295" y="160" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--ink)">SEARCH / REPLACE</text>
+        <text x="295" y="176" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--accent)">quote a snippet, give its replacement</text>
+
+        <path d="M390 163 L436 163" stroke="var(--rule-strong)" stroke-width="1.5"/>
+        <path d="M430 159 L436 163 L430 167" fill="none" stroke="var(--rule-strong)" stroke-width="1.5"/>
+
+        <rect x="440" y="140" width="150" height="46" rx="5" fill="var(--surface)" stroke="var(--rule-strong)"/>
+        <text x="515" y="160" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink)">git apply</text>
+        <text x="515" y="176" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" fill="var(--good)">0% malformed</text>
+
+        <text x="0" y="222" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">The model's reasoning is untouched. Only the clerical work &mdash; counting lines and reproducing</text>
+        <text x="0" y="240" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">surrounding code exactly &mdash; moves from the model to a program that cannot get it wrong.</text>
+      </svg>
+      <figcaption>
+        This is why the finding is about mechanics rather than intelligence. The model
+        is asked for the same thing; only the format of the answer changes.
+      </figcaption>
+    </figure>
+
+    <h2>Rebuilt from your own script, bugs included</h2>
+
+    <p>
+      The parser was ported from <code>day11b_diagnose_revise_searchreplace.py</code>
+      — the script that produced your retrofitted numbers. Its behaviour had to be
+      preserved exactly, because changing it would change what the archived results
+      mean. Three genuine defects were found in the process, and each is now a test:
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Defect</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>A replacement block containing <code>=======</code> broke the pattern match</td><td>Valid edits were rejected as unparseable</td></tr>
+          <tr><td>An empty search block was counted as matching everywhere</td><td>Reported as “ambiguous” rather than “empty” — the wrong diagnosis</td></tr>
+          <tr><td>A block opened but never closed produced zero blocks</td><td>Indistinguishable from the model proposing no edit at all</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>A fairness rule, enforced by a test</h2>
+
+    <p>
+      The next study compares the two edit formats head to head. That comparison is
+      only about the models if both formats are extracted from the model's reply with
+      <strong>identical tolerance</strong>. If our reader forgave markdown code fences
+      for one format and not the other, we would be measuring our own code and calling
+      it a property of the model — exactly the confound the thesis criticises elsewhere.
+    </p>
+
+    <div class="fix">
+      <span class="tag">The test caught our own bias</span>
+      <p>
+        Models habitually end with a sentence like <em>“This should resolve the failing
+        test.”</em> Our diff reader was absorbing that sentence into the patch as if it
+        were code, which made the patch's line counts wrong — producing a malformed
+        verdict <strong>the model had not earned</strong>.
+      </p>
+      <p>
+        Left alone, this would have biased the comparison against unified diffs using
+        our bug, and the result would have looked like a finding. The fairness test
+        found it; reading the code had not.
+      </p>
+    </div>
+
+    <h2>Then: measure it on real output</h2>
+
+    <p>
+      With a tested parser, the 61 archived patches from <a href="phase-0.html">phase
+      0</a> could finally be judged. Structurally, with no test execution, no Docker
+      and no API calls:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 128" role="img" aria-label="Model-written diffs 30 of 51 structurally clean. Programmatically generated 10 of 10 clean. Defects: 16 count mismatches, 6 missing file headers.">
+        <text x="0" y="12" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Model wrote the diff</text>
+        <rect x="230" y="0" width="330" height="20" rx="3" fill="var(--surface-2)"/>
+        <rect x="230" y="0" width="194" height="20" rx="3" fill="var(--format)"/>
+        <text x="572" y="15" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--format)">30/51</text>
+
+        <text x="0" y="48" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Program wrote the diff</text>
+        <rect x="230" y="36" width="330" height="20" rx="3" fill="var(--surface-2)"/>
+        <rect x="230" y="36" width="330" height="20" rx="3" fill="var(--good)"/>
+        <text x="572" y="51" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--good)">10/10</text>
+
+        <text x="0" y="90" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">WHAT WENT WRONG IN THE 21 DEFECTIVE DIFFS</text>
+        <text x="0" y="110" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">16 &mdash; declared line counts disagreed with the hunk's contents</text>
+        <text x="0" y="126" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">6 &mdash; no file header at all, so git had nothing to patch</text>
+      </svg>
+      <figcaption>
+        The programmatic row is a control, not a result: a diff built by a library
+        cannot miscount. That is exactly why it is useful — see below.
+      </figcaption>
+    </figure>
+
+    <h2>The number we nearly published was wrong</h2>
+
+    <p>
+      The first attempt at this audit reported <strong>3 of 51</strong> clean — and
+      <strong>0 of 10</strong> for the programmatic era.
+    </p>
+
+    <p>
+      The second number is impossible. Those patches were generated by a library that
+      cannot make counting errors, and several are recorded as having applied
+      successfully. A 0% score could only mean the analysis was broken.
+    </p>
+
+    <p>
+      It was. Splitting the patch text into lines leaves one empty element at the end,
+      and counting it as a line of content inflated every measurement by exactly one —
+      flagging every patch ever written.
+    </p>
+
+    <div class="key">
+      <p class="lede">The control caught it. Reviewing the code had not.</p>
+      <p>
+        This is why the audit script now <strong>refuses to print a number</strong> if
+        any programmatically generated patch shows a defect, and writes a warning
+        instead. A result that cannot be contradicted by anything is not yet a result.
+      </p>
+    </div>
+
+    <p>
+      The corrected figures — 30/51 and 10/10 — come from the tested parser with 138
+      tests around it, not from a throwaway script. The full audit is committed to the
+      repository, so it can be checked on any machine, even one without the original
+      archive.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="phase-1.html">&larr; Phase 1 &middot; Foundations</a></span>
+      <span><a href="phase-3.html">Phase 3 &middot; Replay &rarr;</a></span>
+    </div>
+  </main>
+</div>

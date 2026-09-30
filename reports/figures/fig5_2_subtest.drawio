@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="fig5_2_subtest">
+    <mxGraphModel grid="1" gridSize="10" page="1" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="Sub-Test Recovery on django__django-11019" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;fontFamily=Helvetica;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="120" y="10" width="520" height="30" as="geometry" /></mxCell>
+        <mxCell id="n3" value="The benchmark records this instance as UNRESOLVED both before and after. Only the sub-test counts reveal the change." style="text;html=1;align=left;verticalAlign=top;fontSize=9;fontFamily=Helvetica;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="40" y="56" width="600" height="20" as="geometry" /></mxCell>
+        <mxCell id="n4" value="FAIL_TO_PASS tests passing (dashed track = all 16 required)" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="40" y="96" width="400" height="24" as="geometry" /></mxCell>
+        <mxCell id="n5" value="Unified diff" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="130" width="240" height="40" as="geometry" /></mxCell>
+        <mxCell id="n6" value="" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=none;strokeColor=#999999;dashed=1;dashPattern=4 4;" vertex="1" parent="1"><mxGeometry x="290" y="130" width="320" height="40" as="geometry" /></mxCell>
+        <mxCell id="n7" value="0 of 16" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="620" y="130" width="70" height="40" as="geometry" /></mxCell>
+        <mxCell id="n8" value="SEARCH / REPLACE" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="240" height="40" as="geometry" /></mxCell>
+        <mxCell id="n9" value="" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=none;strokeColor=#999999;dashed=1;dashPattern=4 4;" vertex="1" parent="1"><mxGeometry x="290" y="180" width="320" height="40" as="geometry" /></mxCell>
+        <mxCell id="n10" value="" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="290" y="180" width="120" height="40" as="geometry" /></mxCell>
+        <mxCell id="n11" value="6 of 16" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="620" y="180" width="70" height="40" as="geometry" /></mxCell>
+        <mxCell id="n12" value="PASS_TO_PASS tests broken (fewer is better)" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="400" height="24" as="geometry" /></mxCell>
+        <mxCell id="n13" value="Unified diff" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="294" width="240" height="40" as="geometry" /></mxCell>
+        <mxCell id="n14" value="" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#bfbfbf;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="290" y="294" width="330" height="40" as="geometry" /></mxCell>
+        <mxCell id="n15" value="33" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="630" y="294" width="60" height="40" as="geometry" /></mxCell>
+        <mxCell id="n16" value="SEARCH / REPLACE" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="344" width="240" height="40" as="geometry" /></mxCell>
+        <mxCell id="n17" value="none" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="290" y="344" width="60" height="40" as="geometry" /></mxCell>
+        <mxCell id="n18" value="Every evaluated recovery cell then returned the identical score" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="430" width="630" height="30" as="geometry" /></mxCell>
+        <mxCell id="n19" value="Blind Retry R1&#xa;6 of 16" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="464" width="210" height="36" as="geometry" /></mxCell>
+        <mxCell id="n20" value="Blind Retry R2&#xa;6 of 16" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="250" y="464" width="210" height="36" as="geometry" /></mxCell>
+        <mxCell id="n21" value="Reflection R1&#xa;6 of 16" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="460" y="464" width="210" height="36" as="geometry" /></mxCell>
+        <mxCell id="n22" value="Reflection R2&#xa;6 of 16" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="504" width="210" height="36" as="geometry" /></mxCell>
+        <mxCell id="n23" value="Diagnose R1&#xa;6 of 16" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="250" y="504" width="210" height="36" as="geometry" /></mxCell>
+        <mxCell id="n24" value="Diagnose R2&#xa;6 of 16" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="460" y="504" width="210" height="36" as="geometry" /></mxCell>
+        <mxCell id="n25" value="Six independent generations, three strategies, two rounds, sampling not pinned by temperature or seed.&#xa;The retrofit moved this instance. Nothing told to the model about its failure moved it again." style="text;html=1;align=left;verticalAlign=top;fontSize=9;fontFamily=Helvetica;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="40" y="550" width="630" height="60" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

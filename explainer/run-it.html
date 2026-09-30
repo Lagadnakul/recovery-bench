@@ -1,0 +1,279 @@
+<title>Run It Yourself</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html" class="here"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Windows &middot; about 12 minutes</p>
+    <h1>Check it yourself instead of taking my word for it</h1>
+
+    <p class="standfirst">
+      Everything on these pages can be verified on your own laptop. No API key, no
+      account, no Docker, nothing that costs money. If you only do step 3, you will
+      have independently confirmed that your Chapter 5 numbers follow from your logs.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Cost</span><span class="v">Nothing</span></div>
+      <div><span class="k">Internet</span><span class="v">Setup only</span></div>
+      <div><span class="k">Time</span><span class="v">~12 min</span></div>
+      <div><span class="k">Risk to your files</span><span class="v">None</span></div>
+    </div>
+
+    <div class="term">
+      <b>Nothing here can damage anything.</b> Every command below only reads files
+      and prints results. Your dissertation, your repository and your original logs
+      are never modified.
+    </div>
+
+    <h2>Step 1 &middot; Install Bun</h2>
+
+    <p>
+      Bun runs the code. Open <strong>PowerShell</strong> — press the Windows key,
+      type <code>powershell</code>, press Enter — and paste this:
+    </p>
+
+    <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
+
+    <p>
+      <strong>Then close PowerShell and open it again.</strong> That is not optional —
+      the new window is what knows where Bun was installed. Check it worked:
+    </p>
+
+    <pre><code>bun --version</code></pre>
+
+    <p>A version number means you are ready. An error means the window was not reopened.</p>
+
+    <h2>Step 2 &middot; Get the code</h2>
+
+    <p>
+      This downloads the branch into a folder called <code>Dissertation</code> inside
+      your Documents.
+    </p>
+
+    <pre><code>cd ~\Documents
+git clone https://github.com/Lagadnakul/Dissertation.git
+cd Dissertation
+git checkout add-implementation-and-final-document
+cd recovery-bench
+bun install</code></pre>
+
+    <div class="term">
+      If <code>git</code> is not recognised, install it from
+      <b>git-scm.com/download/win</b>, accept every default, then reopen PowerShell
+      and start this step again.
+    </div>
+
+    <h2>Step 3 &middot; Run the tests</h2>
+
+    <pre><code>bun test</code></pre>
+
+    <p>You should see, in roughly three seconds:</p>
+
+    <pre><code> 214 pass
+  34 skip
+   0 fail
+Ran 248 tests across 14 files.</code></pre>
+
+    <div class="key">
+      <p class="lede">Those 34 skips are expected, and worth understanding.</p>
+      <p>
+        They are the tests that need your original evaluation logs, which are
+        deliberately <strong>not</strong> included in the download — they already exist
+        in your repository, and duplicating 94 MB of them would be wasteful. Step 5
+        switches them on. The 214 that ran include the format-class finding, checked
+        against committed data.
+      </p>
+    </div>
+
+    <h2>Step 4 &middot; See the finding, measured</h2>
+
+    <pre><code>bun run audit-legacy</code></pre>
+
+    <p>This reads the 61 patches your model actually wrote and reports:</p>
+
+    <pre><code>unified_diff     model wrote the diff      30/51 clean (58.8%)
+    16  hunk_count_mismatch
+     6  no_file_header
+search_replace   difflib wrote the diff    10/10 clean (100%)</code></pre>
+
+    <p>
+      That is finding 1 from <a href="findings.html">the findings page</a>, computed
+      in front of you rather than quoted at you.
+    </p>
+
+    <h2>Step 5 &middot; Regenerate your Chapter 5</h2>
+
+    <p>
+      This is the one worth doing. It needs your original evaluation logs, which live
+      on the repository's <code>main</code> branch. Copy them in:
+    </p>
+
+    <pre><code>cd ~\Documents\Dissertation
+git checkout main -- 06_Methodology
+
+New-Item -ItemType Directory -Force -Path recovery-bench\archive\legacy_runs
+Copy-Item -Recurse -Force `
+  06_Methodology\code\logs\run_evaluation\* `
+  recovery-bench\archive\legacy_runs\
+
+New-Item -ItemType Directory -Force -Path recovery-bench\archive\legacy_predictions
+Copy-Item -Force `
+  06_Methodology\code\predictions*.json `
+  recovery-bench\archive\legacy_predictions\
+
+cd recovery-bench</code></pre>
+
+    <div class="term">
+      The backtick <code>`</code> at the end of a line is PowerShell's way of
+      continuing onto the next line — the same job the backslash does on Mac and
+      Linux. Paste the whole block at once and it works.
+    </div>
+
+    <p>Now run the replay:</p>
+
+    <pre><code>bun run replay</code></pre>
+
+    <pre><code>replay — 51 cells from archive/legacy_runs
+
+  test-verified (report.json)     42
+  apply-verified (no report)       9   of which APPLY_FAIL: 9
+
+  baseline resolved            12/20
+  failure pool                     8   evaluable: 7
+  recovered                      3/7
+    logic-class                  0/4
+    format-class                 3/3
+
+  failure pool matches declared   yes
+  failure class matches hardcoded yes</code></pre>
+
+    <p>And then the one that matters:</p>
+
+    <pre><code>bun run report</code></pre>
+
+    <pre><code>report — 51 cells
+  wrote data/chapter5_figures.json
+  byte-identical to the committed master_table.md</code></pre>
+
+    <div class="key">
+      <p class="lede">That last line is you verifying your own dissertation.</p>
+      <p>
+        A program written months after you finished, in a different language, reading
+        your logs, produced your results table with not one character different. You
+        did not have to trust anybody for that — you just ran it.
+      </p>
+    </div>
+
+    <p>
+      Run <code>bun test</code> again now and all <strong>248</strong> pass, with no
+      skips: the 34 that were waiting on your logs can finally run.
+    </p>
+
+    <h2>Step 6 &middot; See the pre-flight check and the budget</h2>
+
+    <p>
+      This is the check that runs before any model is contacted. It needs no key
+      and no internet:
+    </p>
+
+    <pre><code>bun run doctor</code></pre>
+
+    <p>
+      It verifies the config parses, the 300-task benchmark is intact and pinned,
+      sampling is fixed, and — the unusual one — that <code>git</code> actually
+      accepts the patches the program generates. Then it prints the budget:
+    </p>
+
+    <pre><code>  PASS  budget ledger
+        no ledger at data/ledger.jsonl — nothing spent yet
+        nvidia      0/8,000,000 tokens (0.00%)  0/1500 calls
+        qwencloud   0/900,000 tokens (0.00%)  0/100 calls
+        gemini      0/500,000 tokens (0.00%)  0/30 calls</code></pre>
+
+    <p>
+      Those ceilings are now enforced before a request is sent, rather than
+      checked afterwards. In your original config the limit was written
+      <code>8_000_000</code>, which the config file format read as
+      <em>text</em> rather than a number — so nothing ever compared against it.
+      <a href="phase-4.html">Phase 4</a> explains what changed.
+    </p>
+
+    <p>
+      The endpoint probe will report <code>no key set</code>, which is correct:
+      the keys are deliberately not in the repository.
+    </p>
+
+    <h2>Step 7 &middot; Prove the check can fail</h2>
+
+    <p>
+      A test that always passes proves nothing. Break the analysis on purpose and
+      watch it get caught. Open this file in Notepad:
+    </p>
+
+    <pre><code>notepad packages\pipeline\analysis\aggregate.ts</code></pre>
+
+    <p>
+      Find the line containing <code>n: BASELINE_N</code> and change
+      <code>BASELINE_N</code> to <code>16</code> — that is the survivorship error,
+      scoring the run only over tasks that produced a result. Save, then:
+    </p>
+
+    <pre><code>bun test</code></pre>
+
+    <p>
+      Three tests fail. Undo the change (<kbd>Ctrl</kbd>+<kbd>Z</kbd> in Notepad),
+      save, run again — all pass. The check has teeth.
+    </p>
+
+    <h2>If something goes wrong</h2>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Message</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><code>bun : The term 'bun' is not recognized</code></td><td>Close PowerShell and open a new window. The installer only affects new windows.</td></tr>
+          <tr><td><code>git : The term 'git' is not recognized</code></td><td>Install Git from git-scm.com/download/win, then reopen PowerShell.</td></tr>
+          <tr><td><code>no archive at archive/legacy_runs/</code></td><td>Step 5's copy did not complete. Re-run that block from the <code>Dissertation</code> folder, not from <code>recovery-bench</code>.</td></tr>
+          <tr><td><code>running scripts is disabled on this system</code></td><td>Run <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>, answer <code>Y</code>, then retry.</td></tr>
+          <tr><td>Tests fail after step 7</td><td>That is the point of step 7. Undo the edit and they pass again.</td></tr>
+          <tr><td><code>no key set</code> in step 6</td><td>Expected. API keys are not in the repository; every other check still runs.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Starting over</h2>
+
+    <p>
+      Nothing was installed into Windows except Bun, and nothing outside the
+      <code>Dissertation</code> folder was touched. To remove it all, delete that
+      folder. Your dissertation files and your GitHub repository are unaffected —
+      every command here only read them.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="project.html">&larr; The build</a></span>
+      <span><a href="findings.html">What changed since submission &rarr;</a></span>
+    </div>
+  </main>
+</div>

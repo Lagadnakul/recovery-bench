@@ -1,0 +1,372 @@
+<title>Phase 4 — Providers</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html" class="here"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 4 &middot; complete &middot; the first live call</p>
+    <h1>The moment we stopped reading logs and started making them</h1>
+
+    <p class="standfirst">
+      Phases 0 to 3 never touched the network. This one does — one model call,
+      wrapped in accounting that refuses to overspend. And the act of calling the
+      endpoints immediately proved that four things we believed about them were
+      false.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Providers live</span><span class="v">3 of 3</span></div>
+      <div><span class="k">Tests</span><span class="v">248</span></div>
+      <div><span class="k">Defects found</span><span class="v">4</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>What this phase had to build</h2>
+
+    <p>
+      Two things. A way to talk to the three model services, and a ledger that
+      counts what each call costs and stops the run before it exceeds its
+      allowance.
+    </p>
+
+    <p>
+      The ledger came first, deliberately — before anything could spend. Its
+      design turns on one decision: <strong>the check happens before the request
+      is sent, not after it returns.</strong>
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 208" role="img" aria-label="A cell is checked against the ceiling before dispatch. If it would exceed, it records BUDGET_STOP and no request is sent. If it fits, the worst case is reserved, the call is made, and the real cost is committed.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="12.5">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">EVERY CALL PASSES THROUGH THE LEDGER</text>
+
+          <rect x="0" y="26" width="118" height="42" rx="5" fill="var(--surface-2)" stroke="var(--rule-strong)"/>
+          <text x="59" y="52" text-anchor="middle" fill="var(--ink)">a cell</text>
+
+          <path d="M118 47 H168" stroke="var(--rule-strong)" stroke-width="1.5"/>
+          <path d="M162 43 l6 4 -6 4z" fill="var(--rule-strong)"/>
+
+          <rect x="168" y="20" width="150" height="54" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text x="243" y="41" text-anchor="middle" font-weight="600" fill="var(--accent)">would this fit?</text>
+          <text x="243" y="60" text-anchor="middle" font-size="11.5" fill="var(--ink-soft)">worst case, not average</text>
+
+          <path d="M318 40 H420" stroke="var(--format)" stroke-width="1.5"/>
+          <path d="M414 36 l6 4 -6 4z" fill="var(--format)"/>
+          <text x="368" y="32" text-anchor="middle" font-size="11" fill="var(--format)">no</text>
+          <rect x="420" y="20" width="212" height="42" rx="5" fill="var(--format-soft)" stroke="var(--format)"/>
+          <text x="526" y="38" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="var(--format)">BUDGET_STOP</text>
+          <text x="526" y="54" text-anchor="middle" font-size="11" fill="var(--ink-soft)">nothing is sent</text>
+
+          <path d="M243 74 V108" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M239 102 l4 6 4 -6z" fill="var(--accent)"/>
+          <text x="256" y="95" font-size="11" fill="var(--accent)">yes</text>
+
+          <rect x="168" y="108" width="150" height="40" rx="5" fill="var(--surface-2)" stroke="var(--rule-strong)"/>
+          <text x="243" y="133" text-anchor="middle" fill="var(--ink)">reserve worst case</text>
+
+          <path d="M318 128 H420" stroke="var(--rule-strong)" stroke-width="1.5"/>
+          <path d="M414 124 l6 4 -6 4z" fill="var(--rule-strong)"/>
+          <rect x="420" y="108" width="212" height="40" rx="5" fill="var(--surface-2)" stroke="var(--rule-strong)"/>
+          <text x="526" y="133" text-anchor="middle" fill="var(--ink)">make the call</text>
+
+          <path d="M526 148 V180" stroke="var(--rule-strong)" stroke-width="1.5"/>
+          <path d="M522 174 l4 6 4 -6z" fill="var(--rule-strong)"/>
+          <rect x="332" y="180" width="300" height="26" rx="4" fill="var(--accent-soft)"/>
+          <text x="482" y="197" text-anchor="middle" font-size="11.5" fill="var(--accent)">commit the real cost the provider reports</text>
+        </g>
+      </svg>
+      <figcaption>
+        Reserving the worst case matters because several cells run at once. If
+        each only checked what had already been spent, they would all see room
+        for one more and collectively blow through the limit.
+      </figcaption>
+    </figure>
+
+    <div class="key">
+      <p class="lede">Why a ceiling that checks afterwards is not a ceiling.</p>
+      <p>
+        Your original config set a limit of <code>8_000_000</code> tokens. YAML
+        has no underscore-as-thousands-separator, so it was read as the
+        <em>text</em> <code>"8_000_000"</code> and every comparison against it was
+        meaningless. The limit had never once been enforced. That is the defect
+        this ledger exists to make impossible — and the reason it was built before
+        the first call rather than after it.
+      </p>
+    </div>
+
+    <h2>Then we called the endpoints, and four beliefs collapsed</h2>
+
+    <p>
+      Phase 1 built a pre-flight check called <code>doctor</code> that measures
+      every model's speed rather than trusting its name. Running it against the
+      new provider layer showed that <strong>the check itself had been
+      lying</strong>:
+    </p>
+
+    <pre><code>ok    muse_30b               ttft   n/a   n/a tok/s
+ok    nemotron_nano          ttft   n/a   n/a tok/s
+ok    nemotron_ultra         ttft 1.69s  94094.4 tok/s</code></pre>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>What it said</th><th>What was true</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Two models <code>ok</code></td>
+            <td>Both had produced <strong>no visible output at all</strong>. They are reasoning models, the probe allowed 16 tokens, and all 16 were spent thinking before a single word was said.</td>
+          </tr>
+          <tr>
+            <td><code>94094.4 tok/s</code></td>
+            <td>Speed was measured over the gap between the first visible word and the end. When everything arrives in one burst at the close, that gap is nearly zero — and dividing by it produces a number that measures nothing.</td>
+          </tr>
+          <tr>
+            <td>Gemini: <em>not implemented</em></td>
+            <td>Sitting in the output as a tolerated warning. It had never been tested.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      All three are fixed: the timer now starts at the first token of any kind,
+      speed is measured across the whole answer, a model that says nothing is
+      reported as a warning rather than a pass, and Gemini has a real
+      implementation.
+    </p>
+
+    <div class="fix">
+      <span class="tag">And then the fix produced its own false number</span>
+      <p>
+        With thinking properly switched off, "reply with ok" costs two or three
+        tokens — and dividing by a sub-millisecond window turned that into
+        <strong>3000.0 tok/s</strong>. The same falsehood in a smaller costume.
+      </p>
+      <p>
+        So speed is now reported as <em>unavailable</em> below twelve tokens or
+        forty milliseconds, because below that there is no measurement to report.
+        The probe asks the model to count to forty instead — long enough to
+        measure honestly, still free.
+      </p>
+    </div>
+
+    <h2>The finding that matters most</h2>
+
+    <p>
+      Every model in your configuration is marked <code>thinking: false</code>.
+      That setting has been there since phase 1.
+    </p>
+
+    <p>
+      <strong>It was never sent to the model.</strong> The request simply did not
+      mention it, so every call — this project's and your original study's — ran
+      with the service's own default, which is thinking <em>on</em>.
+    </p>
+
+    <p>
+      The control turned out to be a field called
+      <code>enable_thinking</code>. Measured on a one-word question, one API key
+      per model:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 214" role="img" aria-label="Completion tokens to answer ok: nemotron_ultra 38 with the vendor default and 2 with thinking off; nemotron_nano 49 and 3; muse_30b 84 and 41, never reaching zero.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="11.5">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">TOKENS BILLED TO ANSWER “OK” — DEFAULT vs THINKING OFF</text>
+
+          <text x="0" y="40" fill="var(--ink)">nemotron_ultra</text>
+          <rect x="130" y="30" width="190" height="12" fill="var(--logic)"/>
+          <text x="328" y="40" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">38</text>
+          <rect x="130" y="46" width="10" height="12" fill="var(--accent)"/>
+          <text x="328" y="56" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--accent)">2   — 19x cheaper</text>
+
+          <text x="0" y="90" fill="var(--ink)">nemotron_nano</text>
+          <rect x="130" y="80" width="245" height="12" fill="var(--logic)"/>
+          <text x="383" y="90" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">49</text>
+          <rect x="130" y="96" width="15" height="12" fill="var(--accent)"/>
+          <text x="383" y="106" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--accent)">3   — 16x cheaper</text>
+
+          <text x="0" y="140" fill="var(--format)">muse_30b</text>
+          <rect x="130" y="130" width="420" height="12" fill="var(--logic)"/>
+          <text x="558" y="140" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">84</text>
+          <rect x="130" y="146" width="205" height="12" fill="var(--format)"/>
+          <text x="558" y="156" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--format)">41  — still thinking</text>
+
+          <text x="0" y="190" font-size="12.5" fill="var(--ink-soft)">Two models obey and drop to zero reasoning. One does not: muse_30b goes from 313</text>
+          <text x="0" y="207" font-size="12.5" fill="var(--ink-soft)">characters of reasoning down to 120, but never to none.</text>
+        </g>
+      </svg>
+      <figcaption>
+        Gemini behaves the same way through a differently-named setting: 93
+        thinking tokens with the default, zero once told not to.
+      </figcaption>
+    </figure>
+
+    <div class="key">
+      <p class="lede">Why <code>muse_30b</code> refusing to obey is a real problem, not a curiosity.</p>
+      <p>
+        Your Reflection-only condition asks whether a model does better when it
+        reflects on its own failure. That comparison only means something if the
+        arm it is compared against is <em>not</em> reflecting. On
+        <code>muse_30b</code>, asking for no thinking still leaves it thinking —
+        so an arm labelled "no thinking" against that model is not one, and the
+        comparison would be measuring something other than what it claims.
+        <code>doctor</code> now reports this instead of letting it pass silently.
+      </p>
+    </div>
+
+    <h2>A capacity limit that looked exactly like a silent model</h2>
+
+    <p>
+      Probing four NVIDIA models simultaneously returned, for two of them, a
+      perfectly normal <strong>HTTP 200 success</strong> — with a completely empty
+      body. A request alongside them returned the honest version of the same
+      condition:
+    </p>
+
+    <pre><code>503 ResourceExhausted: Worker local total request limit reached (16/16)</code></pre>
+
+    <p>
+      Run one at a time, those same two models answer in under half a second.
+    </p>
+
+    <p>
+      This one is worth dwelling on, because of what it would have done further
+      down the line. A success response with nothing in it, reaching the full
+      experiment, would have been written down as <em>the model produced no
+      output</em> — a finding about model behaviour. It was a queue being full at
+      the provider's end. The pipeline now names it as provider capacity and
+      retries, and <code>doctor</code> probes one model at a time, because a
+      pre-flight check that manufactures its own failures is worse than none.
+    </p>
+
+    <h2>A ninth outcome, and what it is kept out of</h2>
+
+    <p>
+      Phase 1 gave every attempt one of eight endings. The truncation measured
+      here has no name among them: the model was mid-sentence when <em>our</em>
+      token limit cut it off. It did not stay silent, it produced nothing
+      malformed, and it never offered a patch to be rejected.
+    </p>
+
+    <p>So <code>TRUNCATED</code> was added. The important part is what it is excluded from.</p>
+
+    <figure>
+      <svg viewBox="0 0 640 176" role="img" aria-label="Format-class contains NO_PATCH, MALFORMED and APPLY_FAIL. A separate group — TRUNCATED, BUDGET_STOP, PROVIDER_ERROR — measured nothing about the model and is reported separately.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="11.5">
+          <rect x="0" y="18" width="306" height="112" rx="6" fill="var(--format-soft)" stroke="var(--format)"/>
+          <text x="16" y="40" font-weight="600" font-size="12.5" fill="var(--format)">Format-class — the model's failing</text>
+          <text x="16" y="62" font-family="IBM Plex Mono, monospace" fill="var(--ink)">NO_PATCH</text>
+          <text x="16" y="82" font-family="IBM Plex Mono, monospace" fill="var(--ink)">MALFORMED</text>
+          <text x="16" y="102" font-family="IBM Plex Mono, monospace" fill="var(--ink)">APPLY_FAIL</text>
+          <text x="16" y="122" font-size="11" fill="var(--ink-soft)">counts toward the headline number</text>
+
+          <rect x="334" y="18" width="306" height="112" rx="6" fill="var(--surface-2)" stroke="var(--rule-strong)"/>
+          <text x="350" y="40" font-weight="600" font-size="12.5" fill="var(--ink)">Instrument limits — our failing</text>
+          <text x="350" y="62" font-family="IBM Plex Mono, monospace" fill="var(--ink)">TRUNCATED</text>
+          <text x="350" y="82" font-family="IBM Plex Mono, monospace" fill="var(--ink)">BUDGET_STOP</text>
+          <text x="350" y="102" font-family="IBM Plex Mono, monospace" fill="var(--ink)">PROVIDER_ERROR</text>
+          <text x="350" y="122" font-size="11" fill="var(--ink-soft)">reported separately, never folded in</text>
+
+          <text x="0" y="156" font-size="12.5" fill="var(--ink-soft)">The two groups cannot overlap. A cell blamed on the model and on the harness at once</text>
+          <text x="0" y="172" font-size="12.5" fill="var(--ink-soft)">would be counted twice, and the number it feeds is the thesis's central claim.</text>
+        </g>
+      </svg>
+      <figcaption>
+        You already had one case of this: <code>astropy-14182</code> stopped
+        because Gemini thought it was reciting training data, and your
+        dissertation excludes it from the recovery count. This generalises the
+        judgement you already made.
+      </figcaption>
+    </figure>
+
+    <p>
+      Counting a response <em>we</em> severed as the model producing a bad patch
+      would inflate the exact figure your thesis rests on, using our own
+      configuration. It is the same category error as scoring your baseline over
+      only the tasks that happened to produce a result file — the defect
+      <a href="phase-3.html">phase 3</a> found in the original analysis.
+    </p>
+
+    <h2>Proving the checks bite — and finding one that did not</h2>
+
+    <p>
+      As in phase 3, the finished work was deliberately broken to confirm the
+      tests notice.
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Sabotage introduced</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Let the ceiling ignore reserved tokens — the concurrent overrun</td><td><strong style="color:var(--format)">2 tests failed</strong></td></tr>
+          <tr><td>Stop sending the thinking setting — the defect above, restored</td><td><strong style="color:var(--format)">3 tests failed</strong></td></tr>
+          <tr><td>Count <code>TRUNCATED</code> as a format-class failure</td><td><strong>nothing failed</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fix">
+      <span class="tag">The third one is the useful result</span>
+      <p>
+        Breaking the single most consequential rule in the phase — the one the
+        whole <code>TRUNCATED</code> decision was made to protect — broke
+        <strong>nothing</strong> in a 237-test suite. The rule was written down
+        and explained, and nothing checked it.
+      </p>
+      <p>
+        There is now a test file dedicated to it, which pins both groups
+        exhaustively, asserts they cannot overlap, and fails if a tenth outcome is
+        ever added without being classified. The same sabotage now kills three
+        tests. This is exactly why deliberately breaking things is part of the
+        method rather than a flourish at the end.
+      </p>
+    </div>
+
+    <h2>Where this leaves the project</h2>
+
+    <p>
+      Five of nine phases done. All three model services answer, all five of your
+      API keys work, the token ceiling refuses to overspend before a request is
+      sent, and every call's real cost is recorded in a file that survives a
+      crash and does not restart at zero when a run resumes.
+    </p>
+
+    <p>
+      That last part also closes a gap phase 3 had to leave open. Figure 5.4's
+      cost comparison was the one Chapter 5 number that could not be regenerated,
+      because the original never recorded token usage. From now on it is measured.
+    </p>
+
+    <p>
+      Next is <strong>phase 5</strong>: the recovery strategies themselves —
+      Baseline, Blind Retry, Reflection-only and Diagnose+Revise — as four
+      implementations of one interface. It is the first phase that can produce a
+      genuinely new result rather than reproduce an old one.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="phase-3.html">&larr; Phase 3 &middot; Replay</a></span>
+      <span><a href="findings.html">What changed since submission &rarr;</a></span>
+    </div>
+  </main>
+</div>

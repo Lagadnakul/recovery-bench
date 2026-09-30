@@ -1,0 +1,945 @@
+{
+  "generated_at": "2026-09-27T07:23:30.178Z",
+  "generated_by": "packages/pipeline/analysis/replay.ts",
+  "source": {
+    "dir": "archive/legacy_runs",
+    "upstream": "Lagadnakul/Dissertation@c8872d070fb0b098394796dfbc68bcf67c3bd957"
+  },
+  "method": "Walks instance directories rather than globbing report.json, so cells whose patch never applied — which produce no report — are recovered instead of vanishing.",
+  "summary": {
+    "rows": 51,
+    "testVerified": 42,
+    "applyVerified": 9,
+    "applyFailed": 9,
+    "unregisteredDirs": 7,
+    "ignoredDirs": 37,
+    "poolMatches": true,
+    "classMatches": true,
+    "classDisagreements": []
+  },
+  "failure_class_derived": {
+    "astropy__astropy-14182": "format",
+    "astropy__astropy-7746": "logic",
+    "django__django-11019": "logic",
+    "django__django-11039": "format",
+    "django__django-11283": "logic",
+    "django__django-11564": "logic",
+    "django__django-11583": "format",
+    "django__django-11620": "format"
+  },
+  "failure_class_hardcoded": {
+    "astropy__astropy-7746": "logic",
+    "django__django-11019": "logic",
+    "django__django-11283": "logic",
+    "django__django-11564": "logic",
+    "astropy__astropy-14182": "format",
+    "django__django-11039": "format",
+    "django__django-11583": "format",
+    "django__django-11620": "format"
+  },
+  "rows": [
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day10_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-29T05:51:51Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day10_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** malformed patch at line 27: -        return js",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T05:51:52Z"
+    },
+    {
+      "taskId": "django__django-11283",
+      "run": "day10_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-29T05:52:40Z"
+    },
+    {
+      "taskId": "django__django-11564",
+      "run": "day10_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 2,
+        "p2pPassed": 174,
+        "p2pTotal": 174
+      },
+      "timestamp": "2026-08-29T05:52:43Z"
+    },
+    {
+      "taskId": "django__django-11620",
+      "run": "day10_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** Only garbage was found in the patch input.",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T05:53:22Z"
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day11b_tes",
+      "condition": "Diagnose+Revise",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-29T10:58:54Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day11b_tes",
+      "condition": "Diagnose+Revise",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pPassed": 58,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-29T10:58:54Z"
+    },
+    {
+      "taskId": "django__django-11283",
+      "run": "day11b_tes",
+      "condition": "Diagnose+Revise",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 0,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-29T10:59:28Z"
+    },
+    {
+      "taskId": "django__django-11564",
+      "run": "day11b_tes",
+      "condition": "Diagnose+Revise",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 2,
+        "p2pPassed": 174,
+        "p2pTotal": 174
+      },
+      "timestamp": "2026-08-29T10:59:49Z"
+    },
+    {
+      "taskId": "django__django-11620",
+      "run": "day11b_tes",
+      "condition": "Diagnose+Revise",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 66,
+        "p2pTotal": 66
+      },
+      "timestamp": "2026-08-29T11:00:11Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day12_blindretry_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pPassed": 58,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-30T03:36:41Z"
+    },
+    {
+      "taskId": "django__django-11564",
+      "run": "day12_blindretry_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 2,
+        "p2pPassed": 174,
+        "p2pTotal": 174
+      },
+      "timestamp": "2026-08-30T03:36:41Z"
+    },
+    {
+      "taskId": "django__django-11620",
+      "run": "day12_blindretry_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 66,
+        "p2pTotal": 66
+      },
+      "timestamp": "2026-08-30T03:37:30Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day12_reflection_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pPassed": 58,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-30T03:47:50Z"
+    },
+    {
+      "taskId": "django__django-11620",
+      "run": "day12_reflection_test",
+      "condition": "Reflection-only",
+      "round": "R1",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 66,
+        "p2pTotal": 66
+      },
+      "timestamp": "2026-08-30T03:47:50Z"
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day15_blindretry",
+      "condition": "Blind Retry",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-31T05:40:19Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day15_blindretry",
+      "condition": "Blind Retry",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pPassed": 58,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-31T05:40:19Z"
+    },
+    {
+      "taskId": "django__django-11283",
+      "run": "day15_blindretry",
+      "condition": "Blind Retry",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-31T05:41:05Z"
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day15_diagnose",
+      "condition": "Diagnose+Revise",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-31T05:42:42Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day15_diagnose",
+      "condition": "Diagnose+Revise",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pPassed": 58,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-31T05:42:42Z"
+    },
+    {
+      "taskId": "django__django-11564",
+      "run": "day15_diagnose",
+      "condition": "Diagnose+Revise",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 2,
+        "p2pPassed": 174,
+        "p2pTotal": 174
+      },
+      "timestamp": "2026-08-31T05:43:06Z"
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day15_reflection",
+      "condition": "Reflection-only",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-31T05:41:44Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day15_reflection",
+      "condition": "Reflection-only",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 6,
+        "f2pTotal": 16,
+        "p2pPassed": 58,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-31T05:41:44Z"
+    },
+    {
+      "taskId": "django__django-11283",
+      "run": "day15_reflection",
+      "condition": "Reflection-only",
+      "round": "R2",
+      "patchFormat": "sr",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-31T05:42:09Z"
+    },
+    {
+      "taskId": "astropy__astropy-12907",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 2,
+        "f2pTotal": 2,
+        "p2pPassed": 13,
+        "p2pTotal": 13
+      },
+      "timestamp": "2026-08-29T03:40:53Z"
+    },
+    {
+      "taskId": "astropy__astropy-14182",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** malformed patch at line 14: -        lines = [lines[1]] + lines + [lines[1]]",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T03:54:37Z"
+    },
+    {
+      "taskId": "astropy__astropy-14365",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-29T03:41:41Z"
+    },
+    {
+      "taskId": "astropy__astropy-14995",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 179,
+        "p2pTotal": 179
+      },
+      "timestamp": "2026-08-29T03:42:58Z"
+    },
+    {
+      "taskId": "astropy__astropy-6938",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 2,
+        "f2pTotal": 2,
+        "p2pPassed": 11,
+        "p2pTotal": 11
+      },
+      "timestamp": "2026-08-29T03:43:02Z"
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-29T03:43:30Z"
+    },
+    {
+      "taskId": "django__django-10914",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 98,
+        "p2pTotal": 98
+      },
+      "timestamp": "2026-08-29T03:44:11Z"
+    },
+    {
+      "taskId": "django__django-10924",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 1,
+        "p2pTotal": 1
+      },
+      "timestamp": "2026-08-29T03:44:16Z"
+    },
+    {
+      "taskId": "django__django-11001",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 2,
+        "f2pTotal": 2,
+        "p2pPassed": 118,
+        "p2pTotal": 118
+      },
+      "timestamp": "2026-08-29T03:44:41Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 16,
+        "p2pPassed": 25,
+        "p2pTotal": 58
+      },
+      "timestamp": "2026-08-29T03:44:46Z"
+    },
+    {
+      "taskId": "django__django-11039",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** Only garbage was found in the patch input.",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T03:54:37Z"
+    },
+    {
+      "taskId": "django__django-11049",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-29T03:45:31Z"
+    },
+    {
+      "taskId": "django__django-11099",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 3,
+        "f2pTotal": 3,
+        "p2pPassed": 19,
+        "p2pTotal": 19
+      },
+      "timestamp": "2026-08-29T03:45:38Z"
+    },
+    {
+      "taskId": "django__django-11133",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 64,
+        "p2pTotal": 64
+      },
+      "timestamp": "2026-08-29T03:45:59Z"
+    },
+    {
+      "taskId": "django__django-11179",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 40,
+        "p2pTotal": 40
+      },
+      "timestamp": "2026-08-29T03:46:30Z"
+    },
+    {
+      "taskId": "django__django-11283",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-29T03:46:41Z"
+    },
+    {
+      "taskId": "django__django-11422",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 46,
+        "p2pTotal": 46
+      },
+      "timestamp": "2026-08-29T03:46:59Z"
+    },
+    {
+      "taskId": "django__django-11564",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 2,
+        "p2pPassed": 174,
+        "p2pTotal": 174
+      },
+      "timestamp": "2026-08-29T03:47:32Z"
+    },
+    {
+      "taskId": "django__django-11583",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** Only garbage was found in the patch input.",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T03:55:20Z"
+    },
+    {
+      "taskId": "django__django-11620",
+      "run": "day8_test",
+      "condition": "Baseline",
+      "round": "R0",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** Only garbage was found in the patch input.",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T03:55:21Z"
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 56,
+        "p2pTotal": 56
+      },
+      "timestamp": "2026-08-29T04:31:53Z"
+    },
+    {
+      "taskId": "django__django-11019",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** malformed patch at line 28:      def render(self):",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T05:18:57Z"
+    },
+    {
+      "taskId": "django__django-11039",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 1,
+        "f2pTotal": 1,
+        "p2pPassed": 88,
+        "p2pTotal": 88
+      },
+      "timestamp": "2026-08-29T04:31:53Z"
+    },
+    {
+      "taskId": "django__django-11283",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": false,
+      "tests": {
+        "f2pPassed": 0,
+        "f2pTotal": 1,
+        "p2pPassed": 8,
+        "p2pTotal": 8
+      },
+      "timestamp": "2026-08-29T04:32:27Z"
+    },
+    {
+      "taskId": "django__django-11564",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** Only garbage was found in the patch input.",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T05:18:57Z"
+    },
+    {
+      "taskId": "django__django-11583",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "test",
+      "outcome": "APPLIED",
+      "gitError": null,
+      "resolved": true,
+      "tests": {
+        "f2pPassed": 2,
+        "f2pTotal": 2,
+        "p2pPassed": 50,
+        "p2pTotal": 50
+      },
+      "timestamp": "2026-08-29T04:33:19Z"
+    },
+    {
+      "taskId": "django__django-11620",
+      "run": "day9_test",
+      "condition": "Blind Retry",
+      "round": "R1",
+      "patchFormat": "diff",
+      "verification": "apply",
+      "outcome": "APPLY_FAIL",
+      "gitError": "patch: **** Only garbage was found in the patch input.",
+      "resolved": null,
+      "tests": null,
+      "timestamp": "2026-08-29T05:19:18Z"
+    }
+  ],
+  "unregistered": [
+    {
+      "run": "day11_test",
+      "taskId": "astropy__astropy-7746"
+    },
+    {
+      "run": "day11_test",
+      "taskId": "django__django-11019"
+    },
+    {
+      "run": "day11_test",
+      "taskId": "django__django-11283"
+    },
+    {
+      "run": "day11_test",
+      "taskId": "django__django-11564"
+    },
+    {
+      "run": "day11_test",
+      "taskId": "django__django-11620"
+    },
+    {
+      "run": "day4_test",
+      "taskId": "astropy__astropy-12907"
+    },
+    {
+      "run": "day4_test2",
+      "taskId": "astropy__astropy-12907"
+    }
+  ]
+}

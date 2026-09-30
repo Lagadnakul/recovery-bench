@@ -1,0 +1,192 @@
+<title>Phase 1 — Foundations</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html" class="here"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><span class="flat"><span class="n">5</span> Strategies</span></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 1 &middot; complete</p>
+    <h1>A vocabulary strict enough that the old mistakes cannot recur</h1>
+
+    <p class="standfirst">
+      The original study lost eight of twenty-four cells because a failure could
+      quietly produce nothing. This phase makes that impossible — not by being
+      careful, but by making silence fail to compile.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Outcomes defined</span><span class="v">9</span></div>
+      <div><span class="k">Pre-flight gates</span><span class="v">6</span></div>
+      <div><span class="k">Docker used</span><span class="v">None</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>Every attempt must end in one of nine outcomes</h2>
+
+    <p>
+      In the original code, an attempt whose patch was rejected printed
+      <code>Not applied</code> and moved on, writing nothing to disk. The cell had
+      been run, had failed, and left no trace — so the results table had a hole where
+      a failure should have been, and the hole was indistinguishable from a task that
+      was never attempted.
+    </p>
+
+    <p>Now every attempt terminates in a named, recorded state:</p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Outcome</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>NO_OUTPUT</code></td><td>The model returned nothing at all</td></tr>
+          <tr><td><code>NO_PATCH</code></td><td>It replied, but proposed no edit</td></tr>
+          <tr><td><code>MALFORMED</code></td><td>It proposed an edit we could not parse — with the specific reason attached</td></tr>
+          <tr><td><code>APPLY_FAIL</code></td><td>The edit parsed, but <code>git</code> refused it</td></tr>
+          <tr><td><code>APPLIED</code></td><td>The edit reached the repository cleanly</td></tr>
+          <tr><td><code>CONTAMINATED</code></td><td>The patch was suspiciously close to the known answer</td></tr>
+          <tr><td><code>PROVIDER_ERROR</code></td><td>The model service failed or refused</td></tr>
+          <tr><td><code>BUDGET_STOP</code></td><td>The token ceiling was hit</td></tr>
+          <tr><td><code>TRUNCATED</code></td><td>Our own token limit cut the answer off mid-sentence — <a href="phase-4.html">added in phase 4</a>, after we measured it happening</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <code>MALFORMED</code> carries a reason rather than standing alone — eight of
+      them, such as “the quoted text was not found” or “the hunk's declared size does
+      not match its contents.” Without that, every failure looks the same in the
+      results, and a model that misplaced one space scores identically to one that
+      produced gibberish.
+    </p>
+
+    <h2>The rule that stops a resolve rate being fabricated</h2>
+
+    <p>
+      This is the most important idea in the phase, and it is worth understanding
+      because it is what keeps the old and new work honest side by side.
+    </p>
+
+    <p>
+      Your original results were verified by <strong>running the tests</strong> in
+      Docker. The new pipeline deliberately does not use Docker at all — it verifies
+      that a patch <strong>applies</strong>, which is a weaker but far cheaper check
+      that needs no containers and no keys.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 178" role="img" aria-label="Test-verified rows can report resolved. Apply-verified rows cannot, and the resolve rate function refuses to accept them.">
+        <rect x="0" y="18" width="300" height="86" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+        <text x="18" y="42" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="500" fill="var(--accent)">verification: "test"</text>
+        <text x="18" y="63" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Tests were actually run (Docker)</text>
+        <text x="18" y="82" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">73 archived rows &mdash; and never any more</text>
+        <text x="18" y="97" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--good)">can say resolved: true / false</text>
+
+        <rect x="332" y="18" width="300" height="86" rx="6" fill="var(--format-soft)" stroke="var(--format)"/>
+        <text x="350" y="42" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="500" fill="var(--format)">verification: "apply"</text>
+        <text x="350" y="63" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink)">Only checked that git accepts it</text>
+        <text x="350" y="82" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">everything this pipeline produces</text>
+        <text x="350" y="97" font-family="IBM Plex Sans, sans-serif" font-size="12" fill="var(--format)">resolved is forced to null</text>
+
+        <rect x="0" y="126" width="632" height="38" rx="5" fill="var(--surface)" stroke="var(--rule-strong)"/>
+        <text x="16" y="150" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="var(--ink)">resolveRate(rows)</text>
+        <text x="176" y="150" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="var(--ink-soft)">accepts test-verified rows only &mdash; there is no version of it that takes the others</text>
+      </svg>
+      <figcaption>
+        Mixing the two would let a “success rate” be computed over attempts whose
+        tests never ran. Making the distinction part of the type means that mistake
+        stops the program from building, instead of surviving into a table.
+      </figcaption>
+    </figure>
+
+    <h2>Conditions live in one config file, not in thirty scripts</h2>
+
+    <p>
+      The original experiment's conditions were spread across separate Python files —
+      <code>day11b_diagnose_revise_searchreplace.py</code> and twenty-nine siblings.
+      To know what a run did, you had to read the script, and the script was edited
+      between runs.
+    </p>
+
+    <p>
+      Now there is one settings file. Every model, strategy, edit format and budget is
+      declared there, and the file is hashed. If any setting changes — even a comment —
+      the hash changes, so two runs claiming the same configuration can be proven to
+      have used it.
+    </p>
+
+    <div class="fix">
+      <span class="tag">A real bug the schema caught</span>
+      <p>
+        The token ceiling was written <code>max_tokens: 8_000_000</code>, borrowing
+        the underscore-as-thousands-separator style from Python. YAML has no such
+        syntax, so it was silently read as the <em>text</em>
+        <code>"8_000_000"</code> rather than a number — meaning the budget limit was
+        never a limit at all.
+      </p>
+      <p>
+        It had been sitting there unnoticed. The schema now rejects it outright, and a
+        test pins the behaviour so it cannot come back.
+      </p>
+    </div>
+
+    <h2>A pre-flight check that fails loudly and early</h2>
+
+    <p>
+      One command, <code>doctor</code>, runs every precondition before anything
+      expensive happens: the config parses, the dataset has its 300 rows, sampling
+      settings are pinned, API key <em>names</em> are present, and the endpoints
+      respond at a measured speed rather than an assumed one.
+    </p>
+
+    <p>
+      One gate is unusual and deserves mention. The pipeline generates unified diffs
+      with a library rather than asking the model to write them — that is the whole
+      mechanism of your retrofit. So <code>doctor</code> proves, against a real known-good
+      patch, that <code>git apply</code> accepts what the library produces. If that
+      ever stopped being true, every result would be wrong, so it is checked before
+      any other code is allowed to run.
+    </p>
+
+    <h2>What this phase measured about git</h2>
+
+    <p>
+      Building that gate meant testing what <code>git apply</code> actually tolerates.
+      The answer was more forgiving than expected, and it changed how the thesis's
+      central mechanism should be described — that finding is written up on the
+      <a href="findings.html">findings page</a> as item 2.
+    </p>
+
+    <div class="key">
+      <p class="lede">No Docker, anywhere, permanently.</p>
+      <p>
+        A fixed constraint of the project. It costs the ability to say “this task is
+        resolved” about new runs — but it buys results that anyone can reproduce on a
+        laptop in seconds. Given that the central finding is about whether patches
+        <em>apply</em>, that trade is strongly in our favour.
+      </p>
+    </div>
+
+    <div class="next-prev">
+      <span><a href="phase-0.html">&larr; Phase 0 &middot; Provenance</a></span>
+      <span><a href="phase-2.html">Phase 2 &middot; Edit layer &rarr;</a></span>
+    </div>
+  </main>
+</div>

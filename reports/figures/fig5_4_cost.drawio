@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="fig5_4_cost">
+    <mxGraphModel grid="1" gridSize="10" page="1" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n2" value="Recovery Cost Against Outcome" style="text;html=1;align=center;verticalAlign=middle;fontSize=13;fontFamily=Helvetica;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="10" width="480" height="30" as="geometry" /></mxCell>
+        <mxCell id="n3" value="Relative input volume" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="40" y="60" width="200" height="24" as="geometry" /></mxCell>
+        <mxCell id="n4" value="1x" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#bfbfbf;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="60" y="180" width="140" height="40" as="geometry" /></mxCell>
+        <mxCell id="n5" value="Blind Retry" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="228" width="140" height="40" as="geometry" /></mxCell>
+        <mxCell id="n6" value="2x" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#bfbfbf;strokeColor=#000000;" vertex="1" parent="1"><mxGeometry x="240" y="140" width="140" height="80" as="geometry" /></mxCell>
+        <mxCell id="n7" value="Reflection-only" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="240" y="228" width="140" height="40" as="geometry" /></mxCell>
+        <mxCell id="n8" value="3x" style="rounded=0;html=1;fontSize=10;fontFamily=Helvetica;fillColor=#4d4d4d;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="100" width="140" height="120" as="geometry" /></mxCell>
+        <mxCell id="n9" value="Diagnose+Revise" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#e8e8e8;strokeColor=#333333;" vertex="1" parent="1"><mxGeometry x="420" y="228" width="140" height="40" as="geometry" /></mxCell>
+        <mxCell id="n10" value="Logic-class instances resolved" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontFamily=Helvetica;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="500" height="24" as="geometry" /></mxCell>
+        <mxCell id="n11" value="0" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#808080;dashed=1;dashPattern=6 4;" vertex="1" parent="1"><mxGeometry x="60" y="320" width="140" height="46" as="geometry" /></mxCell>
+        <mxCell id="n12" value="0" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#808080;dashed=1;dashPattern=6 4;" vertex="1" parent="1"><mxGeometry x="240" y="320" width="140" height="46" as="geometry" /></mxCell>
+        <mxCell id="n13" value="0" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fontFamily=Helvetica;fillColor=#ffffff;strokeColor=#808080;dashed=1;dashPattern=6 4;" vertex="1" parent="1"><mxGeometry x="420" y="320" width="140" height="46" as="geometry" /></mxCell>
+        <mxCell id="n14" value="Identical outcome at three times the input volume, plus the infrastructure to capture, store&#xa;and truncate execution evidence. Verified recovery rate zero for all three; recovery effort&#xa;differing by a factor of three." style="text;html=1;align=left;verticalAlign=top;fontSize=9;fontFamily=Helvetica;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="40" y="396" width="560" height="60" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
