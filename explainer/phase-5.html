@@ -1,0 +1,362 @@
+<title>Phase 5 — Strategies</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><a href="phase-5.html" class="here"><span class="n">5</span> Strategies</a></li>
+      <li><span class="flat"><span class="n">6</span> Sweep</span></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 5 &middot; complete &middot; your three conditions, as code</p>
+    <h1>The recovery loop, rebuilt — and the one place it cannot be faithful</h1>
+
+    <p class="standfirst">
+      Your three recovery conditions differ by exactly one thing each. Phase 5
+      reproduces all three from your original prompts, verified character by
+      character. It also found the one boundary this project cannot cross, and
+      chose to record it rather than paper over it.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Conditions</span><span class="v">4</span></div>
+      <div><span class="k">Tests</span><span class="v">319</span></div>
+      <div><span class="k">Real cell run</span><span class="v">APPLIED</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>What the three conditions actually are</h2>
+
+    <p>
+      Reading your Python scripts side by side makes something clear that the
+      chapter states but the code makes vivid: each condition adds exactly one
+      thing to the one before it. Nothing else changes.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 250" role="img" aria-label="Blind Retry gets the bug report and the file. Reflection-only adds the previous attempt. Diagnose+Revise adds real test evidence. Each condition adds exactly one input.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="12">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">EACH CONDITION ADDS EXACTLY ONE INPUT</text>
+
+          <rect x="0" y="26" width="200" height="94" rx="6" fill="var(--surface-2)" stroke="var(--rule-strong)"/>
+          <text x="14" y="46" font-weight="600" fill="var(--ink)">Blind Retry</text>
+          <text x="14" y="66" font-size="11.5" fill="var(--ink-soft)">the bug report</text>
+          <text x="14" y="84" font-size="11.5" fill="var(--ink-soft)">the current file</text>
+          <text x="14" y="110" font-size="11" fill="var(--ink-faint)">try again, knowing nothing</text>
+
+          <rect x="216" y="26" width="200" height="94" rx="6" fill="var(--logic-soft)" stroke="var(--logic)"/>
+          <text x="230" y="46" font-weight="600" fill="var(--logic)">Reflection-only</text>
+          <text x="230" y="66" font-size="11.5" fill="var(--ink-faint)">the bug report</text>
+          <text x="230" y="84" font-size="11.5" fill="var(--ink-faint)">the current file</text>
+          <text x="230" y="102" font-size="11.5" font-weight="600" fill="var(--logic)">+ your previous try</text>
+
+          <rect x="432" y="26" width="200" height="94" rx="6" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text x="446" y="46" font-weight="600" fill="var(--accent)">Diagnose+Revise</text>
+          <text x="446" y="66" font-size="11.5" fill="var(--ink-faint)">the bug report</text>
+          <text x="446" y="84" font-size="11.5" fill="var(--ink-faint)">the current file</text>
+          <text x="446" y="102" font-size="11.5" fill="var(--ink-faint)">+ your previous try</text>
+          <text x="446" y="118" font-size="11.5" font-weight="600" fill="var(--accent)">+ what really went wrong</text>
+
+          <path d="M200 73 H214" stroke="var(--logic)" stroke-width="1.5"/>
+          <path d="M209 69 l5 4 -5 4z" fill="var(--logic)"/>
+          <path d="M416 73 H430" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M425 69 l5 4 -5 4z" fill="var(--accent)"/>
+
+          <text x="0" y="158" font-size="12.5" fill="var(--ink-soft)">That last addition — the real test output — is the manipulated variable of your whole</text>
+          <text x="0" y="176" font-size="12.5" fill="var(--ink-soft)">study. Everything the dissertation concludes rests on the difference between the last</text>
+          <text x="0" y="194" font-size="12.5" fill="var(--ink-soft)">two boxes being <tspan font-style="italic">only</tspan> that one input.</text>
+          <text x="0" y="224" font-size="12" fill="var(--format)">A test now proves it: the two prompt templates differ by exactly one placeholder,</text>
+          <text x="0" y="241" font-size="12" fill="var(--format)">`{real_evidence}`, and nothing else.</text>
+        </g>
+      </svg>
+      <figcaption>
+        “Blind” is stronger than it sounds: the model is not shown its previous
+        attempt at all. So that condition measures how much recovery is explained
+        by simply rolling the dice again — which is the right control.
+      </figcaption>
+    </figure>
+
+    <h2>The prompts were not retyped</h2>
+
+    <p>
+      The prompt <em>is</em> the experiment. If this rebuild worded things even
+      slightly differently, new results would not be comparable with your
+      Chapter 5 — and no ordinary test would notice, because everything would
+      still work on a subtly different prompt.
+    </p>
+
+    <p>
+      So the templates are extracted mechanically from your Python scripts into a
+      committed file, along with the fingerprint of each source file. Two checks
+      run:
+    </p>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Check</th><th>What it proves</th></tr></thead>
+        <tbody>
+          <tr><td>The rebuilt prompt equals the stored template with values filled in</td><td>No drift in the reimplementation</td></tr>
+          <tr><td>The stored template appears <strong>verbatim</strong> inside your original script</td><td>The stored copy is genuinely yours, not a paraphrase</td></tr>
+          <tr><td>Each source file still matches its recorded fingerprint</td><td>Nothing changed underneath since extraction</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key">
+      <p class="lede">Your own words, checked by a machine.</p>
+      <p>
+        This is the same trick as <a href="phase-3.html">phase 3</a>'s
+        byte-identical table, applied to the input rather than the output. Between
+        the two, both ends of your experiment are now pinned: the prompts that
+        went in and the numbers that came out.
+      </p>
+    </div>
+
+    <h2>Being told which file to fix</h2>
+
+    <p>
+      Your scripts pick the file to edit out of the <em>reference solution</em> —
+      the known correct patch. The model is told where to look. Your dissertation
+      states this plainly and uses the technical name for it: <em>oracle
+      localisation</em>, in a system described as “single-shot, oracle-localised,
+      single-file patch generation.”
+    </p>
+
+    <p>
+      Since it is declared method, phase 5 reproduces it exactly rather than
+      improving it. But two things were worth checking.
+    </p>
+
+    <p>
+      <strong>Does the answer leak?</strong> The model is told the file
+      <em>path</em>. It must never see the reference patch itself, or it would be
+      handed the fix. A test now takes a task whose correct answer is
+      recognisable, builds the real prompt, and asserts the current file is
+      present while the solution is absent.
+    </p>
+
+    <p>
+      <strong>Your code takes only the first file.</strong> If a bug needed two
+      files changed, the second would be dropped silently. I measured every task
+      in the benchmark:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 128" role="img" aria-label="All 300 SWE-bench Lite instances have single-file gold patches; zero are multi-file.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="12.5">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">FILES TOUCHED BY THE REFERENCE SOLUTION, ALL 300 TASKS</text>
+          <rect x="0" y="24" width="600" height="30" rx="5" fill="var(--accent)"/>
+          <text x="16" y="44" font-weight="600" fill="#ffffff">exactly one file — 300 of 300 (100%)</text>
+          <text x="0" y="78" fill="var(--ink-soft)">Zero tasks need more than one file. So taking the first discards nothing at all —</text>
+          <text x="0" y="96" fill="var(--ink-soft)">the single-file limit belongs to the benchmark, not to your design.</text>
+          <text x="0" y="120" font-size="12" fill="var(--format)">The code now refuses a multi-file task loudly instead of quietly dropping half of it.</text>
+        </g>
+      </svg>
+      <figcaption>
+        A pleasant result: a shortcut in the original turns out to cost nothing,
+        and now there is a measurement saying so rather than an assumption.
+      </figcaption>
+    </figure>
+
+    <h2>The boundary this project cannot cross</h2>
+
+    <p>
+      Here is the honest difficulty, and it is worth understanding properly
+      because someone may ask you about it.
+    </p>
+
+    <p>
+      Diagnose+Revise is <em>defined</em> by giving the model the real result of
+      running its patch against the real test suite. The prompt says so to the
+      model in as many words: <em>“the REAL, ACTUAL result of running your
+      previous patch against the real test suite (ground truth, not a
+      guess)”</em>.
+    </p>
+
+    <p>
+      <strong>This pipeline cannot run tests.</strong> It deliberately uses no
+      Docker — that is the decision that makes everything reproducible on a
+      laptop in seconds. But it means that for any <em>new</em> task, the
+      strongest evidence available is <code>git</code> refusing the patch. Real,
+      but not the same thing.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 214" role="img" aria-label="Three options: fabricate test output (never), quietly substitute the apply error (unfalsifiable), or record the provenance (chosen).">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="12">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">THREE WAYS TO HANDLE IT</text>
+
+          <rect x="0" y="24" width="632" height="46" rx="5" fill="var(--format-soft)" stroke="var(--format)"/>
+          <text x="16" y="44" font-weight="600" fill="var(--format)">1 · Invent plausible test output</text>
+          <text x="16" y="62" font-size="11.5" fill="var(--ink-soft)">Fabrication. Not considered.</text>
+
+          <rect x="0" y="80" width="632" height="60" rx="5" fill="var(--format-soft)" stroke="var(--format)"/>
+          <text x="16" y="100" font-weight="600" fill="var(--format)">2 · Quietly use the apply error, still call it Diagnose+Revise</text>
+          <text x="16" y="118" font-size="11.5" fill="var(--ink-soft)">The tempting one, and the worst: the condition would mean two different things</text>
+          <text x="16" y="134" font-size="11.5" fill="var(--ink-soft)">depending on the task, and no reader could tell which. Unfalsifiable.</text>
+
+          <rect x="0" y="150" width="632" height="60" rx="5" fill="var(--accent-soft)" stroke="var(--accent)"/>
+          <text x="16" y="170" font-weight="600" fill="var(--accent)">3 · Record where the evidence came from, on every single cell ✓</text>
+          <text x="16" y="188" font-size="11.5" fill="var(--ink-soft)">Each result says whether it got real test output or only an apply error — and</text>
+          <text x="16" y="204" font-size="11.5" fill="var(--ink-soft)">whether it can be compared with your Chapter 5 at all.</text>
+        </g>
+      </svg>
+      <figcaption>
+        The same discipline as <a href="phase-1.html">phase 1</a>'s rule that a
+        patch which merely applies can never be reported as “resolved”. When you
+        cannot measure something, say so in the data rather than in a footnote.
+      </figcaption>
+    </figure>
+
+    <p>
+      Two consequences follow, both deliberate. An apply failure found in your
+      archive is labelled an <em>apply error</em>, not test output — being in the
+      archive does not change what it is. And a cell with <strong>no</strong>
+      evidence is refused outright and the refusal recorded, rather than run as
+      Reflection-only under a Diagnose+Revise label.
+    </p>
+
+    <h2>One real cell, start to finish</h2>
+
+    <p>
+      The proof that this works is not a passing test; it is a real task, a real
+      model and a real verdict from <code>git</code>. Task
+      <code>django__django-11283</code>, the migration bug, on
+      <code>muse_30b</code>:
+    </p>
+
+    <pre><code>template    day12_step1_blindretry_searchreplace.py  sha d2f0d9298c30
+prompt      4,015 characters
+response    3,361 characters
+
+OUTCOME
+  kind               APPLIED
+  files changed      django/contrib/auth/migrations/0011_update_proxy_permissions.py
+  verification       apply  (resolved is null by type)
+  condition honoured true
+  comparable to ch5  true
+
+COST
+  prompt 899  completion 1352  135,656ms</code></pre>
+
+    <p>
+      The model proposed excluding permissions that already exist for the target
+      content type before updating — and <code>git</code> accepted the patch
+      cleanly.
+    </p>
+
+    <div class="key">
+      <p class="lede">What that does <em>not</em> say.</p>
+      <p>
+        It does not say the bug is fixed. Nobody ran the tests, because nothing
+        here can. The row says <code>verification: apply</code> and its
+        <code>resolved</code> field is empty <em>by type</em> — the safeguard from
+        phase 1, doing its job on the very first live result. A patch that applies
+        is a real, checkable fact; “this resolves the issue” is a different claim
+        and this pipeline is not entitled to make it.
+      </p>
+    </div>
+
+    <h2>Every path ends in a record</h2>
+
+    <p>
+      One function runs every condition, so any difference in results comes from
+      the prompt and nothing else. Your original had a separate script per
+      condition, each edited between runs — which means a difference in handling
+      could never be ruled out as the cause of a difference in outcome.
+    </p>
+
+    <p>
+      That function has one absolute rule: <strong>it always returns a
+      result.</strong> There is no path — refusal, budget stop, provider failure,
+      unreadable response, rejected patch — on which a cell can quietly
+      disappear. This is the defect the whole project exists to prevent, and the
+      one <a href="phase-3.html">phase 3</a> found 22 real instances of in your
+      original data. Ten tests, one per path, hold it in place.
+    </p>
+
+    <h2>Deliberately broken again</h2>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Sabotage introduced</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Mark an apply error as comparable with Chapter 5</td><td><strong style="color:var(--format)">2 tests failed</strong></td></tr>
+          <tr><td>Let Diagnose+Revise run with no evidence at all</td><td><strong style="color:var(--format)">2 tests failed</strong></td></tr>
+          <tr><td>Silently take the first file instead of checking there is only one</td><td><strong style="color:var(--format)">1 test failed</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      All three reverted, all 319 pass. Unlike phase 4, every sabotage was caught
+      first time — the lesson from that phase's escaped mutation was applied while
+      writing these tests rather than after.
+    </p>
+
+    <h2>What was left undone, and why</h2>
+
+    <p>
+      Your configuration asks for a cleverer context setting: send only the
+      relevant function instead of the whole file, which would cut a 3,300-line
+      file from 31,000 tokens to about 3,000 and is what makes repeat runs
+      affordable.
+    </p>
+
+    <p>
+      It is <strong>not</strong> implemented yet, for a reason worth stating. To
+      send only the relevant function, something has to decide which function —
+      and the reliable source for that is the reference solution's line numbers.
+      That would be giving the system <em>more</em> of the answer than the file
+      path alone. Oracle localisation is already declared method; oracle
+      <em>symbol</em> selection is a further step that changes what the system is,
+      and it deserves a deliberate decision and an explicit disclosure rather than
+      arriving as a quiet default.
+    </p>
+
+    <p>
+      Also permanent: your Round 2 cannot be replayed cell-for-cell. It fed the
+      model the full round-1 response, and those raw text files were deleted long
+      ago. The patches survive; the prose does not. New multi-round runs are
+      unaffected, because this pipeline keeps each round's full response.
+    </p>
+
+    <h2>Where this leaves the project</h2>
+
+    <p>
+      Six of nine phases done. The pipeline can now take a real task, build your
+      exact prompt, call a real model under an enforced budget, turn the reply
+      into a patch, and get a real verdict from <code>git</code> — recording every
+      step, including the parts it is not entitled to claim.
+    </p>
+
+    <p>
+      Next is <strong>phase 6</strong>: the sweep. Phase 5 proved one cell works;
+      phase 6 is the claim that when hundreds run, none of them can go missing.
+      Two numbers from the live cell size it — 2,251 tokens and 135 seconds each,
+      so a 120-cell arm is about four and a half hours and well inside the budget
+      ceiling.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="phase-4.html">&larr; Phase 4 &middot; Providers</a></span>
+      <span><a href="findings.html">What changed since submission &rarr;</a></span>
+    </div>
+  </main>
+</div>
