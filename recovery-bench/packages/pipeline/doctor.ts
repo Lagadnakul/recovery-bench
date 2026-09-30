@@ -382,11 +382,12 @@ async function probeModel(
         latencyMs: Math.round(r.totalMs),
       };
       try {
-        const reservation = ledger.reserve(m.provider, r.completionTokens);
+        const reservation = ledger.reserve(m.provider, r.completionTokens, r.keyName);
         await ledger.commit(
           reservation,
           {
             provider: m.provider,
+            keyName: r.keyName,
             model: m.model,
             cell: `doctor:probe:${modelId}`,
             promptTokens: 0,

@@ -26,12 +26,25 @@ const RunSchema = z
     seed: z.number().int().default(20260926),
     resume: z.boolean().default(true),
     dry_run: z.boolean().default(false),
+    /**
+     * Concurrent in-flight cells per provider.
+     *
+     * Not a performance knob. NVIDIA answers HTTP 200 with an *empty body*
+     * past its `16/16` worker limit rather than a 429 (D20), which a sweep
+     * would otherwise record as the model producing nothing. The cap keeps the
+     * sweep inside what the endpoint will actually serve.
+     */
+    concurrency: z.record(z.string(), z.number().int().positive()).default({}),
+    /** Fallback for a provider with no explicit entry. */
+    default_concurrency: z.number().int().positive().default(2),
   })
   .transform((r) => ({
     name: r.name,
     seed: r.seed,
     resume: r.resume,
     dryRun: r.dry_run,
+    concurrency: r.concurrency,
+    defaultConcurrency: r.default_concurrency,
   }));
 
 // -------------------------------------------------------------- providers
@@ -178,8 +191,23 @@ const BudgetProviderSchema = z
   .object({
     max_tokens: z.number().int().positive(),
     max_calls: z.number().int().positive(),
+    /**
+     * True when each key in `api_key_env` draws on its own independent
+     * allowance rather than a shared one (D28).
+     *
+     * This is a factual claim about how the keys were created — three keys on
+     * one account share a pool; three keys on three accounts do not — and the
+     * ceiling means something different in each case. It is declared here so
+     * the claim is visible and falsifiable, rather than being smuggled in by
+     * multiplying `max_tokens`.
+     */
+    per_key: z.boolean().default(false),
   })
-  .transform((b) => ({ maxTokens: b.max_tokens, maxCalls: b.max_calls }));
+  .transform((b) => ({
+    maxTokens: b.max_tokens,
+    maxCalls: b.max_calls,
+    perKey: b.per_key,
+  }));
 
 const BudgetSchema = z
   .object({

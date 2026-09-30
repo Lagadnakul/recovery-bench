@@ -109,7 +109,7 @@ async function harness(
       ...config.budget,
       providers: {
         ...config.budget.providers,
-        nvidia: { maxTokens: ceiling, maxCalls: 100 },
+        nvidia: { maxTokens: ceiling, maxCalls: 100, perKey: false },
       },
     },
   };

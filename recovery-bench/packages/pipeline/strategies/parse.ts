@@ -23,7 +23,21 @@
  * word `EXPLANATION:` in a docstring.
  */
 
-export type Section = "REFLECTION" | "DIAGNOSIS" | "EXPLANATION" | "EDITS";
+export type Section =
+  | "REFLECTION"
+  | "DIAGNOSIS"
+  | "EXPLANATION"
+  | "EDITS"
+  | "PATCH";
+
+/**
+ * The header that ends the prose and begins the edit body.
+ *
+ * `EDITS:` in the retrofitted SEARCH/REPLACE prompts, `PATCH:` in the original
+ * unified-diff baseline prompt. Both are last in their template, so whichever
+ * appears first is the boundary.
+ */
+const EDIT_SECTIONS: readonly Section[] = ["EDITS", "PATCH"];
 
 const PROSE_SECTIONS: readonly Section[] = ["REFLECTION", "DIAGNOSIS", "EXPLANATION"];
 
@@ -35,7 +49,7 @@ export interface ParsedResponse {
   edits: string | null;
   /** Sections found, in the order they appeared. */
   found: Section[];
-  /** True when no `EDITS:` header exists; the blocks may still be present. */
+  /** True when neither `EDITS:` nor `PATCH:` appears; the body may still be there. */
   missingEditsHeader: boolean;
 }
 
@@ -56,14 +70,22 @@ function headerIndex(text: string, section: Section): number {
 export function parseResponse(raw: string): ParsedResponse {
   const text = raw.replace(/\r\n/g, "\n");
 
-  // `EDITS:` terminates the prose. Everything past it is edit body and is
-  // never scanned for further headers.
-  const editsAt = headerIndex(text, "EDITS");
+  // The edit header terminates the prose. Everything past it is edit body and
+  // is never scanned for further headers.
+  let editsAt = -1;
+  let editHeader: Section | null = null;
+  for (const h of EDIT_SECTIONS) {
+    const at = headerIndex(text, h);
+    if (at !== -1 && (editsAt === -1 || at < editsAt)) {
+      editsAt = at;
+      editHeader = h;
+    }
+  }
   const proseRegion = editsAt === -1 ? text : text.slice(0, editsAt);
   const editBody =
-    editsAt === -1
+    editsAt === -1 || editHeader === null
       ? null
-      : text.slice(editsAt).replace(/^EDITS:[ \t]*\n?/, "");
+      : text.slice(editsAt).replace(new RegExp(`^${editHeader}:[ \\t]*\\n?`), "");
 
   const positions: { section: Section; at: number }[] = [];
   for (const s of PROSE_SECTIONS) {
@@ -104,7 +126,7 @@ export function parseResponse(raw: string): ParsedResponse {
         break;
     }
   }
-  if (editsAt !== -1) out.found.push("EDITS");
+  if (editHeader !== null) out.found.push(editHeader);
 
   return out;
 }
@@ -131,11 +153,16 @@ export function editText(parsed: ParsedResponse, raw: string): string {
  */
 export function honouredCondition(
   parsed: ParsedResponse,
-  condition: "l1_blind_retry" | "l2_reflection" | "l2_5_diagnose_revise",
+  condition:
+    | "l0_baseline"
+    | "l1_blind_retry"
+    | "l2_reflection"
+    | "l2_5_diagnose_revise",
 ): boolean {
   switch (condition) {
+    case "l0_baseline":
     case "l1_blind_retry":
-      // Blind Retry asks for no reasoning section, only EXPLANATION.
+      // Neither asks for a reasoning section, only EXPLANATION.
       return true;
     case "l2_reflection":
       return parsed.reflection !== null && parsed.reflection.length > 0;

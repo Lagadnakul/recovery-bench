@@ -299,7 +299,10 @@ async function cfgWithCeiling(maxTokens: number, maxCalls = 100) {
     ...cfg,
     budget: {
       ...cfg.budget,
-      providers: { ...cfg.budget.providers, nvidia: { maxTokens, maxCalls } },
+      providers: {
+        ...cfg.budget.providers,
+        nvidia: { maxTokens, maxCalls, perKey: false },
+      },
     },
   };
 }

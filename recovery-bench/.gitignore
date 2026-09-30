@@ -14,6 +14,9 @@ data/runs/
 # and every run would conflict. The derived outputs below ARE committed,
 # because they cannot be rebuilt without the gitignored archive.
 data/ledger.jsonl
+# Sweep results are per-run experimental output, not a derived artifact. The
+# committed record of the ORIGINAL study is replay_rows.json; these are new runs.
+data/sweep_rows.jsonl
 
 # Archived provenance payload. Every file in it already lives upstream at
 # Lagadnakul/Dissertation @ c8872d070fb0b098394796dfbc68bcf67c3bd957, so the copy

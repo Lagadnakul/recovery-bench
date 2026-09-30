@@ -920,3 +920,175 @@ used. Symbol mode stays declared and unimplemented until the localisation
 question is settled deliberately. A prompt built under a different context mode
 is a different prompt, so the mode belongs on the row alongside evidence
 provenance whenever it is added.
+
+---
+
+## D25 — The committed grid exceeded its own budget by 178%, unnoticed
+
+`budget.estimate_before_run: true` has been in the config since step 1 with
+nothing implementing it. Step 6 implemented it, and the first run of the
+projection found the enabled grid needed **14.56M tokens against an 8M
+ceiling**:
+
+```
+a5_format_at_scale     720 cells  8.32M
+a4_reasoning           240 cells  2.97M
+a2_workhorse           120 cells  1.49M
+a3_capability          120 cells  1.49M
+a1_replication          24 cells  0.30M
+
+nvidia   14.27M / 8.00M tokens (178%)   <<< EXCEEDS
+```
+
+`a5_format_at_scale` alone exceeds the whole ceiling, because it runs 60
+stratified tasks through whole-file context, in two formats, three times each —
+and those tasks include `matplotlib/figure.py` at 3,444 lines and
+`astropy/wcs/wcs.py` at 3,300.
+
+This is the `max_tokens: 8_000_000` defect in a new form (D3). There, a declared
+ceiling was never compared against anything because YAML read it as a string.
+Here, a declared ceiling was never compared against the declared *grid*. In both
+cases the configuration looked complete and nothing checked it.
+
+**The projection refuses to start rather than truncating**, and names the arms
+responsible so the choice is the operator's. The estimate is built from real
+cached file sizes, never an average: a grid affordable on average is not
+affordable.
+
+**The obvious wrong fix is to raise the ceiling.** It is one line, and it would
+make the warning disappear without changing anything real. The ceiling is only
+meaningful as a claim about the actual allowance — see D28 for the one case
+where raising it was legitimate, and why it had to be declared rather than
+multiplied.
+
+---
+
+## D26 — Reversed: the baseline must be runnable, or two of three conditions cannot run
+
+Step 5 made `l0_baseline` replay-only, reasoning that Chapter 5's baseline
+numbers are already definitive — 12/20 resolved, Docker-verified, regenerated
+byte-identically by step 3 — so re-running it could only produce a weaker
+measurement.
+
+That reasoning was correct about *replication* and wrong about everything else.
+The first live sweep proved it: of 24 cells in `a1_replication`, **16 refused**.
+
+```
+  8  l2_reflection needs a previous attempt to reflect on, and no earlier round produced a response
+  8  l2_5_diagnose_revise needs a previous attempt to diagnose, and no earlier round produced a response
+```
+
+The recovery conditions are *defined* by looking back at a failure. In the
+original that prior was the baseline: `day8_test` is round **R0**, and every
+condition's R1 reflected on it. A grid with no round 0 therefore makes
+Reflection-only and Diagnose+Revise structurally unreachable — two thirds of the
+recovery design, silently unrunnable.
+
+So the decision is reversed. `l0_baseline` now runs, with prompts taken from the
+study itself and keyed by edit format:
+
+| format | template | shape |
+| --- | --- | --- |
+| `unified_diff` | `day7_step1_generate_full_pilot.py` | `PATCH:` section, asks for a diff |
+| `search_replace` | `day12_step1_blindretry_searchreplace.py` | `EDITS:` section, SEARCH/REPLACE |
+
+The second is the same file as `l1_blind_retry`, deliberately: that prompt shows
+the problem and the file and *no history*, so it already is a first-attempt
+prompt.
+
+**What stays replay-only is the claim, not the code.** A baseline run here
+cannot say "resolved" — no Docker (D6) — so it is a new measurement, not a
+reproduction of 12/20. `bun run replay` remains the source of the submitted
+numbers.
+
+Two structural consequences:
+
+**One baseline per group, shared by all three conditions.** The group is
+(task, model, format, thinking, repeat) — deliberately *not* including the
+strategy. A per-condition baseline would give each condition a different failure
+to recover from, and the comparison between them would stop being about the
+condition. This mirrors the original, where one `day8_test` attempt fed all
+three.
+
+**The sweep runs in two phases.** Baselines first, then the conditions that read
+them. Running them interleaved would either serialise every condition behind one
+lineage or hand round 1 an empty history.
+
+Grid size goes from 1,224 cells to **1,308** — 84 baselines, one per group.
+
+---
+
+## D27 — Reflecting on nothing is a refusal, not a prompt
+
+A cell whose condition was refused, whose budget was spent, or whose provider
+failed still records an attempt. That is the no-holes guarantee and it is not
+negotiable. But such an attempt has an **empty response**, and the conditions
+that look backwards read the *response*.
+
+Left alone, that produced a prompt announcing
+
+> *Here was your PREVIOUS ATTEMPT, which did not successfully fix the bug:*
+> *---*
+> *---*
+
+above nothing at all. The prompt would be asserting something false to the
+model, which is the same defect as an empty evidence block (D22).
+
+So `lastRealAttempt` scans backwards for the most recent round that actually
+said something, and the condition refuses when there is none. Scanning rather
+than taking the last also means a transient provider failure in round 2 does not
+destroy round 3's ability to reflect on round 1.
+
+Found while preparing the first live sweep, not by a test — which is why it now
+has four.
+
+---
+
+## D28 — Three keys are three accounts, so the ceiling is per key
+
+The NVIDIA ceiling is 8M tokens. The three keys in `api_key_env` were each
+created from a **separate** build.nvidia.com account, so each has its own
+allowance and effective capacity is 3 × 8M.
+
+That fact cannot be measured from outside. Probing all three keys returns no
+quota headers at all:
+
+```
+=== KEY_1   HTTP/2 200
+=== KEY_2   HTTP/2 200
+=== KEY_3   HTTP/2 200
+```
+
+No `x-ratelimit-remaining`, no credit balance. Three keys on *one* account would
+share a pool and look identical from here. So the arrangement is **declared in
+config** rather than inferred:
+
+```yaml
+budget:
+  nvidia:
+    per_key: true
+    max_tokens: 8000000
+```
+
+Declaring it is the point. Multiplying `max_tokens` to 24M would have produced
+the same arithmetic while hiding the claim; `per_key: true` states it, so a
+reader can see what is being asserted and contradict it. And capacity is
+computed from the keys that are actually **set**, not from the config's optimism
+— two keys present means twice the ceiling, not three times.
+
+Two changes were needed to make the extra capacity real.
+
+**The ledger accounts per key.** It tracked spend per *provider*, and
+`LedgerRecord` did not even record which key paid — key material was kept out,
+but that was over-applied: key *names* are not secrets, `configs/base.yaml`
+lists them openly and `doctor` prints them. Without the name, three separate
+allowances were tracked as one pot and the sweep would still have stopped at 8M.
+
+**The key pool distributes deliberately.** `KeyPool` rotated only on a 429, so
+it was sticky: all 14.27M would have piled onto `NVIDIA_KEY_1` and exhausted one
+account while the other two sat idle. `next()` round-robins; `current()` stays
+sticky, which is still correct for one call and its retries. A key whose own
+ceiling is reached is excluded from the pool but still counted as configured, so
+`doctor` can report "1 of 3 exhausted" rather than silently shrinking.
+
+With that, the full 1,308-cell grid fits: **14.27M against 24M, 59%**.

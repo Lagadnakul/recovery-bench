@@ -7,6 +7,15 @@ run:
   seed: 20260926          # D0: the original never set one
   resume: true
   dry_run: false
+  # Concurrent cells per provider. NVIDIA returns HTTP 200 with an EMPTY BODY
+  # past its 16/16 worker limit rather than a 429 (D20), which a sweep would
+  # record as the model saying nothing. Three keys spread the load, so 4 in
+  # flight is comfortable; gemini's quota is 30 calls total, so serialise it.
+  default_concurrency: 2
+  concurrency:
+    nvidia: 4
+    gemini: 1
+    qwencloud: 2
 
 # ---------------------------------------------------------------- providers
 # api_key_env holds VARIABLE NAMES ONLY. Values stay in .env.local.
@@ -131,6 +140,11 @@ budget:
   estimate_before_run: true
   stop_on_exhaustion: skip_arm
   nvidia:
+    # PER KEY, not per provider. The three keys in api_key_env were each created
+    # from a separate build.nvidia.com account, so each has its own allowance
+    # (D28). Effective capacity is 3 x 8M; the sweep distributes load round-robin
+    # and excludes a key once its own ceiling is reached.
+    per_key: true
     max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
     max_calls: 1500
   qwencloud:

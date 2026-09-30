@@ -468,7 +468,7 @@ text, and editing their content would make them no longer match what produced
 
 The document is done. Work moved to `recovery-bench/`, which builds the §8
 future-work items as a real program. Full rationale in
-`recovery-bench/docs/DECISIONS.md` (D0–D24); the build order is
+`recovery-bench/docs/DECISIONS.md` (D0–D28); the build order is
 `ARCHITECTURE.md` §6.
 
 | Step | State |
@@ -479,8 +479,9 @@ future-work items as a real program. Full rationale in
 | 3 · `analysis/` + `replay` | ✅ Chapter 5 regenerates byte-identically, offline |
 | 4 · providers + budget ledger | ✅ 248 tests; ceiling enforced before dispatch, all 5 keys live |
 | 5 · strategies + task layer | ✅ 319 tests; prompts byte-verified against the originals, one real cell APPLIED |
-| 6 · sweep | next — the full grid, no holes |
-| 7–8 · dashboard · extensions | planned |
+| 6 · sweep | ✅ 374 tests; 1,308 cells enumerated, projected, run and verified — no holes |
+| 7 · dashboard | next — the visual layer |
+| 8 · extensions | planned |
 
 Three constraints, decided and fixed: **TypeScript on Bun** (D10), **no Docker
 anywhere** (D6), **conditions live in config, not scripts** (D9).
@@ -570,7 +571,32 @@ and because a viva question may reach them. **None of them change `Self.docx`.**
     exactly one file**, so nothing is lost to `[0]`. The single-file constraint
     belongs to the benchmark, not to the study.
 
-11. **Two corrections to this plan's own evidence.** D0 claimed the code was never
+11. **The committed grid exceeded its own budget by 178%, and nothing had
+    checked** (D25). `budget.estimate_before_run: true` sat in the config from
+    step 1 with nothing implementing it. Implemented, it found the enabled grid
+    needs **14.56M tokens against an 8M ceiling** — `a5_format_at_scale` alone
+    exceeds the whole allowance, because it runs 60 stratified tasks through
+    whole-file context in two formats three times each. Same defect as the
+    `8_000_000` string: a declared ceiling never compared against the declared
+    grid. The sweep now refuses to start and names the arms responsible.
+
+12. **Two of the three recovery conditions were structurally unreachable**
+    (D26). The first live sweep refused **16 of 24 cells**: Reflection-only and
+    Diagnose+Revise need a previous attempt, and the grid had no round 0. In the
+    original that prior was the baseline — `day8_test` is R0 and every
+    condition's R1 reflected on it. Step 5's decision to make the baseline
+    replay-only was therefore reversed: it now runs, with the study's own
+    first-attempt prompts keyed by edit format, one baseline shared per group.
+    The grid grew from 1,224 cells to 1,308.
+
+13. **Diagnose+Revise is unrunnable whenever the prior attempt applied cleanly.**
+    A sharper statement of D22's limit, found by running it: the condition needs
+    real evidence of a failure, an apply error only exists when the patch was
+    rejected, and test output needs Docker. So a cleanly-applying baseline leaves
+    nothing to diagnose and the cell is refused and recorded rather than
+    downgraded. This is a permanent consequence of D6, not a gap.
+
+14. **Two corrections to this plan's own evidence.** D0 claimed the code was never
    version-controlled — wrong, the check ran against the enclosing home-directory
    repo; the code is at `Lagadnakul/Dissertation`. And SWE-bench Lite spans **12**
    repositories, not 11 — flask was missing, with 3 instances, which is exactly
@@ -580,13 +606,11 @@ and because a viva question may reach them. **None of them change `Self.docx`.**
 
 ## 12. Next action
 
-Step 6 — `matrix/` + the sweep: enumerate every cell of the grid up front, run
-it to a recorded outcome, resume without double-spending, and write the rows
-`analysis/` already knows how to read. Step 5 proved one cell end to end; step 6
-is the claim that **no cell can go missing**, which is the defect the whole
-project was built against (D2, D15).
+Step 7 — `dashboard/`: the visual layer over the rows the sweep now produces.
+The data exists and is complete; what is missing is a way to read it that is not
+`jq`.
 
-Two measurements from step 5 that size the work: one `muse_30b` cell cost
-**2,251 tokens and 135 seconds**, so arm a2's 120 cells are roughly 4.5 hours
-wall-clock and 270k tokens — comfortably inside the 8M ceiling, but concurrency
-has to respect the capacity limit found in D20.
+Two numbers from step 6 that shape it: the grid is **1,308 cells** and a
+completed sweep writes one row per cell with its outcome, evidence provenance,
+comparability flag and the model's full response — so the dashboard's job is
+filtering and comparison, not computation.

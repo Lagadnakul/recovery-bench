@@ -42,19 +42,32 @@ interface ChatResponse {
 /** A key pool. Holds names and reads values lazily; never stores a value. */
 export class KeyPool {
   private index = 0;
+  /** Key names this pool must stop handing out: budget-exhausted or dead. */
+  private excluded = new Set<string>();
 
   constructor(readonly names: readonly string[]) {}
 
-  /** Names whose env var is actually set. */
+  /** Names whose env var is actually set and which are not excluded. */
   available(): string[] {
+    return this.names.filter(
+      (n) => (process.env[n] ?? "").length > 0 && !this.excluded.has(n),
+    );
+  }
+
+  /** Every name with a value set, exhausted or not. */
+  configured(): string[] {
     return this.names.filter((n) => (process.env[n] ?? "").length > 0);
   }
 
   current(): string {
     const set = this.available();
     if (set.length === 0) {
+      const all = this.configured();
       throw new ProviderError(
-        `no key set; tried ${this.names.join(", ")}`,
+        all.length === 0
+          ? `no key set; tried ${this.names.join(", ")}`
+          : `all ${all.length} key(s) are excluded (budget-exhausted or failing): ` +
+            all.join(", "),
         null,
         0,
         false,
@@ -63,9 +76,42 @@ export class KeyPool {
     return set[this.index % set.length]!;
   }
 
+  /**
+   * Takes the next key, round-robin.
+   *
+   * Distinct from `current()`, and the distinction matters. `current()` is
+   * sticky: it returns the same key until something rotates it, which is right
+   * for a single call and its retries. `next()` advances first, which is what
+   * a sweep wants — with three keys on three separate accounts, sticky
+   * selection would spend the first account's whole quota while the other two
+   * sat idle (D28).
+   */
+  next(): string {
+    const set = this.available();
+    if (set.length === 0) return this.current(); // throws with the right message
+    const name = set[this.index % set.length]!;
+    this.index++;
+    return name;
+  }
+
   /** Called on 429 — this key is rate-limited, try the next one. */
   rotate(): void {
     this.index++;
+  }
+
+  /**
+   * Stops this pool handing out a key.
+   *
+   * Used when a per-key budget is spent. The key is not forgotten: `configured`
+   * still counts it, so `doctor` can report "2 of 3 keys exhausted" rather than
+   * silently shrinking the pool.
+   */
+  exclude(name: string): void {
+    this.excluded.add(name);
+  }
+
+  isExcluded(name: string): boolean {
+    return this.excluded.has(name);
   }
 
   get size(): number {
@@ -97,12 +143,31 @@ export class OpenAICompatProvider implements ProviderClient {
     return this.pool.names;
   }
 
-  async call(req: ProviderRequest): Promise<ProviderResult> {
+  nextKey(): string {
+    return this.pool.next();
+  }
+
+  configuredKeys(): string[] {
+    return this.pool.configured();
+  }
+
+  excludeKey(name: string): void {
+    this.pool.exclude(name);
+  }
+
+  /**
+   * @param pinned the key to use, when the caller has already reserved budget
+   *   against it. Retries stay on the pinned key unless it is rate-limited, in
+   *   which case rotating is the only way forward and the ledger records which
+   *   key actually paid.
+   */
+  async call(req: ProviderRequest, pinned?: string): Promise<ProviderResult> {
     let retries = 0;
     let lastError: ProviderError | null = null;
+    let rotated = false;
 
     for (;;) {
-      const keyName = this.pool.current();
+      const keyName = pinned && !rotated ? pinned : this.pool.current();
       const started = Bun.nanoseconds();
 
       try {
@@ -135,7 +200,10 @@ export class OpenAICompatProvider implements ProviderClient {
           // scrubbed before it ever reaches a log or the ledger.
           const body = scrub((await res.text()).slice(0, 300));
           const retryable = res.status === 429 || res.status >= 500;
-          if (res.status === 429) this.pool.rotate();
+          if (res.status === 429) {
+            this.pool.rotate();
+            rotated = true;
+          }
           lastError = new ProviderError(
             `HTTP ${res.status} — ${body}`,
             res.status,

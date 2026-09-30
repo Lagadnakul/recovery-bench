@@ -10,6 +10,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { KeyPool } from "../packages/pipeline/providers/openaiCompat.ts";
 import {
   BudgetExceeded,
   BudgetLedger,
@@ -19,8 +20,13 @@ import {
 import type { Usage } from "../packages/core/types.ts";
 
 const CEILINGS = {
-  nvidia: { maxTokens: 1_000, maxCalls: 5 },
-  qwencloud: { maxTokens: 500, maxCalls: 2 },
+  nvidia: { maxTokens: 1_000, maxCalls: 5, perKey: false },
+  qwencloud: { maxTokens: 500, maxCalls: 2, perKey: false },
+};
+
+/** Same ceilings, but each key has its own allowance (D28). */
+const PER_KEY = {
+  nvidia: { maxTokens: 1_000, maxCalls: 5, perKey: true },
 };
 
 const usage = (p: number, c: number): Usage => ({
@@ -30,8 +36,12 @@ const usage = (p: number, c: number): Usage => ({
   latencyMs: 1,
 });
 
-const rec = (provider: string): Omit<LedgerRecord, "ts" | "totalTokens"> => ({
+const rec = (
+  provider: string,
+  keyName: string | null = null,
+): Omit<LedgerRecord, "ts" | "totalTokens"> => ({
   provider,
+  keyName,
   model: "test/model",
   cell: "t|s|m|f|nothink|r0|n0",
   promptTokens: 0,
@@ -213,6 +223,7 @@ describe("budget — persistence and resume", () => {
         "latencyMs",
         "model",
         "outcome",
+        "keyName",
         "promptTokens",
         "provider",
         "reasoningTokens",
@@ -238,5 +249,120 @@ describe("worstCaseTokens", () => {
 
   test("is dominated by max_tokens, which is the part we control", () => {
     expect(worstCaseTokens(0, 8_192)).toBe(8_192);
+  });
+});
+
+describe("per-key budgets — three accounts, not one pool (D28)", () => {
+  test("each key gets its own allowance", async () => {
+    const l = BudgetLedger.empty(PER_KEY);
+    // Spend KEY_1 to its 1000-token ceiling.
+    const r = l.reserve("nvidia", 900, "NVIDIA_KEY_1");
+    await l.commit(r, rec("nvidia", "NVIDIA_KEY_1"), usage(500, 500));
+
+    // KEY_1 is spent...
+    expect(l.check("nvidia", 600, "NVIDIA_KEY_1").allowed).toBe(false);
+    // ...but KEY_2 is untouched. With a shared pool this would be refused.
+    expect(l.check("nvidia", 900, "NVIDIA_KEY_2").allowed).toBe(true);
+  });
+
+  test("spend is attributed to the key that paid, not to the provider", async () => {
+    const l = BudgetLedger.empty(PER_KEY);
+    const r = l.reserve("nvidia", 100, "NVIDIA_KEY_2");
+    await l.commit(r, rec("nvidia", "NVIDIA_KEY_2"), usage(30, 70));
+
+    expect(l.spendOf("nvidia", "NVIDIA_KEY_2").tokens).toBe(100);
+    expect(l.spendOf("nvidia", "NVIDIA_KEY_1").tokens).toBe(0);
+    // The provider total sums across keys.
+    expect(l.spendOfProvider("nvidia").tokens).toBe(100);
+  });
+
+  test("capacity multiplies by the keys actually SET, not by config optimism", () => {
+    const l = BudgetLedger.empty(PER_KEY);
+    // Three accounts of 1000 = 3000 available.
+    expect(l.capacityOf("nvidia", 3).tokens).toBe(3_000);
+    // Two keys set means twice the ceiling, not three times — the multiplier
+    // comes from reality, not from the config's hope.
+    expect(l.capacityOf("nvidia", 2).tokens).toBe(2_000);
+    expect(l.capacityOf("nvidia", 1).tokens).toBe(1_000);
+  });
+
+  test("a shared-budget provider ignores the key entirely", async () => {
+    const l = BudgetLedger.empty(CEILINGS);
+    const r = l.reserve("nvidia", 900, "NVIDIA_KEY_1");
+    await l.commit(r, rec("nvidia", "NVIDIA_KEY_1"), usage(500, 400));
+    // perKey is false, so KEY_2 sees the same exhausted pool.
+    expect(l.check("nvidia", 200, "NVIDIA_KEY_2").allowed).toBe(false);
+    expect(l.spendOf("nvidia").tokens).toBe(900);
+  });
+
+  test("exhaustedKeys names the spent accounts and leaves the rest", async () => {
+    const l = BudgetLedger.empty(PER_KEY);
+    const r = l.reserve("nvidia", 900, "NVIDIA_KEY_1");
+    await l.commit(r, rec("nvidia", "NVIDIA_KEY_1"), usage(500, 500));
+    const keys = ["NVIDIA_KEY_1", "NVIDIA_KEY_2", "NVIDIA_KEY_3"];
+    expect(l.exhaustedKeys("nvidia", keys, 600)).toEqual(["NVIDIA_KEY_1"]);
+  });
+
+  test("resume reattributes spend to the right key", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "rb-perkey-"));
+    const path = join(dir, "ledger.jsonl");
+    const first = BudgetLedger.empty(PER_KEY, path);
+    const r = first.reserve("nvidia", 200, "NVIDIA_KEY_3");
+    await first.commit(r, rec("nvidia", "NVIDIA_KEY_3"), usage(100, 100));
+
+    const { ledger } = await BudgetLedger.load(PER_KEY, path);
+    // Without keyName on the record this would land in the shared bucket and
+    // KEY_3 would look untouched on resume.
+    expect(ledger.spendOf("nvidia", "NVIDIA_KEY_3").tokens).toBe(200);
+    expect(ledger.spendOf("nvidia", "NVIDIA_KEY_1").tokens).toBe(0);
+  });
+
+  test("the per-key summary shows capacity and the per-account breakdown", async () => {
+    const l = BudgetLedger.empty(PER_KEY);
+    const r = l.reserve("nvidia", 100, "NVIDIA_KEY_1");
+    await l.commit(r, rec("nvidia", "NVIDIA_KEY_1"), usage(40, 60));
+    const lines = l.summary({ nvidia: 3 }).join("\n");
+    expect(lines).toContain("3,000 tokens");
+    expect(lines).toContain("[3 key(s) x 1,000]");
+    // An unevenly spent pool must be visible, not hidden in a healthy total.
+    expect(lines).toContain("NVIDIA_KEY_1");
+  });
+});
+
+describe("KeyPool distribution", () => {
+  test("next() round-robins where current() sticks", () => {
+    process.env.PK_A = "a".repeat(20);
+    process.env.PK_B = "b".repeat(20);
+    process.env.PK_C = "c".repeat(20);
+    const pool = new KeyPool(["PK_A", "PK_B", "PK_C"]);
+
+    // current() is sticky — correct for one call and its retries.
+    expect(pool.current()).toBe("PK_A");
+    expect(pool.current()).toBe("PK_A");
+
+    // next() advances — which is what a sweep needs. Sticky selection would
+    // spend one account's whole quota while the others sat idle (D28).
+    expect(pool.next()).toBe("PK_A");
+    expect(pool.next()).toBe("PK_B");
+    expect(pool.next()).toBe("PK_C");
+    expect(pool.next()).toBe("PK_A");
+  });
+
+  test("an excluded key is skipped but still counted as configured", () => {
+    process.env.PK_A = "a".repeat(20);
+    process.env.PK_B = "b".repeat(20);
+    const pool = new KeyPool(["PK_A", "PK_B"]);
+    pool.exclude("PK_A");
+    expect(pool.available()).toEqual(["PK_B"]);
+    // So doctor can say "1 of 2 keys exhausted" rather than silently shrinking.
+    expect(pool.configured()).toEqual(["PK_A", "PK_B"]);
+    expect(pool.isExcluded("PK_A")).toBe(true);
+  });
+
+  test("excluding every key explains why, rather than saying no key is set", () => {
+    process.env.PK_A = "a".repeat(20);
+    const pool = new KeyPool(["PK_A"]);
+    pool.exclude("PK_A");
+    expect(() => pool.current()).toThrow(/excluded \(budget-exhausted or failing\)/);
   });
 });

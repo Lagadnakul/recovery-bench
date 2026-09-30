@@ -14,6 +14,7 @@ import { doctor } from "./doctor.ts";
 import { replay, report } from "./analysis/replay.ts";
 import { tryCell } from "./tryCell.ts";
 import { warmCache } from "./warmCache.ts";
+import { runSweep } from "./runSweep.ts";
 
 const USAGE = `recovery-bench
 
@@ -22,12 +23,19 @@ const USAGE = `recovery-bench
   report [--stdout]                    regenerate master_table.md and figure data
   try [options]                        run ONE cell end to end and print it all
   warm-cache [--set <name>]            pre-fetch task files so runs are offline
-  sweep                                (step 6) execute the grid
+  sweep [options]                      enumerate, project, and run the grid
   serve                                (step 7) open the dashboard
 
   --config   default configs/base.yaml
   --live     permit network calls (doctor only)
   --stdout   write the table to stdout instead of to disk (report only)
+
+sweep options:
+  --project-only         show the cost table and stop (the default is to stop)
+  --run --yes            actually execute; both are required
+  --arm <name>           restrict to one arm; repeatable
+  --verify               check that every planned cell has exactly one row
+  --force                proceed even when the projection exceeds the budget
 
 try options:
   --task <instance_id>   default: first task of failure_pool
@@ -81,7 +89,23 @@ switch (command) {
   case "warm-cache":
     process.exit(await warmCache(configPath, option("set", "failure_pool")));
 
-  case "sweep":
+  case "sweep": {
+    const arms: string[] = [];
+    process.argv.forEach((a, i) => {
+      if (a === "--arm" && process.argv[i + 1]) arms.push(process.argv[i + 1]!);
+    });
+    process.exit(
+      await runSweep({
+        configPath,
+        arms,
+        projectOnly: flag("project-only") || !flag("run"),
+        verifyOnly: flag("verify"),
+        force: flag("force"),
+        yes: flag("yes"),
+      }),
+    );
+  }
+
   case "serve":
     console.log(
       `\`${command}\` is not built yet. Build order (ARCHITECTURE §6):\n` +

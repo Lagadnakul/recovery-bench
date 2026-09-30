@@ -63,11 +63,24 @@ export class GeminiProvider implements ProviderClient {
     return this.pool.names;
   }
 
-  async call(req: ProviderRequest): Promise<ProviderResult> {
+  nextKey(): string {
+    return this.pool.next();
+  }
+
+  configuredKeys(): string[] {
+    return this.pool.configured();
+  }
+
+  excludeKey(name: string): void {
+    this.pool.exclude(name);
+  }
+
+  async call(req: ProviderRequest, pinned?: string): Promise<ProviderResult> {
     let retries = 0;
+    let rotated = false;
 
     for (;;) {
-      const keyName = this.pool.current();
+      const keyName = pinned && !rotated ? pinned : this.pool.current();
       const started = Bun.nanoseconds();
 
       try {
@@ -104,7 +117,10 @@ export class GeminiProvider implements ProviderClient {
         if (!res.ok) {
           const body = scrub((await res.text()).slice(0, 300));
           const retryable = res.status === 429 || res.status >= 500;
-          if (res.status === 429) this.pool.rotate();
+          if (res.status === 429) {
+            this.pool.rotate();
+            rotated = true;
+          }
           const err = new ProviderError(
             `HTTP ${res.status} — ${body}`,
             res.status,

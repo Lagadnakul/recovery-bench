@@ -80,7 +80,19 @@ export interface ProviderClient {
   readonly id: string;
   /** Resolved at construction from `api_key_env`; names only. */
   readonly keyNames: readonly string[];
-  call(req: ProviderRequest): Promise<ProviderResult>;
+  /**
+   * The key this client would use next, advancing the round-robin.
+   *
+   * Exists so a caller can charge the right account *before* spending: with
+   * per-key budgets the ceiling belongs to a key, and reserving against the
+   * provider would let one key overrun while others sat idle (D28).
+   */
+  nextKey(): string;
+  /** Key names that actually have a value set, whether excluded or not. */
+  configuredKeys(): string[];
+  /** Stop handing out a key — used when its own budget is spent. */
+  excludeKey(name: string): void;
+  call(req: ProviderRequest, keyName?: string): Promise<ProviderResult>;
 }
 
 /**

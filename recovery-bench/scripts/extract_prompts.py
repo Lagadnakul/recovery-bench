@@ -19,6 +19,18 @@ TARGETS = {
     "l1_blind_retry":       "day12_step1_blindretry_searchreplace.py",
     "l2_reflection":        "day12_step2_reflectiononly_searchreplace.py",
     "l2_5_diagnose_revise": "day11b_diagnose_revise_searchreplace.py",
+    # The first attempt, pre-retrofit. This one asks for a unified diff and a
+    # PATCH: section, and it is the prompt that produced the baseline the whole
+    # study measures recovery against. Notably it *instructs* the model that
+    # hunk counts must match exactly -- the very defect D14 measured 16 of 51
+    # model-written diffs failing on.
+    "l0_baseline__unified_diff": "day7_step1_generate_full_pilot.py",
+    # The first attempt in SEARCH/REPLACE form. This is the same file as
+    # l1_blind_retry, and deliberately so: the blind-retry prompt shows the
+    # problem and the file and NO history, so it *is* a first-attempt prompt.
+    # Registered explicitly rather than left to a fallback, so the pairing is
+    # visible in the artifact instead of implied by lookup order.
+    "l0_baseline__search_replace": "day12_step1_blindretry_searchreplace.py",
 }
 
 def extract(path: Path) -> tuple[str, int, int]:

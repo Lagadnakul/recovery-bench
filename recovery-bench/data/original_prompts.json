@@ -49,6 +49,36 @@
         "task['repo']"
       ],
       "template": "You are an expert software engineer. You previously attempted to fix a bug in the open-source repository \"{task['repo']}\", but your fix did NOT resolve the issue.\n\nHere is the original bug report:\n---\n{task['problem_statement']}\n---\n\nHere is the ACTUAL, CURRENT content of the file \"{file_path}\":\n--- START OF FILE: {file_path} ---\n{real_content}\n--- END OF FILE ---\n\nHere was your PREVIOUS ATTEMPT:\n---\n{previous_attempt_content}\n---\n\nHere is the REAL, ACTUAL result of running your previous patch against the real test suite (ground truth, not a guess):\n---\n{real_evidence}\n---\n\nBased on this REAL evidence, diagnose the SPECIFIC root cause, then provide a revised fix using SEARCH/REPLACE blocks - NOT a diff, NO line numbers.\n\nRespond in this exact format:\n\nDIAGNOSIS:\n<2-4 sentences identifying the specific root cause, grounded in the real evidence above>\n\nEXPLANATION:\n<1-3 sentences explaining your revised fix>\n\nEDITS:\n<<<<<<< SEARCH\n<exact original code, copied character-for-character from the file above - include enough surrounding lines to make this snippet unique in the file>\n=======\n<the new code that should replace it>\n>>>>>>> REPLACE\n\n(You may include multiple SEARCH/REPLACE blocks like the one above if separate parts of the file need to change. Each SEARCH block must match the file content EXACTLY, including whitespace.)\n"
+    },
+    "l0_baseline__unified_diff": {
+      "source_file": "06_Methodology/code/day7_step1_generate_full_pilot.py",
+      "source_sha256": "b4bc40ff2dcc84cc7c88603fc955025122024ef2462345bdad8f84f48ee95a75",
+      "line_range": [
+        64,
+        93
+      ],
+      "placeholders": [
+        "file_path",
+        "real_content",
+        "task['problem_statement']",
+        "task['repo']"
+      ],
+      "template": "You are an expert software engineer fixing a real bug in the open-source repository \"{task['repo']}\".\n\nHere is the bug report:\n---\n{task['problem_statement']}\n---\n\nHere is the ACTUAL, CURRENT content of the file \"{file_path}\" that likely needs to change.\nUse this EXACT content as the basis for your diff - do not guess or assume different code:\n\n--- START OF FILE: {file_path} ---\n{real_content}\n--- END OF FILE ---\n\nPropose a code fix for this bug. Respond in this exact format:\n\nEXPLANATION:\n<1-3 sentences explaining what you think is wrong and how you'll fix it>\n\nPATCH:\n<a valid unified diff (git diff format), based on the EXACT file content shown above>\n\nCRITICAL RULES for the PATCH:\n1. Base the diff ONLY on the exact file content shown above.\n2. Each hunk header \"@@ -A,B +C,D @@\" must have B and D EXACTLY matching the number\n   of lines that follow.\n3. Include at least 3 unchanged context lines immediately before and after every change.\n4. End the patch with a newline character after the last line.\n5. Always wrap the diff inside a code block using ```diff and ``` on their own lines.\n"
+    },
+    "l0_baseline__search_replace": {
+      "source_file": "06_Methodology/code/day12_step1_blindretry_searchreplace.py",
+      "source_sha256": "d2f0d9298c3026552d1c495a8040956e1f48b7be2b362d412b0242905ddc07c1",
+      "line_range": [
+        73,
+        100
+      ],
+      "placeholders": [
+        "file_path",
+        "real_content",
+        "task['problem_statement']",
+        "task['repo']"
+      ],
+      "template": "You are an expert software engineer fixing a real bug in the open-source repository \"{task['repo']}\".\n\nHere is the bug report:\n---\n{task['problem_statement']}\n---\n\nHere is the ACTUAL, CURRENT content of the file \"{file_path}\":\n--- START OF FILE: {file_path} ---\n{real_content}\n--- END OF FILE ---\n\nPropose a fix using SEARCH/REPLACE blocks - NOT a diff, NO line numbers.\n\nRespond in this exact format:\n\nEXPLANATION:\n<1-3 sentences explaining your fix>\n\nEDITS:\n<<<<<<< SEARCH\n<exact original code, copied character-for-character from the file above - include enough surrounding lines to make this snippet unique in the file>\n=======\n<the new code that should replace it>\n>>>>>>> REPLACE\n\n(You may include multiple SEARCH/REPLACE blocks if separate parts of the file need to change. Each SEARCH block must match the file content EXACTLY.)\n"
     }
   }
 }

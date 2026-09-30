@@ -36,6 +36,7 @@ export class FakeProvider implements ProviderClient {
 
   private cursor = 0;
   private keyCursor = 0;
+  private pinned: string | undefined;
 
   constructor(
     private readonly script: Script[],
@@ -45,13 +46,30 @@ export class FakeProvider implements ProviderClient {
     this.keyNames = opts.keyNames ?? ["FAKE_KEY_1"];
   }
 
+  nextKey(): string {
+    const name = this.keyNames[this.keyCursor % this.keyNames.length]!;
+    this.keyCursor++;
+    return name;
+  }
+
+  configuredKeys(): string[] {
+    return [...this.keyNames];
+  }
+
+  excludeKey(name: string): void {
+    this.excluded.add(name);
+  }
+
+  private excluded = new Set<string>();
+
   /** Remaining scripted steps — a test that leaves some has not run the path. */
   get remaining(): number {
     return Math.max(0, this.script.length - this.cursor);
   }
 
-  async call(req: ProviderRequest): Promise<ProviderResult> {
+  async call(req: ProviderRequest, pinned?: string): Promise<ProviderResult> {
     this.calls.push(req);
+    if (pinned) this.pinned = pinned;
 
     let retries = 0;
     for (;;) {
@@ -59,7 +77,8 @@ export class FakeProvider implements ProviderClient {
       if (!step) throw new Error("FakeProvider: script exhausted");
       this.cursor++;
 
-      const keyName = this.keyNames[this.keyCursor % this.keyNames.length]!;
+      const keyName =
+        this.pinned ?? this.keyNames[this.keyCursor % this.keyNames.length]!;
       this.keysUsed.push(keyName);
 
       switch (step.kind) {
@@ -93,7 +112,10 @@ export class FakeProvider implements ProviderClient {
           const retryable = step.status === 429 || step.status >= 500;
           // 429 means this key is rate-limited; the next attempt should use a
           // different one. That rotation is the whole reason for a key pool.
-          if (step.status === 429) this.keyCursor++;
+          if (step.status === 429) {
+            this.keyCursor++;
+            this.pinned = undefined;
+          }
           retries++;
           if (!retryable || retries > 3) {
             throw new ProviderError(

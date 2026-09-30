@@ -123,9 +123,54 @@ export async function callCell(
   const key = cellKey(cell);
 
   // ---------------------------------------------------------- pre-flight
+  //
+  // The key is chosen BEFORE the budget check, because with `per_key: true`
+  // the ceiling belongs to a key rather than to the provider (D28). Reserving
+  // against the provider would let one account overrun while its siblings sat
+  // untouched.
+  //
+  // A key with no room is excluded and the next tried, so one spent account
+  // does not stop the provider. When every key is spent, `nextKey` throws and
+  // the cell records BUDGET_STOP — which is the correct terminal state.
+  const configured = client.configuredKeys();
+  let keyName: string | null = null;
   let reservation;
+
+  if (configured.length > 0) {
+    // Which of this provider's keys still has room for a call this size. With
+    // a shared budget every key gives the same answer, so the list is either
+    // all of them or none.
+    const withRoom = configured.filter(
+      (k) => ledger.check(providerId, worstCase, k).allowed,
+    );
+
+    if (withRoom.length === 0) {
+      // Every account is spent. This is a budget stop, not a provider failure,
+      // and no request is sent.
+      const verdict = ledger.check(providerId, worstCase, configured[0]!);
+      for (const k of configured) client.excludeKey(k);
+      return {
+        outcome: {
+          kind: "BUDGET_STOP",
+          tokensUsed: verdict.tokensUsed,
+          ceiling: verdict.ceiling,
+        },
+        usage: null,
+        content: "",
+        keyName: null,
+      };
+    }
+
+    // Exclude the spent ones so the pool stops offering them, then take the
+    // next key round-robin from those that remain.
+    for (const k of configured) {
+      if (!withRoom.includes(k)) client.excludeKey(k);
+    }
+    keyName = client.nextKey();
+  }
+
   try {
-    reservation = ledger.reserve(providerId, worstCase);
+    reservation = ledger.reserve(providerId, worstCase, keyName);
   } catch (e) {
     if (e instanceof BudgetExceeded) {
       return {
@@ -140,13 +185,14 @@ export async function callCell(
 
   // ---------------------------------------------------------------- call
   try {
-    const r = await client.call(req);
+    const r = await client.call(req, keyName ?? undefined);
 
     const truncated = r.finishReason === "length";
     await ledger.commit(
       reservation,
       {
         provider: providerId,
+        keyName: r.keyName,
         model: model.model,
         cell: key,
         promptTokens: r.usage.promptTokens,
@@ -194,6 +240,7 @@ export async function callCell(
       e instanceof ProviderError ? e : new ProviderError(String(e), null, 0, false);
     await ledger.release(reservation, {
       provider: providerId,
+      keyName,
       model: model.model,
       cell: key,
       promptTokens: 0,

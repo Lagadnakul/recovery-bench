@@ -436,7 +436,7 @@ to a commit. That chain — not tidiness — is what "research-grade" means here
 | 3 | ✅ `analysis/` + `replay` | **every Chapter 5 number and figure, offline, no key** — `master_table.md` regenerates byte-identically; 22 cells the original could not see recovered (D15); `FAILURE_CLASS` derived and matching (D16) |
 | 4 | ✅ `providers/` + budget ledger | ceiling **refuses before dispatch**, usage captured per cell, all 3 providers live — and four defects found by making the first call (D17–D20), including `thinking: false` never being sent on the wire (D19) |
 | 5 | ✅ `strategies/` L0–L2.5 + `tasks/` | prompts byte-verified against the originals (D21); evidence provenance recorded rather than assumed (D22); one real cell run end to end to APPLIED |
-| 6 | `matrix/` + `verify/` | full sweep, zero holes |
+| 6 | ✅ `matrix/` + the sweep | 1,308 cells enumerated up front, projected against real file sizes before spending (D25), run two-phase so the recovery conditions have a baseline to read (D26), resumable, and verified by code that shares nothing with the runner |
 | 7 | `dashboard/` | the visual |
 | 8 | `context.ts`, L3, L4, variance runs | the §8 extensions |
 

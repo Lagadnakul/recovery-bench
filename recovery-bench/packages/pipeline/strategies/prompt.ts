@@ -27,10 +27,12 @@ export const PROMPTS_PATH = "data/original_prompts.json";
 
 /** Conditions that have an original template. L0 made no recovery call. */
 export type PromptCondition =
+  | "l0_baseline"
   | "l1_blind_retry"
   | "l2_reflection"
   | "l2_5_diagnose_revise";
 
+/** The three recovery conditions. L0 is the first attempt, not a recovery. */
 export const PROMPT_CONDITIONS: readonly PromptCondition[] = [
   "l1_blind_retry",
   "l2_reflection",
@@ -151,15 +153,30 @@ export function render(template: string, vars: PromptVars): string {
 }
 
 /** Renders the prompt for one condition. */
+/**
+ * Renders the prompt for one condition, optionally keyed by edit format.
+ *
+ * The baseline needs the format: the original asked for a unified diff in a
+ * `PATCH:` section (`day7_step1_generate_full_pilot.py`), and the retrofit
+ * asked for SEARCH/REPLACE blocks in an `EDITS:` section. Those are different
+ * prompts, and a5 compares the two formats, so the pairing has to be exact —
+ * `<condition>__<format>` is looked up first and the bare condition is the
+ * fallback.
+ */
 export async function buildPrompt(
   condition: PromptCondition,
   vars: PromptVars,
+  editFormat?: string,
 ): Promise<{ prompt: string; sourceFile: string; sourceSha256: string }> {
   const prompts = await loadPrompts();
-  const rec = prompts.prompts[condition];
+  const rec =
+    (editFormat ? prompts.prompts[`${condition}__${editFormat}`] : undefined) ??
+    prompts.prompts[condition];
   if (!rec) {
     throw new Error(
-      `no template for ${condition} in ${PROMPTS_PATH} — known: ` +
+      `no template for ${condition}` +
+        (editFormat ? ` (format ${editFormat})` : "") +
+        ` in ${PROMPTS_PATH} — known: ` +
         Object.keys(prompts.prompts).join(", "),
     );
   }

@@ -227,10 +227,52 @@ describe("the four conditions", () => {
     expect(() => getStrategy("l3_constrained")).toThrow(/step 8/);
   });
 
-  test("Baseline is replay-only and says why", async () => {
-    const plan = await STRATEGIES.l0_baseline.plan(ctx());
-    expect(plan.runnable).toBe(false);
-    if (!plan.runnable) expect(plan.reason).toContain("replay-only");
+  test("Baseline IS runnable — step 5's refusal was reversed in step 6", async () => {
+    // Step 5 made L0 replay-only. The first live sweep showed that made 16 of
+    // 24 cells unreachable: the recovery conditions need a prior attempt, and
+    // in the original that prior was the baseline (D26). The decision was
+    // reversed deliberately, so this test records the reversal rather than the
+    // original position.
+    const plan = await STRATEGIES.l0_baseline.plan(ctx({ cell: cell("l0_baseline", 0) }));
+    expect(plan.runnable).toBe(true);
+    if (plan.runnable) {
+      expect(plan.prompt).toContain(task.problemStatement);
+      // No history is shown: it is a first attempt.
+      expect(plan.prompt).not.toContain("PREVIOUS ATTEMPT");
+    }
+  });
+
+  test("the baseline prompt follows the EDIT FORMAT, not just the condition", async () => {
+    const sr = await STRATEGIES.l0_baseline.plan(
+      ctx({ cell: { ...cell("l0_baseline", 0), editFormat: "search_replace" } }),
+    );
+    const ud = await STRATEGIES.l0_baseline.plan(
+      ctx({ cell: { ...cell("l0_baseline", 0), editFormat: "unified_diff" } }),
+    );
+    expect(sr.runnable && ud.runnable).toBe(true);
+    if (sr.runnable && ud.runnable) {
+      // The retrofit asks for SEARCH/REPLACE in an EDITS: section...
+      expect(sr.prompt).toContain("<<<<<<< SEARCH");
+      expect(sr.promptSource).toContain("day12_step1_blindretry");
+      // ...the pre-retrofit baseline asks for a unified diff in a PATCH:
+      // section, and a5 compares the two, so the pairing must be exact.
+      expect(ud.prompt).toContain("PATCH:");
+      expect(ud.prompt).toContain("unified diff");
+      expect(ud.promptSource).toContain("day7_step1_generate_full_pilot");
+    }
+  });
+
+  test("the baseline diff prompt INSTRUCTS the model about hunk counts", async () => {
+    // Worth pinning: D14 measured 16 of 51 model-written diffs failing on hunk
+    // counts, and this prompt tells the model the rule explicitly. Instruction
+    // did not prevent the defect, which strengthens the format-class argument.
+    const ud = await STRATEGIES.l0_baseline.plan(
+      ctx({ cell: { ...cell("l0_baseline", 0), editFormat: "unified_diff" } }),
+    );
+    expect(ud.runnable).toBe(true);
+    if (ud.runnable) {
+      expect(ud.prompt).toContain("EXACTLY matching the number");
+    }
   });
 
   test("Blind Retry runs with no history — it is shown nothing new", async () => {
@@ -315,5 +357,57 @@ describe("the four conditions", () => {
       expect(l25.prompt).toContain("git said no");
       expect(l2.prompt).not.toContain("git said no");
     }
+  });
+});
+
+describe("history must contain a real response, not just a row", () => {
+  /**
+   * Found while preparing the first live sweep.
+   *
+   * Every cell records an attempt, including one whose condition was refused —
+   * that is the no-holes guarantee. But a refused attempt has an empty
+   * response, and reflecting on it would render "Here was your PREVIOUS
+   * ATTEMPT:" above nothing: a prompt asserting something false to the model,
+   * the same defect as an empty evidence block (D22).
+   */
+  const empty = (): Attempt => ({
+    response: "",
+    patch: null,
+    outcome: { kind: "PROVIDER_ERROR", status: null, reason: "refused", retries: 0 },
+    gitStderr: null,
+  });
+
+  test("Reflection-only refuses when the only previous round said nothing", async () => {
+    const plan = await STRATEGIES.l2_reflection.plan(ctx({ history: [empty()] }));
+    expect(plan.runnable).toBe(false);
+    if (!plan.runnable) expect(plan.reason).toContain("no earlier");
+  });
+
+  test("Diagnose+Revise refuses on an empty previous round too", async () => {
+    const plan = await STRATEGIES.l2_5_diagnose_revise.plan(
+      ctx({
+        history: [empty()],
+        evidence: applyErrorEvidence("git said no"),
+      }),
+    );
+    expect(plan.runnable).toBe(false);
+  });
+
+  test("it reaches PAST an empty round to the last real one", async () => {
+    // A transient provider failure in round 2 must not destroy round 3's
+    // ability to reflect on round 1.
+    const real = attempt({ response: "EXPLANATION:\nround one spoke.\n" });
+    const plan = await STRATEGIES.l2_reflection.plan(
+      ctx({ history: [real, empty()] }),
+    );
+    expect(plan.runnable).toBe(true);
+    if (plan.runnable) expect(plan.prompt).toContain("round one spoke.");
+  });
+
+  test("whitespace-only counts as nothing said", async () => {
+    const plan = await STRATEGIES.l2_reflection.plan(
+      ctx({ history: [attempt({ response: "   \n\t\n" })] }),
+    );
+    expect(plan.runnable).toBe(false);
   });
 });
