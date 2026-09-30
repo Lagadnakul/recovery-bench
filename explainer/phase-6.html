@@ -1,0 +1,305 @@
+<title>Phase 6 — The Sweep</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><a href="phase-5.html"><span class="n">5</span> Strategies</a></li>
+      <li><a href="phase-6.html" class="here"><span class="n">6</span> Sweep</a></li>
+      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 6 &middot; complete &middot; the whole grid, no holes</p>
+    <h1>Running everything — and finding two ways the plan could not have worked</h1>
+
+    <p class="standfirst">
+      Phase 5 proved one cell works. This phase runs all of them, and its single
+      promise is that when hundreds run, none can go missing. Building it
+      surfaced two problems that would have wasted a great deal of time and
+      quota: the experiment did not fit its own budget, and two of your three
+      recovery conditions could never have run at all.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Cells</span><span class="v">1,308</span></div>
+      <div><span class="k">Tests</span><span class="v">374</span></div>
+      <div><span class="k">Problems found</span><span class="v">2 structural</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>The one promise</h2>
+
+    <p>
+      Every cell is listed before a single call is made, and afterwards a
+      separate program checks that each one produced exactly one result. That
+      check shares no code with the thing that runs the cells — deliberately, so
+      a bug in the runner cannot hide inside the check that validates it.
+    </p>
+
+    <pre><code>VERIFY
+
+  planned  28
+  written  28
+
+  COMPLETE — every planned cell has exactly one row.</code></pre>
+
+    <div class="key">
+      <p class="lede">Why this is the whole point of the project.</p>
+      <p>
+        Your original study lost eight of twenty-four cells because a failure
+        could quietly produce nothing, and
+        <a href="phase-3.html">phase 3</a> found twenty-two more evaluations
+        whose patches and logs survived but which no table could see. A sweep
+        that cannot prove completeness would repeat exactly that. So a refused
+        condition, an exhausted budget, a provider outage and a missing file all
+        write a result — the reason is recorded, and nothing is absent.
+      </p>
+    </div>
+
+    <h2>Problem one: it did not fit its own budget</h2>
+
+    <p>
+      Your configuration has had a line in it since the beginning —
+      <code>estimate_before_run: true</code> — with nothing implementing it.
+      Phase 6 implemented it, and the first run of the estimate said this:
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 186" role="img" aria-label="Projected cost by arm: a5 8.32M, a4 2.97M, a2 1.49M, a3 1.49M, a1 0.30M, totalling 14.56M against an 8M ceiling.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="12">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">PROJECTED TOKENS, BY EXPERIMENT ARM</text>
+
+          <text x="0" y="36" fill="var(--format)">a5_format_at_scale</text>
+          <rect x="150" y="26" width="400" height="13" fill="var(--format)"/>
+          <text x="558" y="36" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--format)">8.32M</text>
+
+          <text x="0" y="58" fill="var(--ink)">a4_reasoning</text>
+          <rect x="150" y="48" width="143" height="13" fill="var(--logic)"/>
+          <text x="558" y="58" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">2.97M</text>
+
+          <text x="0" y="80" fill="var(--ink)">a2_workhorse</text>
+          <rect x="150" y="70" width="72" height="13" fill="var(--logic)"/>
+          <text x="558" y="80" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">1.49M</text>
+
+          <text x="0" y="102" fill="var(--ink)">a3_capability</text>
+          <rect x="150" y="92" width="72" height="13" fill="var(--logic)"/>
+          <text x="558" y="102" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">1.49M</text>
+
+          <text x="0" y="124" fill="var(--ink)">a1_replication</text>
+          <rect x="150" y="114" width="15" height="13" fill="var(--accent)"/>
+          <text x="558" y="124" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-soft)">0.30M</text>
+
+          <line x1="150" y1="18" x2="150" y2="136" stroke="var(--rule-strong)"/>
+          <text x="0" y="160" font-size="12.5" font-weight="600" fill="var(--format)">Total 14.56M against a 8.00M ceiling — 178%.</text>
+          <text x="0" y="178" font-size="12" fill="var(--ink-soft)">One arm, a5, exceeds the entire allowance by itself.</text>
+        </g>
+      </svg>
+      <figcaption>
+        a5 runs 60 tasks through whole-file context, in two formats, three times
+        each — and those tasks include files of 3,300 and 3,444 lines. The
+        estimate uses the real file sizes, never an average: a grid that is only
+        affordable on average is not affordable.
+      </figcaption>
+    </figure>
+
+    <p>
+      This is the same defect as your token limit written
+      <code>8_000_000</code>, which the config format read as text so that no
+      comparison against it ever did anything. There, a ceiling was never
+      compared to anything. Here, a ceiling was never compared to the
+      <em>experiment</em>. Both looked complete and neither was checked.
+    </p>
+
+    <p>
+      The sweep now <strong>refuses to start</strong> and names the arm
+      responsible, rather than running until the money stops. The tempting fix
+      is to raise the ceiling — one line, and the warning disappears. That would
+      be meaningless: a ceiling is only a claim about what you are actually
+      allowed to spend.
+    </p>
+
+    <div class="fix">
+      <span class="tag">Which is why the real answer was different</span>
+      <p>
+        Your three NVIDIA keys were each created from a <strong>separate
+        account</strong>, so each has its own allowance — the real capacity is
+        three times eight million, not eight. That makes the grid fit
+        comfortably at <strong>59%</strong>.
+      </p>
+      <p>
+        But it had to be <em>declared</em>, not assumed. The configuration now
+        says <code>per_key: true</code>, which states the claim so a reader can
+        see and contradict it, and capacity is multiplied by the keys actually
+        present rather than by the number hoped for. Two changes were needed to
+        make it real: the spend ledger now records which key paid (names only,
+        never values), and the key pool hands out keys in rotation instead of
+        sticking to the first — otherwise one account would have been drained
+        while the other two sat idle.
+      </p>
+    </div>
+
+    <h2>Problem two: two of three conditions could never have run</h2>
+
+    <p>
+      This is the more serious finding, and it only appeared by actually running
+      things. The first live sweep of 24 cells refused 16 of them:
+    </p>
+
+    <pre><code>  8  l2_reflection needs a previous attempt to reflect on, and none was produced
+  8  l2_5_diagnose_revise needs a previous attempt to diagnose, and none was produced</code></pre>
+
+    <p>
+      The reason is obvious once seen. Reflection-only and Diagnose+Revise are
+      <em>defined</em> by looking back at a failed attempt. In your study that
+      earlier attempt was the <strong>baseline</strong> — <code>day8_test</code>
+      is round zero, and each condition's round one reflected on it. The grid had
+      no round zero at all, so two thirds of your recovery design was
+      unreachable.
+    </p>
+
+    <figure>
+      <svg viewBox="0 0 640 208" role="img" aria-label="Before: conditions with no prior attempt refuse. After: a shared baseline at round 0 feeds all three conditions.">
+        <g font-family="IBM Plex Sans, sans-serif" font-size="11.5">
+          <text x="0" y="12" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">BEFORE — NOTHING TO LOOK BACK ON</text>
+          <rect x="0" y="22" width="150" height="26" rx="4" fill="var(--format-soft)" stroke="var(--format)"/>
+          <text x="75" y="39" text-anchor="middle" fill="var(--format)">Reflection r1</text>
+          <text x="164" y="39" fill="var(--format)">refuses — no prior attempt</text>
+          <rect x="0" y="54" width="150" height="26" rx="4" fill="var(--format-soft)" stroke="var(--format)"/>
+          <text x="75" y="71" text-anchor="middle" fill="var(--format)">Diagnose r1</text>
+          <text x="164" y="71" fill="var(--format)">refuses — no prior attempt</text>
+
+          <text x="0" y="114" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1" fill="var(--ink-faint)">AFTER — ONE SHARED BASELINE AT ROUND 0</text>
+          <rect x="0" y="126" width="150" height="30" rx="4" fill="var(--accent)"/>
+          <text x="75" y="145" text-anchor="middle" font-weight="600" fill="#ffffff">Baseline r0</text>
+
+          <path d="M150 141 H206" stroke="var(--accent)" stroke-width="1.5"/>
+          <path d="M200 137 l6 4 -6 4z" fill="var(--accent)"/>
+
+          <rect x="212" y="120" width="140" height="20" rx="3" fill="var(--logic-soft)" stroke="var(--logic)"/>
+          <text x="282" y="134" text-anchor="middle" fill="var(--logic)">Blind Retry</text>
+          <rect x="212" y="144" width="140" height="20" rx="3" fill="var(--logic-soft)" stroke="var(--logic)"/>
+          <text x="282" y="158" text-anchor="middle" fill="var(--logic)">Reflection-only</text>
+          <rect x="212" y="168" width="140" height="20" rx="3" fill="var(--logic-soft)" stroke="var(--logic)"/>
+          <text x="282" y="182" text-anchor="middle" fill="var(--logic)">Diagnose+Revise</text>
+
+          <text x="370" y="134" fill="var(--ink-soft)">all three see the SAME</text>
+          <text x="370" y="152" fill="var(--ink-soft)">baseline failure — as in</text>
+          <text x="370" y="170" fill="var(--ink-soft)">your original, where one</text>
+          <text x="370" y="188" fill="var(--ink-soft)">day8 attempt fed them all</text>
+        </g>
+      </svg>
+      <figcaption>
+        One baseline per task, shared. A separate baseline for each condition
+        would give each a different failure to recover from, and the comparison
+        between them would stop being about the condition.
+      </figcaption>
+    </figure>
+
+    <p>
+      So <a href="phase-5.html">phase 5</a>'s decision to make the baseline
+      replay-only was reversed. It now runs, using your own first-attempt
+      prompts — the pre-retrofit unified-diff prompt for the diff format, the
+      blind-retry prompt for SEARCH/REPLACE, since that one shows no history and
+      so already <em>is</em> a first-attempt prompt.
+    </p>
+
+    <p>
+      What stays replay-only is the <em>claim</em>. A baseline run here cannot
+      say "resolved", because nothing here runs tests. Your 12/20 remains the
+      submitted number, regenerated from the logs by phase 3.
+    </p>
+
+    <div class="key">
+      <p class="lede">It works, verified on a live model.</p>
+      <p>
+        With the baseline in place, <code>Reflection-only</code> round one runs
+        against a real model and produces a real attempt — it was handed the
+        baseline's own response and reflected on it. Before the fix, that cell
+        refused.
+      </p>
+    </div>
+
+    <h2>An honest limit worth stating</h2>
+
+    <p>
+      Running it revealed something sharper about Diagnose+Revise than
+      <a href="phase-5.html">phase 5</a> knew. When the baseline patch
+      <strong>applies cleanly</strong>, there is no failure evidence to
+      diagnose — and without Docker there never will be, because the only
+      evidence this pipeline can produce is <code>git</code> rejecting a patch.
+    </p>
+
+    <p>
+      So those cells are refused and the reason recorded, rather than quietly run
+      as Reflection-only under a Diagnose+Revise label. It is a permanent
+      consequence of the no-Docker decision, not a gap to be closed later, and
+      the results say so cell by cell.
+    </p>
+
+    <h2>Deliberately broken, and one escape</h2>
+
+    <div class="wrap-x">
+      <table>
+        <thead><tr><th>Sabotage introduced</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Skip a cell whose task file is unavailable</td><td><strong>nothing failed</strong> — then <strong style="color:var(--format)">1 test failed</strong></td></tr>
+          <tr><td>Drop the budget-stop result instead of writing it</td><td><strong style="color:var(--format)">2 tests failed</strong></td></tr>
+          <tr><td>Ignore the three separate accounts when estimating</td><td><strong style="color:var(--format)">1 test failed</strong></td></tr>
+          <tr><td>Put the round into the lineage, so round 2 loses its history</td><td><strong style="color:var(--format)">3 tests failed</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fix">
+      <span class="tag">The first row again</span>
+      <p>
+        Making the sweep silently skip a cell whose file could not be read broke
+        <strong>nothing</strong> — because every test ran against a warm cache,
+        so that path was never exercised. That is the
+        <a href="phase-3.html">phase 3</a> defect exactly: a cell attempted, no
+        record left.
+      </p>
+      <p>
+        There is now a test using a task deliberately absent from the committed
+        cache. It asserts that both its cells still produce results, that no
+        request is sent, and that verification passes. The same sabotage now
+        fails.
+      </p>
+    </div>
+
+    <h2>Where this leaves the project</h2>
+
+    <p>
+      Seven of nine phases done. The pipeline can enumerate 1,308 cells, tell you
+      what they will cost before spending anything, refuse if that exceeds what
+      you actually have, run them in the right order across three accounts,
+      survive being stopped and restarted without paying twice, and then prove
+      that every single one produced a result.
+    </p>
+
+    <p>
+      Next is <strong>phase 7</strong>: the dashboard. The data is complete; what
+      is missing is a way to read it that is not a command line.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="phase-5.html">&larr; Phase 5 &middot; Strategies</a></span>
+      <span><a href="findings.html">What changed since submission &rarr;</a></span>
+    </div>
+  </main>
+</div>
