@@ -1,0 +1,313 @@
+@import "./fonts.css";
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* Tailwind v4 is configured in CSS, not a JS file. `@theme inline` points the
+   utilities at the tokens rather than copying their values, so `bg-surface` and
+   the bespoke rules below resolve to the same custom properties — and the
+   contrast gate covers both. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-edge: var(--edge);
+
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+
+  --color-hero: var(--hero);
+  --color-on-hero: var(--on-hero);
+  --color-on-hero-soft: var(--on-hero-soft);
+
+  --color-format: var(--format);
+  --color-format-ink: var(--format-ink);
+  --color-format-soft: var(--format-soft);
+  --color-logic: var(--logic);
+  --color-logic-ink: var(--logic-ink);
+  --color-logic-soft: var(--logic-soft);
+
+  --font-sans: var(--f-body);
+  --font-mono: var(--f-mono);
+
+  --radius-chip: var(--r-chip);
+  --radius-control: var(--r-control);
+  --radius-panel: var(--r-panel);
+  --radius-hero: var(--r-hero);
+}
+
+/* ------------------------------------------------------------------- base */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  /* 15px, not 13. The first build set almost every string at 11-13px, which
+     left the page with no hierarchy at all — everything equally loud is
+     everything equally quiet. */
+  font-size: 15px;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* The scale: 38 / 24 / 18 / 15 / 13 / 11. Jakarta's 800 is genuinely heavy, so
+   the display sizes carry weight without needing to grow further. */
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.t-hero {
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.t-stat {
+  font-size: clamp(34px, 4vw, 46px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.t-section {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.t-caption {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.t-micro {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-faint);
+}
+
+code,
+pre,
+.mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* A visible focus ring everywhere. Never removed — it is the keyboard user's
+   only cursor. */
+:where(a, button, input, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-control);
+}
+
+/* -------------------------------------------------------------------- hero */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-hero);
+  background: linear-gradient(135deg, var(--hero) 0%, var(--hero-2) 100%);
+  color: var(--on-hero);
+  box-shadow: var(--lift);
+}
+
+/* A faint grid of the project's own unit — one square per cell — laid over the
+   band. Texture drawn from the subject matter rather than a decorative wash. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ------------------------------------------------------------------ panels */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-panel);
+  overflow: hidden;
+}
+
+/* The tinted header is what makes a panel read as a titled thing rather than a
+   box with text in it. The tint is chrome teal — never a status hue. */
+.panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  background: var(--surface-3);
+  border-bottom: 1px solid var(--rule);
+}
+
+.panel__body {
+  padding: var(--s4);
+}
+
+/* A filled headline card. Only two exist, and both report a failure class, so
+   the fill is that class's own hue — the one place a status colour is allowed
+   to be a field rather than a chip. */
+.card-fill {
+  border-radius: var(--r-panel);
+  padding: var(--s5);
+  box-shadow: var(--lift);
+  border: 1px solid transparent;
+}
+
+/* ------------------------------------------------------------- status cells */
+
+.cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--r-chip);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cell-ink, var(--on-status));
+  background-color: var(--cell-fill, var(--surface-2));
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    box-shadow 120ms ease-out,
+    transform 120ms ease-out;
+}
+
+.cell:hover {
+  box-shadow: 0 0 0 2px var(--ink);
+  transform: translateY(-1px);
+}
+
+.cell[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 2px var(--surface),
+    0 0 0 4px var(--ink);
+}
+
+/* Instrument limits: grey fill plus a 45-degree hatch, so they are separable
+   from failure without relying on hue at all. */
+.cell--hatched {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0 2px,
+    color-mix(in srgb, var(--cell-ink, var(--on-status)) 38%, transparent) 2px 3px
+  );
+}
+
+/* An absent round in a lineage. Not an outcome — a hole, drawn as one. The
+   border uses `--edge`: it is the ONLY signal that this round was never run,
+   which makes it meaningful non-text content under WCAG 1.4.11. */
+.cell--empty {
+  background-color: transparent;
+  border: 1px dashed var(--edge);
+  color: var(--ink-faint);
+  cursor: default;
+}
+
+.cell--empty:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+/* -------------------------------------------------------------------- bars */
+
+/* The dashed track IS the denominator. ARCHITECTURE §7: a zero value draws no
+   bar, and the full scale stays visible so a reader can see what the value is a
+   fraction of. Thesis figure 5.2 shipped once without the second. */
+.track {
+  position: relative;
+  height: 26px;
+  border: 1px dashed var(--edge);
+  border-radius: var(--r-control);
+  background: transparent;
+}
+
+.track__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 5px 2px 2px 5px;
+  background: var(--bar-fill, var(--accent));
+}
+
+/* --------------------------------------------------------------- data table */
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table.data th {
+  text-align: left;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--ink-soft);
+  padding: var(--s2);
+  border-bottom: 1px solid var(--rule-strong);
+  white-space: nowrap;
+}
+
+table.data td {
+  padding: var(--s2);
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+}
+
+/* Hover highlights the row being read. Replaces zebra striping, which made the
+   grid read as a spreadsheet rather than as a result. */
+table.data tbody tr:hover {
+  background: var(--accent-soft);
+}
+
+/* ------------------------------------------------------------------ motion */
+
+/* Nothing animates on load or on scroll. Each transition answers a click. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+    transform: none !important;
+  }
+}

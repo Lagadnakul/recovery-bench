@@ -18,7 +18,7 @@
       <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
       <li><a href="phase-5.html"><span class="n">5</span> Strategies</a></li>
       <li><a href="phase-6.html"><span class="n">6</span> Sweep</a></li>
-      <li><span class="flat"><span class="n">7</span> Dashboard</span></li>
+      <li><a href="phase-7.html"><span class="n">7</span> Dashboard</a></li>
       <li><span class="flat"><span class="n">8</span> Extensions</span></li>
     </ol>
   </nav>
@@ -90,10 +90,10 @@ bun install</code></pre>
 
     <p>You should see, in roughly three seconds:</p>
 
-    <pre><code> 214 pass
+    <pre><code> 399 pass
   34 skip
    0 fail
-Ran 248 tests across 14 files.</code></pre>
+Ran 433 tests across 23 files.</code></pre>
 
     <div class="key">
       <p class="lede">Those 34 skips are expected, and worth understanding.</p>
@@ -101,7 +101,7 @@ Ran 248 tests across 14 files.</code></pre>
         They are the tests that need your original evaluation logs, which are
         deliberately <strong>not</strong> included in the download — they already exist
         in your repository, and duplicating 94 MB of them would be wasteful. Step 5
-        switches them on. The 214 that ran include the format-class finding, checked
+        switches them on. The 399 that ran include the format-class finding, checked
         against committed data.
       </p>
     </div>
@@ -245,6 +245,34 @@ cd recovery-bench</code></pre>
       Three tests fail. Undo the change (<kbd>Ctrl</kbd>+<kbd>Z</kbd> in Notepad),
       save, run again — all pass. The check has teeth.
     </p>
+
+    <h2>Step 8 &middot; Open the dashboard</h2>
+
+    <pre><code>cd packages\dashboard
+bun install
+bun run dev</code></pre>
+
+    <p>
+      Open the address it prints, usually <code>http://localhost:5178</code>. The
+      page begins with your question and your answer, then the two numbers that
+      are that answer, then every attempt behind them.
+    </p>
+
+    <p>
+      It opens on the submitted study, which is committed and always present. If
+      you have not run a sweep on this machine the second tab says so in words
+      rather than showing you zero — because no attempts and zero attempts are
+      different things, and confusing them is the mistake this whole project was
+      built against.
+    </p>
+
+    <p>
+      To check the colours are legible rather than take anyone's word for it:
+    </p>
+
+    <pre><code>bun run contrast</code></pre>
+
+    <pre><code>  ok  127 palette checks pass in light and dark</code></pre>
 
     <h2>If something goes wrong</h2>
 

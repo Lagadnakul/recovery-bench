@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "include": ["packages/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"],
+  // The dashboard needs `lib: DOM` and `jsx`, which the pipeline must not have.
+  // It carries its own tsconfig and its own `typecheck` script. Its DOM-free
+  // model modules are still checked here when a test imports them.
+  "exclude": ["packages/dashboard"],
   "compilerOptions": {
     "paths": {
       "@rb/core": ["./packages/core/index.ts"],

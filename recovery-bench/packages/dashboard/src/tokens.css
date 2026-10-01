@@ -1,0 +1,193 @@
+/* recovery-bench — design tokens.
+ *
+ * THE RULE THIS FILE EXISTS TO ENFORCE
+ *
+ * Two colour systems, deliberately kept apart:
+ *
+ *   CHROME   teal and slate. Hero band, panel headers, controls, focus ring.
+ *            Navigation and structure. Means nothing about the experiment.
+ *   STATUS   the nine outcome colours plus the two failure classes. Every one
+ *            of them carries a finding.
+ *
+ * They never borrow from each other. The explainer already teaches a reader
+ * that ochre means *format-class failure* and slate-blue means *logic-class
+ * failure*; an ochre button would then say "failure" on a control that means
+ * nothing of the sort. So the chrome is teal, and ochre and blue appear only
+ * where they are making a claim — above all on the two headline cards, which
+ * are literally about those two classes.
+ *
+ * `scripts/check_contrast.ts` asserts every pair here is legible in light and
+ * dark, and fails the build otherwise. Dark mode is STEPPED by hand, never
+ * inverted: an automatic inversion would take the ochre that means something
+ * and produce a hue that means nothing.
+ */
+
+:root {
+  /* --------------------------------------------------------------- surfaces */
+  --paper: #eff3f5;
+  --surface: #ffffff;
+  --surface-2: #e7edf0;
+  /* A third step, for the inside of a tinted panel header. */
+  --surface-3: #dce5ea;
+
+  --ink: #10191f;
+  --ink-soft: #44545f;
+  --ink-faint: #5d6a76;
+  --rule: #d7dfe4;
+  --rule-strong: #b9c6cd;
+  /* Control boundaries. `--rule-strong` sits at 1.80:1 — fine for a divider,
+     and a WCAG 1.4.11 failure for the edge of something you can click. */
+  --edge: #7f8a93;
+
+  /* ----------------------------------------------------------------- chrome */
+  --accent: #116b63;
+  --accent-ink: #0b4f49;
+  --accent-soft: #ddefec;
+  --on-accent: #ffffff;
+
+  /* The hero band. Deep enough to carry large type comfortably, and far enough
+     from every status hue that it cannot be mistaken for an outcome. */
+  --hero: #0d3b3a;
+  --hero-2: #10514c;
+  --on-hero: #f2f8f7;
+  --on-hero-soft: #a9cfc9;
+
+  /* ------------------------------------------------ the two failure classes */
+  /* Carried from explainer/style.css. These two hues mean something. */
+  --format: #a8521a;
+  --format-ink: #7d3c12;
+  --format-soft: #fbeee4;
+  --logic: #3d5a8c;
+  --logic-ink: #2c4268;
+  --logic-soft: #e7edf6;
+
+  /* -------------------------------------- status ramp, one token per outcome */
+  --st-good: #2d6a4a;
+  --st-alarm: #8c2f39;
+  --st-format-3: #8f4616;
+  --st-format-2: #a8521a;
+  --st-format-1: #c0773f;
+  --st-silent: #6b5a44;
+  --st-limit: #7e8c98;
+
+  /* Glyph colour on a status fill. Two of them, because one cannot serve every
+     fill: white clears 4.5:1 on the dark end of the ramp and reaches only
+     3.53:1 on the lightest ochre step. Each status names which one it uses. */
+  --on-status: #ffffff;
+  --on-status-ink: #16202a;
+
+  /* ------------------------------------------------------------------- type */
+  --f-body: "Plus Jakarta Sans Variable", system-ui, -apple-system, sans-serif;
+  --f-mono: "Geist Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------------------------------------------------------------- spacing */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+
+  /* Radius encodes hierarchy. One value on everything is a generated-page tell. */
+  --r-chip: 3px;
+  --r-control: 6px;
+  --r-panel: 10px;
+  --r-hero: 14px;
+
+  --rail: 244px;
+  --page-max: 1440px;
+
+  /* Elevation, spent only on the hero and the two headline cards. */
+  --lift: 0 1px 2px rgb(16 25 31 / 0.06), 0 8px 24px -12px rgb(16 25 31 / 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0c1419;
+    --surface: #141f27;
+    --surface-2: #1b2932;
+    --surface-3: #22333e;
+
+    --ink: #e6edf1;
+    --ink-soft: #a7b7c2;
+    --ink-faint: #8798a5;
+    --rule: #24323c;
+    --rule-strong: #3a4a57;
+    --edge: #6b7a87;
+
+    --accent: #4cc3b6;
+    --accent-ink: #7fd8ce;
+    --accent-soft: #0e3230;
+    --on-accent: #06211f;
+
+    --hero: #09292a;
+    --hero-2: #0f4642;
+    --on-hero: #e8f5f3;
+    --on-hero-soft: #8fc0ba;
+
+    --format: #dd9159;
+    --format-ink: #eab086;
+    --format-soft: #32231a;
+    --logic: #85a8dd;
+    --logic-ink: #a6c1e9;
+    --logic-soft: #192434;
+
+    --st-good: #4fae7c;
+    --st-alarm: #d9697a;
+    --st-format-3: #c97b3e;
+    --st-format-2: #dd9159;
+    --st-format-1: #e8b184;
+    --st-silent: #a08f74;
+    --st-limit: #8fa0ad;
+
+    --on-status: #0f1720;
+    --on-status-ink: #0f1720;
+
+    --lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0c1419;
+  --surface: #141f27;
+  --surface-2: #1b2932;
+  --surface-3: #22333e;
+
+  --ink: #e6edf1;
+  --ink-soft: #a7b7c2;
+  --ink-faint: #8798a5;
+  --rule: #24323c;
+  --rule-strong: #3a4a57;
+  --edge: #6b7a87;
+
+  --accent: #4cc3b6;
+  --accent-ink: #7fd8ce;
+  --accent-soft: #0e3230;
+  --on-accent: #06211f;
+
+  --hero: #09292a;
+  --hero-2: #0f4642;
+  --on-hero: #e8f5f3;
+  --on-hero-soft: #8fc0ba;
+
+  --format: #dd9159;
+  --format-ink: #eab086;
+  --format-soft: #32231a;
+  --logic: #85a8dd;
+  --logic-ink: #a6c1e9;
+  --logic-soft: #192434;
+
+  --st-good: #4fae7c;
+  --st-alarm: #d9697a;
+  --st-format-3: #c97b3e;
+  --st-format-2: #dd9159;
+  --st-format-1: #e8b184;
+  --st-silent: #a08f74;
+  --st-limit: #8fa0ad;
+
+  --on-status: #0f1720;
+  --on-status-ink: #0f1720;
+
+  --lift: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+}

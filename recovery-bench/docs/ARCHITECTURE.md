@@ -306,7 +306,12 @@ one of the three reasons D10 changed language.
 
 **Vite + React + TypeScript + Tailwind**, built to static assets (D11). Not
 Next.js: there is no routing, no server rendering and no data fetching here, so
-Next would add toolchain for capabilities this page never uses.
+Next would add toolchain for capabilities this page never uses. **Built** — see
+`DASHBOARD.md` for the full design contract and the four places the rendered page
+disagreed with it.
+
+No charting library: every rule below fights a library's defaults, and the
+drawing amounts to two bar rows, one SVG pipeline and one CSS-grid matrix (D29).
 
 The decisive property is that the dashboard imports its types from
 `packages/core` — the same `Outcome` union and `Row<V>` type the pipeline
@@ -329,12 +334,15 @@ View 6 is the five-second version of the thesis: the malformed unified diff
 
 Charting rules, binding on every view:
 
-- the eight outcome states use a **reserved status palette** (good / warning /
-  serious / critical), never the categorical series hues, and always carry a
-  label — **never colour alone**
+- the **nine** outcome states use a **reserved status palette**, never the
+  chrome hues, and always carry a label — **never colour alone**. Built as two
+  channels: hue says what the cell tells you, saturation says whether it tells
+  you anything about the model at all, so the three `isInstrumentLimit` outcomes
+  are grey and hatched rather than coloured as failure (D30)
 - **one axis, always**; no dual-axis charts anywhere
 - the palette is **validated by script** in light and dark mode before any chart
-  ships, never judged by eye
+  ships, never judged by eye — `scripts/check_contrast.ts`, 127 checks, failing
+  the build. It was itself broken once, checking dark mode twice (D31)
 - dark mode is stepped deliberately from the same ramps, not an automatic inversion
 - every chart has a table view
 - a zero value draws **no bar**; a dashed full-scale track shows the denominator.

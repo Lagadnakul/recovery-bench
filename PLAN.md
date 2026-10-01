@@ -480,8 +480,8 @@ future-work items as a real program. Full rationale in
 | 4 · providers + budget ledger | ✅ 248 tests; ceiling enforced before dispatch, all 5 keys live |
 | 5 · strategies + task layer | ✅ 319 tests; prompts byte-verified against the originals, one real cell APPLIED |
 | 6 · sweep | ✅ 374 tests; 1,308 cells enumerated, projected, run and verified — no holes |
-| 7 · dashboard | next — the visual layer |
-| 8 · extensions | planned |
+| 7 · dashboard | ✅ 433 tests + 127 palette checks; six views over the committed rows, no charting library |
+| 8 · extensions | next — `l3_constrained`, `l4_tool_grounded` |
 
 Three constraints, decided and fixed: **TypeScript on Bun** (D10), **no Docker
 anywhere** (D6), **conditions live in config, not scripts** (D9).
@@ -596,7 +596,28 @@ and because a viva question may reach them. **None of them change `Self.docx`.**
     nothing to diagnose and the cell is refused and recorded rather than
     downgraded. This is a permanent consequence of D6, not a gap.
 
-14. **Two corrections to this plan's own evidence.** D0 claimed the code was never
+15. **A validator that could not fail, believed for a day** (D31). The
+    dashboard's contrast gate reported 82 passing checks while reading the
+    dark-mode block twice and light mode never — its selector string carried its
+    own brace, so the scan for the opening brace landed on the following block.
+    Both themes pass, so the duplicate run stayed green. It was hiding five
+    genuine light-mode failures. This is the third instance of one shape in this
+    project: `max_tokens` parsed as a string (D5), `thinking: false` never
+    transmitted (D19), and now a gate checking one theme twice — each a declared
+    safeguard with nothing behind it.
+
+16. **The dashboard's first build never stated its finding** (D32, D33). It
+    rendered `3/3` and `0/4` under four-word labels and spoke in the project's
+    private vocabulary throughout — cell, lineage, arm, format-class, instrument
+    limit. It also drew a single bar while claiming a comparison, and put "23 set
+    aside" in 11px grey when those 23 were three-quarters of everything in view.
+    The last is D18's category error reappearing at the presentation layer:
+    excluding instrument limits from the arithmetic was necessary and not
+    sufficient, because the exclusion has to be as visible as the number it
+    changes. The sentences are now derived from the committed figures, so a claim
+    cannot drift from the number beside it.
+
+17. **Two corrections to this plan's own evidence.** D0 claimed the code was never
    version-controlled — wrong, the check ran against the enclosing home-directory
    repo; the code is at `Lagadnakul/Dissertation`. And SWE-bench Lite spans **12**
    repositories, not 11 — flask was missing, with 3 instances, which is exactly
@@ -606,11 +627,17 @@ and because a viva question may reach them. **None of them change `Self.docx`.**
 
 ## 12. Next action
 
-Step 7 — `dashboard/`: the visual layer over the rows the sweep now produces.
-The data exists and is complete; what is missing is a way to read it that is not
-`jq`.
+Step 8 — `l3_constrained` and `l4_tool_grounded`. Both are declared in
+`configs/base.yaml` and neither is implemented; they are the two recovery
+conditions the dissertation names as future work and the only part of the
+declared strategy registry still unbuilt.
 
-Two numbers from step 6 that shape it: the grid is **1,308 cells** and a
-completed sweep writes one row per cell with its outcome, evidence provenance,
-comparability flag and the model's full response — so the dashboard's job is
-filtering and comparison, not computation.
+What exists to build on: the strategy seam from step 5 means a new condition is a
+prompt template plus a `StrategyContext` consumer, and `runCell` already
+guarantees every cell terminates in a recorded row whatever the condition does.
+The grid, the budget ledger and the dashboard all pick up a new strategy without
+modification — the dashboard will break its own `tsc` if a new *outcome* is
+added, which is the intended behaviour, but a new strategy is just another row.
+
+Also outstanding, smaller: `docs/LIMITATIONS.md` is referenced from several
+documents and has never been written.

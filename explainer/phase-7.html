@@ -1,0 +1,233 @@
+<title>Phase 7 — The Dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="shell">
+  <nav class="rail">
+    <p class="rail-title">Build log</p>
+    <ol>
+      <li><a href="index.html"><span class="n">○</span> Start from zero</a></li>
+      <li><a href="findings.html"><span class="n">★</span> What changed</a></li>
+      <li><a href="project.html"><span class="n">▣</span> The build</a></li>
+      <li><a href="run-it.html"><span class="n">▶</span> Run it yourself</a></li>
+      <li aria-hidden="true"><span class="sep"></span></li>
+      <li><a href="phase-0.html"><span class="n">0</span> Provenance</a></li>
+      <li><a href="phase-1.html"><span class="n">1</span> Foundations</a></li>
+      <li><a href="phase-2.html"><span class="n">2</span> Edit layer</a></li>
+      <li><a href="phase-3.html"><span class="n">3</span> Replay</a></li>
+      <li><a href="phase-4.html"><span class="n">4</span> Providers</a></li>
+      <li><a href="phase-5.html"><span class="n">5</span> Strategies</a></li>
+      <li><a href="phase-6.html"><span class="n">6</span> Sweep</a></li>
+      <li><a href="phase-7.html" class="here"><span class="n">7</span> Dashboard</a></li>
+      <li><span class="flat"><span class="n">8</span> Extensions</span></li>
+    </ol>
+  </nav>
+
+  <main>
+    <p class="eyebrow">Phase 7 &middot; complete &middot; the page that says what you found</p>
+    <h1>A way to read the results that is not a command line</h1>
+
+    <p class="standfirst">
+      Every number in your Chapter 5 now exists as data a program can read. This
+      phase turns that into a page. The useful part was not the building — it was
+      that looking at the finished page showed four things wrong that no test
+      could have caught, including the fact that it never actually said what you
+      found.
+    </p>
+
+    <div class="status">
+      <div><span class="k">Views</span><span class="v">6</span></div>
+      <div><span class="k">Tests</span><span class="v">433</span></div>
+      <div><span class="k">Colour checks</span><span class="v">127</span></div>
+      <div><span class="k">State</span><span class="v"><span class="pill done">done</span></span></div>
+    </div>
+
+    <h2>What it shows</h2>
+
+    <p>
+      The page opens with your question and your answer, in that order, before
+      any button or filter:
+    </p>
+
+    <blockquote>
+      <p><strong>When an AI coding agent fails, can it fix its own mistake?</strong></p>
+      <p>It fixed every formatting failure, and none of the reasoning failures.</p>
+    </blockquote>
+
+    <p>
+      Under it, the two numbers that <em>are</em> that answer — 3 of 3 and 0 of 4
+      — as two large cards, one in the ochre that means <em>the paperwork was
+      wrong</em> and one in the blue that means <em>the thinking was wrong</em>,
+      each with a sentence explaining what that distinction is. Below those sits
+      the evidence: every attempt, filterable, with the full record of any one of
+      them a click away.
+    </p>
+
+    <p>
+      That sentence is not typed into the page. It is built from the same
+      committed file the numbers come from, and the strong wording is conditional
+      on the data still saying so:
+    </p>
+
+    <pre><code>const all  = fmtOf &gt; 0 &amp;&amp; fmt === fmtOf;
+const none = log === 0;
+
+answer = all &amp;&amp; none
+  ? "It fixed every formatting failure, and none of the reasoning failures."
+  : `It fixed ${fmt} of ${fmtOf} formatting failures and ${log} of ${logOf} reasoning failures.`;</code></pre>
+
+    <p>
+      If a later run recovers one reasoning failure, the page stops saying
+      &ldquo;none&rdquo; on its own. Nobody has to remember to edit it. A claim and
+      the number beside it cannot drift apart.
+    </p>
+
+    <h2>The four things the finished page got wrong</h2>
+
+    <p>
+      All four were found by looking at screenshots of it running. None of them
+      was a bug — the arithmetic was correct in every case — and so no test would
+      ever have reported them.
+    </p>
+
+    <h3>1. It never said what you found</h3>
+
+    <p>
+      The first version showed <code>3/3</code> and <code>0/4</code> under
+      four-word labels and nothing else. Someone who did not already know your
+      study could not have told you what it concluded. A dashboard that only
+      confirms what its author already knows is not doing anything.
+    </p>
+
+    <h3>2. It spoke in private vocabulary</h3>
+
+    <p>
+      Cell, lineage, arm, round, format-class, instrument limit, &ldquo;not
+      comparable to Chapter 5&rdquo;. The leaf labels were in plain English; every
+      structural word was not. Those terms now appear only with their definition
+      attached, and the panel titles became questions — <em>Does the edit format
+      change the outcome?</em>, <em>How much moved on a task nobody solved?</em>
+    </p>
+
+    <h3>3. A single bar claiming to be a comparison</h3>
+
+    <p>
+      The edit-format panel drew one bar and still printed <em>&ldquo;drawn to the
+      largest group so the two bars are comparable&rdquo;</em>. There was only one
+      format in the data. It now says there is nothing to compare yet, and names
+      the run that would produce the other side.
+    </p>
+
+    <h3>4. The most important number was a footnote</h3>
+
+    <p>
+      The same panel showed <strong>5 of 8 applied</strong> in large type and
+      <em>&ldquo;23 set aside&rdquo;</em> in small grey. But those 23 were
+      three-quarters of everything on screen — Gemini's free quota ran out
+      partway through that run. The honest headline was never &ldquo;63%
+      succeeded&rdquo;. It was <em>most of this measured nothing at all</em>.
+    </p>
+
+    <div class="callout">
+      <p>
+        That last one is the same mistake as the truncation problem from phase 6,
+        showing up one layer later. Leaving those attempts out of the arithmetic
+        was necessary — and it was not enough. The exclusion has to be as visible
+        as the number it changes, or a reader just sees the good-looking fraction.
+      </p>
+    </div>
+
+    <h2>Colour that means something</h2>
+
+    <p>
+      Nine ways an attempt can end, and the colour carries two separate things at
+      once. The hue says what kind of ending it was. How washed-out it is says
+      whether it tells you anything about the model at all.
+    </p>
+
+    <p>
+      Three of the nine — our budget ran out, our token limit cut the answer off,
+      the provider errored — are drawn in grey with diagonal hatching, because
+      those attempts measured nothing about the model. They are our limits, not
+      its failures. Painting a provider's rate-limit error in a failure colour
+      would let it read as the model failing, which is exactly the
+      misattribution the pipeline was built to prevent.
+    </p>
+
+    <p>
+      Colour is never the only signal: every square carries a fill, a letter and —
+      for those three — a hatch. And the whole palette is checked by a script that
+      fails the build if any pair is too faint to read, in both light and dark.
+    </p>
+
+    <h2>The checker that could not fail</h2>
+
+    <p>
+      That colour checker reported <strong>82 checks passing</strong> and was
+      lying. It had never checked light mode once.
+    </p>
+
+    <p>
+      It looks up a block of colour definitions by name. The name it was given
+      included the opening brace, and then it searched for the opening brace
+      <em>after</em> the end of that name — so it found the <em>next</em> block's
+      brace instead, and read the dark-mode colours. Both themes pass, so running
+      dark twice looked exactly like passing.
+    </p>
+
+    <p>
+      A test with a tiny hand-written fixture caught it: the light colour came
+      back as the dark one. Behind it were five genuine light-mode failures,
+      including two where the letter inside a coloured square was too faint
+      against its own background.
+    </p>
+
+    <div class="callout">
+      <p>
+        This is the third time in this project that a declared safeguard turned
+        out to have nothing behind it — a budget ceiling that was a string, a
+        &ldquo;thinking off&rdquo; setting that was never sent, and now a colour
+        checker testing one theme twice. A validator that cannot fail is worse
+        than no validator, because it gets believed.
+      </p>
+    </div>
+
+    <h2>Why there is no charting library</h2>
+
+    <p>
+      Your own rules make the standard libraries the wrong tool. A zero has to
+      draw <em>no bar at all</em> — the common libraries draw a one-pixel stub,
+      which reads as &ldquo;a little bit&rdquo; when the truth is &ldquo;none&rdquo;,
+      and that exact mistake had to be corrected once already in your figure 5.2.
+      Every chart also needs a plain table version beside it, and the full scale
+      has to stay visible as a dashed outline so a reader can see what the bar is
+      a fraction of.
+    </p>
+
+    <p>
+      Across all six views the actual drawing comes to two rows of bars, one
+      diagram and one grid. Writing those directly is less code than configuring
+      a library to stop doing the things it does by default, and the page is
+      about 110 KB lighter for it.
+    </p>
+
+    <h2>Where this leaves the project</h2>
+
+    <p>
+      Eight of nine phases done. Your results now exist three ways: as the
+      submitted document, as committed data any program can check, and as a page
+      that states the finding in a sentence and lets anyone dig to the individual
+      attempt behind it.
+    </p>
+
+    <p>
+      Next is <strong>phase 8</strong>: the two recovery conditions your Chapter 6
+      names as future work and nobody has built yet.
+    </p>
+
+    <div class="next-prev">
+      <span><a href="phase-6.html">&larr; Phase 6 &middot; Sweep</a></span>
+      <span><a href="findings.html">What changed since submission &rarr;</a></span>
+    </div>
+  </main>
+</div>

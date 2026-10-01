@@ -1,0 +1,14 @@
+# Build output.
+dist/
+
+# Synced copies of the pipeline's data, written by scripts/sync_data.ts before
+# every dev and build. Never committed, for two reasons:
+#
+#   They are copies. The originals live in recovery-bench/data/ and are the
+#   record; a second copy in git is a second thing to drift.
+#
+#   One of them is sweep_rows.jsonl, which is deliberately gitignored at the
+#   repository root as per-run experimental output. Committing it here would
+#   smuggle it back in through the side door and make a fresh clone look as
+#   though a sweep had already run on it.
+public/

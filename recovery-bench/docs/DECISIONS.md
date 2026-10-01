@@ -1092,3 +1092,160 @@ ceiling is reached is excluded from the pool but still counted as configured, so
 `doctor` can report "1 of 3 exhausted" rather than silently shrinking.
 
 With that, the full 1,308-cell grid fits: **14.27M against 24M, 59%**.
+
+---
+
+## D29 — No charting library in the dashboard
+
+**Decision.** `packages/dashboard/` draws its three bar views with inline SVG and
+CSS grid. Recharts, visx and the shadcn chart block were all considered and none
+was added.
+
+**Why.** Every charting rule `ARCHITECTURE.md` §7 imposes is a fight against a
+library's defaults:
+
+| Rule | What a library does |
+| --- | --- |
+| a zero value draws **no bar** | Recharts draws a 1px stub |
+| a **dashed full-scale track** shows the denominator | no built-in equivalent |
+| every chart has a **table view** | must be built anyway |
+| **no dual axes**, ever | offered, and easy to reach for |
+
+The first of those is not hypothetical. Thesis figure 5.2 shipped once with a
+zero rendered as a visible stub, which reads as *a small amount* when the truth
+is *none*. Across the six views the actual drawing is two bar rows, one SVG
+pipeline, one CSS-grid matrix and three non-charts — less code than configuring
+a library to stop doing things, and about 110 KB lighter.
+
+**Not a rejection of shadcn/ui.** Its Radix-based primitives are a genuine
+improvement over hand-rolled controls and remain available for the chrome. The
+decision is about charts specifically.
+
+**Reversible.** If a later view needs real axes, ticks and a time scale,
+Recharts goes in for that view alone.
+
+---
+
+## D30 — Two colour systems, kept apart by rule
+
+**Decision.** The dashboard runs two palettes that never borrow from each other:
+
+- **chrome** — teal and slate. Hero, panel headers, controls, focus. Means
+  nothing about the experiment.
+- **status** — the nine outcome colours plus the two failure classes. Every one
+  carries a finding.
+
+**Why.** `explainer/style.css` already teaches a reader that ochre means
+*format-class failure* and slate-blue means *logic-class failure*. An ochre
+button would then say "failure" on a control that means nothing of the sort.
+The `ui-ux-pro-max` design system proposed `#1E40AF` blue with a `#D97706` amber
+accent; amber is close enough to the format-class ochre to be read as a claim,
+so it was rejected and the chrome moved to teal.
+
+The single exception is the two headline cards, which are filled with the hue of
+the class they report. There the colour and the claim are the same thing.
+
+**Consequence.** Three tokens had to be added that the explainer does not have:
+
+- `--edge`, because `--rule-strong` sits at **1.80:1** — fine for a divider,
+  a WCAG 1.4.11 failure for the border of something clickable.
+- `--on-status-ink`, because one glyph colour cannot serve every fill: white
+  clears 4.5:1 on the dark end of the ramp and reaches only **3.53:1** on the
+  lightest ochre step. Each status now names which glyph colour it uses, and
+  the gate checks the pair the grid actually draws.
+- `--surface-3`, for the inside of a tinted panel header.
+
+---
+
+## D31 — The contrast gate was green while checking dark mode twice
+
+**What happened.** `scripts/check_contrast.ts` was written to read `tokens.css`
+and verify every pair in both themes. It reported **82 checks pass** and was
+wrong: it had never checked light mode at all.
+
+`parseBlock(css, ":root {")` took the selector with its brace already attached,
+then searched for `{` *after* the end of that string — which landed on the
+*next* block's brace. The "light" run was reading the `@media
+(prefers-color-scheme: dark)` block. Both themes pass, so the duplicate run
+stayed green and the bug was invisible.
+
+**Found by** `tests/dashboardPalette.test.ts`, which parsed a small fixture with
+known values rather than the real file. The fixture's light `--paper` came back
+as the dark one.
+
+**What it was hiding.** Five genuine light-mode failures:
+
+```
+--ink-faint on --paper        4.04:1   (need 4.5)
+--ink-faint on --surface      4.42:1
+--ink-faint on --surface-2    3.78:1
+--on-status on --st-format-1  3.53:1
+--on-status on --st-limit     3.69:1
+```
+
+**Fixed** by locating the brace with a whitespace-only scan and rejecting a
+match where anything else intervenes — which also handles `:root` being a prefix
+of `:root[data-theme="dark"]`. Tokens adjusted; the gate now runs **127 checks**
+and covers the hero at both gradient stops, the filled cards and the tinted
+headers.
+
+**The general point.** A validator that cannot fail is worse than no validator,
+because it is believed. This is the third instance of the same shape in this
+project — `max_tokens: 8_000_000` parsed as a string (D5), `thinking: false`
+never transmitted (D19), and now a gate checking one theme twice. Each was a
+declared safeguard with nothing behind it.
+
+---
+
+## D32 — The dashboard states its finding in prose, derived from the data
+
+**Decision.** `src/model/narrative.ts` holds the study's question and answer as
+sentences built from `chapter5_figures.json`, not typed into the markup.
+
+**Why.** The first build rendered `3/3` and `0/4` under four-word labels and
+never said what they meant. A reader who did not already know the study could
+not have told you what it concluded — which makes a dashboard that only
+confirms what its author already knows.
+
+The strong wording is guarded by the data:
+
+```ts
+const all  = fmtOf > 0 && fmt === fmtOf;
+const none = log === 0;
+answer = all && none
+  ? "It fixed every formatting failure, and none of the reasoning failures."
+  : `It fixed ${fmt} of ${fmtOf} formatting failures and ${log} of ${logOf} reasoning failures.`;
+```
+
+If a later run recovers one logic-class task, the sentence stops saying "none"
+without anyone remembering to edit it. A claim and the number beside it cannot
+drift apart.
+
+**Same module** carries the glossary. `cell`, `lineage`, `arm`, `round`,
+`format-class` and `instrument limit` are this project's working vocabulary, not
+English, and every one of them was on screen unexplained. They now appear only
+through a `<Term>` component that attaches the definition.
+
+---
+
+## D33 — Two problems only the rendered page could show
+
+Both were found by looking at screenshots of the running dashboard, not by any
+test, and neither was a code defect — the arithmetic was right in both cases.
+
+**1. A single bar claiming to be a comparison.** "Apply rate by edit format"
+drew one bar and still printed *"drawn to the largest group so the two bars are
+comparable"*. The sweep had only ever produced `search_replace` rows. The panel
+now detects a single format and says there is nothing to compare yet, naming the
+arm that would produce the other series.
+
+**2. The denominator was the finding, and it was a footnote.** The same panel
+showed **5/8 applied** in large type and *"23 set aside"* in 11px grey. Those 23
+were three-quarters of everything in view — Gemini's free quota ran out
+mid-sweep. The honest headline was never 63%; it was *most of this measured
+nothing*. When set-aside exceeds measured, it now leads the panel.
+
+Both are the D18 category error reappearing at the presentation layer: an
+instrument limit folded into a rate, or made small enough to miss. Excluding
+those cells from the arithmetic was necessary and was not sufficient — the
+exclusion has to be as visible as the number it changes.
