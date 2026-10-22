@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Know When to Stop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a measured document on a narrow measure, with a numbered spine on the
+   left and one instrument panel at the centre where the decision rule lives. */
+:root{
+  color-scheme: light;
+
+  --paper:#eceff2;
+  --surface:#ffffff;
+  --surface-2:#e3e8ed;
+  --ink:#10161d;
+  --ink-2:#4a5664;
+  --ink-3:#6b7889;
+  --rule:#d3dae1;
+  --edge:#8794a3;
+
+  --accent:#2a4d8f;
+  --accent-soft:#e3ebf7;
+  --accent-ink:#1d3a6e;
+
+  --retry:#0f6b5c;
+  --retry-soft:#dcefeb;
+  --escalate:#9c6407;
+  --escalate-soft:#faeed8;
+  --waste:#9e2a2b;
+  --waste-soft:#f8e3e3;
+
+  --band:#121a24;
+  --band-2:#1b2735;
+  --on-band:#eef3f8;
+  --on-band-2:#9fb3c8;
+
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#0c1117;
+    --surface:#141c25;
+    --surface-2:#1c2733;
+    --ink:#e9eef4;
+    --ink-2:#a9b8c8;
+    --ink-3:#8494a6;
+    --rule:#263241;
+    --edge:#4a5a6d;
+
+    --accent:#89aae9;
+    --accent-soft:#1a2740;
+    --accent-ink:#b6cdf5;
+
+    --retry:#56c6ae;
+    --retry-soft:#11302c;
+    --escalate:#e4a63f;
+    --escalate-soft:#33260e;
+    --waste:#ea7b76;
+    --waste-soft:#351a1a;
+
+    --band:#070b10;
+    --band-2:#111a24;
+    --on-band:#eef3f8;
+    --on-band-2:#8ea4ba;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0c1117;
+  --surface:#141c25;
+  --surface-2:#1c2733;
+  --ink:#e9eef4;
+  --ink-2:#a9b8c8;
+  --ink-3:#8494a6;
+  --rule:#263241;
+  --edge:#4a5a6d;
+
+  --accent:#89aae9;
+  --accent-soft:#1a2740;
+  --accent-ink:#b6cdf5;
+
+  --retry:#56c6ae;
+  --retry-soft:#11302c;
+  --escalate:#e4a63f;
+  --escalate-soft:#33260e;
+  --waste:#ea7b76;
+  --waste-soft:#351a1a;
+
+  --band:#070b10;
+  --band-2:#111a24;
+  --on-band:#eef3f8;
+  --on-band-2:#8ea4ba;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.62;
+  font-synthesis-weight:none;
+}
+img{max-width:100%}
+[hidden]{display:none!important}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+
+/* ---- masthead ---- */
+.mast{
+  background:var(--band);
+  color:var(--on-band);
+  border-bottom:3px solid var(--escalate);
+}
+.mast .wrap{padding-block:clamp(36px,7vw,68px)}
+.kicker{
+  font-family:var(--mono);
+  font-size:11.5px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--on-band-2);
+  margin:0 0 20px;
+}
+.mast h1{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(38px,7.4vw,74px);
+  line-height:.98;
+  letter-spacing:-.025em;
+  margin:0 0 22px;
+  text-wrap:balance;
+  max-width:16ch;
+}
+.mast h1 em{font-style:normal;color:var(--escalate)}
+.mast .lede{
+  font-size:clamp(17px,2.1vw,21px);
+  line-height:1.55;
+  color:var(--on-band);
+  max-width:62ch;
+  margin:0;
+}
+.mast .lede b{color:var(--escalate);font-weight:600}
+.byline{
+  margin:26px 0 0;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.14);
+  font-family:var(--mono);
+  font-size:12px;
+  color:var(--on-band-2);
+  display:flex;flex-wrap:wrap;gap:8px 22px;
+}
+
+/* ---- section scaffolding ---- */
+main{padding-block:0 72px}
+section{padding-block:clamp(40px,5.5vw,68px);border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.sec-head{display:flex;gap:18px;align-items:baseline;margin:0 0 26px}
+.sec-n{
+  font-family:var(--mono);font-size:12px;font-weight:600;
+  color:var(--accent);letter-spacing:.08em;
+  flex:none;padding-top:6px;
+}
+h2{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(25px,3.5vw,38px);line-height:1.1;
+  letter-spacing:-.02em;margin:0;text-wrap:balance;
+}
+h3{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(18px,2.1vw,21px);line-height:1.25;
+  letter-spacing:-.01em;margin:34px 0 12px;
+}
+h4{
+  font-family:var(--mono);font-weight:600;font-size:11.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  margin:0 0 10px;
+}
+p{margin:0 0 16px;max-width:66ch}
+.lead{font-size:19px;line-height:1.56;color:var(--ink);max-width:62ch}
+a{color:var(--accent-ink);text-decoration-thickness:1px;text-underline-offset:2px}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:.86em;background:var(--surface-2);padding:1px 5px;border-radius:3px}
+
+/* ---- components ---- */
+.cols{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));margin:26px 0}
+.card{
+  background:var(--surface);border:1px solid var(--rule);
+  border-radius:4px;padding:20px 20px 22px;min-width:0;
+}
+.card p:last-child{margin-bottom:0}
+.card .tag{
+  display:inline-block;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;font-weight:600;
+  padding:3px 8px;border-radius:3px;margin:0 0 12px;
+}
+.t-retry{background:var(--retry-soft);color:var(--retry)}
+.t-esc{background:var(--escalate-soft);color:var(--escalate)}
+.t-waste{background:var(--waste-soft);color:var(--waste)}
+.t-acc{background:var(--accent-soft);color:var(--accent-ink)}
+
+.panel{
+  background:var(--band);color:var(--on-band);
+  border-radius:5px;padding:clamp(20px,3.4vw,34px);
+  margin:30px 0;
+}
+.panel h3{color:var(--on-band);margin-top:0}
+.panel p{color:var(--on-band-2);max-width:62ch}
+.panel .mono-note{color:var(--on-band-2)}
+
+.rule-box{
+  background:var(--surface);border:1px solid var(--edge);
+  border-left:4px solid var(--escalate);
+  border-radius:4px;padding:18px 20px;margin:24px 0;
+}
+.rule-box p:last-child{margin-bottom:0}
+
+figure{margin:26px 0}
+figcaption{
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+  margin-top:10px;line-height:1.5;max-width:70ch;
+}
+
+pre{
+  font-family:var(--mono);font-size:13px;line-height:1.62;
+  background:var(--band);color:var(--on-band);
+  padding:18px 20px;border-radius:4px;
+  overflow-x:auto;margin:20px 0;
+}
+pre .c{color:var(--on-band-2)}
+pre .k{color:var(--escalate)}
+pre .g{color:var(--retry)}
+
+.tablewrap{overflow-x:auto;margin:24px 0;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:560px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:600;
+  background:var(--surface-2);
+}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.arm{font-family:var(--display);font-weight:700}
+
+ul,ol{margin:0 0 16px;padding-left:22px;max-width:66ch}
+li{margin-bottom:7px}
+li::marker{color:var(--ink-3)}
+
+.steps{list-style:none;padding:0;margin:24px 0;max-width:none}
+.steps li{
+  display:grid;grid-template-columns:46px 1fr;gap:16px;
+  padding:14px 0;border-top:1px solid var(--rule);margin:0;
+}
+.steps li:last-child{border-bottom:1px solid var(--rule)}
+.steps .ph{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  color:var(--accent);letter-spacing:.06em;padding-top:3px;
+}
+.steps .what{font-weight:600;font-family:var(--display);font-size:16px;display:block;margin-bottom:2px}
+.steps .det{color:var(--ink-2);font-size:15px}
+
+.flag{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--escalate-soft);border-radius:4px;
+  padding:14px 16px;margin:22px 0;
+}
+.flag .bell{font-size:18px;line-height:1.3;flex:none}
+.flag p{margin:0;color:var(--ink);font-size:15.5px}
+
+.foot{
+  padding-block:30px 10px;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+  border-top:1px solid var(--rule);
+}
+.foot p{max-width:74ch}
+
+svg{display:block;max-width:100%;height:auto}
+
+@media (max-width:620px){
+  body{font-size:16px}
+  .sec-head{flex-direction:column;gap:4px}
+  .sec-n{padding-top:0}
+}
+@media (prefers-reduced-motion: no-preference){
+  .fade{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes rise{from{opacity:.001;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap fade">
+    <p class="kicker">M.Tech AI &amp; DS &middot; Semester 4 &middot; proposal v2 &middot; 19 Oct 2026</p>
+    <h1>Know when to <em>stop</em></h1>
+    <p class="lede">
+      When an AI coding agent fails, it retries. It retries whether retrying can
+      work or not. We are building the part that is missing: a rule that decides,
+      after each failure, whether another attempt is worth making &mdash; or whether
+      the agent should <b>stop and ask a human one question</b>.
+    </p>
+    <p class="byline">
+      <span>Lagad Nakul Kiran &middot; 2503032340022</span>
+      <span>PIET, Parul University</span>
+      <span>working title &mdash; not final</span>
+    </p>
+  </div>
+</header>
+
+<main>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">01</span><h2>The problem, without jargon</h2></div>
+
+    <p class="lead">
+      Give a junior developer a bug. He writes a fix. The test fails. A senior
+      engineer standing behind him asks one question before anything else:
+      <strong>was he careless, or does he not understand?</strong>
+    </p>
+
+    <div class="cols">
+      <div class="card">
+        <span class="tag t-retry">careless</span>
+        <p>
+          He understood the bug perfectly. He put the fix in the wrong place, or
+          broke the formatting, or miscounted a line. The right response is
+          <strong>&ldquo;try again&rdquo;</strong> &mdash; he will get it in thirty seconds.
+        </p>
+      </div>
+      <div class="card">
+        <span class="tag t-esc">confused</span>
+        <p>
+          He does not know what is wrong. His fix was clean, neat, well written,
+          and solving the wrong problem. <strong>&ldquo;Try again&rdquo; is useless.</strong> He
+          will produce the same wrong idea in tidier handwriting.
+        </p>
+      </div>
+    </div>
+
+    <p>
+      A human makes that call instantly. <strong>No AI coding agent makes it at all.</strong>
+      Cursor, Claude Code, Copilot, mini-SWE-agent &mdash; every one of them responds to a
+      failed test the same way, every time: try again. Nothing in any of them asks
+      whether trying again can possibly work.
+    </p>
+
+    <h3>Three things go wrong, not one</h3>
+
+    <div class="cols">
+      <div class="card">
+        <h4>Money</h4>
+        <p>A coding agent burns 50,000&ndash;200,000 tokens per resolved issue, roughly
+        $1.50&ndash;$6. On the issues it cannot resolve, it burns the same and gets nothing.</p>
+      </div>
+      <div class="card">
+        <h4>It gets dumber</h4>
+        <p>Every failed attempt is appended to the conversation. Measured accuracy
+        falls as context grows even when nothing relevant was removed &mdash; 13.9% to 85%.
+        The agent retries its way into being less capable.</p>
+      </div>
+      <div class="card">
+        <h4>Nobody was told</h4>
+        <p>The one person who could have unblocked it in twenty seconds was never
+        asked. The agent failed quietly, expensively, alone.</p>
+      </div>
+    </div>
+
+    <figure>
+      <svg viewBox="0 0 700 212" role="img" aria-label="As attempts accumulate, context grows and the chance of success falls toward zero">
+        <defs>
+          <linearGradient id="ctx" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="var(--retry)" stop-opacity=".55"/>
+            <stop offset="1" stop-color="var(--waste)" stop-opacity=".85"/>
+          </linearGradient>
+        </defs>
+        <text x="0" y="14" fill="var(--ink-3)" font-family="JetBrains Mono, monospace" font-size="11">context used</text>
+        <g>
+          <rect x="0" y="26" width="86"  height="17" fill="url(#ctx)" rx="2"/>
+          <rect x="0" y="52" width="162" height="17" fill="url(#ctx)" rx="2"/>
+          <rect x="0" y="78" width="248" height="17" fill="url(#ctx)" rx="2"/>
+          <rect x="0" y="104" width="352" height="17" fill="url(#ctx)" rx="2"/>
+          <rect x="0" y="130" width="470" height="17" fill="url(#ctx)" rx="2"/>
+          <rect x="0" y="156" width="604" height="17" fill="url(#ctx)" rx="2"/>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-3)">
+          <text x="96"  y="39">attempt 1 &mdash; failed</text>
+          <text x="172" y="65">attempt 2 &mdash; failed</text>
+          <text x="258" y="91">attempt 3 &mdash; failed</text>
+          <text x="362" y="117">attempt 4 &mdash; failed</text>
+          <text x="480" y="143">attempt 5 &mdash; failed</text>
+          <text x="614" y="169" text-anchor="end" fill="var(--waste)">gave up</text>
+        </g>
+        <line x1="0" y1="186" x2="700" y2="186" stroke="var(--rule)" stroke-width="1"/>
+        <text x="0" y="203" fill="var(--ink-2)" font-family="JetBrains Mono, monospace" font-size="11">
+          every failure is added to the prompt &mdash; the loop makes the model worse at escaping it
+        </text>
+      </svg>
+      <figcaption>The retry loop is not neutral. It is self-defeating on exactly the failures it cannot fix.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">02</span><h2>What I found in the current research</h2></div>
+
+    <p class="lead">
+      This is not a hunch. Between April and September 2026 several groups published
+      the same observation from different directions, and one of them built a
+      benchmark for it.
+    </p>
+
+    <h3>Agents genuinely cannot tell when they are stuck</h3>
+
+    <p>
+      <strong>HiL-Bench</strong> (April 2026) tests exactly this. Give a frontier model a
+      task with a piece of information deliberately missing, and give it a button
+      labelled &ldquo;ask a human&rdquo;. Then see what happens.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Condition</th><th class="num">Success</th><th>What it shows</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Complete information given</td>
+            <td class="num">75&ndash;89%</td>
+            <td>Capability is not the bottleneck</td>
+          </tr>
+          <tr>
+            <td>Information missing &mdash; must decide whether to ask</td>
+            <td class="num" style="color:var(--waste);font-weight:600">4&ndash;24%</td>
+            <td>Judgement is the bottleneck</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Their failure analysis, per model family, is worth quoting in the thesis:</p>
+
+    <ul>
+      <li><strong>GPT family</strong> &mdash; does not notice the gap at all. Executes
+      confidently on a wrong belief. Giving it the ask-a-human button barely changes
+      its behaviour, because it never thinks to press it.</li>
+      <li><strong>Claude</strong> &mdash; says out loud that it is stuck, and then submits
+      anyway. This accounts for <strong>45%</strong> of its failures. Detection without action.</li>
+      <li><strong>Gemini</strong> &mdash; asks constantly on easy problems and stops asking
+      on hard ones. Exactly backwards.</li>
+    </ul>
+
+    <h3>Retrying does not fix reasoning. This is settled.</h3>
+
+    <p>
+      The original result (ICLR 2024) and its 2026 follow-ups agree: a model cannot
+      reliably correct its own reasoning without an outside signal. GPT-4 on GSM8K
+      goes <strong>95.5% &rarr; 91.5% &rarr; 89.0%</strong> across two rounds of self-correction.
+      It gets worse, not better. A 2026 paper adds the <em>Accuracy Correction
+      Paradox</em>: weaker models self-correct more often, because they are guessing
+      either way.
+    </p>
+
+    <h3>The field has asked for exactly this kind of work</h3>
+
+    <p>
+      Two 2026 position papers argue the SWE-bench leaderboard can no longer tell its
+      top entries apart, and that what should be measured instead is
+      <strong>failure-mode profiles and cost-efficiency</strong>. A third argues coding
+      benchmarks miss collaboration entirely. That is the gap this project sits in,
+      and we can cite it rather than claim it.
+    </p>
+
+    <div class="flag">
+      <span class="bell">&#9888;</span>
+      <p><strong>Be honest about the crowd.</strong> HiL-Bench, SWE-Touch, SWE-Together and
+      Dialogue SWE-Bench all appeared in 2026. &ldquo;Agents should ask for help&rdquo; is
+      not a new claim. Our contribution has to be narrower than that &mdash; and it is.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">03</span><h2>The gap nobody has filled</h2></div>
+
+    <p class="lead">
+      Every existing paper treats &ldquo;should I ask for help?&rdquo; as one question with
+      one answer. It is not one question. It has two answers, and they are opposites.
+    </p>
+
+    <div class="rule-box">
+      <p>
+        <strong>A careless failure is the worst thing to escalate.</strong> The agent can fix
+        it alone, instantly, for almost nothing. Interrupting a human is pure waste.
+      </p>
+      <p>
+        <strong>A confused failure is the worst thing to retry.</strong> It will never
+        succeed, and every attempt burns money and context on the way to the same
+        wrong answer.
+      </p>
+      <p style="margin-top:14px">
+        So the decision to escalate <strong>must be conditioned on what kind of failure it
+        was</strong>. No published policy does this. That is the thesis.
+      </p>
+    </div>
+
+    <p>
+      The useful part is that the failure class is not something we have to predict.
+      It is something we can <em>observe</em>, exactly, for free:
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Observation</th><th>Class</th><th>Correct response</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Patch would not apply &mdash; <code>git apply</code> rejected it</td><td><strong style="color:var(--retry)">CARELESS</strong></td><td>Retry</td></tr>
+          <tr><td>Patch applied cleanly, test still fails</td><td><strong style="color:var(--escalate)">CONFUSED</strong></td><td>Escalate</td></tr>
+          <tr><td>Container died, network error, quota exhausted</td><td><strong style="color:var(--ink-3)">BROKEN</strong></td><td>Abort &mdash; measured nothing</td></tr>
+          <tr><td>No new progress across several steps</td><td><strong style="color:var(--waste)">LOST</strong></td><td>Escalate</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      This is a strength, not a shortcut. The signal is trivially cheap and perfectly
+      reliable &mdash; and nobody is using it to make a decision that costs real money.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">04</span><h2>The algorithm</h2></div>
+
+    <p class="lead">
+      This is the question the professor asked, and it is the right question. A set of
+      if-statements is a heuristic, not an algorithm. Here is the actual formulation.
+    </p>
+
+    <p>
+      Deciding whether to make one more attempt or to stop is a known class of
+      problem: <strong>optimal stopping under uncertainty</strong> &mdash; the same family as
+      Wald&rsquo;s sequential probability ratio test. We are instantiating it for agentic
+      program repair, with one modification that is ours.
+    </p>
+
+    <div class="panel">
+      <h3 style="font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--escalate)">Class-Conditioned Optimal Stopping &mdash; CC-OS</h3>
+      <p style="color:var(--on-band);font-size:18px;max-width:60ch;margin-top:10px">
+        Maintain a belief about whether one more attempt will succeed. Condition that
+        belief on the observed failure class. Stop when the expected value of asking
+        exceeds the expected value of trying again.
+      </p>
+    </div>
+
+    <h3>Step 1 &mdash; Observe the class</h3>
+    <p>
+      A deterministic function of the trajectory, not a classifier. It reads exit
+      codes, not intentions, so it cannot be wrong and introduces no confound.
+    </p>
+    <pre><span class="c"># deterministic; O(1); no model call</span>
+<span class="k">def</span> triage(attempt) -&gt; Class:
+    <span class="k">if</span> attempt.apply_failed:        <span class="k">return</span> CARELESS
+    <span class="k">if</span> attempt.infra_error:         <span class="k">return</span> BROKEN
+    <span class="k">if</span> attempt.no_progress(window=3): <span class="k">return</span> LOST
+    <span class="k">return</span> CONFUSED   <span class="c"># applied cleanly, test still red</span></pre>
+
+    <h3>Step 2 &mdash; Hold a belief, and let it decay</h3>
+    <p>
+      For each class <em>c</em>, keep a Beta&ndash;Bernoulli posterior over the probability
+      that a retry succeeds, updated from every attempt observed across the whole run.
+      Then multiply by a decay term, because context rot means attempt 6 is not as good
+      as attempt 2:
+    </p>
+
+    <figure>
+      <pre>                 &#945;<span class="c">&#8339;</span>                      <span class="c">&#945;, &#946;   successes / failures seen for class c</span>
+  p(c, k)  =  ─────────  &#215;  &#955;<span class="c">&#7524;</span>        <span class="c">k       attempts already made on this task</span>
+              &#945;<span class="c">&#8339;</span> + &#946;<span class="c">&#8339;</span>                   <span class="c">&#955;       context-rot decay, fitted from data</span></pre>
+      <figcaption>
+        &#955; is estimated by fitting observed success rate against attempt index. It is
+        a measured property of the run, not a tuned knob &mdash; and reporting it is a
+        result in its own right.
+      </figcaption>
+    </figure>
+
+    <h3>Step 3 &mdash; The stopping rule</h3>
+    <p>Let <em>G</em> be the value of solving the bug, <em>r</em> the cost of one more
+    attempt, <em>h</em> the cost of one human interruption, and <em>q<sub>c</sub></em> the
+    probability a human unblocks it. Compare the two expected values:</p>
+
+    <figure>
+      <pre>  E[ retry    ]  =  p(c,k) &#183; G  &minus;  r
+  E[ escalate ]  =  q<span class="c">&#8339;</span>     &#183; G  &minus;  h
+
+  <span class="g">RETRY</span>  &#8660;  p(c,k)  &gt;  &#952;<span class="c">&#8339;</span>        <span class="k">where</span>  &#952;<span class="c">&#8339;</span> = q<span class="c">&#8339;</span> &minus; (h &minus; r) / G
+  <span class="k">ESCALATE</span>  otherwise</pre>
+      <figcaption>
+        One inequality. That is the whole decision. The full version replaces the
+        one-step lookahead with finite-horizon backward induction over the remaining
+        attempt budget &mdash; <code>V&#8342; = max(p&#8342;G &minus; r + (1&minus;p&#8342;)V&#8342;&#8330;&#8321;, q G &minus; h)</code>,
+        solved once in O(K).
+      </figcaption>
+    </figure>
+
+    <h3>Step 4 &mdash; Why this answers the professor</h3>
+    <p>
+      Because the policy is <strong>derived, not written</strong>. Nobody hard-codes
+      &ldquo;retry formatting errors.&rdquo; The algorithm learns that
+      p(CARELESS) is high and p(CONFUSED) is near zero from the data, and the
+      inequality then produces the correct behaviour on its own. If a future model
+      changes those probabilities, the policy changes with it, with no code edit.
+    </p>
+
+    <h3>And all four experiment arms are one algorithm</h3>
+    <p>
+      This is the part that makes the comparison clean: the baselines are not separate
+      programs. They are the same rule at different values of &#952;.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Arm</th><th>Setting</th><th>Behaviour</th><th>Represents</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="arm">A &middot; Stubborn</td>
+            <td class="num">&#952; = &minus;&#8734;</td>
+            <td>Never escalates</td>
+            <td>Every agent shipping today</td>
+          </tr>
+          <tr>
+            <td class="arm">B &middot; Needy</td>
+            <td class="num">&#952; = +&#8734;</td>
+            <td>Escalates on first failure</td>
+            <td>The naive &ldquo;add a human&rdquo; answer</td>
+          </tr>
+          <tr>
+            <td class="arm">C &middot; Random</td>
+            <td class="num">p ~ Bern(&#961;)</td>
+            <td>Ignores class; escalation rate &#961; matched to D</td>
+            <td><strong>The control that makes it science</strong></td>
+          </tr>
+          <tr style="background:var(--accent-soft)">
+            <td class="arm">D &middot; CC-OS</td>
+            <td class="num">&#952; = &#952;<span style="font-size:.85em">c</span></td>
+            <td>Class-conditioned stopping rule</td>
+            <td>Our contribution</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule-box">
+      <p>
+        <strong>Arm C is what protects Nakul in the viva.</strong> Without it an examiner says
+        &ldquo;of course D won, you gave it human help.&rdquo; With it, C received
+        <em>exactly the same number of interruptions</em>, placed without regard to
+        failure class. If D beats C, the finding is:
+      </p>
+      <p style="font-family:var(--display);font-weight:700;font-size:19px;color:var(--ink);margin-top:12px">
+        It is not how much you help. It is whether you help at the right moment.
+      </p>
+    </div>
+
+    <h3>A second, smaller algorithm: the circuit breaker</h3>
+    <p>
+      <code>LOST</code> needs its own detector, since there is no exit code for
+      &ldquo;going in circles.&rdquo; Define a progress score per step as the novelty of the
+      action against everything tried so far &mdash; Jaccard distance over the set of
+      files touched and command n-grams &mdash; and break when its moving average over a
+      window falls below &#949;. Published work on agent circuit breakers reports loop
+      traps exiting at 10 steps instead of 30.
+    </p>
+
+    <h4>Cost of the whole thing</h4>
+    <p>
+      Triage O(1). Belief update O(1). Stopping rule O(K), precomputed once. Progress
+      score O(m) over a short window. Against a single LLM call, all of it is free.
+      That is worth stating explicitly &mdash; the contribution costs nothing to run,
+      which is precisely why not having it is indefensible.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">05</span><h2>What gets measured</h2></div>
+
+    <p class="lead">
+      Not accuracy alone. The 2026 literature is explicit that accuracy no longer
+      separates agents, and that cost does.
+    </p>
+
+    <div class="cols">
+      <div class="card">
+        <h4>Solved</h4>
+        <p>Bugs actually fixed, by the real test suite. The obvious one, and not the
+        interesting one.</p>
+      </div>
+      <div class="card">
+        <span class="tag t-esc">&#9679; headline</span>
+        <h4>Human taps</h4>
+        <p>How many times the bell rang. Humans are the scarce resource in this system,
+        not tokens.</p>
+      </div>
+      <div class="card">
+        <span class="tag t-waste">&#9679; new</span>
+        <h4>Wasted tokens</h4>
+        <p>Tokens spent on attempts that <em>could never have succeeded</em>. As far as I
+        can find, nobody has published this number.</p>
+      </div>
+      <div class="card">
+        <h4>Context at stop</h4>
+        <p>How bloated the conversation got before it gave up. Connects the result
+        directly to the context-rot literature.</p>
+      </div>
+      <div class="card">
+        <h4>Steps to decision</h4>
+        <p>How fast the referee knew. A rule that takes forty turns to call it is
+        worthless even if it calls it correctly.</p>
+      </div>
+      <div class="card">
+        <h4>Ask-F1</h4>
+        <p>Precision of questions against recall of blockers. Included so our numbers
+        are directly comparable with HiL-Bench.</p>
+      </div>
+    </div>
+
+    <h3>The one picture</h3>
+    <figure>
+      <svg viewBox="0 0 660 320" role="img" aria-label="Bugs solved against human interruptions, with arm D above arm C at the same number of interruptions">
+        <g stroke="var(--rule)" stroke-width="1">
+          <line x1="70" y1="40" x2="70" y2="260"/>
+          <line x1="70" y1="260" x2="620" y2="260"/>
+        </g>
+        <g stroke="var(--rule)" stroke-width="1" stroke-dasharray="2 4">
+          <line x1="70" y1="90"  x2="620" y2="90"/>
+          <line x1="70" y1="140" x2="620" y2="140"/>
+          <line x1="70" y1="190" x2="620" y2="190"/>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-3)" text-anchor="end">
+          <text x="60" y="94">70</text>
+          <text x="60" y="144">60</text>
+          <text x="60" y="194">50</text>
+          <text x="60" y="264">40</text>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-3)" text-anchor="middle">
+          <text x="110" y="280">0</text>
+          <text x="260" y="280">25</text>
+          <text x="410" y="280">50</text>
+          <text x="560" y="280">75</text>
+        </g>
+        <text x="70" y="28" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-2)">bugs solved</text>
+        <text x="620" y="302" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--ink-2)" text-anchor="end">human interruptions &#8594;</text>
+
+        <path d="M110 250 L210 205 L360 150 L470 102" fill="none" stroke="var(--edge)" stroke-width="1.5" stroke-dasharray="5 4"/>
+
+        <circle cx="110" cy="250" r="6" fill="var(--waste)"/>
+        <text x="122" y="248" font-family="Archivo, sans-serif" font-weight="700" font-size="13" fill="var(--ink)">A Stubborn</text>
+        <text x="122" y="262" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--ink-3)">never asks</text>
+
+        <circle cx="210" cy="205" r="6" fill="var(--accent)"/>
+        <text x="222" y="203" font-family="Archivo, sans-serif" font-weight="700" font-size="13" fill="var(--ink)">B Needy</text>
+        <text x="222" y="217" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--ink-3)">asks immediately</text>
+
+        <circle cx="360" cy="150" r="6" fill="var(--ink-3)"/>
+        <text x="372" y="148" font-family="Archivo, sans-serif" font-weight="700" font-size="13" fill="var(--ink)">C Random</text>
+        <text x="372" y="162" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--ink-3)">same budget, wrong moments</text>
+
+        <circle cx="360" cy="102" r="8" fill="var(--escalate)"/>
+        <text x="376" y="100" font-family="Archivo, sans-serif" font-weight="800" font-size="14" fill="var(--ink)">D &mdash; CC-OS</text>
+        <text x="376" y="114" font-family="JetBrains Mono, monospace" font-size="10.5" fill="var(--escalate)">same budget as C, placed by class</text>
+
+        <line x1="360" y1="144" x2="360" y2="110" stroke="var(--escalate)" stroke-width="1.5"/>
+        <path d="M356 114 L360 108 L364 114 Z" fill="var(--escalate)"/>
+      </svg>
+      <figcaption>
+        Expected shape, drawn to illustrate the claim &mdash; not measured data. D and C
+        sit at the same x. Everything rests on the vertical gap between them.
+      </figcaption>
+    </figure>
+
+    <h3>The simulated human</h3>
+    <p>
+      Nobody can sit and answer questions for four hundred runs. Every benchmark bug
+      ships with its official correct fix, so when the agent rings the bell an oracle
+      answers <strong>one question, once</strong>, from that fix. That measures how much a
+      perfect senior engineer would have helped &mdash; an upper bound, declared as one.
+      Then twenty bugs are run with a real human for calibration, which doubles as the
+      viva demo.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">06</span><h2>How it gets built</h2></div>
+
+    <p class="lead">
+      Two programs that never talk to each other directly. The engine appends events
+      to a file; the dashboard reads the file.
+    </p>
+
+    <div class="cols">
+      <div class="card">
+        <span class="tag t-acc">python</span>
+        <h4>engine &mdash; the instrument</h4>
+        <p>
+          <strong>mini-SWE-agent</strong> as the agent: about 100 lines, bash only, linear
+          history. It replaced SWE-agent in 2026 and scores above 74% on SWE-bench
+          Verified.
+        </p>
+        <p>
+          Our referee wraps it. Its control flow already runs on exceptions
+          &mdash; <code>Submitted</code>, <code>LimitsExceeded</code>,
+          <code>FormatError</code> &mdash; so adding <code>Escalated</code> is a natural
+          extension rather than a fight.
+        </p>
+      </div>
+      <div class="card">
+        <span class="tag t-acc">typescript</span>
+        <h4>dashboard &mdash; the explanation</h4>
+        <p>
+          Next 16, React 19, Tailwind v4, shadcn, framer-motion, recharts. The same
+          stack as the Kuotivo dashboard, so none of it is new ground.
+        </p>
+        <p>
+          It tails the engine&rsquo;s event file over SSE, which means it works on a
+          finished run and on a live one with no change.
+        </p>
+      </div>
+    </div>
+
+    <p>The whole contribution, in the shape it will actually take:</p>
+
+    <pre><span class="k">class</span> Escalated(InterruptAgentFlow):
+    <span class="c">"""The agent stopped and asked. This class is the thesis."""</span>
+
+<span class="k">class</span> RefereeAgent(DefaultAgent):
+    <span class="k">def</span> step(self):
+        <span class="k">try</span>:
+            <span class="k">return</span> super().step()
+        <span class="k">except</span> TestFailed <span class="k">as</span> f:
+            c = triage(f)
+            emit({<span class="g">"event"</span>: <span class="g">"triage"</span>, <span class="g">"class"</span>: c, **meter()})
+            <span class="k">if</span> p(c, self.k) &lt;= theta[c]:
+                <span class="k">raise</span> Escalated(question_for(c, f))
+            <span class="c"># otherwise fall through and retry</span></pre>
+
+    <h3>Order of work</h3>
+    <ol class="steps">
+      <li><span class="ph">00</span><span><span class="what">Docker and one real bug</span><span class="det">mini-SWE-agent end to end on a single instance, NVIDIA or Qwen wired in. The riskiest phase, so it goes first and nothing moves until it works.</span></span></li>
+      <li><span class="ph">01</span><span><span class="what">The ledger</span><span class="det">Every event to JSONL, including the ones that crash. An escalation that leaves no record destroys the cost accounting.</span></span></li>
+      <li><span class="ph">02</span><span><span class="what">Triage, belief, stopping rule</span><span class="det">All four arms as one parameterised policy. The experiment now exists.</span></span></li>
+      <li><span class="ph">03</span><span><span class="what">The oracle human</span><span class="det">One question, one answer, from the official fix. Runs complete end to end.</span></span></li>
+      <li><span class="ph">04</span><span><span class="what">Run it</span><span class="det">Four arms across roughly 100 bugs. This is the data, and it is mostly waiting.</span></span></li>
+      <li><span class="ph">05</span><span><span class="what">Dashboard</span><span class="det">The Pareto, the side-by-side race, the waste bar, the evidence grid.</span></span></li>
+      <li><span class="ph">06</span><span><span class="what">Real humans and write-up</span><span class="det">Twenty calibration runs with a person in the loop, then the chapters.</span></span></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">07</span><h2>The disk problem is solved</h2></div>
+
+    <p class="lead">
+      SWE-bench normally wants about 120&nbsp;GB of Docker disk. We do not have to pay
+      that.
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Route</th><th class="num">Disk</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Build images locally, default settings</td>
+            <td class="num">~120 GB</td>
+            <td>The documented requirement. Not happening on this machine.</td>
+          </tr>
+          <tr style="background:var(--retry-soft)">
+            <td><strong>Epoch AI prebuilt registry</strong></td>
+            <td class="num"><strong>~30 GB</strong></td>
+            <td>All 500 Verified instances, MIT licensed, pull instead of build &mdash; a 6&times; reduction. <strong>For the ~100 we need, roughly 6&ndash;8 GB.</strong></td>
+          </tr>
+          <tr>
+            <td>Prune between instances</td>
+            <td class="num">steady</td>
+            <td><code>--clean=True</code> plus <code>docker image prune</code>. Holds disk flat regardless of how many bugs we run.</td>
+          </tr>
+          <tr>
+            <td>Modal / sb-cli cloud evaluation</td>
+            <td class="num">0 GB</td>
+            <td>Runs the harness entirely off-machine. Fallback if local still fights us.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      So the answer is: <strong>pull, do not build; run a subset, not all 500; prune as you
+      go.</strong> Realistic steady state is well under 15&nbsp;GB. One caution worth
+      recording &mdash; the images are x86, so on Apple Silicon they run under emulation.
+      Slower, not blocking.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-n">08</span><h2>Still open</h2></div>
+
+    <ul>
+      <li><strong>The name.</strong> &ldquo;Know When to Stop&rdquo; is a placeholder. The title is
+      the first thing the examiner reads, so it is worth deciding deliberately.</li>
+      <li><strong>How generous the oracle is.</strong> One question per escalation is the
+      current cap. It needs to be defended, or it becomes the attack.</li>
+      <li><strong>What if D does not beat C.</strong> That is still a publishable result:
+      placement does not matter, only volume does. Worth deciding now how it would be
+      written, so the finding is not steered toward the hoped-for answer.</li>
+      <li><strong>Second model.</strong> One model carries the main experiment; a second
+      is a robustness check if time allows.</li>
+    </ul>
+
+    <div class="flag">
+      <span class="bell">&#128276;</span>
+      <p>
+        Nothing in this document is measured yet. Every number quoted comes from
+        published work and is cited as such; every figure drawn from our own system is
+        marked as illustration. That distinction holds from here on.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="foot">
+    <p>
+      Sources: HiL-Bench arXiv:2604.09408 &middot; Bayesian Self-Escalation arXiv:2608.24087 &middot;
+      LLMs Cannot Self-Correct Reasoning Yet arXiv:2310.01798 &middot; Coding Agents Have
+      Converged arXiv:2609.17394 &middot; Coding Benchmarks Are Misaligned arXiv:2606.17799 &middot;
+      SWE-Bench Pro arXiv:2509.16941 &middot; SWE-bench Goes Live arXiv:2505.23419 &middot;
+      mini-swe-agent.com &middot; Epoch AI, &ldquo;How to run SWE-bench Verified in one hour on one machine&rdquo;.
+    </p>
+    <p style="margin-top:10px">Local working document. Not published.</p>
+  </div>
+</div>
+
+</main>
+</body>
+</html>

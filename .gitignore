@@ -34,3 +34,21 @@ Thumbs.db
 *.log
 *.out
 *.toc
+
+# ───────────────────────────────────── third-party tooling, not this project
+# academic-research-skills/ is a clone of Imbad0202/academic-research-skills
+# (70 MB) and carries its own .git. Committing a directory that contains a
+# nested repository stores a gitlink, and anyone cloning this project gets an
+# empty folder instead. It is a tool used on the work, not part of the work.
+# Install it separately:  git clone https://github.com/Imbad0202/academic-research-skills.git ~/academic-research-skills
+academic-research-skills/
+
+# .claude/skills/ holds symlinks into .agents/skills/. Git symlinks need
+# developer mode on Windows and silently become text files without it, so the
+# real skill content is committed under .agents/ and each machine makes its
+# own links (see SETUP.md).
+.claude/
+
+# Python bytecode
+__pycache__/
+*.pyc
