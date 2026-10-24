@@ -262,5 +262,129 @@
     "minDiscordant": 6,
     "couldEverReject": false,
     "bestAttainableP": 0.125
+  },
+  "subTest": {
+    "dist": {
+      "n": 300,
+      "min": 1,
+      "median": 1,
+      "q75": 2,
+      "q90": 3,
+      "max": 355,
+      "mean": 3.466666666666667,
+      "buckets": [
+        {
+          "label": "exactly 1",
+          "count": 192,
+          "share": 0.64
+        },
+        {
+          "label": "2",
+          "count": 74,
+          "share": 0.24666666666666667
+        },
+        {
+          "label": "3-5",
+          "count": 21,
+          "share": 0.07
+        },
+        {
+          "label": "6-9",
+          "count": 5,
+          "share": 0.016666666666666666
+        },
+        {
+          "label": "10 or more",
+          "count": 8,
+          "share": 0.02666666666666667
+        }
+      ],
+      "singleTest": 192,
+      "multiTest": 108,
+      "atLeastSix": 13
+    },
+    "diffs": [
+      {
+        "taskId": "astropy__astropy-7746",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 1,
+        "diff": 0
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "round": 2,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 1,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11019",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 6,
+        "f2pB": 6,
+        "f2pTotal": 16,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11019",
+        "round": 2,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 6,
+        "f2pB": 6,
+        "f2pTotal": 16,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11283",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 1,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11564",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 2,
+        "diff": 0
+      }
+    ],
+    "informative": 0,
+    "floor": 6,
+    "helps": false,
+    "p2pAvailability": 0.98,
+    "p2pMedian": 44,
+    "observedRegressions": [
+      {
+        "taskId": "django__django-11019",
+        "strategy": "l0_baseline",
+        "round": 0,
+        "broken": 33,
+        "p2pTotal": 58
+      },
+      {
+        "taskId": "django__django-11283",
+        "strategy": "l2_5_diagnose_revise",
+        "round": 1,
+        "broken": 8,
+        "p2pTotal": 8
+      }
+    ]
   }
 }

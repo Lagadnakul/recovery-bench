@@ -493,30 +493,80 @@ At 80% power, H1 needs:
 **The pre-registered N = 150 would have given the primary hypothesis 4.6–23.5% power.** Running
 it would have reproduced the pilot's problem at ten times the cost.
 
-### The decision this forces — before Stage 1 is written
+### Phase 1b — partial credit was checked, and it does not work
+
+The obvious escape from Finding 2 is partial credit: score each task by how many FAIL_TO_PASS
+sub-tests it fixes rather than whether it fixed all of them, and use a paired rank test.
+`django-11019` carries 16 sub-tests, so the idea looks strong from that one example.
+
+Built: `packages/pipeline/analysis/subtest.ts`, `tests/subtest.test.ts` (18 tests), folded into
+`bun run power`. **Two independent measurements say no.**
+
+**1. There is almost no partial credit available.** FAIL_TO_PASS counts across all 300
+SWE-bench Lite instances:
+
+| Sub-tests | Instances | Share |
+|---|---|---|
+| **exactly 1** | **192** | **64.0%** |
+| 2 | 74 | 24.7% |
+| 3–5 | 21 | 7.0% |
+| 6–9 | 5 | 1.7% |
+| 10 or more | 8 | 2.7% |
+
+Median **1**, q75 2, q90 3. **For 64% of instances the sub-test score *is* the binary
+outcome** — there is nothing to extract. Only 4.4% have six or more, so `django-11019` is the
+least representative instance in the benchmark, not the typical one.
+
+**2. Every paired difference that exists is exactly zero.** Blind Retry and Diagnose+Revise
+return *identical sub-test scores* on all four logic-class tasks — 0/1, 6/16, 0/1, 0/2. A
+Wilcoxon signed-rank test discards zero differences before ranking, exactly as McNemar discards
+concordant pairs, so the informative sample is not smaller than the binary one: **it is empty.
+0 informative pairs against a floor of 6.**
+
+That is a sharper statement of the pilot finding than the binary table can make, and it belongs
+in the paper: the strategies did not merely reach the same verdict, they fixed the same tests.
+
+### What the data does support: PASS_TO_PASS regressions
+
+**98% of instances carry at least one PASS_TO_PASS test** (median 44, mean 82), and unlike F2P
+this outcome **did** separate the strategies in the pilot:
+
+| Task | Strategy | Tests broken |
+|---|---|---|
+| `django-11019` | baseline | **33** |
+| `django-11283` | Diagnose+Revise | **8** |
+| `django-11283` | Blind Retry | **0** |
+
+This is D4's counter-signal, and it is the only outcome available with both the cardinality and
+the observed variance to support a test. It measures a different question from recovery —
+whether richer failure information does *harm* — so it is a candidate for a **new hypothesis**,
+not a replacement for H1.
+
+### The decision, with Phase 1b settled
 
 460 tasks × 3 strategies × up to 3 rounds is far beyond the budget: D25 already found the
-*existing* 1,308-cell grid needs 14.56M tokens against an 8M ceiling. Four honest options:
+*existing* 1,308-cell grid needs 14.56M tokens against an 8M ceiling. With partial credit ruled
+out, three options remain:
 
-1. **Sub-test outcomes instead of binary resolved.** Strongest option, and the data already
-   supports it. `django-11019` alone carries 16 F2P sub-tests, and the archive records
-   `f2pPassed/f2pTotal` on every test-verified row. A paired Wilcoxon on sub-test counts
-   extracts far more information per task than a binary McNemar, which throws away every
-   concordant pair. Needs its own power analysis — Phase 1b, roughly a day.
-2. **Reframe H1 as non-inferiority/equivalence.** The pilot *predicts* no difference, and
-   "no difference detected" is not the same claim as "equivalent within a margin". This is
-   already how `ccos-study` frames H4 (margin 0.05). Scientifically the honest framing when the
-   expected result is a null.
-3. **N = 450–600.** Reaches 80% for medium and large effects. Requires solving the token budget
-   first, and is the only option whose feasibility is genuinely in doubt.
-4. **Pool both failure classes** → n = 0.4N. Doubles the sample, but the resulting hypothesis
-   is no longer H1 — and H2 says the class is what matters, so pooling across it contradicts
-   the thesis.
+1. **Reframe H1 as non-inferiority / equivalence.** The pilot does not merely fail to find a
+   difference — it finds *exact equality*, on verdicts and on sub-test scores. "No difference
+   detected at this sample size" is a weak claim; "equivalent within a margin" is a real one,
+   and it is the honest framing when the expected result is a null. Already how `ccos-study`
+   frames H4 (margin 0.05). **Recommended.**
+2. **N = 450–600 for a superiority test.** Reaches 80% power for medium and large effects.
+   Requires solving the token budget first, and is the only option whose feasibility is in
+   genuine doubt.
+3. **Add a harm hypothesis on P2P regressions.** High cardinality, 98% availability, observed
+   variance. Strengthens the paper rather than rescuing H1. **Recommended alongside 1.**
 
-**Recommendation: 1 + 2 together.** Sub-test outcomes for power, equivalence framing for
-honesty, and report the binary McNemar alongside as the pre-registered secondary. State the
-460–765 figure in Threats to Validity regardless — a reviewer who checks will find it, and
-finding it stated is a strength.
+**Recommendation: 1 + 3.** Equivalence framing for H1, a new harm hypothesis on P2P
+regressions, and the binary McNemar reported as the pre-registered secondary with its
+460–765-task requirement stated in Threats to Validity. A reviewer who checks the power will
+find that number; finding it already stated is a strength, not an admission.
+
+**Still open: the equivalence margin.** That is a scientific judgement, not a computation —
+it has to be defended in the protocol and ideally agreed with the supervisors. `ccos-study`
+uses 5 percentage points. Phase 1c is the power curve once the margin is fixed.
 
 ### The four hypotheses, locked
 
@@ -767,7 +817,7 @@ reviews.
 | Dates | Phase | Deliverable |
 |---|---|---|
 | 24 Oct | 0 · unblock | **CLOSED.** Venue, authorship and `ccos-study` decided (§2.1) · Bun installed · CRLF defect fixed (§2.5) · archive restored, **433 pass / 0 fail / 0 skip**, `doctor` exit 0, byte-identical reproduction verified (§2.6) |
-| 24 Oct | 1 · power | **DONE.** `power.ts` + 31 tests + `bun run power` · hypotheses locked · N deferred pending the §3 decision |
+| 24 Oct | 1 · power | **DONE.** `power.ts` + 31 tests · `subtest.ts` + 18 tests · `bun run power` · `bun run verify` · N deferred pending the §3 decision |
 | 31 Oct–6 Nov | 2 · feasibility | `triage.ts` + `ccos.ts` + tests · triage table over 42 records · θ_c values · provider thinking adapter + budget guard (§1.1) |
 | 1–13 Nov | 3 · dashboard v1 | Views 1–4 on `packages/dashboard` · contrast green |
 | 1–11 Nov | 4 · writing | `plan` → `outline-only` → `three-way-scan` → `full` → `/ars-abstract` |
@@ -800,7 +850,13 @@ Written to the project memory directory as each completes, per standing instruct
       discordant pairs, best attainable p = 0.125), and **N = 150 gives H1 only 4.6-23.5%
       power** because H1's sample is 0.2xN, not the 0.4xN pool `analysis_plan.md` §7 tabulated.
       80% power needs 460-765 tasks. **N is not yet chosen** — §3 sets out the four options and
-      recommends sub-test outcomes plus an equivalence framing.
+      recommends an equivalence framing plus a new harm hypothesis.
+- [x] **M1b** — 24 Oct 2026. `subtest.ts` + 18 tests. Partial credit **ruled out** on two
+      independent measurements: 64% of SWE-bench Lite instances have exactly one FAIL_TO_PASS
+      test, and every paired sub-test difference in the pilot is exactly 0 (0 informative pairs
+      against a floor of 6). Found instead that **P2P regressions do discriminate** (98%
+      availability; Diagnose+Revise broke 8 tests where Blind Retry broke none) — a candidate
+      new hypothesis. Open: the equivalence margin.
 - [ ] **M2** — triage and CC-OS simulator pass tests over real data
 - [ ] **M3** — dashboard v1 shipped, contrast green
 - [ ] **M4** — abstract submitted (13 Nov)
