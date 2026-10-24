@@ -251,9 +251,15 @@ Then, in a new terminal:
 ```sh
 cd "D:\VS CODE\Nakul-Research-paper\recovery-bench"
 bun install
-bun run doctor          # every gate, offline, no API key
-bun test
+bun run verify          # every offline gate in one command, ~22s
 ```
+
+`bun run verify` replaced the six commands this section used to list. It runs typecheck,
+the suite, `doctor`, the `master_table.md` oracle check, `power` and the 127 palette checks,
+prints only failures, and exits with the number of failed gates. `--fast` drops the two slow
+ones and `--list` shows them. It resolves the Bun binary through `process.execPath` rather
+than the string `"bun"`, because a spawned process on Windows does not reliably inherit a
+PATH containing it.
 
 `bun.lock` is committed, so the install is reproducible. `node_modules/` is absent from this
 checkout — expected, and `bun install` fixes it.
@@ -434,46 +440,85 @@ payload: a pinned upstream sha beats a duplicate in the repository.
 
 ---
 
-## 3. Phase 1 — the power analysis · 27–31 October
+## 3. Phase 1 — the power analysis · DONE 24 October
 
-`WORKFLOW.md` calls this **"the critical item"** and it deserves the label. Everything
-downstream — N, token budget, days of quota, whether the study is feasible at all — falls out
-of this one number. Reviewers of Registered Reports attack it first, because under-powering is
-the exact failure the format exists to prevent.
+`WORKFLOW.md` called this **"the critical item"**. It earned the label: the answer changes the
+protocol.
 
-### What you have to work with
+Built: `packages/pipeline/analysis/power.ts`, `tests/power.test.ts` (31 tests), `bun run power`,
+emitting `reports/data/power.md` and `recovery-bench/data/power.json`. Suite is **464 pass,
+0 fail**; `doctor` green; `master_table.md` still byte-identical.
 
-From `reports/data/master_table.md` (regenerated from 42 evaluation records across 9 runs):
+**Exact, not simulated.** Discordant pairs are multinomial and the exact McNemar p-value is a
+two-sided binomial test at p = 1/2, so power is a finite O(n²) double sum. No RNG, no seed, no
+Monte-Carlo error — the digits the paper quotes are reproducible forever. At matched n the
+values agree with `ccos-study/docs/analysis_plan.md` §7 to within 0.01 (n=40: 11.3/28.2/36.4
+against its simulated 0.11/0.28/0.37), which validates both.
 
-- Baseline resolved **12/20 = 60%** on first attempt → **failure pool = 8**
-- Logic-class recovered **0/4**; format-class recovered **3/3**
-- All three strategies land on **exactly 6/16** sub-tests on `django-11019`
+### Finding 1 — the pilot's null was arithmetic, not evidence
 
-From `ccos-study/docs/analysis_plan.md` §7, which has already done this arithmetic honestly
-and is worth reading before you redo it:
+The exact test **cannot reach α = 0.05 on fewer than 6 discordant pairs**, whatever n is: the
+most extreme split of m pairs gives p = 2·(1/2)^m, which is 0.0625 at m=5 and 0.03125 at m=6.
+Below that the rejection region is empty — power is not low, it is **zero**.
 
-> With ~40% baseline failures, N = 150 gives a pool of ~60, adequate only for large effects.
+**The pilot had 4 logic-class failures.** Had all four favoured one strategy, p = 0.125. It
+could not have produced a significant result on any data whatsoever.
 
-Its simulated McNemar power at pool n = 60 is **0.27 / 0.50 / 0.57** across three effect
-sizes, and it recommends **N ≥ 220**.
+This is the strongest sentence available for Threats to Validity, and the cleanest possible
+justification for the Registered Report: the 0-of-4 result was not weak evidence of no effect,
+it was *no evidence either way*, guaranteed before collection began.
 
-### Build it
+### Finding 2 — N = 150 gives H1 almost no power, and §7 was measuring the wrong pool
 
-```
-recovery-bench/packages/pipeline/analysis/power.ts
-recovery-bench/tests/power.test.ts
-```
+`analysis_plan.md` §7 tabulates the **whole failure pool** (0.4 × N). But **H1 is logic-class
+only**, and logic is half the pool: **0.2 × N**. Its table is correct about a quantity H1 does
+not use.
 
-A simulated exact-McNemar power curve over N, taking discordance probabilities from the pilot.
-TypeScript, no new dependency — `zod` for the config shape, your own binomial. Output a JSON
-the dashboard reads and a markdown table the paper cites.
+| Tasks | Failure pool | **H1 logic pool** | small | medium | large |
+|---|---|---|---|---|---|
+| **150** | 60 | **30** | **4.6%** | **15.3%** | **23.5%** |
+| 220 | 88 | 44 | 14.5% | 33.1% | 41.1% |
+| 300 | 120 | 60 | 28.1% | 50.4% | 58.1% |
+| 450 | 180 | 90 | 50.2% | 73.9% | **79.2%** |
+| 600 | 240 | 120 | 67.1% | **87.1%** | **90.4%** |
 
-Then write, in the paper, the sentence the reviewer is looking for: *the smallest effect this
-design can detect at 80% power, and the N it requires.* If that N is beyond the quota, say so
-in Threats to Validity rather than quietly choosing a smaller one. An honest power limitation
-is survivable in a Registered Report; a hidden one is not.
+At 80% power, H1 needs:
 
-### Lock the four hypotheses in writing
+| Effect | paired n | **tasks to attempt** |
+|---|---|---|
+| small (0.10/0.02) | 153 | **765** |
+| medium (0.15/0.03) | 102 | **510** |
+| large (0.20/0.05) | 92 | **460** |
+
+**The pre-registered N = 150 would have given the primary hypothesis 4.6–23.5% power.** Running
+it would have reproduced the pilot's problem at ten times the cost.
+
+### The decision this forces — before Stage 1 is written
+
+460 tasks × 3 strategies × up to 3 rounds is far beyond the budget: D25 already found the
+*existing* 1,308-cell grid needs 14.56M tokens against an 8M ceiling. Four honest options:
+
+1. **Sub-test outcomes instead of binary resolved.** Strongest option, and the data already
+   supports it. `django-11019` alone carries 16 F2P sub-tests, and the archive records
+   `f2pPassed/f2pTotal` on every test-verified row. A paired Wilcoxon on sub-test counts
+   extracts far more information per task than a binary McNemar, which throws away every
+   concordant pair. Needs its own power analysis — Phase 1b, roughly a day.
+2. **Reframe H1 as non-inferiority/equivalence.** The pilot *predicts* no difference, and
+   "no difference detected" is not the same claim as "equivalent within a margin". This is
+   already how `ccos-study` frames H4 (margin 0.05). Scientifically the honest framing when the
+   expected result is a null.
+3. **N = 450–600.** Reaches 80% for medium and large effects. Requires solving the token budget
+   first, and is the only option whose feasibility is genuinely in doubt.
+4. **Pool both failure classes** → n = 0.4N. Doubles the sample, but the resulting hypothesis
+   is no longer H1 — and H2 says the class is what matters, so pooling across it contradicts
+   the thesis.
+
+**Recommendation: 1 + 2 together.** Sub-test outcomes for power, equivalence framing for
+honesty, and report the binary McNemar alongside as the pre-registered secondary. State the
+460–765 figure in Threats to Validity regardless — a reviewer who checks will find it, and
+finding it stated is a strength.
+
+### The four hypotheses, locked
 
 Verbatim from `WORKFLOW.md:146-153`:
 
@@ -483,9 +528,7 @@ Verbatim from `WORKFLOW.md:146-153`:
 - **H4** — A class-conditioned stopping rule achieves equal recovery at lower cost
   — **H4 is the new contribution**
 
-**Milestone M1 → write to memory.**
-
----
+**Milestone M1 → recorded.**
 
 ## 4. Phase 2 — the two programs that make the design credible · 31 Oct–6 November
 
@@ -724,7 +767,7 @@ reviews.
 | Dates | Phase | Deliverable |
 |---|---|---|
 | 24 Oct | 0 · unblock | **CLOSED.** Venue, authorship and `ccos-study` decided (§2.1) · Bun installed · CRLF defect fixed (§2.5) · archive restored, **433 pass / 0 fail / 0 skip**, `doctor` exit 0, byte-identical reproduction verified (§2.6) |
-| 27–31 Oct | 1 · power | `power.ts` + tests · N chosen and justified · four hypotheses locked in writing |
+| 24 Oct | 1 · power | **DONE.** `power.ts` + 31 tests + `bun run power` · hypotheses locked · N deferred pending the §3 decision |
 | 31 Oct–6 Nov | 2 · feasibility | `triage.ts` + `ccos.ts` + tests · triage table over 42 records · θ_c values · provider thinking adapter + budget guard (§1.1) |
 | 1–13 Nov | 3 · dashboard v1 | Views 1–4 on `packages/dashboard` · contrast green |
 | 1–11 Nov | 4 · writing | `plan` → `outline-only` → `three-way-scan` → `full` → `/ars-abstract` |
@@ -752,7 +795,12 @@ Written to the project memory directory as each completes, per standing instruct
       `Lagadnakul/Dissertation` before it is garbage-collected** (§2.6 — do this first), link
       the paper skills (§2.3), and move the repo under `Lagadnakul` before the Data
       Availability statement is written (§2.1).
-- [ ] **M1** — power analysis done; N chosen; four hypotheses locked
+- [x] **M1** — 24 Oct 2026. `power.ts` + 31 tests + `bun run power`. Exact McNemar power.
+      Two findings: the pilot could never have rejected (4 logic failures against a floor of 6
+      discordant pairs, best attainable p = 0.125), and **N = 150 gives H1 only 4.6-23.5%
+      power** because H1's sample is 0.2xN, not the 0.4xN pool `analysis_plan.md` §7 tabulated.
+      80% power needs 460-765 tasks. **N is not yet chosen** — §3 sets out the four options and
+      recommends sub-test outcomes plus an equivalence framing.
 - [ ] **M2** — triage and CC-OS simulator pass tests over real data
 - [ ] **M3** — dashboard v1 shipped, contrast green
 - [ ] **M4** — abstract submitted (13 Nov)

@@ -12,6 +12,7 @@
 
 import { doctor } from "./doctor.ts";
 import { replay, report } from "./analysis/replay.ts";
+import { power } from "./analysis/power.ts";
 import { tryCell } from "./tryCell.ts";
 import { warmCache } from "./warmCache.ts";
 import { runSweep } from "./runSweep.ts";
@@ -21,6 +22,7 @@ const USAGE = `recovery-bench
   doctor [--config <path>] [--live]   run every precondition check
   replay                               rebuild every cell from the archive
   report [--stdout]                    regenerate master_table.md and figure data
+  power  [--stdout]                    regenerate the sample-size analysis
   try [options]                        run ONE cell end to end and print it all
   warm-cache [--set <name>]            pre-fetch task files so runs are offline
   sweep [options]                      enumerate, project, and run the grid
@@ -71,6 +73,9 @@ switch (command) {
 
   case "report":
     process.exit(await report(flag("stdout")));
+
+  case "power":
+    process.exit(await power(flag("stdout")));
 
   case "try":
     process.exit(
