@@ -643,7 +643,88 @@ Two properties to prove by test, because both are claims the paper makes:
 Feed it `replay_rows.json`. The output is θ_c per class and the decision trace — **a
 demonstration that the method is implementable, labelled as such.** Not a finding.
 
-**Milestone M2 → write to memory.**
+### 4.3 Phase 2 as built — 24 October 2026
+
+`analysis/triage.ts` (29 tests) and `analysis/ccos.ts` (48 tests), both behind `bun run ccos`,
+writing `reports/data/ccos.md` and `recovery-bench/data/ccos.json`. Added as the seventh
+`bun run verify` gate. Suite: **559 pass, 0 fail across 27 files.**
+
+**The feasibility claim holds, exactly as the proposal states it.** All **51** archived records
+are classified with **0 model calls** — 9 FORMAT, 25 LOGIC, 17 resolved — and every record
+prints the field that decided it. Triage agrees with `classify.ts` on every baseline row, so
+the four-class taxonomy and the two-class split the submitted tables rest on are the same
+derivation. `FORMAT` is wired to `@rb/core`'s `isFormatClass` rather than redefined, so there
+is one definition in the codebase.
+
+**Five findings, each of which changes the Stage-1 protocol.**
+
+1. **The proposal's triage precedence is wrong, and its signature is not implementable.**
+   `BROKEN` must be tested *before* `FORMAT` — an instrument limit measured nothing, and
+   checking `apply_failed` first scores our own token ceiling as the model's bad formatting
+   (D18). And `triage(attempt)` cannot return `LOST`: three classes are properties of one
+   attempt, `LOST` is a property of a sequence. The signature splits in two.
+
+2. **The novelty score in the proposal does not merely fail — it inverts.** It specifies
+   Jaccard over *files touched*. SWE-bench Lite gold patches are single-file (D21), so the file
+   set is a constant of the *task*: file-level novelty is **exactly 0 on 21 of 26** scoreable
+   retries, and **all 5 non-zero values come from a patch with no readable file header**
+   (10 of 95 archived patches have none). The only attempts it calls novel are the ones too
+   malformed to name a file. Replaced with Jaccard over *edited lines*, whitespace-normalised,
+   which has real spread on the same data (0.000–1.000, mean 0.46) and ranks near-repetition
+   below genuine re-attempts.
+
+3. **LOST could not have fired, and that is provable rather than observed.** The first
+   attempt's novelty is 1 by definition. A trajectory of exactly `window` attempts therefore
+   has one window, that window contains attempt 1, and its mean is at least `1/window`
+   whatever the data — so with ε = 0.2 < 1/3, LOST is unreachable at depth 3 **for any
+   data**. Every scoreable trajectory in the archive has exactly 3. The same shape as the
+   power finding: arithmetic, not evidence.
+
+4. **λ is fitted, converges to an interior λ̂ ≈ 0.72 — and still does not evidence context
+   rot.** The 95% likelihood-ratio interval reaches **1.000**, which is no decay at all. Two
+   reasons, both computed: 3 of 5 observation cells sit at a rate of exactly 0 or 1 (a
+   Bernoulli rate with no interior value constrains the level, not the slope), and **0 of 10
+   successes were ever retried** — so every later-round denominator is conditioned on
+   earlier-round failure and λ̂ confounds context rot with difficulty selection, biased
+   *downwards*. `reportedLambda` returns `null` and θ_c is computed at λ = 1, the stated null.
+   That is the difference between *"λ is measured"* and *"λ was typed in"*.
+
+5. **The finite-horizon rule does not dominate the myopic one unconditionally.** The first
+   draft of `ccos.ts` asserted it did; `tests/ccos.test.ts` refuted it. The horizon threshold
+   is ≤ the myopic θ **exactly when the continuation value is non-negative**, and strictly
+   above it when q·G < h — asking is then net-negative, so a failed retry leaves a liability
+   rather than an option. That regime also exposes a gap in the published rule: with both
+   options negative there is **no abandon action**, so the policy keeps spending on the
+   less-bad one. One line in Threats to Validity.
+
+**The structural claim is proved, not asserted.** There is one `decide` function; the four arms
+are four `thetaFor` functions handed to it — Stubborn −∞, Needy +∞, Random ±∞ on a seeded
+coin, CC-OS θ_c. The tests enumerate a 72-point decision space and check that Stubborn retries
+everywhere, Needy escalates everywhere, Random's decisions are independent of the class, and
+**CC-OS with one q for every class reduces exactly to a class-blind threshold policy** — which
+is what makes class-conditioning the only difference between arm D and a fixed-threshold
+baseline.
+
+**What is assumed rather than measured, stated once.** `q_c` — the probability a human unblocks
+a failure of class c — is an assumption (`ASSUMED_Q`), because no human was ever interrupted in
+this study and no reanalysis will fill it in. Under the assumed values the derived policy
+contradicts the thesis on FORMAT (it escalates; the thesis says retry). That is **not** a
+contradiction yet — it is a constraint, and the report prints it as one: the rule reproduces the
+prescription for **q_FORMAT < 0.78**, against an assumed 0.9 and an observed retry success of
+p = 0.5 over 10 retries. Elicit q below that figure and the derived policy agrees with no code
+change, which is the behaviour the thesis claims. The gate deliberately does **not** fail on
+this, because failing it would pressure a future reader into editing `ASSUMED_Q` until the test
+passes — the exact opposite of *"the policy is derived, not written"*.
+
+**One design requirement comes out of 3 and 4 together: K ≥ 4 attempt rounds, run
+unconditionally on a subsample.** Three is the minimum at which LOST can fire at all, and
+retrying tasks that already succeeded is the only way to separate decay from selection. It is a
+change to *depth*, not breadth — which matters against a grid already 178% over its token
+ceiling (D25).
+
+**Still open and unchanged:** the equivalence margin (§3), and N.
+
+**Milestone M2 → written to memory.**
 
 ---
 

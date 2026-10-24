@@ -13,6 +13,7 @@
 import { doctor } from "./doctor.ts";
 import { replay, report } from "./analysis/replay.ts";
 import { power } from "./analysis/power.ts";
+import { ccos } from "./analysis/ccos.ts";
 import { tryCell } from "./tryCell.ts";
 import { warmCache } from "./warmCache.ts";
 import { runSweep } from "./runSweep.ts";
@@ -23,6 +24,7 @@ const USAGE = `recovery-bench
   replay                               rebuild every cell from the archive
   report [--stdout]                    regenerate master_table.md and figure data
   power  [--stdout]                    regenerate the sample-size analysis
+  ccos   [--stdout]                    regenerate triage + the CC-OS demonstration
   try [options]                        run ONE cell end to end and print it all
   warm-cache [--set <name>]            pre-fetch task files so runs are offline
   sweep [options]                      enumerate, project, and run the grid
@@ -76,6 +78,9 @@ switch (command) {
 
   case "power":
     process.exit(await power(flag("stdout")));
+
+  case "ccos":
+    process.exit(await ccos(flag("stdout")));
 
   case "try":
     process.exit(

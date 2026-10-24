@@ -11,6 +11,7 @@
     "doctor:live": "bun --env-file ../.env.local packages/pipeline/cli.ts doctor --live",
     "export-dataset": "bun scripts/export_dataset.ts",
     "replay": "bun packages/pipeline/cli.ts replay",
+    "ccos": "bun packages/pipeline/cli.ts ccos",
     "power": "bun packages/pipeline/cli.ts power",
     "report": "bun packages/pipeline/cli.ts report",
     "sweep": "bun packages/pipeline/cli.ts sweep",
