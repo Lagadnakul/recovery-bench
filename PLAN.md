@@ -468,7 +468,7 @@ text, and editing their content would make them no longer match what produced
 
 The document is done. Work moved to `recovery-bench/`, which builds the §8
 future-work items as a real program. Full rationale in
-`recovery-bench/docs/DECISIONS.md` (D0–D28); the build order is
+`recovery-bench/docs/DECISIONS.md` (D0–D33); the build order is
 `ARCHITECTURE.md` §6.
 
 | Step | State |
