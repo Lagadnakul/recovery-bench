@@ -11,10 +11,13 @@
     "doctor:live": "bun --env-file ../.env.local packages/pipeline/cli.ts doctor --live",
     "export-dataset": "bun scripts/export_dataset.ts",
     "replay": "bun packages/pipeline/cli.ts replay",
+    "power": "bun packages/pipeline/cli.ts power",
     "report": "bun packages/pipeline/cli.ts report",
     "sweep": "bun packages/pipeline/cli.ts sweep",
     "test": "bun test",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "verify": "bun scripts/verify.ts",
+    "verify:fast": "bun scripts/verify.ts --fast",
     "try": "bun --env-file ../.env.local packages/pipeline/cli.ts try",
     "warm-cache": "bun packages/pipeline/cli.ts warm-cache"
   },
