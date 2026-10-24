@@ -1,6 +1,6 @@
 # How to write and submit this research paper
 
-**For:** Aayush + Nakul · first research paper
+**For:** Nakul · first research paper
 **Target:** written by end of November 2026, submitted, accepted before June 2027
 **Status:** plan. Nothing here is built yet.
 
@@ -322,9 +322,9 @@ Three facts, in this order:
 
 ### Practise it
 
-Aayush: ask him the question cold, three times a week, until the 60-second
-version comes out the same every time. That is the whole fix. Nakul does not
-have a knowledge problem, he has a rehearsal problem.
+Say the 60-second version out loud, cold, three times a week, until it comes
+out the same every time. That is the whole fix — this is a rehearsal problem,
+not a knowledge problem.
 
 ---
 
@@ -338,8 +338,8 @@ Today is 22 October. The abstract is due 13 November. **Three weeks.**
 |---|---|---|---|
 | ☐ | Email the supervisor, confirm MSR/EMSE counts | Nakul | 10 min |
 | ☐ | Create the MSR submission account, read the CFP | Nakul | 30 min |
-| ☐ | Download the IEEE conference template | Aayush | 15 min |
-| ☐ | **Compute the power analysis** | Claude + Aayush | 1 day |
+| ☐ | Download the IEEE conference template | Nakul | 15 min |
+| ☐ | **Compute the power analysis** | Claude + Nakul | 1 day |
 | ☐ | Fix the four hypotheses in writing | both | 2 hours |
 | ☐ | Decide authorship order + affiliations | Nakul + supervisor | — |
 

@@ -2,7 +2,7 @@
 
 **Student:** Lagad Nakul Kiran (2503032340022) · M.Tech AI & DS, PIET, Parul University
 **Thesis:** Self-Reflection and Failure Recovery in Agentic AI Coding Systems
-**Plan owner:** Aayush (support) · **Author:** Nakul
+**Author:** Lagad Nakul Kiran
 **Created:** 2026-09-25
 
 ---

@@ -1,7 +1,6 @@
 # BUILD — paper and implementation, by 30 November 2026
 
 **Author:** Lagad Nakul Kiran (2503032340022) · M.Tech AI & DS, PIET, Parul University
-**Support:** Aayush
 **Written:** 24 October 2026
 **Deadline that does not move:** MSR 2027 abstract **13 November**, Stage 1 report **20 November**
 
@@ -204,19 +203,40 @@ model swap as a confound.
 
 Nothing below works until these are done. None take long.
 
-### 2.1 The email that gates three weeks of work
+### 2.1 The three decisions — taken 24 October 2026
 
-`WORKFLOW.md:117-126` is right that this goes first. One email to the supervisor, confirming
-that MSR 2027 (IEEE/ACM, Scopus, co-located with ICSE) Registered Reports + Stage 2 in
-Empirical Software Engineering satisfies the publication requirement. **Get it in writing
-before spending three weeks.** The draft is already written at `WORKFLOW.md:121-124`.
+`WORKFLOW.md:117-126` wanted a supervisor email before anything else. That email is **not
+being sent**; the three questions it carried are decided here instead, by the author.
 
-Settle two more things in the same thread:
+- **Venue: MSR 2027 only.** Registered Report Stage 1 on 20 November, Stage 2 to *Empirical
+  Software Engineering* on 30 September 2027. `ccos-study` is **not** a separate submission —
+  it becomes the Stage-2 execution engine after in-principle acceptance (§7). This closes the
+  one strategic conflict in the project.
+- **Authorship: sole author.** Lagad Nakul Kiran, PIET, Parul University. Corresponding author
+  and ORCID are his. No co-author on the MSR submission.
+- **Prompts:** `ccos/prompts.py` wording is superseded by `recovery-bench`'s committed
+  templates, which carry source provenance and are hash-checked against the originals.
 
-- **Authorship order and affiliations.** `WORKFLOW.md:344` and `:460` both flag this as
-  undecided. Much harder to change later than now.
-- **Whether `ccos-study` is a separate submission.** See §7 — the one real strategic risk, and
-  not yours to decide alone.
+**One assumption is now unverified, and it is worth naming once.** `WORKFLOW.md:126` warned
+*"Get it in writing before spending three weeks"* about whether MSR 2027 + EMSE satisfies the
+degree's publication requirement. Without that confirmation the paper is still worth writing —
+it is a Scopus-indexed IEEE/ACM venue with a Q1 journal stage — but if the department later
+requires something different, three weeks of writing may target the wrong venue. The fallback
+ladder in `WORKFLOW.md:108-112` (MSR Industry Track 18 Dec → Mining Challenge 23 Dec → EASE
+2027 → JKSU-CIS, no deadline) exists precisely for that case, and the Stage-1 protocol text
+transfers to any of them. Proceeding on that basis.
+
+Two consequences of sole authorship that are infrastructure, not paperwork:
+
+- **The repository is on another account.** `origin` is `AAYUSH412/Nakul-Research-paper`
+  (private, author has WRITE, not ADMIN). Zenodo archiving is authorized by the repo *owner*,
+  and e-Informatica requires a DOI while MSR expects a reachable artifact. Before the Data
+  Availability statement is written, this repo needs to live under `Lagadnakul` — a transfer
+  keeps all history and leaves a redirect. Settle it before the repo goes public, because
+  transferring after the URL is cited breaks the citation.
+- **`SETUP.md`'s collaboration section** (Overleaf, Live Share, "working together without
+  pushing constantly") and its `git clone git@github.com:AAYUSH412/…` line both describe a
+  two-person setup that no longer applies. Harmless, but update them when the repo moves.
 
 ### 2.2 Install Bun
 
@@ -324,7 +344,7 @@ the cache index.)
    model's patch.
 2. **`.gitattributes`** at the repository root — `* text=auto eol=lf`, with `-text` on the
    content-addressed `data/file_cache/blobs/**` and on `swebench_lite.jsonl`, and explicit
-   `binary` for the Office and image formats. This also protects Aayush's checkout.
+   `binary` for the Office and image formats. This also protects any fresh checkout.
 
 After both: **395 pass, 38 skip, 0 fail** across 433 tests, and `doctor` reports *"all gates
 pass, 1 warning(s) — safe to sweep"*, exit 0. The one warning is the unset API keys, which is
@@ -611,14 +631,23 @@ already published on.
 
 ---
 
-## 7. The one strategic risk, and it is not yours to decide alone
+## 7. `ccos-study` — resolved: parked until Stage 2
 
 `C:\Users\CHAITANYA\Downloads\ccos-study` is a second, complete, **Python** implementation of
 the same contribution — CC-OS — written 23 October, targeting **e-Informatica Software
 Engineering Journal**, with a different author list (Lagad, **Shethwala**, **Arif**, plus a
-placeholder reading literally `Aayush \TBD`). Neither Shethwala nor Arif appears anywhere in
-this repository. Its `CHECKLIST.md:31` wants runs started **27 October** for a mid-December
-submission, *"with no slack for problems."*
+co-author placeholder). Its `CHECKLIST.md:31` wants runs started **27 October** for a
+mid-December submission, *"with no slack for problems."*
+
+**Decision (§2.1): it is not submitted separately.** The same contribution cannot be published
+twice, and MSR 2027 is the chosen venue. `ccos-study` becomes the Stage-2 execution engine
+after in-principle acceptance on 4 February 2027. Two housekeeping items follow from that:
+delete the co-author placeholder from `paper/main.tex`, and give the repo a git remote — it is
+six commits in one folder on one laptop, and its `.gitignore` deliberately *tracks* `data/`,
+`runs/` and `results/` because they are the evidence for claims C1–C10.
+
+The rest of this section records why the December plan was never executable, which is also the
+Threats-to-Validity material for Stage 2 planning.
 
 **That plan cannot execute on this machine as it stands:**
 
@@ -632,22 +661,11 @@ submission, *"with no slack for problems."*
 | Python deps | scipy, matplotlib, pytest | **missing** |
 | Quota | 20 req/day free tier | its own estimate: **~35 days** of runs |
 
-**You cannot publish the same contribution twice.** Raise it explicitly in the Phase-0 email.
-Three honest options:
-
-1. **MSR only** — park `ccos-study`; it becomes your Stage-2 execution engine after
-   in-principle acceptance on 4 February. Cleanest. The 120 GB problem then has three months to
-   be solved, and `proposal/index.html` §7 already solved it: the Epoch AI prebuilt registry is
-   ~30 GB instead of ~120, pruning keeps steady state under 15 GB, or Modal/sb-cli makes it
-   0 GB.
-2. **Both, genuinely split** — MSR takes the stopping rule (H4); e-Informatica takes the scaled
-   three-strategy comparison (H1–H3). Defensible only if the split is real and each paper cites
-   the other. Needs supervisor sign-off and a written division.
-3. **e-Informatica only** — drop MSR. Requires the 120 GB, WSL2 and approval inside three days,
-   and your own analysis plan already says N = 150 is *"adequate only for large effects."*
-
-**Recommendation: option 1.** The only one where no deadline depends on something currently
-impossible, and the strategy your own newer document already chose.
+**The 120 GB problem is solvable, and `proposal/index.html` §7 already solved it** — which is
+why parking this until February costs nothing. The Epoch AI prebuilt registry is ~30 GB rather
+than ~120, pruning between instances keeps steady state under 15 GB, and Modal or sb-cli cloud
+evaluation makes it 0 GB. Three months is ample. Deciding it now, under a three-day deadline,
+on a drive with 20 GB free, was the only version of this that could fail.
 
 Separately: the IST review paper `INFSOF-D-26-01742` is submitted and awaiting decision, and
 `ccos-study/docs/review_paper_fixes.md` catalogues roughly nine in-text citation-numbering
@@ -661,7 +679,7 @@ reviews.
 
 | Dates | Phase | Deliverable |
 |---|---|---|
-| 24–27 Oct | 0 · unblock | Supervisor email sent · Bun installed · skills linked · stale pointers fixed · `ccos-study` given a remote |
+| 24 Oct | 0 · unblock | **CLOSED.** Venue, authorship and `ccos-study` decided (§2.1) · Bun installed · 433 tests green, `doctor` exit 0 · CRLF defect fixed (§2.5) · stale pointers fixed |
 | 27–31 Oct | 1 · power | `power.ts` + tests · N chosen and justified · four hypotheses locked in writing |
 | 31 Oct–6 Nov | 2 · feasibility | `triage.ts` + `ccos.ts` + tests · triage table over 42 records · θ_c values · provider thinking adapter + budget guard (§1.1) |
 | 1–13 Nov | 3 · dashboard v1 | Views 1–4 on `packages/dashboard` · contrast green |
@@ -682,7 +700,12 @@ December rejection still returns expert feedback on the design, which is worth h
 
 Written to the project memory directory as each completes, per standing instruction:
 
-- [ ] **M0** — supervisor confirmation received; Bun and skills installed; venue decided
+- [x] **M0** — 24 Oct 2026. Venue fixed to MSR 2027 only, sole author, `ccos-study` parked to
+      Stage 2 (§2.1). Bun 1.4.4 installed; 433 tests at 395 pass / 38 skip / 0 fail; `doctor`
+      all gates pass, exit 0. The CRLF defect in the apply gate found and fixed (§2.5).
+      Outstanding, carried forward: restore `archive/legacy_runs` to unskip the 38 archive
+      tests (§2.6), link the paper skills (§2.3), and move the repo under `Lagadnakul` before
+      the Data Availability statement is written (§2.1).
 - [ ] **M1** — power analysis done; N chosen; four hypotheses locked
 - [ ] **M2** — triage and CC-OS simulator pass tests over real data
 - [ ] **M3** — dashboard v1 shipped, contrast green
