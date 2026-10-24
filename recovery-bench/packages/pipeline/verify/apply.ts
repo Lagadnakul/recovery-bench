@@ -78,6 +78,14 @@ export async function withScratchRepo<T>(
     await git(dir, ["init", "--quiet"]);
     await git(dir, ["config", "user.email", "doctor@recovery-bench.local"]);
     await git(dir, ["config", "user.name", "recovery-bench doctor"]);
+    // The scratch repo must not inherit the machine's line-ending policy.
+    // core.autocrlf=true is the Git-for-Windows default: it rewrites the working
+    // tree to CRLF, so an LF patch applies and then reads back as CRLF. The apply
+    // "succeeds" and the content silently differs from what was intended, which
+    // turns every verdict this layer produces into a measurement of git's
+    // conversion rather than of the model's patch.
+    await git(dir, ["config", "core.autocrlf", "false"]);
+    await git(dir, ["config", "core.eol", "lf"]);
     for (const [path, content] of Object.entries(files)) {
       const full = join(dir, path);
       await mkdir(dirname(full), { recursive: true });
