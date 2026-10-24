@@ -362,29 +362,73 @@ git config core.autocrlf false
 rm -rf recovery-bench/data/file_cache && git checkout -- recovery-bench/data/file_cache
 ```
 
-### 2.6 The 38 skipped tests — the reproducibility claim is not currently verifiable
+### 2.6 The archive — restored 24 October, and a provenance commit that nearly vanished
 
-`bun test` skips 38 tests, all gated on `existsSync("archive/legacy_runs")`
-(`packages/pipeline/analysis/load.ts:40`). That directory is the dissertation's provenance
-payload — 495 files — and it is **gitignored and absent from this checkout**.
+`bun test` skipped 38 tests, all gated on `existsSync("archive/legacy_runs")`
+(`analysis/load.ts:40`). That payload is 495 files, gitignored, and was absent. Among the
+skips was `master_table.md regenerates BYTE-IDENTICALLY` — exactly the claim `README.md:77`
+advertises as *"the key check — the re-implementation reproduces the submitted results
+exactly, from a completely independent code path."* It was not failing; it was not running.
 
-Among the skipped tests is `regeneration against the live archive > master_table.md regenerates
-BYTE-IDENTICALLY`, which is exactly the claim `README.md:77` advertises as *"the key check — the
-re-implementation reproduces the submitted results exactly, from a completely independent code
-path."* **That check cannot run here right now.** It is not failing; it is not running.
-
-A Registered Report has a Data Availability statement, and this is the artifact it will point
-at, so restore the payload before submission:
+**It is restored, and the claim now holds.** All 495 files in place, and the headline check
+is empty:
 
 ```sh
-gh repo clone Lagadnakul/Dissertation /tmp/diss -- --depth 1
-# then copy 06_Methodology/code/ into recovery-bench/archive/legacy_runs/
-# canonical commit: c8872d070fb0b098394796dfbc68bcf67c3bd957
-# verify against archive/SHA256SUMS (495 files)
+diff <(bun run report --stdout) ../reports/data/master_table.md   # empty
 ```
 
-Then re-run `bun test` and confirm the skip count drops to 0 and the byte-identical diff is
-empty. **That is the last item of Phase 0.**
+**433 pass, 0 fail, 0 skip** — the whole suite live for the first time on this machine.
+
+#### Three things the restore uncovered
+
+**1. The documented rebuild recipe did not work, and the provenance commit is unreachable.**
+`archive/MANIFEST.md` said `gh repo clone Lagadnakul/Dissertation --depth 1`. That repo has
+since been **replaced**: commit `236484c` ("Replace the repository with the dissertation, its
+evidence and the implementation") wiped `06_Methodology/` from `main`, which is now two
+commits deep and holds a copy of *this* project. The old recipe would have silently restored
+the wrong tree. The canonical commit `c8872d07` survives only as a **dangling commit** — the
+API resolves it and `git fetch origin <sha>` retrieves it, but no branch or tag points at it.
+
+> **This is a live risk and it is worth one command to close.** Unreachable git objects are
+> eligible for garbage collection. Until a ref points at `c8872d07`, the provenance baseline
+> for every number in Chapters 4 and 5 can disappear without warning — and `main` no longer
+> has a copy. Nakul has ADMIN on the repo:
+>
+> ```sh
+> gh api repos/Lagadnakul/Dissertation/git/refs -f ref=refs/tags/provenance-phase1 >        -f sha=c8872d070fb0b098394796dfbc68bcf67c3bd957
+> ```
+>
+> Purely additive — it creates a tag and changes nothing else. Do it before anything else in
+> this document.
+
+**2. 73 of 495 checksums cannot match, and that is correct.** The `test_output.txt` files were
+archived with `gzip -9`, and gzip's compressed bytes depend on the zlib build — neither
+`gzip -9` nor `gzip -9 -n` reproduces the recorded hashes. The 422 original-byte files verify
+**exactly**. For the 73, what was verified instead is that they **decompress to bytes identical
+to the provenance commit** — all 73 match. Nothing in `packages/` reads the `.gz` files anyway;
+the archive layer reads `run_instance.log` and `report.json`. Recorded in the manifest so a
+future `sha256sum -c` showing 73 failures is not mistaken for corruption.
+
+**3. CRLF again, twice.** `SHA256SUMS` itself had CRLF, so every filename gained a `
+` and all
+495 checks failed with "No such file or directory" — a verification failure that looked like
+total corruption and was nothing of the kind. And `master_table.md` (146 lines) still had CRLF
+after §2.5, so the byte-identical test failed on all 146 lines at once. Both fixed by
+renormalising the whole working tree, which §2.5 should have done rather than only the file
+cache:
+
+```sh
+git rm --cached -r . && git reset --hard     # with .gitattributes in place; ignored files untouched
+```
+
+`git ls-files --eol` now reports `w/lf` throughout.
+
+#### Also restored: the original tree
+
+`tests/promptOracle.test.ts:159` needs `../Dissertation-main/06_Methodology/code` — it hashes
+four `day*.py` files to prove the committed prompt templates still match the Python they were
+extracted from. Restored there (93 MB) and added to `.gitignore`, for the same reason as the
+payload: a pinned upstream sha beats a duplicate in the repository.
 
 **Milestone M0 → write to memory.**
 
@@ -679,7 +723,7 @@ reviews.
 
 | Dates | Phase | Deliverable |
 |---|---|---|
-| 24 Oct | 0 · unblock | **CLOSED.** Venue, authorship and `ccos-study` decided (§2.1) · Bun installed · 433 tests green, `doctor` exit 0 · CRLF defect fixed (§2.5) · stale pointers fixed |
+| 24 Oct | 0 · unblock | **CLOSED.** Venue, authorship and `ccos-study` decided (§2.1) · Bun installed · CRLF defect fixed (§2.5) · archive restored, **433 pass / 0 fail / 0 skip**, `doctor` exit 0, byte-identical reproduction verified (§2.6) |
 | 27–31 Oct | 1 · power | `power.ts` + tests · N chosen and justified · four hypotheses locked in writing |
 | 31 Oct–6 Nov | 2 · feasibility | `triage.ts` + `ccos.ts` + tests · triage table over 42 records · θ_c values · provider thinking adapter + budget guard (§1.1) |
 | 1–13 Nov | 3 · dashboard v1 | Views 1–4 on `packages/dashboard` · contrast green |
@@ -703,9 +747,11 @@ Written to the project memory directory as each completes, per standing instruct
 - [x] **M0** — 24 Oct 2026. Venue fixed to MSR 2027 only, sole author, `ccos-study` parked to
       Stage 2 (§2.1). Bun 1.4.4 installed; 433 tests at 395 pass / 38 skip / 0 fail; `doctor`
       all gates pass, exit 0. The CRLF defect in the apply gate found and fixed (§2.5).
-      Outstanding, carried forward: restore `archive/legacy_runs` to unskip the 38 archive
-      tests (§2.6), link the paper skills (§2.3), and move the repo under `Lagadnakul` before
-      the Data Availability statement is written (§2.1).
+      Archive restored: **433 pass, 0 fail, 0 skip**, and the byte-identical `master_table.md`
+      reproduction verified (§2.6). Outstanding, carried forward: **tag `c8872d07` in
+      `Lagadnakul/Dissertation` before it is garbage-collected** (§2.6 — do this first), link
+      the paper skills (§2.3), and move the repo under `Lagadnakul` before the Data
+      Availability statement is written (§2.1).
 - [ ] **M1** — power analysis done; N chosen; four hypotheses locked
 - [ ] **M2** — triage and CC-OS simulator pass tests over real data
 - [ ] **M3** — dashboard v1 shipped, contrast green

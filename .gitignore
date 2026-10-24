@@ -52,3 +52,14 @@ academic-research-skills/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Dissertation-main/ is the ORIGINAL experiment tree, restored from the pinned
+# provenance commit (Lagadnakul/Dissertation @ c8872d07 — a dangling commit, not
+# reachable from main, which has since been replaced). Two tests in
+# tests/promptOracle.test.ts hash four of its day*.py files to prove the
+# committed prompt templates still match the Python they were extracted from.
+#
+# Not committed, for the same reason as archive/legacy_*: an immutable upstream
+# sha beats a duplicate in the repository. Rebuild it with the recipe in
+# recovery-bench/archive/MANIFEST.md.
+Dissertation-main/

@@ -40,11 +40,65 @@ copy can be rebuilt and verified but never inflates the repository.
 
 To rebuild it on another machine:
 
+> **The recipe below replaced an earlier one that no longer works.** Corrected
+> 24 October 2026. `Lagadnakul/Dissertation` has since been **replaced** —
+> commit `236484c` ("Replace the repository with the dissertation, its evidence
+> and the implementation") wiped `06_Methodology/` from `main`, which now holds a
+> copy of this project instead. `main` is two commits deep and does **not**
+> contain the payload, so the old `--depth 1` clone silently restored the wrong
+> tree. `c8872d07` survives only as a **dangling commit**: the GitHub API still
+> resolves it, and `git fetch origin <sha>` still retrieves it, but no branch or
+> tag points at it.
+>
+> **This is a live risk to the dissertation's evidence chain.** Unreachable
+> objects are eligible for garbage collection. Until a tag or branch points at
+> `c8872d07`, the provenance baseline for every number in Chapters 4 and 5 can
+> disappear without warning:
+>
+> ```sh
+> gh api repos/Lagadnakul/Dissertation/git/refs -f ref=refs/tags/provenance-phase1 >        -f sha=c8872d070fb0b098394796dfbc68bcf67c3bd957
+> ```
+
 ```sh
-gh repo clone Lagadnakul/Dissertation /tmp/diss -- --depth 1
-# then re-run the step 0 copy, and:
-cd archive && shasum -a 256 -c SHA256SUMS --quiet
+# 1. Fetch the dangling provenance commit by sha. A plain clone will NOT get it.
+#    core.longpaths is required: the deepest log paths exceed Windows MAX_PATH.
+mkdir /d/_diss && cd /d/_diss && git init
+git config core.longpaths true && git config core.autocrlf false
+git remote add origin https://github.com/Lagadnakul/Dissertation.git
+git fetch origin c8872d070fb0b098394796dfbc68bcf67c3bd957
+git checkout --detach FETCH_HEAD        # 495 files under 06_Methodology/code
+
+# 2. Re-run the step 0 copy into archive/, then gzip the 73 test outputs:
+#    legacy_runs/        <- logs/run_evaluation/.        (427)
+#    legacy_predictions/ <- predictions*.json            (12)
+#    legacy_code/        <- day*.py + Day7_README.md     (31)
+#    legacy_aggregates/  <- everything else at top level (25)
+find legacy_runs -name test_output.txt -exec gzip -9 -n {} +
+
+# 3. Verify. SHA256SUMS must be LF — with CRLF, every filename gains a  and
+#    all 495 checks fail with "No such file or directory".
+cd archive && sha256sum -c SHA256SUMS --quiet
 ```
+
+**Expected verification result: 422 of 495 match; the 73 `test_output.txt.gz`
+do not.** That is correct, not corruption. gzip's compressed bytes depend on the
+zlib build, so the `.gz` files cannot be byte-reproduced on a different machine —
+neither `gzip -9` nor `gzip -9 -n` reproduces the recorded hashes. What is
+verifiable, and what was checked on restore, is that all 73 **decompress to bytes
+identical to the provenance commit**:
+
+```sh
+gunzip -c legacy_runs/<run>/<cond>/<inst>/test_output.txt.gz | sha256sum
+# equals sha256sum of 06_Methodology/code/logs/run_evaluation/<run>/<cond>/<inst>/test_output.txt
+```
+
+Nothing in `packages/` reads the `.gz` files; the archive layer reads
+`run_instance.log` and `report.json`. The compression is for storage only.
+
+`tests/promptOracle.test.ts` additionally needs the original tree itself at
+`../Dissertation-main/06_Methodology/code` — it hashes four `day*.py` files to
+prove the committed prompt templates still match the Python they came from. That
+directory is gitignored for the same reason the payload is.
 
 ## What is here
 
