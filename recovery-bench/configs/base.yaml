@@ -148,9 +148,10 @@ budget:
   nvidia:
     # PER KEY, not per provider. The three keys in api_key_env were each created
     # from a separate build.nvidia.com account, so each has its own allowance
-    # (D28). Effective capacity is 4 x 8M once NVIDIA_KEY_4 is confirmed to be a
-    # fourth separate account; the sweep distributes load round-robin and
-    # excludes a key once its own ceiling is reached.
+    # (D28). NVIDIA_KEY_4 was confirmed by Nakul on 25 Oct 2026 to be a fourth
+    # separate account, so effective capacity is 4 x 8M = 32M; the sweep
+    # distributes load round-robin and excludes a key once its own ceiling is
+    # reached.
     per_key: true
     max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
     max_calls: 1500
