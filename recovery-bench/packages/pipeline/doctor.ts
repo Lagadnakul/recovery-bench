@@ -436,10 +436,27 @@ async function checkBudget(cfg: Config): Promise<BudgetLedger> {
     LEDGER_PATH,
   );
 
+  // How many keys each provider actually has set. A per_key provider's real
+  // capacity is that times its ceiling, and without it both the check below and
+  // `summary` understate a four-key pool by 4x — precisely the failure
+  // `BudgetLedger.summary` says `keysSet` exists to prevent.
+  const keysSet: Record<string, number> = {};
+  for (const [name, pc] of Object.entries(cfg.providers)) {
+    keysSet[name] = Math.max(
+      pc.apiKeyEnv.filter((n) => (process.env[n] ?? "").length > 0).length,
+      1,
+    );
+  }
+
   const exhausted: string[] = [];
-  for (const [provider, ceiling] of Object.entries(cfg.budget.providers)) {
-    const spend = ledger.spendOf(provider);
-    if (spend.tokens >= ceiling.maxTokens || spend.calls >= ceiling.maxCalls) {
+  for (const provider of Object.keys(cfg.budget.providers)) {
+    // `spendOf(provider)` with no key name reads the SHARED bucket, which is
+    // always empty for a per_key provider — so comparing it against a single
+    // key's ceiling meant this could never fire for nvidia at all. Sum the
+    // per-key accounts and compare against pooled capacity instead.
+    const spend = ledger.spendOfProvider(provider);
+    const cap = ledger.capacityOf(provider, keysSet[provider] ?? 1);
+    if (spend.tokens >= cap.tokens || spend.calls >= cap.calls) {
       exhausted.push(provider);
     }
   }
@@ -448,7 +465,7 @@ async function checkBudget(cfg: Config): Promise<BudgetLedger> {
     records === 0
       ? `no ledger at ${LEDGER_PATH} — nothing spent yet`
       : `${records} call(s) in the ledger${skipped > 0 ? `, ${skipped} unreadable line(s)` : ""}`,
-    ...ledger.summary(),
+    ...ledger.summary(keysSet),
     `stop_on_exhaustion: ${cfg.budget.stopOnExhaustion}`,
   ].join("\n");
 
