@@ -8,6 +8,7 @@
  */
 
 import { loadConfig } from "../core/config.ts";
+import { acquireSweepLock, SweepLocked } from "./matrix/lock.ts";
 import { loadDataset } from "./tasks/dataset.ts";
 import {
   enumerateCells,
@@ -109,38 +110,65 @@ export async function runSweep(opts: RunSweepOptions): Promise<number> {
     return 0;
   }
 
-  // ─────────────────────────────────────────────────────────────── execute
-  console.log(rule("SWEEP"));
-  const started = Date.now();
-  const res = await sweep({
-    cfg,
-    tasks,
-    arms: opts.arms,
-    onCell: (r) => {
-      const pct = ((r.index / r.total) * 100).toFixed(1);
-      console.log(
-        `  [${String(r.index).padStart(5)}/${r.total}  ${pct.padStart(5)}%]  ` +
-          `${r.outcome.padEnd(15)} ${r.key}`,
+  // ───────────────────────────────────────────────────── execute, alone
+  //
+  // One writer at a time. Two sweeps would each load their own resume
+  // snapshot and duplicate every remaining cell; see `matrix/lock.ts`.
+  let release: () => void;
+  try {
+      release = acquireSweepLock(undefined, (held) =>
+        console.log(
+          `  note: cleared a stale sweep lock (pid ${held?.pid ?? "unknown"} is gone)`,
+        ),
       );
-    },
-  });
-  const mins = ((Date.now() - started) / 60_000).toFixed(1);
+    } catch (e) {
+      if (e instanceof SweepLocked) {
+        console.log(rule("REFUSING TO RUN"));
+        console.log(`  ${e.message}
+  `);
+        return 1;
+      }
+      throw e;
+    }
 
-  console.log(rule("DONE"));
-  console.log(`  ${res.ran} cell(s) run, ${res.skippedResumed} resumed, ${mins} min`);
-  console.log(`  ${(res.tokensSpent / 1e6).toFixed(3)}M tokens spent`);
-  for (const [kind, n] of Object.entries(res.byOutcome).sort((a, b) => b[1] - a[1])) {
-    console.log(`    ${kind.padEnd(16)} ${n}`);
-  }
-  if (res.armsSkipped.length > 0) {
-    console.log(`  arms stopped on exhausted budget: ${res.armsSkipped.join(", ")}`);
-  }
+    try {
+    console.log(rule("SWEEP"));
+    const started = Date.now();
+    const res = await sweep({
+      cfg,
+      tasks,
+      arms: opts.arms,
+      onCell: (r) => {
+        const pct = ((r.index / r.total) * 100).toFixed(1);
+        console.log(
+          `  [${String(r.index).padStart(5)}/${r.total}  ${pct.padStart(5)}%]  ` +
+            `${r.outcome.padEnd(15)} ${r.key}`,
+        );
+      },
+    });
+    const mins = ((Date.now() - started) / 60_000).toFixed(1);
 
-  // The no-holes check runs automatically. A sweep that claims success without
-  // it would be asserting the one property it exists to guarantee.
-  const v = await verify(cfg, tasks, { arms: opts.arms });
-  console.log(rule("VERIFY"));
-  for (const line of formatVerify(v)) console.log(`  ${line}`);
-  console.log("");
-  return v.complete ? 0 : 1;
+    console.log(rule("DONE"));
+    console.log(`  ${res.ran} cell(s) run, ${res.skippedResumed} resumed, ${mins} min`);
+    console.log(`  ${(res.tokensSpent / 1e6).toFixed(3)}M tokens spent`);
+    for (const [kind, n] of Object.entries(res.byOutcome).sort((a, b) => b[1] - a[1])) {
+      console.log(`    ${kind.padEnd(16)} ${n}`);
+    }
+    if (res.armsSkipped.length > 0) {
+      console.log(`  arms stopped on exhausted budget: ${res.armsSkipped.join(", ")}`);
+    }
+
+    // The no-holes check runs automatically. A sweep that claims success without
+    // it would be asserting the one property it exists to guarantee.
+    const v = await verify(cfg, tasks, { arms: opts.arms });
+    console.log(rule("VERIFY"));
+    for (const line of formatVerify(v)) console.log(`  ${line}`);
+    console.log("");
+    return v.complete ? 0 : 1;
+  } finally {
+    // Released on every path, including a thrown error: a lock left behind
+    // by a crash is stale rather than fatal, but a lock left behind by a
+    // clean exit would block tomorrow's run for no reason.
+    release();
+  }
 }

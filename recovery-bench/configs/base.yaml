@@ -25,12 +25,19 @@ providers:
     kind: openai_compat
     base_url: https://integrate.api.nvidia.com/v1
     api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3, NVIDIA_KEY_4]  # key pool
-    # 180, not 300. The longest cell ever MEASURED on this project is 140.5 s
-    # (`try`, a 29,555-token prompt on nemotron_ultra), so 180 clears the real
-    # worst case with margin while a dead socket fails fast. At 300 x 4 retries
-    # a single wedged connection stalled a2 for 20+ minutes on 25 Oct 2026 and
-    # still recorded BROKEN at the end of it.
-    timeout_s: 180
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
+    timeout_s: 300
     # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
     # same prompt, and a cell that exhausts them is excluded from analysis by
     # `measuresModel: false` either way. Fewer retries changes how long we wait
@@ -41,12 +48,19 @@ providers:
     kind: openai_compat
     base_url: https://maas.qwencloudapi.com/compatible-mode/v1
     api_key_env: qwen_api_key
-    # 180, not 300. The longest cell ever MEASURED on this project is 140.5 s
-    # (`try`, a 29,555-token prompt on nemotron_ultra), so 180 clears the real
-    # worst case with margin while a dead socket fails fast. At 300 x 4 retries
-    # a single wedged connection stalled a2 for 20+ minutes on 25 Oct 2026 and
-    # still recorded BROKEN at the end of it.
-    timeout_s: 180
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
+    timeout_s: 300
     # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
     # same prompt, and a cell that exhausts them is excluded from analysis by
     # `measuresModel: false` either way. Fewer retries changes how long we wait
@@ -61,12 +75,19 @@ providers:
     # key's rate limit; it does not buy a second token ceiling unless the keys
     # really are separate projects (D28's test applies here too).
     api_key_env: [gemini_api_key, gemini_api_key1]
-    # 180, not 300. The longest cell ever MEASURED on this project is 140.5 s
-    # (`try`, a 29,555-token prompt on nemotron_ultra), so 180 clears the real
-    # worst case with margin while a dead socket fails fast. At 300 x 4 retries
-    # a single wedged connection stalled a2 for 20+ minutes on 25 Oct 2026 and
-    # still recorded BROKEN at the end of it.
-    timeout_s: 180
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
+    timeout_s: 300
     # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
     # same prompt, and a cell that exhausts them is excluded from analysis by
     # `measuresModel: false` either way. Fewer retries changes how long we wait

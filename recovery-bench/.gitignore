@@ -14,6 +14,9 @@ data/runs/
 # and every run would conflict. The derived outputs below ARE committed,
 # because they cannot be rebuilt without the gitignored archive.
 data/ledger.jsonl
+# The single-writer lock. Per-process and per-machine by definition, and a
+# committed one would refuse a fresh clone naming a pid from another machine.
+data/sweep.lock
 # Sweep results WERE ignored as per-run experimental output, on the reasoning that
 # the committed record of the original study is replay_rows.json. That reasoning
 # held while no sweep had ever run. It stopped holding on 25 Oct 2026, when a5
