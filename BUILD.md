@@ -728,6 +728,136 @@ ceiling (D25).
 
 ---
 
+## 4.5 The live sweep — a5 ran 25 October, and it rejected
+
+Everything above §4.4 is design and pilot evidence. This section is the first thing in the
+project that is **a measurement**. Read the distinction carefully, because the dashboard
+rules in §5 depend on it: the `ccos` output is a demonstration, a5 is data.
+
+### Step 0 — what had to be fixed first
+
+Seven keys now exist: `NVIDIA_KEY_1..4`, `qwen_api_key`, `gemini_api_key`,
+`gemini_api_key1`. Wiring them exposed four defects, three of which only a *live* run
+could reveal:
+
+| | defect | consequence had it shipped |
+|---|---|---|
+| 1 | `bun run sweep` was the only script without `--env-file ../.env.local` | a live sweep would authenticate with **no keys at all**, and `--project-only` would count `keysSet = 0` and re-print D25's 178% overrun as though the pool did not exist |
+| 2 | `doctor`'s exhaustion check used `spendOf(provider)` | for a `per_key` provider that reads the **always-empty shared bucket**, so NVIDIA could sit at 32M spent and the gate would still say healthy |
+| 3 | `ledger.summary()` called without `keysSet` | printed `[1 key(s) x 8,000,000]` for a four-key pool — understating capacity 4x, the exact shape of how D25 came to read 178% |
+| 4 | `tryCell` had defect 2 twice | `try` printed `0 → 0 tokens` after really spending 31k |
+
+**The pattern worth naming:** for a `per_key` provider the provider-level question is
+`spendOfProvider`, **never** `spendOf`. It was wrong in three places.
+
+`a6_qwencloud` was enabled at **2 repeats, not 3** — at 3 it projected 1.03M tokens against
+a 0.90M ceiling set deliberately under Qwen's 1M free quota, so the overflow was real: cut
+breadth, not the ceiling (D3). And `a2`/`a3`/`a4` went to **`rounds: 4`**, satisfying §4.3's
+K ≥ 4 requirement. That was affordable because rounds make lineages *deeper*, not more
+numerous — the lineage count is unchanged — which is precisely what the fourth NVIDIA key
+bought. **`a1` stays at rounds 2: the pilot ran 2, and a replication that changes depth is
+not a replication.**
+
+Grid as it now stands: **1,844 cells in 1,076 lineages, 22.18M tokens**, every provider
+inside its ceiling. Two of the four `failure_pool` tasks are also in `stratified_60`, which
+merges 12 lineages across arms — checked and benign, since exhaustion is scoped by provider
+and each cell records its own arm.
+
+### D20 is handled, and that is a scientific fact not an operational one
+
+NVIDIA signals capacity exhaustion with **HTTP 200 and an empty body** rather than a 429.
+Observed again on 25 October from `nemotron_nano` on a *single sequential probe with no
+concurrent load*, then fine on re-probe — so it is provider-side capacity, not only the
+16/16 worker limit, and it can strike at concurrency 1.
+
+`res.ok` is true for a 200, so the `!res.ok` branch never sees it. What catches it is
+`res.json()` **throwing** on an empty body, landing in the generic catch as retryable — up
+to `max_retries`, then `PROVIDER_ERROR`.
+
+| outcome | means | triage | measures the model? |
+|---|---|---|---|
+| `PROVIDER_ERROR` | the instrument was unavailable | BROKEN | **no** |
+| `NO_OUTPUT` | the model returned nothing | BROKEN | yes — asserts a real empty completion |
+
+An empty body becomes the first, never the second. Five tests in `tests/providers.test.ts`
+pin that boundary, including the other side: `muse_30b`'s genuinely empty *content* when
+reasoning exhausts its ceiling stays `NO_OUTPUT` and is not retried away. **So raising
+concurrency risks wasted retries and holes in the matrix, not corrupted data.** Documented
+but not changed: `pool.rotate()` fires only on 429, so an empty body retries the *same* key.
+
+### a5 — 720 cells, 127.8 minutes, 8.608M tokens
+
+Projected 8.32M, spent 8.608M — **3.5% over, so the projector is trustworthy**. Zero
+`PROVIDER_ERROR`, zero `BUDGET_STOP`, zero empty bodies in 720 live calls at concurrency 4.
+`--verify`: COMPLETE, every planned cell has exactly one row.
+
+| format | APPLIED | rate |
+|---|---|---|
+| `search_replace` | 347 / 360 | **96.4%** |
+| `unified_diff` | 47 / 360 | **13.1%** |
+
+**360 complete paired comparisons within (task, model, repeat), 0 incomplete.** Both
+applied 46 · search_replace-only **301** · unified_diff-only **1** · neither 12.
+
+> Discordant pairs **302** against a rejection floor of 6. **Exact McNemar p = 7.44e-89.**
+
+Set that against §3: the pilot had 4 logic failures against a floor of 6, so its best
+attainable p was 0.125. This arm has 302 discordant pairs.
+
+**It survives the obvious attack.** The prompt — from `day7_step1_generate_full_pilot.py`,
+the study's own code — states in capitals that hunk counts must match, but never literally
+asks for a `--- a/ +++ b/` header. Discard **every** `no_file_header` failure and 280 pairs
+remain with b = 222, c = 1, **p = 3.32e-65**.
+
+**The mechanism is arithmetic, not coding.** `hunk_count_mismatch` is 206 of 304 FORMAT
+rows. A header `@@ -A,B +C,D @@` requires the model to count the lines in its own hunk and
+state the count; `search_replace` requires no counting at all, and its 10 failures are a
+different mechanism entirely (`search_not_found` — hallucinated context).
+
+### The surprise: capability ran backwards
+
+| model | `search_replace` | `unified_diff` |
+|---|---|---|
+| `muse_30b` (30B) | 97.8% | **25.6%** (46/180) |
+| `nemotron_ultra` (550B) | 95.0% | **0.6%** (1/180) |
+
+The 550B model produced **one** valid unified diff in 180 attempts — 40x worse than the
+30B. Checked for a systematic style artefact: there is none. Its failures are the same mix,
+uniformly worse (`hunk_count_mismatch` 112 vs 94, `no_file_header` 48 vs 32, `APPLY_FAIL`
+15 vs 2), so it fails at every stage rather than in one odd way.
+
+**Caveat that must travel with it:** n = 2 models cannot establish a capability trend, and
+`nemotron_ultra` has `max_tokens` 16384 against muse's 8192. An observation, not a law.
+
+Triage handled the new rows unmodified — FORMAT 304 vs 10, and the 12 `TRUNCATED` rows
+became BROKEN with `measuresModel: false`, correctly excluded. 708 measure the model, 12 do
+not.
+
+### State the claim narrowly, or a reviewer will state it for you
+
+**`APPLIED` is not `RESOLVED`.** Under D6 there is no Docker, so `resolved` is null by
+type. a5 measures **whether a model's edit can be applied at all** — not bug-fixing
+ability. And `fuzzy_match: false`, so the claim is "under strict application"; a lenient
+applier would repair many of these. Say so rather than letting it be found.
+
+Stated that narrowly it is still the only arm in the grid with the power to reject
+anything, which is why §3's recommendation stands: **make this the primary hypothesis and
+the equivalence claim secondary.**
+
+### The data is now committed
+
+`data/sweep_rows.jsonl` (3.2 MB) was gitignored by a rule written when sweep rows were
+hypothetical per-run noise. It is now the paper's **primary dataset** — 128 minutes and
+8.6M tokens that cannot be cheaply reproduced. Verified free of secrets (0 key-shaped
+strings, 0 of the 7 real key values) and committed. The Data Availability statement points
+at it.
+
+**Still to run: `a2`/`a3`/`a4` (1,040 cells, ~4 h) and `a1`/`a6`.**
+
+**Milestone M3 → written to memory.**
+
+---
+
 ## 5. Phase 3 — the dashboard · build 1–13 Nov alongside the paper, polish 21–30 Nov
 
 This is the part you want the professor to see, so it gets a real design brief rather than

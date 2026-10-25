@@ -14,9 +14,21 @@ data/runs/
 # and every run would conflict. The derived outputs below ARE committed,
 # because they cannot be rebuilt without the gitignored archive.
 data/ledger.jsonl
-# Sweep results are per-run experimental output, not a derived artifact. The
-# committed record of the ORIGINAL study is replay_rows.json; these are new runs.
-data/sweep_rows.jsonl
+# Sweep results WERE ignored as per-run experimental output, on the reasoning that
+# the committed record of the original study is replay_rows.json. That reasoning
+# held while no sweep had ever run. It stopped holding on 25 Oct 2026, when a5
+# produced 720 rows over 127.8 minutes and 8.608M tokens of free-tier quota.
+#
+# Those rows are the paper's PRIMARY DATASET, not a derived artifact: they cannot
+# be regenerated without spending the quota again, and the quota is finite. A
+# primary dataset living in one untracked file on one machine is exactly how
+# c8872d07 came to be a dangling commit. So it is tracked.
+#
+# Verified before committing: zero key-shaped strings, and none of the seven real
+# key values from .env.local appear anywhere in it. Re-check with the same two
+# greps before committing any future sweep output.
+#
+# data/sweep_rows.jsonl — deliberately NOT ignored
 
 # Archived provenance payload. Every file in it already lives upstream at
 # Lagadnakul/Dissertation @ c8872d070fb0b098394796dfbc68bcf67c3bd957, so the copy
