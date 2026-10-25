@@ -191,6 +191,100 @@ describe("openai-compat — retries and key rotation", () => {
   });
 });
 
+// ──────────────────────────────────────────── D20: HTTP 200, empty body
+//
+// NVIDIA signals capacity exhaustion by returning 200 with an empty body rather
+// than a 429. Observed again on 25 Oct 2026 from `nemotron_nano` on a single
+// SEQUENTIAL probe with no concurrent load, so it is provider-side capacity and
+// not only the 16/16 worker limit — it can strike at concurrency 1.
+//
+// The hazard being pinned here is a scientific one, not an availability one: if
+// an empty body were accepted as a response, it would be recorded as the model
+// producing nothing (NO_OUTPUT -> BROKEN) and a4_reasoning's 520 cells on that
+// model would fill with failures the model never committed. These tests fix the
+// boundary between "the instrument was unavailable" and "the model said
+// nothing", which the triage taxonomy depends on being real.
+describe("openai-compat — HTTP 200 with an empty body (D20)", () => {
+  const empty = () => new Response("", { status: 200 });
+
+  test("an empty body is retried, not accepted as an answer", async () => {
+    process.env.TEST_KEY_A = "a".repeat(20);
+    process.env.TEST_KEY_B = "b".repeat(20);
+    const { impl, seen } = stubFetch([empty, () => json(200, NVIDIA_OK)]);
+    const p = new OpenAICompatProvider("nvidia", provCfg(), impl, NO_BACKOFF);
+
+    const r = await p.call(req);
+    // `res.ok` is TRUE for a 200, so the !res.ok branch never sees this. What
+    // catches it is `res.json()` throwing on an empty body, landing in the
+    // generic catch as retryable. The retry is incidental to that design, so
+    // it is pinned here rather than left to be rediscovered.
+    expect(r.retries).toBe(1);
+    expect(r.content).toBe("ok");
+    expect(seen.length).toBe(2);
+  });
+
+  test("an exhausted empty-body retry is PROVIDER_ERROR, never NO_OUTPUT", async () => {
+    process.env.TEST_KEY_A = "a".repeat(20);
+    const { impl } = stubFetch([empty, empty, empty]);
+    const p = new OpenAICompatProvider("nvidia", provCfg({ maxRetries: 2 }), impl, NO_BACKOFF);
+
+    // This is the claim that protects the dataset. PROVIDER_ERROR triages to
+    // BROKEN with measuresModel false; NO_OUTPUT would also triage to BROKEN
+    // but asserts the model returned an empty completion, which it never did.
+    await expect(p.call(req)).rejects.toThrow(ProviderError);
+  });
+
+  test("a well-formed 200 with no choices is also retried", async () => {
+    process.env.TEST_KEY_A = "a".repeat(20);
+    const { impl, seen } = stubFetch([
+      () => json(200, { choices: [] }),
+      () => json(200, NVIDIA_OK),
+    ]);
+    const p = new OpenAICompatProvider("nvidia", provCfg(), impl, NO_BACKOFF);
+    const r = await p.call(req);
+    expect(r.retries).toBe(1);
+    expect(seen.length).toBe(2);
+  });
+
+  test("an empty body does NOT rotate the key, unlike a 429", async () => {
+    process.env.TEST_KEY_A = "a".repeat(20);
+    process.env.TEST_KEY_B = "b".repeat(20);
+    const { impl, seen } = stubFetch([empty, () => json(200, NVIDIA_OK)]);
+    const p = new OpenAICompatProvider("nvidia", provCfg(), impl, NO_BACKOFF);
+    const r = await p.call(req);
+
+    // Documented, not endorsed. `pool.rotate()` fires only on 429, so an empty
+    // body retries the SAME key. When the cause is provider-side capacity that
+    // is the weaker move, and rotating would be the better one — but changing
+    // it alters which key each cell is billed to, so it is a deliberate
+    // decision rather than a quiet fix, and this test will catch the change.
+    expect(seen[0]!.auth).toBe(seen[1]!.auth);
+    expect(r.keyName).toBe("TEST_KEY_A");
+  });
+
+  test("a clean 200 with empty CONTENT is a real answer, and stays NO_OUTPUT", async () => {
+    process.env.TEST_KEY_A = "a".repeat(20);
+    const { impl, seen } = stubFetch([
+      () =>
+        json(200, {
+          choices: [{ index: 0, message: { role: "assistant", content: "" }, finish_reason: "stop" }],
+          usage: { prompt_tokens: 10, completion_tokens: 0 },
+        }),
+    ]);
+    const p = new OpenAICompatProvider("nvidia", provCfg(), impl, NO_BACKOFF);
+    const r = await p.call(req);
+
+    // The other side of the boundary: muse_30b really does return empty content
+    // when reasoning exhausts the ceiling (openaiCompat.ts:233). That IS the
+    // model saying nothing and must not be retried away, or the taxonomy loses
+    // a real observation.
+    expect(seen.length).toBe(1);
+    expect(r.retries).toBe(0);
+    expect(r.content).toBe("");
+    expect(r.finishReason).toBe("stop");
+  });
+});
+
 describe("KeyPool", () => {
   test("only counts keys whose env var is actually set", () => {
     process.env.TEST_KEY_A = "a".repeat(20);
