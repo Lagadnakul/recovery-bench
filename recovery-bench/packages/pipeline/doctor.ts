@@ -440,42 +440,75 @@ async function checkBudget(cfg: Config): Promise<BudgetLedger> {
   // capacity is that times its ceiling, and without it both the check below and
   // `summary` understate a four-key pool by 4x — precisely the failure
   // `BudgetLedger.summary` says `keysSet` exists to prevent.
+  //
+  // Zero is kept DISTINCT from one. `Math.max(.., 1)` here claimed a one-key
+  // pool for an environment holding no keys at all, and then compared the
+  // POOLED spend of four keys against one key's ceiling. On 25 Oct 2026, with
+  // a5 spent, `bun run doctor` read "8,607,885/8,000,000 (107.60%) AT CEILING"
+  // while every one of the four keys sat at 27% and the runtime guard — which
+  // bills per key via `accountOf` — would have allowed every cell. An absent
+  // key is UNKNOWN capacity, not a capacity of one.
   const keysSet: Record<string, number> = {};
   for (const [name, pc] of Object.entries(cfg.providers)) {
-    keysSet[name] = Math.max(
-      pc.apiKeyEnv.filter((n) => (process.env[n] ?? "").length > 0).length,
-      1,
-    );
+    keysSet[name] = pc.apiKeyEnv.filter(
+      (n) => (process.env[n] ?? "").length > 0,
+    ).length;
   }
 
   const exhausted: string[] = [];
+  const unknown: string[] = [];
   for (const provider of Object.keys(cfg.budget.providers)) {
+    const n = keysSet[provider] ?? 0;
+    if (n === 0 && (ledger.ceilingOf(provider)?.perKey ?? false)) {
+      // Pooled capacity is keys x ceiling, and we cannot see the keys. Saying
+      // nothing is right: the alternative is a verdict computed from a key
+      // count we invented.
+      unknown.push(provider);
+      continue;
+    }
     // `spendOf(provider)` with no key name reads the SHARED bucket, which is
     // always empty for a per_key provider — so comparing it against a single
     // key's ceiling meant this could never fire for nvidia at all. Sum the
     // per-key accounts and compare against pooled capacity instead.
     const spend = ledger.spendOfProvider(provider);
-    const cap = ledger.capacityOf(provider, keysSet[provider] ?? 1);
+    const cap = ledger.capacityOf(provider, Math.max(n, 1));
     if (spend.tokens >= cap.tokens || spend.calls >= cap.calls) {
       exhausted.push(provider);
     }
   }
 
+  // `summary` divides by its key count, so a 0 there would print "/0 tokens".
+  // It gets a floor of 1; the `unknown` note below says when that floor is a
+  // placeholder rather than a measurement.
+  const forSummary = Object.fromEntries(
+    Object.entries(keysSet).map(([k, v]) => [k, Math.max(v, 1)]),
+  );
+
   const detail = [
     records === 0
       ? `no ledger at ${LEDGER_PATH} — nothing spent yet`
       : `${records} call(s) in the ledger${skipped > 0 ? `, ${skipped} unreadable line(s)` : ""}`,
-    ...ledger.summary(keysSet),
+    ...ledger.summary(forSummary),
     `stop_on_exhaustion: ${cfg.budget.stopOnExhaustion}`,
   ].join("\n");
 
+  const notes: string[] = [];
+  if (exhausted.length > 0) {
+    notes.push(`AT CEILING: ${exhausted.join(", ")} — cells will record BUDGET_STOP`);
+  }
+  if (unknown.length > 0) {
+    notes.push(
+      `POOLED CAPACITY UNKNOWN: ${unknown.join(", ")} — no keys in this ` +
+        `environment, so the per-key lines above are shown against ONE key's ` +
+        `ceiling and the percentage is not the pool's. Run doctor:live or ` +
+        `sweep (both load .env.local) for the real figure.`,
+    );
+  }
+
   record({
     name: "budget ledger",
-    status: exhausted.length > 0 ? "WARN" : "PASS",
-    detail:
-      exhausted.length > 0
-        ? `${detail}\nAT CEILING: ${exhausted.join(", ")} — cells will record BUDGET_STOP`
-        : detail,
+    status: exhausted.length > 0 || unknown.length > 0 ? "WARN" : "PASS",
+    detail: notes.length > 0 ? `${detail}\n${notes.join("\n")}` : detail,
     gate: false,
   });
 
