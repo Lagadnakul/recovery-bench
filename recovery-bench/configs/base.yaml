@@ -9,8 +9,9 @@ run:
   dry_run: false
   # Concurrent cells per provider. NVIDIA returns HTTP 200 with an EMPTY BODY
   # past its 16/16 worker limit rather than a 429 (D20), which a sweep would
-  # record as the model saying nothing. Three keys spread the load, so 4 in
-  # flight is comfortable; gemini's quota is 30 calls total, so serialise it.
+  # record as the model saying nothing. The worker pool, not RPM, is the limit:
+  # four keys raise the request ceiling but not the pool, so 4 in flight stays
+  # the right number. gemini's quota is 30 calls total, so serialise it.
   default_concurrency: 2
   concurrency:
     nvidia: 4
@@ -23,7 +24,7 @@ providers:
   nvidia:
     kind: openai_compat
     base_url: https://integrate.api.nvidia.com/v1
-    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3]   # key pool
+    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3, NVIDIA_KEY_4]  # key pool
     timeout_s: 300
     max_retries: 4
 
@@ -36,7 +37,12 @@ providers:
 
   gemini:
     kind: gemini
-    api_key_env: gemini_api_key
+    # Two keys, pooled. NOT declared per_key in the budget below: Gemini's free
+    # tier is quota'd per PROJECT, so two keys from one Google Cloud project
+    # share one allowance. Pooling still buys retry headroom against a single
+    # key's rate limit; it does not buy a second token ceiling unless the keys
+    # really are separate projects (D28's test applies here too).
+    api_key_env: [gemini_api_key, gemini_api_key1]
     timeout_s: 300
     max_retries: 4
 
@@ -142,8 +148,9 @@ budget:
   nvidia:
     # PER KEY, not per provider. The three keys in api_key_env were each created
     # from a separate build.nvidia.com account, so each has its own allowance
-    # (D28). Effective capacity is 3 x 8M; the sweep distributes load round-robin
-    # and excludes a key once its own ceiling is reached.
+    # (D28). Effective capacity is 4 x 8M once NVIDIA_KEY_4 is confirmed to be a
+    # fourth separate account; the sweep distributes load round-robin and
+    # excludes a key once its own ceiling is reached.
     per_key: true
     max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
     max_calls: 1500
@@ -163,7 +170,9 @@ grid:
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
-    rounds: 2
+    rounds: 2                         # stays 2: the pilot ran 2, and a
+                                      # replication that changes depth is not
+                                      # a replication
     repeats: 1                        # 24 cells
 
   a2_workhorse:
@@ -173,8 +182,8 @@ grid:
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
-    rounds: 2
-    repeats: 5                        # 120 cells
+    rounds: 4                         # Phase 2: LOST is unreachable below K=4
+    repeats: 5                        # 240 cells
 
   a3_capability:
     enabled: true
@@ -183,8 +192,8 @@ grid:
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
-    rounds: 2
-    repeats: 5                        # 120 cells
+    rounds: 4                         # Phase 2: LOST is unreachable below K=4
+    repeats: 5                        # 240 cells
 
   a4_reasoning:
     enabled: true
@@ -193,8 +202,8 @@ grid:
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false, true]           # the manipulated variable
-    rounds: 2
-    repeats: 5                        # 240 cells
+    rounds: 4                         # Phase 2: LOST is unreachable below K=4
+    repeats: 5                        # 480 cells
 
   a5_format_at_scale:
     enabled: true
@@ -207,11 +216,18 @@ grid:
     repeats: 3                        # 720 cells
 
   a6_qwencloud:
-    enabled: false                    # spends finite free quota — opt in
+    enabled: true                     # opted in 25 Oct 2026 — a fourth vendor
+                                      # for cross-family robustness. Stays at
+                                      # rounds 2: the 1M free quota is finite
+                                      # and this arm is a robustness check, not
+                                      # where LOST is measured.
     models: [qwen_max]
     tasks: failure_pool
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
     rounds: 2
-    repeats: 3                        # 72 cells
+    # 3 repeats projected 1.03M tokens against the 0.90M ceiling (115%). The
+    # ceiling is deliberately under Qwen's 1M free quota, so the overflow is
+    # real and not an accounting artefact: cut breadth, not the ceiling (D3).
+    repeats: 2                        # 48 cells

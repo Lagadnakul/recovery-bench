@@ -60,13 +60,16 @@ const outcome = (c: Cell): CellOutcome => ({
 
 // ───────────────────────────────────────────────────────────── enumeration
 describe("enumeration", () => {
-  test("the committed grid is 1,308 cells in 1,044 lineages", () => {
-    // 1,224 condition cells plus 84 round-0 baselines — one per group, which
+  test("the committed grid is 1,844 cells in 1,076 lineages", () => {
+    // 1,752 condition cells plus 92 round-0 baselines — one per group, which
     // the recovery conditions read (D26). Before those existed, 2 of the 3
     // conditions could never run.
+    //
+    // Grew from 1,308 on 25 Oct 2026: a2/a3/a4 went to rounds 4 because Phase 2
+    // proved LOST is unreachable below K=4, and a6 was enabled at 2 repeats.
     const cells = enumerateCells(cfg, tasks);
-    expect(cells.length).toBe(1308);
-    expect(toLineages(cells).length).toBe(1044);
+    expect(cells.length).toBe(1844);
+    expect(toLineages(cells).length).toBe(1076);
   });
 
   test("a baseline is inserted per group, not per condition", () => {
@@ -75,10 +78,15 @@ describe("enumeration", () => {
       (c) => c.cell.strategy === "l0_baseline" && c.cell.round === 0,
     );
     // a1: 4 tasks x 1 repeat = 4. a2, a3: 4 x 5 = 20 each.
-    // a4: 4 x 2 thinking x 5 = 40. a5 needs none — it is already l0 at round 1.
-    expect(baselines.length).toBe(84);
+    // a4: 4 x 2 thinking x 5 = 40. a6: 4 x 2 = 8.
+    // a5 needs none — it is already l0 at round 1.
+    //
+    // Baselines are per GROUP, and the group excludes the round, so raising
+    // a2/a3/a4 to rounds 4 does not add a single baseline.
+    expect(baselines.length).toBe(92);
     expect(baselines.filter((b) => b.arm === "a1_replication").length).toBe(4);
     expect(baselines.filter((b) => b.arm === "a4_reasoning").length).toBe(40);
+    expect(baselines.filter((b) => b.arm === "a6_qwencloud").length).toBe(8);
     expect(baselines.filter((b) => b.arm === "a5_format_at_scale").length).toBe(0);
 
     // One baseline shared by all three conditions of a group — as in the
@@ -89,9 +97,19 @@ describe("enumeration", () => {
   });
 
   test("disabled arms contribute nothing", () => {
-    const cells = enumerateCells(cfg, tasks);
+    // Every arm in the committed config is enabled as of 25 Oct 2026, so this
+    // tests the MECHANISM against a clone rather than asserting a config fact
+    // that the next edit would invalidate.
+    const off = structuredClone(cfg);
+    off.grid.a6_qwencloud!.enabled = false;
+
+    const cells = enumerateCells(off, tasks);
     expect(cells.some((c) => c.arm === "a6_qwencloud")).toBe(false);
-    expect(summarise(cfg, cells).disabledArms).toContain("a6_qwencloud");
+    expect(summarise(off, cells).disabledArms).toContain("a6_qwencloud");
+
+    // And the committed config really does have nothing switched off, so the
+    // projection the budget gate sees is the whole grid.
+    expect(summarise(cfg, enumerateCells(cfg, tasks)).disabledArms).toEqual([]);
   });
 
   test("enumeration is deterministic — same config, same order", () => {
@@ -114,22 +132,25 @@ describe("enumeration", () => {
     const by = summarise(cfg, enumerateCells(cfg, tasks)).byArm;
     // Config comments give the condition cells; baselines are added on top.
     expect(by.a1_replication).toBe(24 + 4);
-    expect(by.a2_workhorse).toBe(120 + 20);
-    expect(by.a3_capability).toBe(120 + 20);
-    expect(by.a4_reasoning).toBe(240 + 40);
+    expect(by.a2_workhorse).toBe(240 + 20);
+    expect(by.a3_capability).toBe(240 + 20);
+    expect(by.a4_reasoning).toBe(480 + 40);
     expect(by.a5_format_at_scale).toBe(720);
+    expect(by.a6_qwencloud).toBe(48 + 8);
   });
 
   test("a lineage is everything but the round, in round order", () => {
     const cells = enumerateCells(cfg, tasks).filter((c) => c.arm === "a2_workhorse");
     const lineages = toLineages(cells);
-    // 60 condition lineages of 2 rounds, plus 20 baseline lineages of 1.
+    // 60 condition lineages of 4 rounds, plus 20 baseline lineages of 1. The
+    // lineage count is unchanged by K=4 — rounds make lineages deeper, not
+    // more numerous, which is why depth was affordable and breadth was not.
     expect(lineages.length).toBe(80);
 
     const conditions = lineages.filter((l) => l.cells[0]!.cell.strategy !== "l0_baseline");
     expect(conditions.length).toBe(60);
     for (const l of conditions) {
-      expect(l.cells.map((c) => c.cell.round)).toEqual([1, 2]);
+      expect(l.cells.map((c) => c.cell.round)).toEqual([1, 2, 3, 4]);
     }
     const baselines = lineages.filter((l) => l.cells[0]!.cell.strategy === "l0_baseline");
     expect(baselines.length).toBe(20);
