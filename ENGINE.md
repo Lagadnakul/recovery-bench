@@ -6,7 +6,35 @@ You asked a direct question and it deserves a direct answer before anything else
 
 ---
 
+> ## ⚠ SUPERSEDED LATER THE SAME DAY — 25 October 2026
+>
+> **§1 below is no longer true, and the change is the point.** When this document was
+> written no API key had ever been used. You then said to finish the live sweep, so on
+> 25 October the engine was pointed at real endpoints for the first time:
+>
+> - `doctor --live` — all seven keys resolve, all five models answer
+> - `try` — one cell end to end, **APPLIED**, a real patch to `astropy/wcs/wcs.py`
+> - **`a5_format_at_scale` — 720/720 cells, 127.8 min, 8.608M tokens**
+>
+> So the files §1 cites as absent now **exist**: `data/sweep_rows.jsonl` holds 720 rows
+> and is **committed** (it is primary data, not a derived artifact), and `data/ledger.jsonl`
+> records the spend. §6's "no live sweep" entry is likewise obsolete.
+>
+> **The result:** edit format decides whether a patch applies at all — `search_replace`
+> 96.4% against `unified_diff` 13.1%, exact McNemar **p = 7.44e-89** on 360 paired
+> comparisons, surviving at p = 3.32e-65 after discarding every ambiguous failure. Full
+> write-up in **`BUILD.md` §4.5**, which is the live section and supersedes this one.
+>
+> Everything in §2 through §5 still stands — it describes the engine, and the engine did
+> not change. §1 is kept rather than deleted because it is the honest record of what was
+> true when you asked, and the proof table is still the right way to check the claim.
+
+---
+
 ## 1. The direct answer: no, I have not spent a single API call
+
+> **True when written, on the morning of 25 October 2026. Superseded that afternoon — see
+> the box above.**
 
 **I have never used your API keys. Not once.** Everything I have built and every number I have reported comes from data that already existed on your disk.
 
@@ -361,13 +389,16 @@ The ones that still shape decisions: **D2** 8 of 24 cells produced no evaluable 
 
 | | |
 |---|---|
-| **No live API call has been made** | By design. It belongs after in-principle acceptance |
-| **No Docker test run** | D6. The 73 test-verified rows are the archive's, and there will never be another |
+| ~~No live API call has been made~~ | **DONE 25 Oct 2026.** `a5` ran: 720 cells, 8.608M tokens, p = 7.44e-89. See `BUILD.md` §4.5 |
+| ~~Thinking adapter, budget guard, quota record~~ | **DONE.** All three were already built; `doctor --live` now records the per-key check |
+| **`a2` / `a3` / `a4` not yet run** | 1,040 cells, ~4 h, at `rounds: 4`. Scheduled for 26 Oct |
+| **`a1` / `a6` not yet run** | `a1` is 28 Gemini calls against a 30 ceiling at ~20/day, so it spans two days |
+| **No Docker test run** | D6. The 73 test-verified rows are the archive's, and there will never be another. **This is why a5 measures `APPLIED`, not `RESOLVED`** |
 | **Phase 1c** | Blocked on the **equivalence margin** — a scientific judgement, not a computation |
 | **N is deliberately unchosen** | It follows from the margin |
 | **Phase 3 dashboard** | Not started. Six views specified in `BUILD.md` §5 |
 | **Phase 4 writing** | Not started |
-| Thinking adapter, budget guard, quota record | The three prerequisites before any live call |
+| Triage CLI does not read `sweep_rows.jsonl` | `triageAttempt` classifies the new rows correctly; only the CLI wiring is missing |
 | Repo ownership move | `recovery-bench` must sit under `Lagadnakul` before the Data Availability statement |
 
 ---
