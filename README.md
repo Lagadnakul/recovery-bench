@@ -31,12 +31,14 @@ expressed* — unified diff to SEARCH/REPLACE — changed everything.
 | Path | Contents |
 |---|---|
 | [`Documents/`](Documents/) | The dissertation (`Self.docx` submitted master, `REPORT.pdf`), the systematic review, the Phase-1 review deck, and the weekly report template |
-| [`recovery-bench/`](recovery-bench/) | The implementation — TypeScript on Bun, 433 tests, 127 palette checks |
+| [`recovery-bench/`](recovery-bench/) | The implementation — TypeScript on Bun, 433 tests across 23 files, plus 127 palette checks (`bun run contrast`) |
 | [`reports/`](reports/) | Generated figures, chapter data, and the master results table |
 | [`explainer/`](explainer/) | A plain-language walkthrough of the build, phase by phase. Open `index.html` |
 | [`proposal/`](proposal/) | The semester-4 proposal — the problem, the stopping-rule algorithm, the build plan. Open `index.html` |
-| [`PLAN.md`](PLAN.md) | The Phase II completion plan, and the decision log D0–D33 |
+| [`PLAN.md`](PLAN.md) | The Phase II completion plan and its own decision log D1–D9 |
+| [`recovery-bench/docs/DECISIONS.md`](recovery-bench/docs/DECISIONS.md) | The implementation decision log, D0–D33 — every decision with its reason and evidence |
 | [`WORKFLOW.md`](WORKFLOW.md) | How the research paper gets written and submitted — venue, dates, and what to build when |
+| [`BUILD.md`](BUILD.md) | The executable version of `WORKFLOW.md` — what to do on which day, phase by phase |
 
 **Start with** [`explainer/index.html`](explainer/index.html) to understand the
 work, or [`WORKFLOW.md`](WORKFLOW.md) to see what happens next.

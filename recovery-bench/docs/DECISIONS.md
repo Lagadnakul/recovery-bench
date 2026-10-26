@@ -2,7 +2,7 @@
 
 **Project:** rebuild of the experiment behind *Self-Reflection and Failure Recovery in
 Agentic AI Coding Systems* (L. N. Kiran, M.Tech AI&DS, PIET, Parul University)
-**Owner:** Aayush · **Thesis author:** Nakul
+**Author:** Lagad Nakul Kiran
 **Status of the thesis:** Chapters 1–6, references, figures and front matter are
 **complete and submitted**. Nothing in this repository changes the submitted document.
 

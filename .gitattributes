@@ -1,0 +1,54 @@
+# Line endings are a correctness concern in this project, not a style one.
+#
+# The pipeline's whole verdict rests on byte-exact patch application: a model's
+# patch is judged by whether `git apply` accepts it and whether the result equals
+# the intended file. Git for Windows ships with core.autocrlf=true, which rewrites
+# the working tree to CRLF on checkout. Without this file, that conversion:
+#
+#   1. breaks every hash-verified blob in data/file_cache (the content no longer
+#      hashes to its own filename, so every lookup is a cache miss — which silently
+#      collapses the token projection and makes a sweep run zero cells), and
+#   2. turns the jsdiff -> git apply gate red, because an LF patch applies and then
+#      reads back as CRLF. `doctor` reports "the patch applied but the result does
+#      not equal the intended file".
+#
+# The same hazard corrupted the Phase-1 results of the Python study, which is why
+# that project refuses to run on native Windows at all. Here it is fixed rather
+# than refused.
+#
+# Working-tree form is LF everywhere. Binary and content-addressed files are
+# excluded from conversion entirely.
+
+* text=auto eol=lf
+
+# ──────────────────────────── content-addressed: never convert, never diff
+# These are byte-exact artefacts whose filename IS their SHA-256. Any conversion
+# invalidates them. `-text` disables eol translation on both directions.
+data/file_cache/blobs/**        -text
+recovery-bench/data/file_cache/blobs/**  -text
+recovery-bench/archive/SHA256SUMS        -text
+
+# Frozen dataset: revision-pinned and hash-checked on load.
+recovery-bench/data/swebench_lite.jsonl  -text
+
+# ──────────────────────────── binaries
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.gif     binary
+*.pdf     binary
+*.docx    binary
+*.pptx    binary
+*.xlsx    binary
+*.zip     binary
+*.woff    binary
+*.woff2   binary
+*.ico     binary
+
+# ──────────────────────────── scripts that must stay LF to run under bash/WSL
+*.sh      text eol=lf
+*.bash    text eol=lf
+
+# Lockfiles: text, but never worth diffing in review.
+bun.lock           text eol=lf -diff
+recovery-bench/bun.lock  text eol=lf -diff
