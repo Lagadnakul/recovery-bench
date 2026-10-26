@@ -1,33 +1,35 @@
 # What is actually built, and what it has actually measured
 
-**For:** Lagad Nakul Kiran · **Written:** 25 October 2026 · **Companion to:** `BUILD.md` (the plan), `recovery-bench/docs/DECISIONS.md` (the full decision log, D0–D33)
+**For:** Lagad Nakul Kiran · **Written:** 25 October 2026 · **Last updated:** 26 October 2026 · **Companion to:** `BUILD.md` (the plan), `recovery-bench/docs/DECISIONS.md` (the full decision log, D0–D36)
 
 You asked a direct question and it deserves a direct answer before anything else.
 
 ---
 
-> ## ⚠ SUPERSEDED LATER THE SAME DAY — 25 October 2026
+> ## ⚠ SUPERSEDED — the sweep is now COMPLETE, 26 October 2026
 >
 > **§1 below is no longer true, and the change is the point.** When this document was
-> written no API key had ever been used. You then said to finish the live sweep, so on
-> 25 October the engine was pointed at real endpoints for the first time:
+> written no API key had ever been used. You then said to finish the live sweep. It is
+> finished: **all six arms ran, 1,604 rows, 1,428 real calls, 18.1M tokens**, across
+> 25–26 October 2026.
 >
-> - `doctor --live` — all seven keys resolve, all five models answer
-> - `try` — one cell end to end, **APPLIED**, a real patch to `astropy/wcs/wcs.py`
-> - **`a5_format_at_scale` — 720/720 cells, 127.8 min, 8.608M tokens**
+> | arm | rows | what it measures | headline |
+> |---|---|---|---|
+> | `a5_format_at_scale` | 720 | edit format at scale | `search_replace` 96.4% vs `unified_diff` 13.1%, **p = 7.44e-89** |
+> | `a2_workhorse` | 260 | recovery at K=4, 30B | reflection vs blind retry **p = 1.000** — exactly null |
+> | `a3_capability` | 180 | recovery at K=4, 550B | reflection helps once then poisons, **19–0, p = 3.8e-6** |
+> | `a4_reasoning` | 360 | `thinking` on/off | floor effect — baseline 0%, a format result not a recovery one |
+> | `a6_qwencloud` | 56 | fourth vendor | `l2_5` refused 16/16, confirming D34 cross-vendor |
+> | `a1_replication` | 28 | the pilot, re-run | 0 discordant pairs against a floor of 6 — it **cannot** reject |
 >
-> So the files §1 cites as absent now **exist**: `data/sweep_rows.jsonl` holds 720 rows
-> and is **committed** (it is primary data, not a derived artifact), and `data/ledger.jsonl`
-> records the spend. §6's "no live sweep" entry is likewise obsolete.
->
-> **The result:** edit format decides whether a patch applies at all — `search_replace`
-> 96.4% against `unified_diff` 13.1%, exact McNemar **p = 7.44e-89** on 360 paired
-> comparisons, surviving at p = 3.32e-65 after discarding every ambiguous failure. Full
-> write-up in **`BUILD.md` §4.5**, which is the live section and supersedes this one.
+> So the files §1 cites as absent now **exist**: `data/sweep_rows.jsonl` holds 1,604 rows
+> and is **committed** (primary data, not a derived artifact), and `data/ledger.jsonl`
+> records the spend. §6 has been rewritten.
 >
 > Everything in §2 through §5 still stands — it describes the engine, and the engine did
 > not change. §1 is kept rather than deleted because it is the honest record of what was
 > true when you asked, and the proof table is still the right way to check the claim.
+> Read §1's table as history now, not as the current state.
 
 ---
 
@@ -228,9 +230,9 @@ Two formats, because the pilot used both and the retrofit from one to the other 
 
 Creates a scratch git repo, writes the source file at the correct `base_commit`, and runs `git apply`. Returns `APPLIED` or `APPLY_FAIL` with git's own stderr kept verbatim. **This is the measurement the whole thesis rests on**, and it is where the CRLF defect lived. It is now hermetic: the scratch repo sets its own line-ending policy instead of inheriting the machine's.
 
-### 4.5 `providers/`, `strategies/`, `matrix/` — built, tested, never fired
+### 4.5 `providers/`, `strategies/`, `matrix/` — built, tested, and now fired 1,428 times
 
-This is the part that would use your keys.
+This is the part that uses your keys. It has now run the whole grid.
 
 - **`providers/`** — `openaiCompat.ts` (NVIDIA, Qwen, DeepSeek, Moonshot all speak this), `gemini.ts`, `fake.ts` (deterministic stub for tests), `budget.ts` (per-key token ceilings), `types.ts`. Tested against a **fetch stub that replays recorded payload shapes** — never a live endpoint.
 - **`strategies/`** — `prompt.ts` builds prompts from the study's own committed templates, hash-checked against the originals; `conditions.ts` defines the six strategies (`l0_baseline` … `l4_tool_grounded`); `evidence.ts` assembles what a retry is allowed to see; `runCell.ts` runs one cell end to end.
@@ -238,10 +240,22 @@ This is the part that would use your keys.
 
 Safety is deliberate: `bun run sweep` **defaults to `--project-only`**. Actually running requires **both** `--run` and `--yes`, and it refuses to proceed when the projection exceeds the budget unless you also pass `--force`.
 
-Three things remain to be built here before the first live call, and `BUILD.md` §1.1 records them:
-1. a **thinking adapter** that verifies from the *response* that the setting was honoured (D19: the flag was never on the wire);
-2. the **budget guard** D25 found missing (14.56M tokens projected against an 8M ceiling, with nothing checking);
-3. a recorded **rate-limit / credit-balance check** per provider, so the paper can state what the quota actually was.
+Three things that the live run added to this layer, each with its own decision entry:
+
+1. **A single-writer lock** (`matrix/lock.ts`). Two sweeps do not tear a line — they each
+   load their own resume snapshot and both run every outstanding cell. `a2` ended its
+   first attempt with **419 rows for 260 cells**, 159 duplicates, 74 of whose pairs
+   disagreed because they were independent model calls. That attempt was discarded. The
+   final sweep has **zero duplicate keys across all 1,604 rows**.
+2. **Resume now rebuilds lineage history.** A skipped cell used to `continue` without
+   feeding its attempt forward, so a resumed round 4 silently reflected on the round-0
+   baseline. Nothing in the output showed it. `tests/sweepResume.test.ts` pins it with a
+   unique marker per call — the first version of that test passed with the fix reverted
+   and was therefore worthless.
+3. **`timeout_s` set from measurement.** 180 s was tried and refuted: 4 of the first 10
+   cells timed out against 0 of a5's 720 at 300 s. Measured latency showed an 899-token
+   prompt taking as long as a 29,555-token one, so it is free-tier queueing, not prompt
+   size. Back to 300.
 
 ### 4.6 `analysis/` — where every number in the paper comes from
 
@@ -379,7 +393,7 @@ This is the part you specifically asked for. Each of these was discovered **whil
 | 22 | **BROKEN has zero records** — every instrument limit in the pilot deleted its own cell instead of recording itself | A result about the *instrument*. The holes table has 7 entries where BROKEN has 0 |
 | 23 | Under assumed `q`, the derived rule **escalates FORMAT** where the thesis says retry | Not a contradiction — a constraint. It agrees for **q_FORMAT < 0.78** (assumed 0.9, observed p = 0.5). The gate deliberately does **not** fail on this, so nobody edits the assumption until a test passes |
 
-### Carried forward from the engine build (D0–D33)
+### Carried forward from the engine build (D0–D36)
 
 The ones that still shape decisions: **D2** 8 of 24 cells produced no evaluable patch; **D3** the free-tier quota (20 req/day) *shaped the experiment*; **D5** the sample is non-random; **D6** no Docker, ever; **D8** 3× token cost for identical outcomes; **D15** 22 evaluations were invisible to the original tables; **D21** gold patches are single-file; **D25** 178% over the token ceiling; **D26** the baseline must be runnable or two of three conditions are structurally unreachable; **D29** no charting library.
 
@@ -387,18 +401,25 @@ The ones that still shape decisions: **D2** 8 of 24 cells produced no evaluable 
 
 ## 6. What is **not** done, stated plainly
 
+**The sweep is finished.** Everything about running it has moved out of this table.
+
 | | |
 |---|---|
-| ~~No live API call has been made~~ | **DONE 25 Oct 2026.** `a5` ran: 720 cells, 8.608M tokens, p = 7.44e-89. See `BUILD.md` §4.5 |
-| ~~Thinking adapter, budget guard, quota record~~ | **DONE.** All three were already built; `doctor --live` now records the per-key check |
-| **`a2` / `a3` / `a4` not yet run** | 1,040 cells, ~4 h, at `rounds: 4`. Scheduled for 26 Oct |
-| **`a1` / `a6` not yet run** | `a1` is 28 Gemini calls against a 30 ceiling at ~20/day, so it spans two days |
-| **No Docker test run** | D6. The 73 test-verified rows are the archive's, and there will never be another. **This is why a5 measures `APPLIED`, not `RESOLVED`** |
+| ~~No live API call~~ | **DONE.** 1,428 calls, 18.1M tokens, 25–26 Oct 2026 |
+| ~~Thinking adapter, budget guard, quota record~~ | **DONE.** `doctor --live` records the per-key check |
+| ~~`a1`–`a6` not yet run~~ | **ALL SIX DONE**, 1,604 rows, zero duplicate keys |
+| **No Docker test run** | D6. The 73 test-verified rows are the archive's, and there will never be another. **This is why every live row measures `APPLIED`, not `RESOLVED`** — `evidenceSource` is `none` on all of them |
+| **a4 cannot answer its own question** | Baseline apply rate **0%**. You cannot measure recovery from a model that never succeeded. Report it as a format-capability result |
+| **32 cells lost to the cascade** | D36. A round killed by a 503 leaves every later round in its lineage with nothing to reflect on. The refusal is correct; the serial design is the cost |
 | **Phase 1c** | Blocked on the **equivalence margin** — a scientific judgement, not a computation |
 | **N is deliberately unchosen** | It follows from the margin |
 | **Phase 3 dashboard** | Not started. Six views specified in `BUILD.md` §5 |
 | **Phase 4 writing** | Not started |
 | Triage CLI does not read `sweep_rows.jsonl` | `triageAttempt` classifies the new rows correctly; only the CLI wiring is missing |
+| The projector counts a refused cell as a call | `a1` projected 28 and made 17. Harmless here, but do not trust a projection until it is fixed |
+| `block_unterminated` is a misleading label | In a4, 164 of 181 such rows **did** close the block — the `=======` divider is what was missing. Rename before it reaches the paper |
+| A design refusal shares `PROVIDER_ERROR` | 130 refusals sit in the same outcome kind as 46 real errors, separable only by `status: null` plus the reason string. Any outcome-kind table will read as "the API failed 176 times" |
+| D35's `per_key` claim is untested | Gemini rotated across 4 keys with **zero 429s anywhere in the ledger**, so we never approached a ceiling. Unconfirmed, not disproven |
 | Repo ownership move | `recovery-bench` must sit under `Lagadnakul` before the Data Availability statement |
 
 ---
@@ -417,10 +438,11 @@ bun run power           # the sample-size analysis
 bun run ccos            # triage + CC-OS
 bun test                # 559 tests
 
-# these would spend money — not run yet
+# these spend quota — the full grid has already been run
 bun run doctor:live     # probe endpoints with real keys
 bun run try             # ONE cell, end to end
 bun run sweep           # defaults to --project-only; needs --run --yes
+                        # resume skips every cell already on disk
 ```
 
 `report`, `power` and `ccos` need `archive/legacy_runs/`, which is gitignored. The recipe to restore it is in `recovery-bench/archive/MANIFEST.md`. Their **derived output is committed**, so the results are readable without it.
@@ -431,22 +453,84 @@ On this machine Bun is at `~/.bun/bin/bun.exe` and is not on the Bash PATH — u
 
 ## 8. The shape of the paper, as the evidence now stands
 
-Pulling the findings together, here is what your Stage 1 protocol can honestly claim:
+The sweep changed this section. Before 25 October the protocol rested on the archive and
+on arithmetic. It now rests on 1,604 rows of primary data.
 
-**The contribution** is that the decision to escalate must be conditioned on the observed failure class, and that the class is observable for free. **Phase 2 proves the second half outright**: 51 records classified, 0 model calls, every one printing the field that decided it.
+### The results, ranked by how hard they are to argue with
 
-**The pilot's null is not a weak result — it is a precise one.** Finding 6 shows it could not have rejected on any data, and finding 12 shows the strategies fixed the same tests. That is an *equality*, which equivalence testing can state and a significance test cannot.
+**1. Edit format decides whether a patch applies at all.** `a5`, 720 cells:
+`search_replace` 96.4% against `unified_diff` 13.1%, exact McNemar **p = 7.44e-89** on
+360 pairs, still **p = 3.32e-65** after discarding every ambiguous failure. The mechanism
+is named: `hunk_count_mismatch` on 206 of 304 FORMAT rows.
 
-**My recommendation, unchanged from Phase 1b:** reframe H1 as **non-inferiority / equivalence**, add a **harm hypothesis** on PASS_TO_PASS regressions (finding 13), and report the binary McNemar as pre-registered secondary with the 460–765-task requirement in Threats to Validity.
+**2. Reflection's benefit is capability-dependent and reverses with depth.** This is the
+strongest *new* result and it is the CC-OS thesis stated by an experiment:
 
-**And four parts of the proposal would not have worked as written** (findings 14–17). Every one was caught before submission rather than by a reviewer. For a Registered Report that is not embarrassing — it is the entire point of the format, and saying so in the protocol is a strength.
+| | r1 | r2 | r3 | r4 |
+|---|---|---|---|---|
+| `a3` 550B, blind retry | 75% | 75% | 80% | 75% |
+| `a3` 550B, reflection | **90%** | 45% | 40% | 50% |
+| `a2` 30B, reflection | 76% | 72% | 68% | 74% |
+
+Paired exact McNemar on rounds 2–4: **a3 b=19, c=0, p = 3.8e-6** — perfectly one-sided,
+holding in all four tasks with no reversals. **a2 b=4, c=4, p = 1.000** — exactly null.
+The mechanism is observed: 29 of 30 MALFORMED rows are `search_not_found`, and median
+completion tokens climb monotonically with reflection depth (1125 → 1284 → 1317 → 1397)
+while blind retry sits flat near 740. The model writes more each round and anchors on its
+own prior output instead of the file.
+
+**The prescription follows directly: for this model the optimal stop is K = 1.** Continue
+and you destroy work you already had. That is a stopping rule argued from data.
+
+**3. Capability runs backwards, three independent times.** a5's format result, a5's apply
+rates (30B at 25.6% against 550B at 0.6% on `unified_diff`), and now a3's collapse.
+
+**4. The pilot design has zero power, demonstrated rather than computed.** `a1` re-ran it
+and produced **0 discordant pairs against a rejection floor of 6**. It cannot reach
+p < 0.05 whichever way the data fall. A replication that reproduces the original's
+inability to conclude has replicated the thing that mattered — and it is the empirical
+ground for the Stage 1 sample-size argument.
+
+**5. Two conditions starve by design, and the paper should say so.** `l2_5_diagnose_revise`
+refused **80/80** in a2 and **16/16** in a6, on a fourth vendor's hardware. Under D6 its
+only evidence is an apply error, which requires the prior patch to have failed to apply —
+and these models apply 96–98% of the time. D34 dropped it from a3/a4; it is reported as a
+*conditional* condition grounded in the archive's 73 test-verified rows.
+
+### What must travel with every one of these
+
+`APPLIED` is **patch-apply success, not a test pass**. `evidenceSource` is `none` on all
+1,604 live rows because D6 put Docker permanently out of reach. Four tasks in the recovery
+arms means pairs cluster within task. **State all three before a reviewer does.**
+
+### The recommendation, unchanged and now better supported
+
+Reframe H1 as **non-inferiority / equivalence**, add the **harm hypothesis** on
+PASS_TO_PASS regressions, and report the binary McNemar as pre-registered secondary with
+the 460–765-task requirement in Threats to Validity. a1 now supplies the evidence for
+that last clause directly.
+
+**And four parts of the proposal would not have worked as written.** Every one was caught
+before submission rather than by a reviewer. For a Registered Report that is not
+embarrassing — it is the entire point of the format, and saying so in the protocol is a
+strength.
 
 ---
 
 ## 9. What I need from you
 
-1. **The equivalence margin.** The analogous study uses 5 percentage points. Phase 1c is one command once it is fixed — but it has to be defended in the protocol, so it is worth agreeing with your supervisors.
+1. **The equivalence margin.** The analogous study uses 5 percentage points. Phase 1c is
+   one command once it is fixed — but it has to be defended in the protocol, so it is
+   worth agreeing with your supervisors.
 2. **Then N**, which follows from the margin.
-3. **Which next:** Phase 3 (dashboard) or Phase 4 (writing)? Neither is blocked. The dashboard is the thing your professor will *see*; the protocol is the thing with the November deadline.
+3. **Confirm D35:** are `gemini_api_key2` and `gemini_api_key3` from separate Google
+   accounts? Nothing is blocked on it now that the sweep is done, but the decision log
+   should record a fact rather than an assumption.
+4. **Phase 3 next.** Phase 4 is not blocked either, but the dashboard is the thing your
+   professor will *see*, and the data it needs now exists.
 
-Memory files carrying all of this: `phase2-ccos-findings`, `power-analysis-finding`, `verify-command`, `crlf-hazard`, `provenance-commit-at-risk`, `repo-layout`, `decisions-locked`, `november-build-plan`, `two-repos-two-venues`, `user-stack-preference`.
+Memory files carrying all of this: `a1-replicates-the-floor`, `a3-reflection-harm`,
+`a4-floor-effect`, `a5-format-result`, `live-sweep-capacity`, `phase2-ccos-findings`,
+`power-analysis-finding`, `verify-command`, `crlf-hazard`, `provenance-commit-at-risk`,
+`repo-layout`, `decisions-locked`, `november-build-plan`, `two-repos-two-venues`,
+`user-stack-preference`.

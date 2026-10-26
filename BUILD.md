@@ -852,9 +852,119 @@ hypothetical per-run noise. It is now the paper's **primary dataset** — 128 mi
 strings, 0 of the 7 real key values) and committed. The Data Availability statement points
 at it.
 
-**Still to run: `a2`/`a3`/`a4` (1,040 cells, ~4 h) and `a1`/`a6`.**
-
 **Milestone M3 → written to memory.**
+
+---
+
+## 4.6 The full sweep — COMPLETE 26 October 2026
+
+All six arms have now run. **1,604 rows, 1,428 real calls, 18.1M tokens, zero duplicate
+keys.**
+
+| arm | rows | APPLIED | MALF | refused | real err | calls | tokens | wall |
+|---|---|---|---|---|---|---|---|---|
+| `a1_replication` | 28 | 12 | 0 | 10 | 1 | 17 | 0.16M | 4 min |
+| `a2_workhorse` | 260 | 123 | 5 | 84 | 10 | 166 | 2.06M | 103 min |
+| `a3_capability` | 180 | 122 | 31 | 0 | 0 | 180 | 2.30M | 16 min |
+| `a4_reasoning` | 360 | 30 | 236 | 20 | 35 | 305 | 4.52M | 124 min |
+| `a5_format_at_scale` | 720 | 394 | 297 | 0 | 0 | 720 | 8.58M | 128 min |
+| `a6_qwencloud` | 56 | 37 | 3 | 16 | 0 | 40 | 0.49M | 6 min |
+| **TOTAL** | **1,604** | **718** | **572** | **130** | **46** | **1,428** | **18.1M** | |
+
+### The headline result: reflection helps once, then poisons
+
+`a3` is the strongest new finding in the project.
+
+| | r1 | r2 | r3 | r4 |
+|---|---|---|---|---|
+| 550B, `l1_blind_retry` | 75% | 75% | 80% | 75% |
+| 550B, `l2_reflection` | **90%** | 45% | 40% | 50% |
+| 30B, `l2_reflection` (a2) | 76% | 72% | 68% | 74% |
+
+Paired exact McNemar on apply success, rounds 2–4, same task / round / repeat:
+
+```
+a3, 550B:  b=19  c=0   n=60   p = 3.8e-6     perfectly one-sided
+a2,  30B:  b=4   c=4   n=60   p = 1.000      exactly null
+```
+
+Nineteen cells where blind retry applied and reflection did not, and **not one** the other
+way. It holds in **all four tasks** with no reversals — astropy 2–0, django-11019 10–0,
+django-11283 5–0, django-11564 2–0 — so it is not one task carrying it.
+
+**The mechanism is observed, not inferred.** 29 of 30 MALFORMED rows are
+`search_not_found`: the SEARCH anchor the model writes is absent from the file. Median
+completion tokens climb monotonically with reflection depth — 1125, 1284, 1317, 1397 —
+while blind retry sits flat near 740. The model writes more each round and anchors on its
+own prior output instead of on the file.
+
+**This is the CC-OS stopping argument made by an experiment: for this model the optimal
+stop is K = 1.** Continue past it and you destroy work you already had.
+
+### a4 is a floor, not a recovery curve
+
+`l0_baseline` applied **0 of 15** paired cells. You cannot measure recovery from a model
+that never succeeded — every later round re-measures first-attempt capability. **Report a4
+as a format-capability result, not a reasoning one.**
+
+What it does measure is exact: 181 `block_unterminated` rows, of which **164 do write
+`>>>>>>> REPLACE` and only 2 contain a `=======` divider.** The model dumps the whole
+function between the markers without ever saying where the old text stops — one example
+ran 142 undivided lines. The parser was checked first and is correct; it normalises CRLF
+and strips fences before matching. `thinking` did not rescue it: MALFORMED 77% off against
+78% on.
+
+### a1 replicates the pilot's inability to conclude
+
+```
+usable pairs n=4    b=0   c=0    discordant = 0    floor = 6    p = 1.0000
+```
+
+Arithmetically incapable of reaching p < 0.05 whichever way the data fall. That reproduces
+the pilot's central limitation exactly and is the **empirical ground for the Stage 1
+sample-size argument**. A replication that reproduces the original's inability to conclude
+has replicated the thing that mattered.
+
+### a6 confirms D34 from outside NVIDIA
+
+`l2_5_diagnose_revise` refused **16 of 16** on a fourth vendor's hardware, after refusing
+**80 of 80** in a2. The starvation is a property of the design under D6, not of one
+model's unusually high apply rate. D34 dropped it from a3/a4; it is reported as a
+*conditional* condition grounded in the archive's 73 test-verified rows. `qwen_max`
+otherwise sat at the top of the range — baseline 8/8, and only 3 `search_not_found`
+failures in the whole arm.
+
+### What had to be fixed to make the sweep trustworthy
+
+Three defects, each with a test that fails when the fix is reverted:
+
+1. **Two sweeps ran at once.** `a2`'s first attempt produced **419 rows for 260 cells** —
+   159 duplicates, 74 of whose pairs disagreed because they were independent model calls.
+   That attempt was discarded and `matrix/lock.ts` added. The final sweep has **zero**
+   duplicate keys across 1,604 rows.
+2. **Resume destroyed lineage depth.** A skipped cell used to `continue` without feeding
+   its attempt forward, so a resumed round 4 silently reflected on the round-0 baseline.
+   Nothing in the output showed it. The first version of the test for this **passed with
+   the fix reverted** and had to be rewritten with a unique marker per call.
+3. **`timeout_s` was guessed, then measured.** 180 s was tried and refuted — 4 of the
+   first 10 cells timed out against 0 of a5's 720 at 300 s. An 899-token prompt took as
+   long as a 29,555-token one, so it is free-tier queueing, not prompt size.
+
+### What the sweep cost that the table does not show
+
+**32 condition cells were never run** — a1 lost 4, a2 lost 8, a4 lost 20 — because a round
+killed by a 503 leaves every later round in its lineage with nothing to reflect on (D36).
+The refusal is correct; reflecting on an HTTP 503 is a different condition wearing the
+same name. The serial lineage is the cost, and a lineage truncated by infrastructure is
+missing-not-at-random with respect to difficulty. **Say so in Threats to Validity.**
+
+### The caveat that travels with every result above
+
+`APPLIED` is **patch-apply success, not a test pass**. `evidenceSource` is `none` on all
+1,604 live rows because D6 put Docker permanently out of reach. The recovery arms use four
+tasks, so pairs cluster within task. State all three before a reviewer does.
+
+**Milestone M3b → written to memory.**
 
 ---
 
@@ -1068,7 +1178,15 @@ Written to the project memory directory as each completes, per standing instruct
       against a floor of 6). Found instead that **P2P regressions do discriminate** (98%
       availability; Diagnose+Revise broke 8 tests where Blind Retry broke none) — a candidate
       new hypothesis. Open: the equivalence margin.
-- [ ] **M2** — triage and CC-OS simulator pass tests over real data
+- [x] **M2** — 24 Oct 2026. Triage classifies 51/51 records with **0 model calls**; the
+      proposal's novelty score inverts; LOST cannot fire at K=3 (design requirement K ≥ 4);
+      lambda shows no context rot, but is survivorship-confounded.
+- [x] **M3b** — 26 Oct 2026. **The live sweep is COMPLETE**: all six arms, 1,604 rows,
+      1,428 calls, 18.1M tokens, zero duplicate keys (§4.6). Headline: reflection helps the
+      550B model once then poisons it, **19–0, p = 3.8e-6**, against **exactly null** on the
+      30B. a1 reproduced the pilot's zero power (0 discordant against a floor of 6). a6
+      confirmed D34 on a fourth vendor. Open: a4 is a floor not a recovery curve; 32 cells
+      lost to the D36 cascade; the equivalence margin still unchosen.
 - [ ] **M3** — dashboard v1 shipped, contrast green
 - [ ] **M4** — abstract submitted (13 Nov)
 - [ ] **M5** — Stage 1 submitted
@@ -1078,8 +1196,14 @@ Written to the project memory directory as each completes, per standing instruct
 
 ## 10. The short version
 
-Write a six-page protocol. Build four small TypeScript programs over data you already have.
-Make one genuinely good dashboard that shows the design honestly. Touch no Docker, spend no
-API calls, and get the supervisor's confirmation in writing before you start.
+Write a six-page protocol. The four small TypeScript programs are built and the live
+sweep is **done** — 1,604 rows across six arms. Make one genuinely good dashboard that
+shows the design and the data honestly. Touch no Docker: every live row measures
+`APPLIED`, not `RESOLVED`, and that limit is stated rather than hidden.
 
-The hard part is not the code. It is the power analysis and the decision in §7.
+The hard part is no longer the code, and it is no longer only the power analysis. It is
+**saying narrowly what the data supports**: reflection's benefit is capability-dependent
+and reverses with depth (a3, p = 3.8e-6), edit format decides whether a patch applies at
+all (a5, p = 7.44e-89), and the pilot design has zero power (a1, demonstrated). Everything
+else — a4's floor, the 32 cells lost to the cascade, `APPLIED` not being `RESOLVED` — goes
+in Threats to Validity, in your own words, before a reviewer finds it.
