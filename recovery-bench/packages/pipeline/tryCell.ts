@@ -172,7 +172,12 @@ export async function tryCell(opts: TryOptions): Promise<number> {
   const registry = buildRegistry(cfg, fetch);
   const provider = cfg.models[opts.model]!.provider;
 
-  const before = ledger.spendOf(provider);
+  // `spendOf(provider)` reads the shared bucket, which is empty by
+  // construction for a per_key provider — so this printed "0 → 0 tokens" after
+  // really spending 31k against NVIDIA_KEY_1. The spend was recorded correctly
+  // all along; only the readout was blind. Same defect as `doctor`'s budget
+  // gate had, so it is the call that is wrong, not the ledger.
+  const before = ledger.spendOfProvider(provider);
   const out = await runCell({
     cell,
     task,
@@ -184,7 +189,7 @@ export async function tryCell(opts: TryOptions): Promise<number> {
     history,
     ...(evidence ? { evidence } : {}),
   });
-  const after = ledger.spendOf(provider);
+  const after = ledger.spendOfProvider(provider);
 
   console.log(rule("RESPONSE"));
   console.log(`  ${out.response.length} characters`);

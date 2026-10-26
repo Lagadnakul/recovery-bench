@@ -30,6 +30,7 @@ import { existsSync } from "node:fs";
 
 import { headline, type Headline } from "./aggregate.ts";
 import { loadArchive, ARCHIVE_RUNS } from "./load.ts";
+import { readTestCounts, subTestVerdict, renderSubTestVerdict } from "./subtest.ts";
 
 // ----------------------------------------------------------------- factorials
 
@@ -490,8 +491,13 @@ export async function power(toStdout: boolean): Promise<number> {
   }
 
   const { rows } = await loadArchive();
-  const rep = powerReport(headline(rows));
-  const table = renderPowerReport(rep);
+  const h = headline(rows);
+  const rep = powerReport(h);
+
+  // Phase 1b rides along: the sub-test question is part of the sample-size
+  // decision, so one command answers the whole of it.
+  const verdict = subTestVerdict(rows, h.logicTasks, await readTestCounts(), rep.minDiscordant);
+  const table = [renderPowerReport(rep), renderSubTestVerdict(verdict)].join("\n");
 
   if (toStdout) {
     process.stdout.write(table);
@@ -499,7 +505,7 @@ export async function power(toStdout: boolean): Promise<number> {
   }
 
   await Bun.write(TABLE_OUT, table);
-  await Bun.write(JSON_OUT, JSON.stringify(rep, null, 2) + "\n");
+  await Bun.write(JSON_OUT, JSON.stringify({ ...rep, subTest: verdict }, null, 2) + "\n");
 
   // The best power any candidate budget reaches, over every effect size. If even
   // that misses the target, the design cannot answer H1 and saying so is the
@@ -524,6 +530,13 @@ export async function power(toStdout: boolean): Promise<number> {
         ` -> ${q.tasksForH1} tasks attempted`,
     );
   }
+  console.log(
+    `  sub-tests: ${verdict.informative} informative pair(s) vs floor ${verdict.floor}` +
+      ` -> partial credit ${verdict.helps ? "helps" : "does NOT help"}`,
+  );
+  console.log(
+    `  ${(verdict.dist.singleTest / verdict.dist.n * 100).toFixed(0)}% of instances have exactly 1 F2P test`,
+  );
   console.log(`  wrote ${TABLE_OUT}`);
   console.log(`  wrote ${JSON_OUT}`);
 

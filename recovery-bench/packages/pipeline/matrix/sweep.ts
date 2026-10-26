@@ -44,7 +44,23 @@ import {
   type Lineage,
   type PlannedCell,
 } from "./enumerate.ts";
-import { RowStore, SWEEP_ROWS } from "./store.ts";
+import { RowStore, SWEEP_ROWS, type SweepRecord } from "./store.ts";
+
+/**
+ * Rebuilds the `Attempt` a stored row represents.
+ *
+ * Both resume paths need this. The baseline path had it inline; the lineage
+ * path did not, which is the defect described at the `store.has` branch below.
+ */
+function attemptFromRecord(stored: SweepRecord): Attempt {
+  return {
+    response: stored.response ?? "",
+    patch: stored.patch,
+    outcome: stored.outcome,
+    gitStderr:
+      stored.outcome.kind === "APPLY_FAIL" ? stored.outcome.gitStderr : null,
+  };
+}
 
 export interface SweepOptions {
   cfg: Config;
@@ -167,6 +183,19 @@ export async function sweep(opts: SweepOptions): Promise<SweepResult> {
 
     for (const p of lin.cells) {
       if (store.has(p.cell)) {
+        // A skipped cell MUST still contribute its attempt to `history`.
+        // Without this a resumed lineage's later rounds are prompted as though
+        // the earlier rounds never happened: round 3 of a 4-round lineage would
+        // ask the model to reflect on an empty history and so silently become a
+        // round-1 cell wearing a round-3 label. `store.get`'s own doc comment
+        // says it exists "so a resumed run can rebuild its history" — the
+        // baseline path did that, this one did not.
+        //
+        // This is D26's defect (an empty history refusing 16 of 24 cells) in
+        // the one place the two-phase fix did not reach. Found 25 Oct 2026
+        // after a2 was interrupted three times.
+        const stored = store.get(p.cell);
+        if (stored) history.push(attemptFromRecord(stored));
         skippedResumed++;
         index++;
         continue;
@@ -312,13 +341,7 @@ export async function sweep(opts: SweepOptions): Promise<SweepResult> {
     for (const c of l.cells) {
       const stored = store.get(c.cell);
       if (stored) {
-        baselineAttempts.set(baselineGroupId(c.cell), {
-          response: stored.response ?? "",
-          patch: stored.patch,
-          outcome: stored.outcome,
-          gitStderr:
-            stored.outcome.kind === "APPLY_FAIL" ? stored.outcome.gitStderr : null,
-        });
+        baselineAttempts.set(baselineGroupId(c.cell), attemptFromRecord(stored));
       }
     }
   }

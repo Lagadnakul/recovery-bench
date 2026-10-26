@@ -74,6 +74,12 @@ const GATES: Gate[] = [
     needsArchive: true,
   },
   {
+    name: "ccos",
+    meaning: "triage can no longer classify every archived record with zero model calls",
+    cmd: [BUN, "packages/pipeline/cli.ts", "ccos"],
+    needsArchive: true,
+  },
+  {
     name: "contrast",
     meaning: "a dashboard colour pair fails WCAG in light or dark",
     cmd: [BUN, "scripts/check_contrast.ts"],

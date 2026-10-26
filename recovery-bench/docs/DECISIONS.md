@@ -1249,3 +1249,116 @@ Both are the D18 category error reappearing at the presentation layer: an
 instrument limit folded into a rate, or made small enough to miss. Excluding
 those cells from the arithmetic was necessary and was not sufficient — the
 exclusion has to be as visible as the number it changes.
+
+---
+
+## D34 — `l2_5_diagnose_revise` dropped from a3 and a4
+
+a2 settled this empirically on 26 Oct 2026. Across all four `failure_pool`
+tasks, the condition refused **80 of 80 cells** — a 100% refusal rate, not an
+estimate:
+
+```
+l0_baseline            APPLIED 15  NO_PATCH  4  TRUNCATED 1
+l1_blind_retry         APPLIED 55  NO_PATCH 17  MALFORMED 1  PROVIDER_ERROR  7
+l2_reflection          APPLIED 53  NO_PATCH 16  MALFORMED 4  PROVIDER_ERROR  7
+l2_5_diagnose_revise                                         PROVIDER_ERROR 80
+```
+
+The mechanism is D22, working as designed. Diagnose+Revise is *defined* by
+feeding the model real evidence of why the previous patch failed. D6 put Docker
+permanently out of reach, so the only live evidence available is an
+`apply_error`, which exists only when the previous patch **failed to apply**.
+a5 measured muse_30b at a 97.8% apply rate. The evidence the condition needs is
+produced by the very failure the condition almost never sees.
+
+Keeping it in a3 and a4 would have bought 80 and 160 more rows of
+`PROVIDER_ERROR` at zero token cost and zero information. The cost is not
+quota; it is the table. A reader scanning outcome kinds sees "the provider
+failed 240 times" and discounts the arm. An instrument that cannot fire is not
+a condition — it is a hole, and D18 says a hole must be named rather than
+averaged into a rate.
+
+a3 goes 260 → 180 cells, a4 goes 520 → 360.
+
+**a1 keeps it.** a1 is a replication of the pilot, and the pilot ran all three
+strategies. A replication that silently drops an arm is not a replication; if
+`l2_5` starves there too, that is a finding about the pilot, reported as one.
+
+**a6 keeps it**, for 8 cells. If a fourth vendor on separate hardware refuses at
+the same rate, the refusal is demonstrably a property of the design under D6
+rather than of one model's unusually high apply rate. That is worth 8 cells.
+
+The condition is not deleted from the codebase and is not disowned. It is
+reported as a *conditional* condition, grounded in the archive's 73
+test-verified rows, where real test output existed and it could actually run.
+
+---
+
+## D35 — Gemini declared `per_key`, and what that claim rests on
+
+a1 did not fit. It needs 28 calls; the gemini ceiling was a single 30-call
+allowance with 3 already spent on health probes, leaving 27. The arm would have
+stopped one cell short of complete, which for a *replication* is worse than not
+running it — a replication missing a cell replicates nothing.
+
+Nakul added `gemini_api_key2` and `gemini_api_key3` on 26 Oct 2026, and the
+provider is now declared `per_key: true`: 4 keys x 30 calls = 120, and a1 sits
+at 23%.
+
+**The claim is narrow and the narrowness is the point.** Gemini's free tier is
+quota'd per *project*, not per key. Four keys cut from one Google account share
+one allowance, and declaring `per_key` would then overstate capacity by 4x.
+This rests on the keys coming from four separate accounts, which is the same
+test D28 applied to `NVIDIA_KEY_4` and the reason that one was confirmed
+explicitly rather than assumed.
+
+The per-key ceilings are unchanged — still 500k tokens and 30 calls each.
+Nothing was relaxed per key; only the pool got wider. If the accounts turn out
+to be shared the failure is a 429 the pool rotates away from, and the ledger
+still refuses to let the arm exceed what it thinks it has. It costs no money
+either way. But an overstated ceiling would let a1 begin an arm it cannot
+finish, and a half-finished replication is the one outcome worth engineering
+against here.
+
+`NVIDIA_KEY_5`, `_6` and `_7` were added in the same change, taking nvidia from
+4 x 8M to 7 x 8M. They are **assumed** separate accounts on the same grounds as
+keys 1-4 and are not separately confirmed. Nothing currently queued needs that
+headroom — a1 is the last arm, and it is Gemini.
+
+---
+
+## D36 — One dead round costs a whole lineage, and the refusal is still right
+
+Across the completed sweep, 32 condition cells were never run because an
+earlier round in their lineage died: a1 lost 4, a2 lost 8, a4 lost 20. The row
+records `condition not runnable: ... needs a previous attempt to reflect on`.
+
+**The refusal is correct and must not be "fixed" by relaxing it.** A reflection
+condition is defined by having something to reflect on. If round 2's prior
+attempt was an HTTP 503 or an empty body, there is no attempt — reflecting on
+nothing is not a weaker version of the condition, it is a different condition
+wearing its name, and D18 is the standing rule against folding an instrument
+limit into a rate.
+
+What the number exposes is a *design* cost rather than a defect: lineages are
+serial, so a single transient infrastructure failure removes every round below
+it. a4 shows the compounding clearly — 27 HTTP 503s from one over-subscribed
+model turned into 20 further cells that were never attempted, on top of the 35
+that failed directly.
+
+Three things follow for any re-run, none of them done here because the sweep is
+finished and the data stands:
+
+1. A dead round should be **retried as a unit** before the lineage is abandoned.
+   Retries today are per-call inside the provider; nothing retries a *cell*
+   whose failure already cost its descendants.
+2. Concurrency should be per-model, not per-provider. a4's 503s
+   (`ResourceExhausted: Worker local total request limit reached`) came from
+   running nemotron_nano at the nvidia-wide concurrency of 4.
+3. The cascade should be visible in the analysis. A lineage truncated by
+   infrastructure is missing-not-at-random with respect to difficulty, and 20
+   of a4's 360 cells is large enough to matter.
+
+Until then the honest statement is the one the rows already make: these cells
+were not measured, and they are not counted as failures of the condition.
