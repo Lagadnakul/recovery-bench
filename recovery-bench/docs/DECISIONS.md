@@ -1325,3 +1325,40 @@ against here.
 4 x 8M to 7 x 8M. They are **assumed** separate accounts on the same grounds as
 keys 1-4 and are not separately confirmed. Nothing currently queued needs that
 headroom — a1 is the last arm, and it is Gemini.
+
+---
+
+## D36 — One dead round costs a whole lineage, and the refusal is still right
+
+Across the completed sweep, 32 condition cells were never run because an
+earlier round in their lineage died: a1 lost 4, a2 lost 8, a4 lost 20. The row
+records `condition not runnable: ... needs a previous attempt to reflect on`.
+
+**The refusal is correct and must not be "fixed" by relaxing it.** A reflection
+condition is defined by having something to reflect on. If round 2's prior
+attempt was an HTTP 503 or an empty body, there is no attempt — reflecting on
+nothing is not a weaker version of the condition, it is a different condition
+wearing its name, and D18 is the standing rule against folding an instrument
+limit into a rate.
+
+What the number exposes is a *design* cost rather than a defect: lineages are
+serial, so a single transient infrastructure failure removes every round below
+it. a4 shows the compounding clearly — 27 HTTP 503s from one over-subscribed
+model turned into 20 further cells that were never attempted, on top of the 35
+that failed directly.
+
+Three things follow for any re-run, none of them done here because the sweep is
+finished and the data stands:
+
+1. A dead round should be **retried as a unit** before the lineage is abandoned.
+   Retries today are per-call inside the provider; nothing retries a *cell*
+   whose failure already cost its descendants.
+2. Concurrency should be per-model, not per-provider. a4's 503s
+   (`ResourceExhausted: Worker local total request limit reached`) came from
+   running nemotron_nano at the nvidia-wide concurrency of 4.
+3. The cascade should be visible in the analysis. A lineage truncated by
+   infrastructure is missing-not-at-random with respect to difficulty, and 20
+   of a4's 360 cells is large enough to matter.
+
+Until then the honest statement is the one the rows already make: these cells
+were not measured, and they are not counted as failures of the condition.
