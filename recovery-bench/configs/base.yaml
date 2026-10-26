@@ -9,8 +9,9 @@ run:
   dry_run: false
   # Concurrent cells per provider. NVIDIA returns HTTP 200 with an EMPTY BODY
   # past its 16/16 worker limit rather than a 429 (D20), which a sweep would
-  # record as the model saying nothing. Three keys spread the load, so 4 in
-  # flight is comfortable; gemini's quota is 30 calls total, so serialise it.
+  # record as the model saying nothing. The worker pool, not RPM, is the limit:
+  # four keys raise the request ceiling but not the pool, so 4 in flight stays
+  # the right number. gemini's quota is 30 calls total, so serialise it.
   default_concurrency: 2
   concurrency:
     nvidia: 4
@@ -23,22 +24,77 @@ providers:
   nvidia:
     kind: openai_compat
     base_url: https://integrate.api.nvidia.com/v1
-    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3]   # key pool
+    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3, NVIDIA_KEY_4,
+                  NVIDIA_KEY_5, NVIDIA_KEY_6, NVIDIA_KEY_7]               # key pool
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
     timeout_s: 300
-    max_retries: 4
+    # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
+    # same prompt, and a cell that exhausts them is excluded from analysis by
+    # `measuresModel: false` either way. Fewer retries changes how long we wait
+    # before recording that, not what is measured.
+    max_retries: 2
 
   qwencloud:
     kind: openai_compat
     base_url: https://maas.qwencloudapi.com/compatible-mode/v1
     api_key_env: qwen_api_key
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
     timeout_s: 300
-    max_retries: 4
+    # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
+    # same prompt, and a cell that exhausts them is excluded from analysis by
+    # `measuresModel: false` either way. Fewer retries changes how long we wait
+    # before recording that, not what is measured.
+    max_retries: 2
 
   gemini:
     kind: gemini
-    api_key_env: gemini_api_key
+    # Four keys, pooled. Gemini's free tier is quota'd per PROJECT, so keys
+    # from one Google Cloud project share one allowance no matter how many
+    # there are. Pooling always buys retry headroom against a single key's
+    # rate limit; it buys a second token ceiling only if the keys really are
+    # separate projects, which is the same test D28 applied to NVIDIA_KEY_4.
+    # See the gemini budget block below for what is being claimed, and D35.
+    api_key_env: [gemini_api_key, gemini_api_key1, gemini_api_key2, gemini_api_key3]
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
     timeout_s: 300
-    max_retries: 4
+    # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
+    # same prompt, and a cell that exhausts them is excluded from analysis by
+    # `measuresModel: false` either way. Fewer retries changes how long we wait
+    # before recording that, not what is measured.
+    max_retries: 2
 
 # ------------------------------------------------------------------- models
 # Measured throughput is recorded for the record; `doctor` re-measures.
@@ -140,10 +196,14 @@ budget:
   estimate_before_run: true
   stop_on_exhaustion: skip_arm
   nvidia:
-    # PER KEY, not per provider. The three keys in api_key_env were each created
-    # from a separate build.nvidia.com account, so each has its own allowance
-    # (D28). Effective capacity is 3 x 8M; the sweep distributes load round-robin
-    # and excludes a key once its own ceiling is reached.
+    # PER KEY, not per provider. The three original keys in api_key_env were
+    # each created from a separate build.nvidia.com account, so each has its own
+    # allowance (D28). NVIDIA_KEY_4 was confirmed by Nakul on 25 Oct 2026 to be
+    # a fourth separate account. KEYS 5-7 were added 26 Oct 2026 and are
+    # ASSUMED separate on the same grounds — if they are not, the claimed
+    # capacity is wrong, but the failure mode is 429s the pool rotates away
+    # from, not money. The sweep distributes load round-robin and excludes a
+    # key once its own ceiling is reached.
     per_key: true
     max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
     max_calls: 1500
@@ -151,8 +211,17 @@ budget:
     max_tokens: 900000                # under the 1M free quota, deliberately
     max_calls: 100
   gemini:
+    # PER KEY as of 26 Oct 2026 — D35. Four keys, and a1 needs 28 calls against
+    # what was a single 30-call ceiling with 3 already spent. It did not fit.
+    #
+    # The claim this makes is narrow and must stay narrow: Gemini's free tier is
+    # quota'd per PROJECT, so this is only true if the four keys come from four
+    # separate Google accounts. Nakul added them for exactly that reason. The
+    # per-key ceilings below are unchanged from the single-key values, so
+    # nothing is being relaxed per key — only the pool is wider.
+    per_key: true
     max_tokens: 500000
-    max_calls: 30                     # ~20/day ceiling
+    max_calls: 30                     # ~20/day ceiling, PER KEY
 
 # --------------------------------------------------------------------- grid
 grid:
@@ -163,7 +232,9 @@ grid:
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
-    rounds: 2
+    rounds: 2                         # stays 2: the pilot ran 2, and a
+                                      # replication that changes depth is not
+                                      # a replication
     repeats: 1                        # 24 cells
 
   a2_workhorse:
@@ -173,28 +244,31 @@ grid:
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
-    rounds: 2
-    repeats: 5                        # 120 cells
+    rounds: 4                         # Phase 2: LOST is unreachable below K=4
+    repeats: 5                        # 240 cells
 
   a3_capability:
     enabled: true
     models: [nemotron_ultra]
     tasks: failure_pool
-    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    # l2_5_diagnose_revise dropped — D34. a2 ran it on all four tasks and it
+    # refused 80 of 80 cells. It is not measurable without Docker, and 80 rows
+    # of PROVIDER_ERROR are not a condition, they are a hole in the table.
+    strategies: [l1_blind_retry, l2_reflection]
     edit_formats: [search_replace]
     thinking: [false]
-    rounds: 2
-    repeats: 5                        # 120 cells
+    rounds: 4                         # Phase 2: LOST is unreachable below K=4
+    repeats: 5                        # 160 cells + 20 baselines = 180
 
   a4_reasoning:
     enabled: true
     models: [nemotron_nano]
     tasks: failure_pool
-    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    strategies: [l1_blind_retry, l2_reflection]   # l2_5 dropped — D34
     edit_formats: [search_replace]
     thinking: [false, true]           # the manipulated variable
-    rounds: 2
-    repeats: 5                        # 240 cells
+    rounds: 4                         # Phase 2: LOST is unreachable below K=4
+    repeats: 5                        # 320 cells + 40 baselines = 360
 
   a5_format_at_scale:
     enabled: true
@@ -207,11 +281,18 @@ grid:
     repeats: 3                        # 720 cells
 
   a6_qwencloud:
-    enabled: false                    # spends finite free quota — opt in
+    enabled: true                     # opted in 25 Oct 2026 — a fourth vendor
+                                      # for cross-family robustness. Stays at
+                                      # rounds 2: the 1M free quota is finite
+                                      # and this arm is a robustness check, not
+                                      # where LOST is measured.
     models: [qwen_max]
     tasks: failure_pool
     strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
     edit_formats: [search_replace]
     thinking: [false]
     rounds: 2
-    repeats: 3                        # 72 cells
+    # 3 repeats projected 1.03M tokens against the 0.90M ceiling (115%). The
+    # ceiling is deliberately under Qwen's 1M free quota, so the overflow is
+    # real and not an accounting artefact: cut breadth, not the ceiling (D3).
+    repeats: 2                        # 48 cells

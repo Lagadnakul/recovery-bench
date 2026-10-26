@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T05:31:01.706Z",
+  "generated_at": "2026-10-26T10:56:05.909Z",
   "generated_by": "packages/pipeline/analysis/figures.ts",
   "note": "Datasets behind figures 5.1-5.4, derived from archive/legacy_runs. The .drawio sources and PNG exports are NOT regenerated: they are already embedded in the submitted Self.docx, which is final.",
   "fig5_1": {

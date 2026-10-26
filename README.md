@@ -67,10 +67,14 @@ the evidence), then `ARCHITECTURE.md`, then `DASHBOARD.md`.
 ```sh
 cd recovery-bench
 bun install
-bun run doctor          # every gate, offline, no API key
-bun test                # 433 tests
-bun run report          # regenerates every Chapter 5 table
+bun run verify          # every offline gate in one command, ~22s
 ```
+
+`verify` runs typecheck, the test suite, `doctor`, the `master_table.md` oracle
+check, the power analysis and the 127 palette checks, and prints only what
+fails. `bun run verify --fast` skips typecheck and contrast; `--list` shows the
+gates. Each gate is also a script of its own (`bun run doctor`, `bun test`,
+`bun run report`, `bun run power`).
 
 The key check — the re-implementation reproduces the submitted results exactly,
 from a completely independent code path:

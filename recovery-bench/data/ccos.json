@@ -1,0 +1,5946 @@
+{
+  "generated_by": "packages/pipeline/analysis/ccos.ts",
+  "triage": {
+    "counts": {
+      "FORMAT": 9,
+      "LOGIC": 25,
+      "BROKEN": 0,
+      "LOST": 0,
+      "succeeded": 17,
+      "unverified": 0
+    },
+    "measuring": 51,
+    "notMeasuring": 0,
+    "modelCalls": 0,
+    "holes": [
+      {
+        "taskId": "astropy__astropy-14182",
+        "condition": "Blind Retry",
+        "reason": "provider refused to generate (RECITATION) — no patch ever existed"
+      },
+      {
+        "taskId": "astropy__astropy-14182",
+        "condition": "Reflection-only",
+        "reason": "provider refused to generate (RECITATION) — no patch ever existed"
+      },
+      {
+        "taskId": "astropy__astropy-14182",
+        "condition": "Diagnose+Revise",
+        "reason": "provider refused to generate (RECITATION) — no patch ever existed"
+      },
+      {
+        "taskId": "django__django-11039",
+        "condition": "Reflection-only",
+        "reason": "never run — free-tier quota exhausted (D3)"
+      },
+      {
+        "taskId": "django__django-11039",
+        "condition": "Diagnose+Revise",
+        "reason": "never run — free-tier quota exhausted (D3)"
+      },
+      {
+        "taskId": "django__django-11583",
+        "condition": "Reflection-only",
+        "reason": "never run — free-tier quota exhausted (D3)"
+      },
+      {
+        "taskId": "django__django-11583",
+        "condition": "Diagnose+Revise",
+        "reason": "never run — free-tier quota exhausted (D3)"
+      }
+    ],
+    "maxDepth": 3,
+    "lostObservable": false,
+    "novelty": {
+      "file": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "line": [
+        0.4,
+        0.5294117647058824,
+        0.4285714285714286,
+        0.4444444444444444,
+        0.25,
+        0.30000000000000004,
+        0.6446280991735538,
+        0.6216216216216216,
+        0.30952380952380953,
+        0.24444444444444446,
+        0.2471910112359551,
+        0.17647058823529416,
+        0,
+        0.16666666666666663,
+        0.6666666666666667,
+        1,
+        0.41666666666666663,
+        0.96,
+        1,
+        1,
+        1,
+        0.5333333333333333,
+        0,
+        0,
+        0.25,
+        0.33333333333333337
+      ]
+    },
+    "traces": [
+      {
+        "taskId": "astropy__astropy-14182",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 8,
+            "novelty": 1,
+            "cumulative": 8
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "astropy__astropy-14182",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 8,
+            "novelty": 1,
+            "cumulative": 8
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "astropy__astropy-14182",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 8,
+            "novelty": 1,
+            "cumulative": 8
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day9_test",
+          "day15_blindretry"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 12,
+            "novelty": 1,
+            "cumulative": 12
+          },
+          {
+            "index": 2,
+            "size": 12,
+            "novelty": 0.4,
+            "cumulative": 15
+          },
+          {
+            "index": 3,
+            "size": 10,
+            "novelty": 0.5294117647058824,
+            "cumulative": 17
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test",
+          "day10_test",
+          "day15_reflection"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 12,
+            "novelty": 1,
+            "cumulative": 12
+          },
+          {
+            "index": 2,
+            "size": 10,
+            "novelty": 0.4285714285714286,
+            "cumulative": 14
+          },
+          {
+            "index": 3,
+            "size": 14,
+            "novelty": 0.4444444444444444,
+            "cumulative": 18
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test",
+          "day11b_tes",
+          "day15_diagnose"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 12,
+            "novelty": 1,
+            "cumulative": 12
+          },
+          {
+            "index": 2,
+            "size": 16,
+            "novelty": 0.25,
+            "cumulative": 16
+          },
+          {
+            "index": 3,
+            "size": 18,
+            "novelty": 0.30000000000000004,
+            "cumulative": 20
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day12_blindretry_test",
+          "day15_blindretry"
+        ],
+        "superseded": [
+          "day9_test"
+        ],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 72,
+            "novelty": 1,
+            "cumulative": 72
+          },
+          {
+            "index": 2,
+            "size": 92,
+            "novelty": 0.6446280991735538,
+            "cumulative": 121
+          },
+          {
+            "index": 3,
+            "size": 83,
+            "novelty": 0.6216216216216216,
+            "cumulative": 148
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test",
+          "day12_reflection_test",
+          "day15_reflection"
+        ],
+        "superseded": [
+          "day10_test"
+        ],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 72,
+            "novelty": 1,
+            "cumulative": 72
+          },
+          {
+            "index": 2,
+            "size": 70,
+            "novelty": 0.30952380952380953,
+            "cumulative": 84
+          },
+          {
+            "index": 3,
+            "size": 74,
+            "novelty": 0.24444444444444446,
+            "cumulative": 90
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11019",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test",
+          "day11b_tes",
+          "day15_diagnose"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 72,
+            "novelty": 1,
+            "cumulative": 72
+          },
+          {
+            "index": 2,
+            "size": 84,
+            "novelty": 0.2471910112359551,
+            "cumulative": 89
+          },
+          {
+            "index": 3,
+            "size": 97,
+            "novelty": 0.17647058823529416,
+            "cumulative": 102
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11039",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day9_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 2,
+            "novelty": 1,
+            "cumulative": 2
+          },
+          {
+            "index": 2,
+            "size": 2,
+            "novelty": 0,
+            "cumulative": 2
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11039",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 2,
+            "novelty": 1,
+            "cumulative": 2
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11039",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 2,
+            "novelty": 1,
+            "cumulative": 2
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day9_test",
+          "day15_blindretry"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 6
+          },
+          {
+            "index": 2,
+            "size": 5,
+            "novelty": 0.16666666666666663,
+            "cumulative": 6
+          },
+          {
+            "index": 3,
+            "size": 6,
+            "novelty": 0.6666666666666667,
+            "cumulative": 9
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test",
+          "day10_test",
+          "day15_reflection"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 6
+          },
+          {
+            "index": 2,
+            "size": 3,
+            "novelty": 1,
+            "cumulative": 9
+          },
+          {
+            "index": 3,
+            "size": 10,
+            "novelty": 0.41666666666666663,
+            "cumulative": 12
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11283",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test",
+          "day11b_tes"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 6
+          },
+          {
+            "index": 2,
+            "size": 20,
+            "novelty": 0.96,
+            "cumulative": 25
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day12_blindretry_test"
+        ],
+        "superseded": [
+          "day9_test"
+        ],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 4,
+            "novelty": 1,
+            "cumulative": 4
+          },
+          {
+            "index": 2,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 10
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test",
+          "day10_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 4,
+            "novelty": 1,
+            "cumulative": 4
+          },
+          {
+            "index": 2,
+            "size": 8,
+            "novelty": 1,
+            "cumulative": 12
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11564",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test",
+          "day11b_tes",
+          "day15_diagnose"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          },
+          {
+            "index": 3,
+            "size": 1,
+            "novelty": 0,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 4,
+            "novelty": 1,
+            "cumulative": 4
+          },
+          {
+            "index": 2,
+            "size": 18,
+            "novelty": 1,
+            "cumulative": 22
+          },
+          {
+            "index": 3,
+            "size": 22,
+            "novelty": 0.5333333333333333,
+            "cumulative": 30
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11583",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day9_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 2,
+            "novelty": 1,
+            "cumulative": 2
+          },
+          {
+            "index": 2,
+            "size": 2,
+            "novelty": 0,
+            "cumulative": 2
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11583",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 2,
+            "novelty": 1,
+            "cumulative": 2
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11583",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 2,
+            "novelty": 1,
+            "cumulative": 2
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11620",
+        "condition": "Blind Retry",
+        "runs": [
+          "day8_test",
+          "day12_blindretry_test"
+        ],
+        "superseded": [
+          "day9_test"
+        ],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 6
+          },
+          {
+            "index": 2,
+            "size": 6,
+            "novelty": 0,
+            "cumulative": 6
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11620",
+        "condition": "Reflection-only",
+        "runs": [
+          "day8_test",
+          "day12_reflection_test"
+        ],
+        "superseded": [
+          "day10_test"
+        ],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 6
+          },
+          {
+            "index": 2,
+            "size": 8,
+            "novelty": 0.25,
+            "cumulative": 8
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      },
+      {
+        "taskId": "django__django-11620",
+        "condition": "Diagnose+Revise",
+        "runs": [
+          "day8_test",
+          "day11b_tes"
+        ],
+        "superseded": [],
+        "fileTrace": [
+          {
+            "index": 1,
+            "size": 0,
+            "novelty": 1,
+            "cumulative": 0
+          },
+          {
+            "index": 2,
+            "size": 1,
+            "novelty": 1,
+            "cumulative": 1
+          }
+        ],
+        "lineTrace": [
+          {
+            "index": 1,
+            "size": 6,
+            "novelty": 1,
+            "cumulative": 6
+          },
+          {
+            "index": 2,
+            "size": 4,
+            "novelty": 0.33333333333333337,
+            "cumulative": 6
+          }
+        ],
+        "lostFile": null,
+        "lostLine": null
+      }
+    ],
+    "records": [
+      {
+        "taskId": "astropy__astropy-12907",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "astropy__astropy-14182",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** malformed patch at line 14: -        lines = [lines[1]] + lines + [lines[1]]"
+      },
+      {
+        "taskId": "astropy__astropy-14365",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "astropy__astropy-14995",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "astropy__astropy-6938",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day10_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day11b_tes",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day15_blindretry",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day15_diagnose",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day15_reflection",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-10914",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-10924",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11001",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day10_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** malformed patch at line 27: -        return js"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day11b_tes",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day12_blindretry_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day12_reflection_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day15_blindretry",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day15_diagnose",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day15_reflection",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11019",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** malformed patch at line 28:      def render(self):"
+      },
+      {
+        "taskId": "django__django-11039",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** Only garbage was found in the patch input."
+      },
+      {
+        "taskId": "django__django-11039",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11049",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11099",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11133",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11179",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11283",
+        "run": "day10_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11283",
+        "run": "day11b_tes",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11283",
+        "run": "day15_blindretry",
+        "condition": "Blind Retry",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11283",
+        "run": "day15_reflection",
+        "condition": "Reflection-only",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11283",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11283",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11422",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11564",
+        "run": "day10_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11564",
+        "run": "day11b_tes",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11564",
+        "run": "day12_blindretry_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11564",
+        "run": "day15_diagnose",
+        "condition": "Diagnose+Revise",
+        "round": "R2",
+        "format": "sr",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11564",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "test",
+        "cls": "LOGIC",
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "false — patch applied, FAIL_TO_PASS still failing"
+      },
+      {
+        "taskId": "django__django-11564",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** Only garbage was found in the patch input."
+      },
+      {
+        "taskId": "django__django-11583",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** Only garbage was found in the patch input."
+      },
+      {
+        "taskId": "django__django-11583",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11620",
+        "run": "day10_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** Only garbage was found in the patch input."
+      },
+      {
+        "taskId": "django__django-11620",
+        "run": "day11b_tes",
+        "condition": "Diagnose+Revise",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11620",
+        "run": "day12_blindretry_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11620",
+        "run": "day12_reflection_test",
+        "condition": "Reflection-only",
+        "round": "R1",
+        "format": "sr",
+        "verification": "test",
+        "cls": null,
+        "measuresModel": true,
+        "evidenceField": "resolved",
+        "evidence": "true — FAIL_TO_PASS passed"
+      },
+      {
+        "taskId": "django__django-11620",
+        "run": "day8_test",
+        "condition": "Baseline",
+        "round": "R0",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** Only garbage was found in the patch input."
+      },
+      {
+        "taskId": "django__django-11620",
+        "run": "day9_test",
+        "condition": "Blind Retry",
+        "round": "R1",
+        "format": "diff",
+        "verification": "apply",
+        "cls": "FORMAT",
+        "measuresModel": true,
+        "evidenceField": "outcome.gitStderr",
+        "evidence": "patch: **** Only garbage was found in the patch input."
+      }
+    ]
+  },
+  "ccos": {
+    "payoffs": {
+      "G": 1,
+      "r": 0.02,
+      "h": 0.3
+    },
+    "observations": [
+      {
+        "cls": "FORMAT",
+        "k": 0,
+        "trials": 5,
+        "successes": 3
+      },
+      {
+        "cls": "FORMAT",
+        "k": 1,
+        "trials": 5,
+        "successes": 2
+      },
+      {
+        "cls": "LOGIC",
+        "k": 0,
+        "trials": 12,
+        "successes": 0
+      },
+      {
+        "cls": "LOGIC",
+        "k": 1,
+        "trials": 7,
+        "successes": 0
+      },
+      {
+        "cls": "LOGIC",
+        "k": 2,
+        "trials": 2,
+        "successes": 0
+      }
+    ],
+    "beliefs": [
+      {
+        "cls": "FORMAT",
+        "belief": {
+          "alpha": 5.5,
+          "beta": 5.5
+        },
+        "trials": 10,
+        "successes": 5,
+        "pZero": 0.5
+      },
+      {
+        "cls": "LOGIC",
+        "belief": {
+          "alpha": 0.5,
+          "beta": 21.5
+        },
+        "trials": 21,
+        "successes": 0,
+        "pZero": 0.022727272727272728
+      }
+    ],
+    "lambda": {
+      "estimate": 0.724,
+      "pBar": 0.1868942407544643,
+      "interval": {
+        "lo": 0.121,
+        "hi": 1
+      },
+      "atBoundary": false,
+      "unidentified": false,
+      "trials": 31,
+      "successes": 5,
+      "degenerateCells": 3,
+      "excludesNoDecay": false,
+      "used": 1,
+      "isMeasured": false,
+      "profile": [
+        {
+          "lambda": 0,
+          "logLik": -63.18402960020682
+        },
+        {
+          "lambda": 0.001,
+          "logLik": -24.768490926260547
+        },
+        {
+          "lambda": 0.002,
+          "logLik": -23.384829228692347
+        },
+        {
+          "lambda": 0.003,
+          "logLik": -22.576532396701126
+        },
+        {
+          "lambda": 0.004,
+          "logLik": -22.003802354737505
+        },
+        {
+          "lambda": 0.005,
+          "logLik": -21.560150071806923
+        },
+        {
+          "lambda": 0.006,
+          "logLik": -21.198142492719473
+        },
+        {
+          "lambda": 0.007,
+          "logLik": -20.89247738041443
+        },
+        {
+          "lambda": 0.008,
+          "logLik": -20.62805155341191
+        },
+        {
+          "lambda": 0.009,
+          "logLik": -20.395123149292438
+        },
+        {
+          "lambda": 0.01,
+          "logLik": -20.18704049216821
+        },
+        {
+          "lambda": 0.011,
+          "logLik": -19.999059211802166
+        },
+        {
+          "lambda": 0.012,
+          "logLik": -19.827676240171368
+        },
+        {
+          "lambda": 0.013,
+          "logLik": -19.67023130833501
+        },
+        {
+          "lambda": 0.014,
+          "logLik": -19.524656546758543
+        },
+        {
+          "lambda": 0.015,
+          "logLik": -19.3893126837956
+        },
+        {
+          "lambda": 0.016,
+          "logLik": -19.262878216872775
+        },
+        {
+          "lambda": 0.017,
+          "logLik": -19.144272241996628
+        },
+        {
+          "lambda": 0.018,
+          "logLik": -19.032599374542585
+        },
+        {
+          "lambda": 0.019,
+          "logLik": -18.927109581763414
+        },
+        {
+          "lambda": 0.02,
+          "logLik": -18.82716833035329
+        },
+        {
+          "lambda": 0.021,
+          "logLik": -18.73223402505276
+        },
+        {
+          "lambda": 0.022,
+          "logLik": -18.6418407005661
+        },
+        {
+          "lambda": 0.023,
+          "logLik": -18.555584564025445
+        },
+        {
+          "lambda": 0.024,
+          "logLik": -18.473113403681566
+        },
+        {
+          "lambda": 0.025,
+          "logLik": -18.394118161103933
+        },
+        {
+          "lambda": 0.026,
+          "logLik": -18.31832615730758
+        },
+        {
+          "lambda": 0.027,
+          "logLik": -18.245495597979286
+        },
+        {
+          "lambda": 0.028,
+          "logLik": -18.175411078483645
+        },
+        {
+          "lambda": 0.029,
+          "logLik": -18.107879877999164
+        },
+        {
+          "lambda": 0.03,
+          "logLik": -18.04272888216272
+        },
+        {
+          "lambda": 0.031,
+          "logLik": -17.97980201049513
+        },
+        {
+          "lambda": 0.032,
+          "logLik": -17.91895805239613
+        },
+        {
+          "lambda": 0.033,
+          "logLik": -17.86006883623456
+        },
+        {
+          "lambda": 0.034,
+          "logLik": -17.803017671840596
+        },
+        {
+          "lambda": 0.035,
+          "logLik": -17.747698018826345
+        },
+        {
+          "lambda": 0.036,
+          "logLik": -17.694012342547154
+        },
+        {
+          "lambda": 0.037,
+          "logLik": -17.64187112684387
+        },
+        {
+          "lambda": 0.038,
+          "logLik": -17.591192018469716
+        },
+        {
+          "lambda": 0.039,
+          "logLik": -17.541899082670806
+        },
+        {
+          "lambda": 0.04,
+          "logLik": -17.49392215302917
+        },
+        {
+          "lambda": 0.041,
+          "logLik": -17.447196261598325
+        },
+        {
+          "lambda": 0.042,
+          "logLik": -17.40166113771837
+        },
+        {
+          "lambda": 0.043,
+          "logLik": -17.35726076581144
+        },
+        {
+          "lambda": 0.044,
+          "logLik": -17.313942994019545
+        },
+        {
+          "lambda": 0.045,
+          "logLik": -17.27165918682742
+        },
+        {
+          "lambda": 0.046,
+          "logLik": -17.230363915868523
+        },
+        {
+          "lambda": 0.047,
+          "logLik": -17.1900146839858
+        },
+        {
+          "lambda": 0.048,
+          "logLik": -17.150571678345493
+        },
+        {
+          "lambda": 0.049,
+          "logLik": -17.111997549008837
+        },
+        {
+          "lambda": 0.05,
+          "logLik": -17.07425720987513
+        },
+        {
+          "lambda": 0.051,
+          "logLik": -17.037317659337386
+        },
+        {
+          "lambda": 0.052,
+          "logLik": -17.001147818353566
+        },
+        {
+          "lambda": 0.053,
+          "logLik": -16.965718383942544
+        },
+        {
+          "lambda": 0.054,
+          "logLik": -16.931001696374526
+        },
+        {
+          "lambda": 0.055,
+          "logLik": -16.89697161854802
+        },
+        {
+          "lambda": 0.056,
+          "logLik": -16.86360342623554
+        },
+        {
+          "lambda": 0.057,
+          "logLik": -16.83087370804374
+        },
+        {
+          "lambda": 0.058,
+          "logLik": -16.798760274074
+        },
+        {
+          "lambda": 0.059,
+          "logLik": -16.76724207239099
+        },
+        {
+          "lambda": 0.06,
+          "logLik": -16.736299112511745
+        },
+        {
+          "lambda": 0.061,
+          "logLik": -16.70591239521885
+        },
+        {
+          "lambda": 0.062,
+          "logLik": -16.676063848080645
+        },
+        {
+          "lambda": 0.063,
+          "logLik": -16.64673626613049
+        },
+        {
+          "lambda": 0.064,
+          "logLik": -16.61791325721762
+        },
+        {
+          "lambda": 0.065,
+          "logLik": -16.589579191594822
+        },
+        {
+          "lambda": 0.066,
+          "logLik": -16.561719155354893
+        },
+        {
+          "lambda": 0.067,
+          "logLik": -16.53431890736851
+        },
+        {
+          "lambda": 0.068,
+          "logLik": -16.507364839412272
+        },
+        {
+          "lambda": 0.069,
+          "logLik": -16.4808439392074
+        },
+        {
+          "lambda": 0.07,
+          "logLik": -16.454743756117807
+        },
+        {
+          "lambda": 0.071,
+          "logLik": -16.429052369281226
+        },
+        {
+          "lambda": 0.072,
+          "logLik": -16.403758357969103
+        },
+        {
+          "lambda": 0.073,
+          "logLik": -16.378850773990873
+        },
+        {
+          "lambda": 0.074,
+          "logLik": -16.354319115975677
+        },
+        {
+          "lambda": 0.075,
+          "logLik": -16.330153305380243
+        },
+        {
+          "lambda": 0.076,
+          "logLik": -16.306343664085883
+        },
+        {
+          "lambda": 0.077,
+          "logLik": -16.282880893459808
+        },
+        {
+          "lambda": 0.078,
+          "logLik": -16.259756054767447
+        },
+        {
+          "lambda": 0.079,
+          "logLik": -16.2369605508325
+        },
+        {
+          "lambda": 0.08,
+          "logLik": -16.214486108850583
+        },
+        {
+          "lambda": 0.081,
+          "logLik": -16.192324764270317
+        },
+        {
+          "lambda": 0.082,
+          "logLik": -16.170468845663564
+        },
+        {
+          "lambda": 0.083,
+          "logLik": -16.148910960512495
+        },
+        {
+          "lambda": 0.084,
+          "logLik": -16.127643981847946
+        },
+        {
+          "lambda": 0.085,
+          "logLik": -16.106661035678364
+        },
+        {
+          "lambda": 0.086,
+          "logLik": -16.085955489154014
+        },
+        {
+          "lambda": 0.087,
+          "logLik": -16.06552093941534
+        },
+        {
+          "lambda": 0.088,
+          "logLik": -16.045351203078656
+        },
+        {
+          "lambda": 0.089,
+          "logLik": -16.02544030631585
+        },
+        {
+          "lambda": 0.09,
+          "logLik": -16.005782475488353
+        },
+        {
+          "lambda": 0.091,
+          "logLik": -15.986372128298617
+        },
+        {
+          "lambda": 0.092,
+          "logLik": -15.967203865425128
+        },
+        {
+          "lambda": 0.093,
+          "logLik": -15.948272462609625
+        },
+        {
+          "lambda": 0.094,
+          "logLik": -15.92957286316744
+        },
+        {
+          "lambda": 0.095,
+          "logLik": -15.911100170894231
+        },
+        {
+          "lambda": 0.096,
+          "logLik": -15.892849643344
+        },
+        {
+          "lambda": 0.097,
+          "logLik": -15.874816685455519
+        },
+        {
+          "lambda": 0.098,
+          "logLik": -15.856996843505557
+        },
+        {
+          "lambda": 0.099,
+          "logLik": -15.839385799369094
+        },
+        {
+          "lambda": 0.1,
+          "logLik": -15.821979365067977
+        },
+        {
+          "lambda": 0.101,
+          "logLik": -15.8047734775908
+        },
+        {
+          "lambda": 0.102,
+          "logLik": -15.787764193967972
+        },
+        {
+          "lambda": 0.103,
+          "logLik": -15.770947686587057
+        },
+        {
+          "lambda": 0.104,
+          "logLik": -15.754320238734405
+        },
+        {
+          "lambda": 0.105,
+          "logLik": -15.737878240350124
+        },
+        {
+          "lambda": 0.106,
+          "logLik": -15.72161818398427
+        },
+        {
+          "lambda": 0.107,
+          "logLik": -15.70553666094287
+        },
+        {
+          "lambda": 0.108,
+          "logLik": -15.689630357613206
+        },
+        {
+          "lambda": 0.109,
+          "logLik": -15.673896051958469
+        },
+        {
+          "lambda": 0.11,
+          "logLik": -15.658330610172463
+        },
+        {
+          "lambda": 0.111,
+          "logLik": -15.64293098348571
+        },
+        {
+          "lambda": 0.112,
+          "logLik": -15.62769420511473
+        },
+        {
+          "lambda": 0.113,
+          "logLik": -15.612617387347008
+        },
+        {
+          "lambda": 0.114,
+          "logLik": -15.597697718754267
+        },
+        {
+          "lambda": 0.115,
+          "logLik": -15.582932461527543
+        },
+        {
+          "lambda": 0.116,
+          "logLik": -15.568318948927557
+        },
+        {
+          "lambda": 0.117,
+          "logLik": -15.553854582844547
+        },
+        {
+          "lambda": 0.118,
+          "logLik": -15.539536831461943
+        },
+        {
+          "lambda": 0.119,
+          "logLik": -15.525363227018607
+        },
+        {
+          "lambda": 0.12,
+          "logLik": -15.511331363664734
+        },
+        {
+          "lambda": 0.121,
+          "logLik": -15.497438895406697
+        },
+        {
+          "lambda": 0.122,
+          "logLik": -15.483683534136464
+        },
+        {
+          "lambda": 0.123,
+          "logLik": -15.470063047741494
+        },
+        {
+          "lambda": 0.124,
+          "logLik": -15.456575258291112
+        },
+        {
+          "lambda": 0.125,
+          "logLik": -15.443218040295744
+        },
+        {
+          "lambda": 0.126,
+          "logLik": -15.429989319035494
+        },
+        {
+          "lambda": 0.127,
+          "logLik": -15.416887068954802
+        },
+        {
+          "lambda": 0.128,
+          "logLik": -15.403909312120067
+        },
+        {
+          "lambda": 0.129,
+          "logLik": -15.391054116737253
+        },
+        {
+          "lambda": 0.13,
+          "logLik": -15.37831959572676
+        },
+        {
+          "lambda": 0.131,
+          "logLik": -15.365703905352886
+        },
+        {
+          "lambda": 0.132,
+          "logLik": -15.35320524390542
+        },
+        {
+          "lambda": 0.133,
+          "logLik": -15.340821850430954
+        },
+        {
+          "lambda": 0.134,
+          "logLik": -15.328552003511765
+        },
+        {
+          "lambda": 0.135,
+          "logLik": -15.316394020090023
+        },
+        {
+          "lambda": 0.136,
+          "logLik": -15.304346254335462
+        },
+        {
+          "lambda": 0.137,
+          "logLik": -15.292407096554474
+        },
+        {
+          "lambda": 0.138,
+          "logLik": -15.280574972138893
+        },
+        {
+          "lambda": 0.139,
+          "logLik": -15.26884834055274
+        },
+        {
+          "lambda": 0.14,
+          "logLik": -15.257225694355274
+        },
+        {
+          "lambda": 0.141,
+          "logLik": -15.245705558258805
+        },
+        {
+          "lambda": 0.142,
+          "logLik": -15.234286488219826
+        },
+        {
+          "lambda": 0.143,
+          "logLik": -15.222967070562008
+        },
+        {
+          "lambda": 0.144,
+          "logLik": -15.211745921129754
+        },
+        {
+          "lambda": 0.145,
+          "logLik": -15.200621684471077
+        },
+        {
+          "lambda": 0.146,
+          "logLik": -15.189593033048519
+        },
+        {
+          "lambda": 0.147,
+          "logLik": -15.178658666477027
+        },
+        {
+          "lambda": 0.148,
+          "logLik": -15.167817310787644
+        },
+        {
+          "lambda": 0.149,
+          "logLik": -15.157067717716016
+        },
+        {
+          "lambda": 0.15,
+          "logLik": -15.146408664014666
+        },
+        {
+          "lambda": 0.151,
+          "logLik": -15.135838950788157
+        },
+        {
+          "lambda": 0.152,
+          "logLik": -15.125357402850144
+        },
+        {
+          "lambda": 0.153,
+          "logLik": -15.114962868101568
+        },
+        {
+          "lambda": 0.154,
+          "logLik": -15.104654216929037
+        },
+        {
+          "lambda": 0.155,
+          "logLik": -15.09443034162276
+        },
+        {
+          "lambda": 0.156,
+          "logLik": -15.084290155813093
+        },
+        {
+          "lambda": 0.157,
+          "logLik": -15.074232593925196
+        },
+        {
+          "lambda": 0.158,
+          "logLik": -15.064256610650933
+        },
+        {
+          "lambda": 0.159,
+          "logLik": -15.05436118043744
+        },
+        {
+          "lambda": 0.16,
+          "logLik": -15.044545296991751
+        },
+        {
+          "lambda": 0.161,
+          "logLik": -15.034807972800834
+        },
+        {
+          "lambda": 0.162,
+          "logLik": -15.025148238666498
+        },
+        {
+          "lambda": 0.163,
+          "logLik": -15.015565143254596
+        },
+        {
+          "lambda": 0.164,
+          "logLik": -15.006057752658064
+        },
+        {
+          "lambda": 0.165,
+          "logLik": -14.996625149973141
+        },
+        {
+          "lambda": 0.166,
+          "logLik": -14.98726643488852
+        },
+        {
+          "lambda": 0.167,
+          "logLik": -14.977980723286715
+        },
+        {
+          "lambda": 0.168,
+          "logLik": -14.968767146857427
+        },
+        {
+          "lambda": 0.169,
+          "logLik": -14.95962485272233
+        },
+        {
+          "lambda": 0.17,
+          "logLik": -14.950553003070914
+        },
+        {
+          "lambda": 0.171,
+          "logLik": -14.94155077480705
+        },
+        {
+          "lambda": 0.172,
+          "logLik": -14.932617359205851
+        },
+        {
+          "lambda": 0.173,
+          "logLik": -14.923751961580436
+        },
+        {
+          "lambda": 0.174,
+          "logLik": -14.91495380095834
+        },
+        {
+          "lambda": 0.175,
+          "logLik": -14.906222109767212
+        },
+        {
+          "lambda": 0.176,
+          "logLik": -14.8975561335294
+        },
+        {
+          "lambda": 0.177,
+          "logLik": -14.888955130565247
+        },
+        {
+          "lambda": 0.178,
+          "logLik": -14.880418371704735
+        },
+        {
+          "lambda": 0.179,
+          "logLik": -14.871945140007178
+        },
+        {
+          "lambda": 0.18,
+          "logLik": -14.863534730488768
+        },
+        {
+          "lambda": 0.181,
+          "logLik": -14.85518644985762
+        },
+        {
+          "lambda": 0.182,
+          "logLik": -14.846899616256158
+        },
+        {
+          "lambda": 0.183,
+          "logLik": -14.838673559010523
+        },
+        {
+          "lambda": 0.184,
+          "logLik": -14.830507618386848
+        },
+        {
+          "lambda": 0.185,
+          "logLik": -14.822401145354105
+        },
+        {
+          "lambda": 0.186,
+          "logLik": -14.814353501353352
+        },
+        {
+          "lambda": 0.187,
+          "logLik": -14.806364058073187
+        },
+        {
+          "lambda": 0.188,
+          "logLik": -14.79843219723115
+        },
+        {
+          "lambda": 0.189,
+          "logLik": -14.790557310360976
+        },
+        {
+          "lambda": 0.19,
+          "logLik": -14.782738798605424
+        },
+        {
+          "lambda": 0.191,
+          "logLik": -14.774976072514534
+        },
+        {
+          "lambda": 0.192,
+          "logLik": -14.767268551849181
+        },
+        {
+          "lambda": 0.193,
+          "logLik": -14.759615665389756
+        },
+        {
+          "lambda": 0.194,
+          "logLik": -14.7520168507497
+        },
+        {
+          "lambda": 0.195,
+          "logLik": -14.744471554193911
+        },
+        {
+          "lambda": 0.196,
+          "logLik": -14.736979230461785
+        },
+        {
+          "lambda": 0.197,
+          "logLik": -14.729539342594727
+        },
+        {
+          "lambda": 0.198,
+          "logLik": -14.72215136176806
+        },
+        {
+          "lambda": 0.199,
+          "logLik": -14.714814767127157
+        },
+        {
+          "lambda": 0.2,
+          "logLik": -14.70752904562767
+        },
+        {
+          "lambda": 0.201,
+          "logLik": -14.700293691879752
+        },
+        {
+          "lambda": 0.202,
+          "logLik": -14.693108207996168
+        },
+        {
+          "lambda": 0.203,
+          "logLik": -14.685972103444112
+        },
+        {
+          "lambda": 0.204,
+          "logLik": -14.678884894900694
+        },
+        {
+          "lambda": 0.205,
+          "logLik": -14.671846106111941
+        },
+        {
+          "lambda": 0.206,
+          "logLik": -14.664855267755277
+        },
+        {
+          "lambda": 0.207,
+          "logLik": -14.657911917305249
+        },
+        {
+          "lambda": 0.208,
+          "logLik": -14.651015598902585
+        },
+        {
+          "lambda": 0.209,
+          "logLik": -14.644165863226299
+        },
+        {
+          "lambda": 0.21,
+          "logLik": -14.637362267368918
+        },
+        {
+          "lambda": 0.211,
+          "logLik": -14.63060437471465
+        },
+        {
+          "lambda": 0.212,
+          "logLik": -14.623891754820423
+        },
+        {
+          "lambda": 0.213,
+          "logLik": -14.617223983299722
+        },
+        {
+          "lambda": 0.214,
+          "logLik": -14.610600641709176
+        },
+        {
+          "lambda": 0.215,
+          "logLik": -14.60402131743775
+        },
+        {
+          "lambda": 0.216,
+          "logLik": -14.59748560359852
+        },
+        {
+          "lambda": 0.217,
+          "logLik": -14.590993098922985
+        },
+        {
+          "lambda": 0.218,
+          "logLik": -14.58454340765775
+        },
+        {
+          "lambda": 0.219,
+          "logLik": -14.578136139463583
+        },
+        {
+          "lambda": 0.22,
+          "logLik": -14.571770909316843
+        },
+        {
+          "lambda": 0.221,
+          "logLik": -14.565447337413039
+        },
+        {
+          "lambda": 0.222,
+          "logLik": -14.559165049072647
+        },
+        {
+          "lambda": 0.223,
+          "logLik": -14.552923674648973
+        },
+        {
+          "lambda": 0.224,
+          "logLik": -14.546722849438174
+        },
+        {
+          "lambda": 0.225,
+          "logLik": -14.540562213591171
+        },
+        {
+          "lambda": 0.226,
+          "logLik": -14.534441412027608
+        },
+        {
+          "lambda": 0.227,
+          "logLik": -14.528360094351637
+        },
+        {
+          "lambda": 0.228,
+          "logLik": -14.522317914769634
+        },
+        {
+          "lambda": 0.229,
+          "logLik": -14.51631453200962
+        },
+        {
+          "lambda": 0.23,
+          "logLik": -14.510349609242539
+        },
+        {
+          "lambda": 0.231,
+          "logLik": -14.504422814005142
+        },
+        {
+          "lambda": 0.232,
+          "logLik": -14.498533818124635
+        },
+        {
+          "lambda": 0.233,
+          "logLik": -14.492682297644864
+        },
+        {
+          "lambda": 0.234,
+          "logLik": -14.486867932754135
+        },
+        {
+          "lambda": 0.235,
+          "logLik": -14.481090407714548
+        },
+        {
+          "lambda": 0.236,
+          "logLik": -14.475349410792845
+        },
+        {
+          "lambda": 0.237,
+          "logLik": -14.469644634192708
+        },
+        {
+          "lambda": 0.238,
+          "logLik": -14.463975773988478
+        },
+        {
+          "lambda": 0.239,
+          "logLik": -14.458342530060294
+        },
+        {
+          "lambda": 0.24,
+          "logLik": -14.452744606030553
+        },
+        {
+          "lambda": 0.241,
+          "logLik": -14.447181709201697
+        },
+        {
+          "lambda": 0.242,
+          "logLik": -14.441653550495309
+        },
+        {
+          "lambda": 0.243,
+          "logLik": -14.436159844392439
+        },
+        {
+          "lambda": 0.244,
+          "logLik": -14.430700308875162
+        },
+        {
+          "lambda": 0.245,
+          "logLik": -14.425274665369356
+        },
+        {
+          "lambda": 0.246,
+          "logLik": -14.419882638688605
+        },
+        {
+          "lambda": 0.247,
+          "logLik": -14.414523956979275
+        },
+        {
+          "lambda": 0.248,
+          "logLik": -14.409198351666664
+        },
+        {
+          "lambda": 0.249,
+          "logLik": -14.403905557402277
+        },
+        {
+          "lambda": 0.25,
+          "logLik": -14.398645312012123
+        },
+        {
+          "lambda": 0.251,
+          "logLik": -14.393417356446072
+        },
+        {
+          "lambda": 0.252,
+          "logLik": -14.38822143472819
+        },
+        {
+          "lambda": 0.253,
+          "logLik": -14.383057293908067
+        },
+        {
+          "lambda": 0.254,
+          "logLik": -14.377924684013143
+        },
+        {
+          "lambda": 0.255,
+          "logLik": -14.372823358001897
+        },
+        {
+          "lambda": 0.256,
+          "logLik": -14.367753071718008
+        },
+        {
+          "lambda": 0.257,
+          "logLik": -14.36271358384542
+        },
+        {
+          "lambda": 0.258,
+          "logLik": -14.35770465586421
+        },
+        {
+          "lambda": 0.259,
+          "logLik": -14.35272605200738
+        },
+        {
+          "lambda": 0.26,
+          "logLik": -14.34777753921845
+        },
+        {
+          "lambda": 0.261,
+          "logLik": -14.342858887109873
+        },
+        {
+          "lambda": 0.262,
+          "logLik": -14.337969867922242
+        },
+        {
+          "lambda": 0.263,
+          "logLik": -14.33311025648425
+        },
+        {
+          "lambda": 0.264,
+          "logLik": -14.328279830173484
+        },
+        {
+          "lambda": 0.265,
+          "logLik": -14.323478368877856
+        },
+        {
+          "lambda": 0.266,
+          "logLik": -14.318705654957864
+        },
+        {
+          "lambda": 0.267,
+          "logLik": -14.313961473209462
+        },
+        {
+          "lambda": 0.268,
+          "logLik": -14.309245610827718
+        },
+        {
+          "lambda": 0.269,
+          "logLik": -14.304557857371073
+        },
+        {
+          "lambda": 0.27,
+          "logLik": -14.29989800472632
+        },
+        {
+          "lambda": 0.271,
+          "logLik": -14.295265847074173
+        },
+        {
+          "lambda": 0.272,
+          "logLik": -14.290661180855535
+        },
+        {
+          "lambda": 0.273,
+          "logLik": -14.286083804738336
+        },
+        {
+          "lambda": 0.274,
+          "logLik": -14.281533519584984
+        },
+        {
+          "lambda": 0.275,
+          "logLik": -14.277010128420446
+        },
+        {
+          "lambda": 0.276,
+          "logLik": -14.272513436400843
+        },
+        {
+          "lambda": 0.277,
+          "logLik": -14.268043250782688
+        },
+        {
+          "lambda": 0.278,
+          "logLik": -14.263599380892607
+        },
+        {
+          "lambda": 0.279,
+          "logLik": -14.259181638097672
+        },
+        {
+          "lambda": 0.28,
+          "logLik": -14.254789835776192
+        },
+        {
+          "lambda": 0.281,
+          "logLik": -14.250423789289089
+        },
+        {
+          "lambda": 0.282,
+          "logLik": -14.246083315951754
+        },
+        {
+          "lambda": 0.283,
+          "logLik": -14.241768235006386
+        },
+        {
+          "lambda": 0.284,
+          "logLik": -14.237478367594859
+        },
+        {
+          "lambda": 0.285,
+          "logLik": -14.233213536732027
+        },
+        {
+          "lambda": 0.286,
+          "logLik": -14.22897356727951
+        },
+        {
+          "lambda": 0.287,
+          "logLik": -14.224758285919954
+        },
+        {
+          "lambda": 0.288,
+          "logLik": -14.220567521131727
+        },
+        {
+          "lambda": 0.289,
+          "logLik": -14.216401103164023
+        },
+        {
+          "lambda": 0.29,
+          "logLik": -14.212258864012444
+        },
+        {
+          "lambda": 0.291,
+          "logLik": -14.208140637395001
+        },
+        {
+          "lambda": 0.292,
+          "logLik": -14.20404625872847
+        },
+        {
+          "lambda": 0.293,
+          "logLik": -14.199975565105207
+        },
+        {
+          "lambda": 0.294,
+          "logLik": -14.195928395270355
+        },
+        {
+          "lambda": 0.295,
+          "logLik": -14.191904589599401
+        },
+        {
+          "lambda": 0.296,
+          "logLik": -14.187903990076142
+        },
+        {
+          "lambda": 0.297,
+          "logLik": -14.183926440271042
+        },
+        {
+          "lambda": 0.298,
+          "logLik": -14.179971785319891
+        },
+        {
+          "lambda": 0.299,
+          "logLik": -14.176039871902876
+        },
+        {
+          "lambda": 0.3,
+          "logLik": -14.17213054822397
+        },
+        {
+          "lambda": 0.301,
+          "logLik": -14.168243663990705
+        },
+        {
+          "lambda": 0.302,
+          "logLik": -14.164379070394222
+        },
+        {
+          "lambda": 0.303,
+          "logLik": -14.160536620089706
+        },
+        {
+          "lambda": 0.304,
+          "logLik": -14.156716167177091
+        },
+        {
+          "lambda": 0.305,
+          "logLik": -14.152917567182138
+        },
+        {
+          "lambda": 0.306,
+          "logLik": -14.149140677037774
+        },
+        {
+          "lambda": 0.307,
+          "logLik": -14.145385355065772
+        },
+        {
+          "lambda": 0.308,
+          "logLik": -14.141651460958691
+        },
+        {
+          "lambda": 0.309,
+          "logLik": -14.137938855762151
+        },
+        {
+          "lambda": 0.31,
+          "logLik": -14.134247401857362
+        },
+        {
+          "lambda": 0.311,
+          "logLik": -14.130576962943953
+        },
+        {
+          "lambda": 0.312,
+          "logLik": -14.126927404023059
+        },
+        {
+          "lambda": 0.313,
+          "logLik": -14.123298591380705
+        },
+        {
+          "lambda": 0.314,
+          "logLik": -14.119690392571417
+        },
+        {
+          "lambda": 0.315,
+          "logLik": -14.116102676402141
+        },
+        {
+          "lambda": 0.316,
+          "logLik": -14.112535312916366
+        },
+        {
+          "lambda": 0.317,
+          "logLik": -14.108988173378552
+        },
+        {
+          "lambda": 0.318,
+          "logLik": -14.105461130258746
+        },
+        {
+          "lambda": 0.319,
+          "logLik": -14.101954057217489
+        },
+        {
+          "lambda": 0.32,
+          "logLik": -14.098466829090922
+        },
+        {
+          "lambda": 0.321,
+          "logLik": -14.09499932187616
+        },
+        {
+          "lambda": 0.322,
+          "logLik": -14.09155141271685
+        },
+        {
+          "lambda": 0.323,
+          "logLik": -14.088122979888997
+        },
+        {
+          "lambda": 0.324,
+          "logLik": -14.084713902786989
+        },
+        {
+          "lambda": 0.325,
+          "logLik": -14.08132406190982
+        },
+        {
+          "lambda": 0.326,
+          "logLik": -14.077953338847555
+        },
+        {
+          "lambda": 0.327,
+          "logLik": -14.074601616267984
+        },
+        {
+          "lambda": 0.328,
+          "logLik": -14.071268777903502
+        },
+        {
+          "lambda": 0.329,
+          "logLik": -14.06795470853814
+        },
+        {
+          "lambda": 0.33,
+          "logLik": -14.064659293994858
+        },
+        {
+          "lambda": 0.331,
+          "logLik": -14.061382421122966
+        },
+        {
+          "lambda": 0.332,
+          "logLik": -14.058123977785785
+        },
+        {
+          "lambda": 0.333,
+          "logLik": -14.054883852848485
+        },
+        {
+          "lambda": 0.334,
+          "logLik": -14.051661936166058
+        },
+        {
+          "lambda": 0.335,
+          "logLik": -14.04845811857154
+        },
+        {
+          "lambda": 0.336,
+          "logLik": -14.04527229186437
+        },
+        {
+          "lambda": 0.337,
+          "logLik": -14.0421043487989
+        },
+        {
+          "lambda": 0.338,
+          "logLik": -14.038954183073146
+        },
+        {
+          "lambda": 0.339,
+          "logLik": -14.035821689317629
+        },
+        {
+          "lambda": 0.34,
+          "logLik": -14.032706763084441
+        },
+        {
+          "lambda": 0.341,
+          "logLik": -14.029609300836407
+        },
+        {
+          "lambda": 0.342,
+          "logLik": -14.026529199936475
+        },
+        {
+          "lambda": 0.343,
+          "logLik": -14.023466358637211
+        },
+        {
+          "lambda": 0.344,
+          "logLik": -14.020420676070493
+        },
+        {
+          "lambda": 0.345,
+          "logLik": -14.017392052237264
+        },
+        {
+          "lambda": 0.346,
+          "logLik": -14.014380387997571
+        },
+        {
+          "lambda": 0.347,
+          "logLik": -14.011385585060625
+        },
+        {
+          "lambda": 0.348,
+          "logLik": -14.008407545975055
+        },
+        {
+          "lambda": 0.349,
+          "logLik": -14.005446174119314
+        },
+        {
+          "lambda": 0.35,
+          "logLik": -14.002501373692189
+        },
+        {
+          "lambda": 0.351,
+          "logLik": -13.999573049703478
+        },
+        {
+          "lambda": 0.352,
+          "logLik": -13.996661107964782
+        },
+        {
+          "lambda": 0.353,
+          "logLik": -13.993765455080423
+        },
+        {
+          "lambda": 0.354,
+          "logLik": -13.990885998438488
+        },
+        {
+          "lambda": 0.355,
+          "logLik": -13.988022646202058
+        },
+        {
+          "lambda": 0.356,
+          "logLik": -13.98517530730045
+        },
+        {
+          "lambda": 0.357,
+          "logLik": -13.982343891420683
+        },
+        {
+          "lambda": 0.358,
+          "logLik": -13.979528308999006
+        },
+        {
+          "lambda": 0.359,
+          "logLik": -13.976728471212578
+        },
+        {
+          "lambda": 0.36,
+          "logLik": -13.973944289971236
+        },
+        {
+          "lambda": 0.361,
+          "logLik": -13.971175677909383
+        },
+        {
+          "lambda": 0.362,
+          "logLik": -13.968422548378014
+        },
+        {
+          "lambda": 0.363,
+          "logLik": -13.96568481543682
+        },
+        {
+          "lambda": 0.364,
+          "logLik": -13.962962393846404
+        },
+        {
+          "lambda": 0.365,
+          "logLik": -13.960255199060635
+        },
+        {
+          "lambda": 0.366,
+          "logLik": -13.957563147219068
+        },
+        {
+          "lambda": 0.367,
+          "logLik": -13.95488615513949
+        },
+        {
+          "lambda": 0.368,
+          "logLik": -13.95222414031054
+        },
+        {
+          "lambda": 0.369,
+          "logLik": -13.9495770208845
+        },
+        {
+          "lambda": 0.37,
+          "logLik": -13.946944715670083
+        },
+        {
+          "lambda": 0.371,
+          "logLik": -13.944327144125385
+        },
+        {
+          "lambda": 0.372,
+          "logLik": -13.94172422635093
+        },
+        {
+          "lambda": 0.373,
+          "logLik": -13.939135883082777
+        },
+        {
+          "lambda": 0.374,
+          "logLik": -13.936562035685741
+        },
+        {
+          "lambda": 0.375,
+          "logLik": -13.934002606146713
+        },
+        {
+          "lambda": 0.376,
+          "logLik": -13.93145751706803
+        },
+        {
+          "lambda": 0.377,
+          "logLik": -13.928926691660978
+        },
+        {
+          "lambda": 0.378,
+          "logLik": -13.926410053739366
+        },
+        {
+          "lambda": 0.379,
+          "logLik": -13.92390752771316
+        },
+        {
+          "lambda": 0.38,
+          "logLik": -13.921419038582243
+        },
+        {
+          "lambda": 0.381,
+          "logLik": -13.918944511930215
+        },
+        {
+          "lambda": 0.382,
+          "logLik": -13.916483873918331
+        },
+        {
+          "lambda": 0.383,
+          "logLik": -13.914037051279422
+        },
+        {
+          "lambda": 0.384,
+          "logLik": -13.911603971312024
+        },
+        {
+          "lambda": 0.385,
+          "logLik": -13.90918456187447
+        },
+        {
+          "lambda": 0.386,
+          "logLik": -13.906778751379106
+        },
+        {
+          "lambda": 0.387,
+          "logLik": -13.904386468786596
+        },
+        {
+          "lambda": 0.388,
+          "logLik": -13.902007643600287
+        },
+        {
+          "lambda": 0.389,
+          "logLik": -13.89964220586061
+        },
+        {
+          "lambda": 0.39,
+          "logLik": -13.897290086139632
+        },
+        {
+          "lambda": 0.391,
+          "logLik": -13.894951215535592
+        },
+        {
+          "lambda": 0.392,
+          "logLik": -13.892625525667572
+        },
+        {
+          "lambda": 0.393,
+          "logLik": -13.890312948670186
+        },
+        {
+          "lambda": 0.394,
+          "logLik": -13.888013417188391
+        },
+        {
+          "lambda": 0.395,
+          "logLik": -13.885726864372328
+        },
+        {
+          "lambda": 0.396,
+          "logLik": -13.883453223872193
+        },
+        {
+          "lambda": 0.397,
+          "logLik": -13.881192429833275
+        },
+        {
+          "lambda": 0.398,
+          "logLik": -13.878944416890958
+        },
+        {
+          "lambda": 0.399,
+          "logLik": -13.876709120165815
+        },
+        {
+          "lambda": 0.4,
+          "logLik": -13.874486475258804
+        },
+        {
+          "lambda": 0.401,
+          "logLik": -13.872276418246457
+        },
+        {
+          "lambda": 0.402,
+          "logLik": -13.870078885676195
+        },
+        {
+          "lambda": 0.403,
+          "logLik": -13.867893814561647
+        },
+        {
+          "lambda": 0.404,
+          "logLik": -13.865721142378044
+        },
+        {
+          "lambda": 0.405,
+          "logLik": -13.863560807057707
+        },
+        {
+          "lambda": 0.406,
+          "logLik": -13.861412746985513
+        },
+        {
+          "lambda": 0.407,
+          "logLik": -13.859276900994505
+        },
+        {
+          "lambda": 0.408,
+          "logLik": -13.857153208361494
+        },
+        {
+          "lambda": 0.409,
+          "logLik": -13.855041608802722
+        },
+        {
+          "lambda": 0.41,
+          "logLik": -13.852942042469618
+        },
+        {
+          "lambda": 0.411,
+          "logLik": -13.85085444994455
+        },
+        {
+          "lambda": 0.412,
+          "logLik": -13.848778772236681
+        },
+        {
+          "lambda": 0.413,
+          "logLik": -13.846714950777827
+        },
+        {
+          "lambda": 0.414,
+          "logLik": -13.844662927418412
+        },
+        {
+          "lambda": 0.415,
+          "logLik": -13.842622644423429
+        },
+        {
+          "lambda": 0.416,
+          "logLik": -13.840594044468483
+        },
+        {
+          "lambda": 0.417,
+          "logLik": -13.83857707063585
+        },
+        {
+          "lambda": 0.418,
+          "logLik": -13.836571666410608
+        },
+        {
+          "lambda": 0.419,
+          "logLik": -13.834577775676836
+        },
+        {
+          "lambda": 0.42,
+          "logLik": -13.832595342713773
+        },
+        {
+          "lambda": 0.421,
+          "logLik": -13.830624312192137
+        },
+        {
+          "lambda": 0.422,
+          "logLik": -13.828664629170378
+        },
+        {
+          "lambda": 0.423,
+          "logLik": -13.826716239091057
+        },
+        {
+          "lambda": 0.424,
+          "logLik": -13.824779087777241
+        },
+        {
+          "lambda": 0.425,
+          "logLik": -13.822853121428912
+        },
+        {
+          "lambda": 0.426,
+          "logLik": -13.820938286619466
+        },
+        {
+          "lambda": 0.427,
+          "logLik": -13.819034530292225
+        },
+        {
+          "lambda": 0.428,
+          "logLik": -13.817141799756978
+        },
+        {
+          "lambda": 0.429,
+          "logLik": -13.815260042686607
+        },
+        {
+          "lambda": 0.43,
+          "logLik": -13.813389207113707
+        },
+        {
+          "lambda": 0.431,
+          "logLik": -13.811529241427262
+        },
+        {
+          "lambda": 0.432,
+          "logLik": -13.809680094369373
+        },
+        {
+          "lambda": 0.433,
+          "logLik": -13.80784171503199
+        },
+        {
+          "lambda": 0.434,
+          "logLik": -13.80601405285373
+        },
+        {
+          "lambda": 0.435,
+          "logLik": -13.804197057616674
+        },
+        {
+          "lambda": 0.436,
+          "logLik": -13.802390679443253
+        },
+        {
+          "lambda": 0.437,
+          "logLik": -13.800594868793153
+        },
+        {
+          "lambda": 0.438,
+          "logLik": -13.798809576460224
+        },
+        {
+          "lambda": 0.439,
+          "logLik": -13.797034753569479
+        },
+        {
+          "lambda": 0.44,
+          "logLik": -13.795270351574063
+        },
+        {
+          "lambda": 0.441,
+          "logLik": -13.793516322252332
+        },
+        {
+          "lambda": 0.442,
+          "logLik": -13.791772617704902
+        },
+        {
+          "lambda": 0.443,
+          "logLik": -13.790039190351767
+        },
+        {
+          "lambda": 0.444,
+          "logLik": -13.7883159929294
+        },
+        {
+          "lambda": 0.445,
+          "logLik": -13.78660297848798
+        },
+        {
+          "lambda": 0.446,
+          "logLik": -13.78490010038856
+        },
+        {
+          "lambda": 0.447,
+          "logLik": -13.783207312300293
+        },
+        {
+          "lambda": 0.448,
+          "logLik": -13.781524568197728
+        },
+        {
+          "lambda": 0.449,
+          "logLik": -13.779851822358061
+        },
+        {
+          "lambda": 0.45,
+          "logLik": -13.778189029358504
+        },
+        {
+          "lambda": 0.451,
+          "logLik": -13.776536144073608
+        },
+        {
+          "lambda": 0.452,
+          "logLik": -13.774893121672655
+        },
+        {
+          "lambda": 0.453,
+          "logLik": -13.773259917617079
+        },
+        {
+          "lambda": 0.454,
+          "logLik": -13.771636487657897
+        },
+        {
+          "lambda": 0.455,
+          "logLik": -13.770022787833184
+        },
+        {
+          "lambda": 0.456,
+          "logLik": -13.768418774465566
+        },
+        {
+          "lambda": 0.457,
+          "logLik": -13.766824404159742
+        },
+        {
+          "lambda": 0.458,
+          "logLik": -13.765239633800038
+        },
+        {
+          "lambda": 0.459,
+          "logLik": -13.76366442054799
+        },
+        {
+          "lambda": 0.46,
+          "logLik": -13.762098721839944
+        },
+        {
+          "lambda": 0.461,
+          "logLik": -13.760542495384692
+        },
+        {
+          "lambda": 0.462,
+          "logLik": -13.758995699161106
+        },
+        {
+          "lambda": 0.463,
+          "logLik": -13.757458291415832
+        },
+        {
+          "lambda": 0.464,
+          "logLik": -13.755930230661027
+        },
+        {
+          "lambda": 0.465,
+          "logLik": -13.754411475672047
+        },
+        {
+          "lambda": 0.466,
+          "logLik": -13.7529019854852
+        },
+        {
+          "lambda": 0.467,
+          "logLik": -13.751401719395579
+        },
+        {
+          "lambda": 0.468,
+          "logLik": -13.749910636954795
+        },
+        {
+          "lambda": 0.469,
+          "logLik": -13.74842869796886
+        },
+        {
+          "lambda": 0.47,
+          "logLik": -13.746955862496005
+        },
+        {
+          "lambda": 0.471,
+          "logLik": -13.74549209084456
+        },
+        {
+          "lambda": 0.472,
+          "logLik": -13.744037343570854
+        },
+        {
+          "lambda": 0.473,
+          "logLik": -13.742591581477122
+        },
+        {
+          "lambda": 0.474,
+          "logLik": -13.741154765609458
+        },
+        {
+          "lambda": 0.475,
+          "logLik": -13.739726857255771
+        },
+        {
+          "lambda": 0.476,
+          "logLik": -13.73830781794377
+        },
+        {
+          "lambda": 0.477,
+          "logLik": -13.736897609438929
+        },
+        {
+          "lambda": 0.478,
+          "logLik": -13.735496193742591
+        },
+        {
+          "lambda": 0.479,
+          "logLik": -13.734103533089934
+        },
+        {
+          "lambda": 0.48,
+          "logLik": -13.732719589948077
+        },
+        {
+          "lambda": 0.481,
+          "logLik": -13.731344327014174
+        },
+        {
+          "lambda": 0.482,
+          "logLik": -13.729977707213484
+        },
+        {
+          "lambda": 0.483,
+          "logLik": -13.728619693697517
+        },
+        {
+          "lambda": 0.484,
+          "logLik": -13.727270249842189
+        },
+        {
+          "lambda": 0.485,
+          "logLik": -13.725929339245956
+        },
+        {
+          "lambda": 0.486,
+          "logLik": -13.724596925728026
+        },
+        {
+          "lambda": 0.487,
+          "logLik": -13.723272973326544
+        },
+        {
+          "lambda": 0.488,
+          "logLik": -13.72195744629681
+        },
+        {
+          "lambda": 0.489,
+          "logLik": -13.720650309109523
+        },
+        {
+          "lambda": 0.49,
+          "logLik": -13.719351526449039
+        },
+        {
+          "lambda": 0.491,
+          "logLik": -13.71806106321164
+        },
+        {
+          "lambda": 0.492,
+          "logLik": -13.716778884503816
+        },
+        {
+          "lambda": 0.493,
+          "logLik": -13.715504955640592
+        },
+        {
+          "lambda": 0.494,
+          "logLik": -13.714239242143849
+        },
+        {
+          "lambda": 0.495,
+          "logLik": -13.712981709740632
+        },
+        {
+          "lambda": 0.496,
+          "logLik": -13.71173232436158
+        },
+        {
+          "lambda": 0.497,
+          "logLik": -13.710491052139227
+        },
+        {
+          "lambda": 0.498,
+          "logLik": -13.709257859406438
+        },
+        {
+          "lambda": 0.499,
+          "logLik": -13.708032712694816
+        },
+        {
+          "lambda": 0.5,
+          "logLik": -13.706815578733094
+        },
+        {
+          "lambda": 0.501,
+          "logLik": -13.705606424445609
+        },
+        {
+          "lambda": 0.502,
+          "logLik": -13.704405216950747
+        },
+        {
+          "lambda": 0.503,
+          "logLik": -13.7032119235594
+        },
+        {
+          "lambda": 0.504,
+          "logLik": -13.702026511773463
+        },
+        {
+          "lambda": 0.505,
+          "logLik": -13.700848949284344
+        },
+        {
+          "lambda": 0.506,
+          "logLik": -13.69967920397146
+        },
+        {
+          "lambda": 0.507,
+          "logLik": -13.698517243900776
+        },
+        {
+          "lambda": 0.508,
+          "logLik": -13.697363037323356
+        },
+        {
+          "lambda": 0.509,
+          "logLik": -13.69621655267391
+        },
+        {
+          "lambda": 0.51,
+          "logLik": -13.695077758569372
+        },
+        {
+          "lambda": 0.511,
+          "logLik": -13.693946623807491
+        },
+        {
+          "lambda": 0.512,
+          "logLik": -13.692823117365434
+        },
+        {
+          "lambda": 0.513,
+          "logLik": -13.69170720839837
+        },
+        {
+          "lambda": 0.514,
+          "logLik": -13.690598866238155
+        },
+        {
+          "lambda": 0.515,
+          "logLik": -13.689498060391912
+        },
+        {
+          "lambda": 0.516,
+          "logLik": -13.688404760540735
+        },
+        {
+          "lambda": 0.517,
+          "logLik": -13.68731893653832
+        },
+        {
+          "lambda": 0.518,
+          "logLik": -13.686240558409665
+        },
+        {
+          "lambda": 0.519,
+          "logLik": -13.68516959634976
+        },
+        {
+          "lambda": 0.52,
+          "logLik": -13.684106020722288
+        },
+        {
+          "lambda": 0.521,
+          "logLik": -13.683049802058337
+        },
+        {
+          "lambda": 0.522,
+          "logLik": -13.682000911055159
+        },
+        {
+          "lambda": 0.523,
+          "logLik": -13.680959318574875
+        },
+        {
+          "lambda": 0.524,
+          "logLik": -13.679924995643244
+        },
+        {
+          "lambda": 0.525,
+          "logLik": -13.678897913448433
+        },
+        {
+          "lambda": 0.526,
+          "logLik": -13.677878043339804
+        },
+        {
+          "lambda": 0.527,
+          "logLik": -13.67686535682668
+        },
+        {
+          "lambda": 0.528,
+          "logLik": -13.675859825577149
+        },
+        {
+          "lambda": 0.529,
+          "logLik": -13.674861421416912
+        },
+        {
+          "lambda": 0.53,
+          "logLik": -13.673870116328052
+        },
+        {
+          "lambda": 0.531,
+          "logLik": -13.672885882447908
+        },
+        {
+          "lambda": 0.532,
+          "logLik": -13.671908692067905
+        },
+        {
+          "lambda": 0.533,
+          "logLik": -13.670938517632422
+        },
+        {
+          "lambda": 0.534,
+          "logLik": -13.669975331737634
+        },
+        {
+          "lambda": 0.535,
+          "logLik": -13.66901910713041
+        },
+        {
+          "lambda": 0.536,
+          "logLik": -13.668069816707206
+        },
+        {
+          "lambda": 0.537,
+          "logLik": -13.667127433512945
+        },
+        {
+          "lambda": 0.538,
+          "logLik": -13.666191930739938
+        },
+        {
+          "lambda": 0.539,
+          "logLik": -13.665263281726792
+        },
+        {
+          "lambda": 0.54,
+          "logLik": -13.664341459957358
+        },
+        {
+          "lambda": 0.541,
+          "logLik": -13.663426439059633
+        },
+        {
+          "lambda": 0.542,
+          "logLik": -13.662518192804765
+        },
+        {
+          "lambda": 0.543,
+          "logLik": -13.66161669510595
+        },
+        {
+          "lambda": 0.544,
+          "logLik": -13.660721920017439
+        },
+        {
+          "lambda": 0.545,
+          "logLik": -13.659833841733507
+        },
+        {
+          "lambda": 0.546,
+          "logLik": -13.658952434587423
+        },
+        {
+          "lambda": 0.547,
+          "logLik": -13.65807767305048
+        },
+        {
+          "lambda": 0.548,
+          "logLik": -13.657209531730945
+        },
+        {
+          "lambda": 0.549,
+          "logLik": -13.656347985373143
+        },
+        {
+          "lambda": 0.55,
+          "logLik": -13.655493008856416
+        },
+        {
+          "lambda": 0.551,
+          "logLik": -13.654644577194192
+        },
+        {
+          "lambda": 0.552,
+          "logLik": -13.653802665533012
+        },
+        {
+          "lambda": 0.553,
+          "logLik": -13.65296724915158
+        },
+        {
+          "lambda": 0.554,
+          "logLik": -13.65213830345983
+        },
+        {
+          "lambda": 0.555,
+          "logLik": -13.651315803997981
+        },
+        {
+          "lambda": 0.556,
+          "logLik": -13.650499726435598
+        },
+        {
+          "lambda": 0.557,
+          "logLik": -13.64969004657072
+        },
+        {
+          "lambda": 0.558,
+          "logLik": -13.6488867403289
+        },
+        {
+          "lambda": 0.559,
+          "logLik": -13.648089783762334
+        },
+        {
+          "lambda": 0.56,
+          "logLik": -13.647299153048962
+        },
+        {
+          "lambda": 0.561,
+          "logLik": -13.646514824491586
+        },
+        {
+          "lambda": 0.562,
+          "logLik": -13.645736774516974
+        },
+        {
+          "lambda": 0.563,
+          "logLik": -13.644964979675018
+        },
+        {
+          "lambda": 0.564,
+          "logLik": -13.644199416637848
+        },
+        {
+          "lambda": 0.565,
+          "logLik": -13.64344006219901
+        },
+        {
+          "lambda": 0.566,
+          "logLik": -13.642686893272577
+        },
+        {
+          "lambda": 0.567,
+          "logLik": -13.641939886892336
+        },
+        {
+          "lambda": 0.568,
+          "logLik": -13.641199020210971
+        },
+        {
+          "lambda": 0.569,
+          "logLik": -13.640464270499185
+        },
+        {
+          "lambda": 0.57,
+          "logLik": -13.639735615144952
+        },
+        {
+          "lambda": 0.571,
+          "logLik": -13.639013031652656
+        },
+        {
+          "lambda": 0.572,
+          "logLik": -13.638296497642301
+        },
+        {
+          "lambda": 0.573,
+          "logLik": -13.63758599084873
+        },
+        {
+          "lambda": 0.574,
+          "logLik": -13.636881489120821
+        },
+        {
+          "lambda": 0.575,
+          "logLik": -13.6361829704207
+        },
+        {
+          "lambda": 0.576,
+          "logLik": -13.635490412822989
+        },
+        {
+          "lambda": 0.577,
+          "logLik": -13.634803794514001
+        },
+        {
+          "lambda": 0.578,
+          "logLik": -13.634123093791024
+        },
+        {
+          "lambda": 0.579,
+          "logLik": -13.63344828906152
+        },
+        {
+          "lambda": 0.58,
+          "logLik": -13.632779358842408
+        },
+        {
+          "lambda": 0.581,
+          "logLik": -13.632116281759313
+        },
+        {
+          "lambda": 0.582,
+          "logLik": -13.631459036545811
+        },
+        {
+          "lambda": 0.583,
+          "logLik": -13.630807602042731
+        },
+        {
+          "lambda": 0.584,
+          "logLik": -13.630161957197403
+        },
+        {
+          "lambda": 0.585,
+          "logLik": -13.629522081062959
+        },
+        {
+          "lambda": 0.586,
+          "logLik": -13.628887952797614
+        },
+        {
+          "lambda": 0.587,
+          "logLik": -13.628259551663964
+        },
+        {
+          "lambda": 0.588,
+          "logLik": -13.627636857028284
+        },
+        {
+          "lambda": 0.589,
+          "logLik": -13.627019848359824
+        },
+        {
+          "lambda": 0.59,
+          "logLik": -13.626408505230149
+        },
+        {
+          "lambda": 0.591,
+          "logLik": -13.625802807312427
+        },
+        {
+          "lambda": 0.592,
+          "logLik": -13.625202734380778
+        },
+        {
+          "lambda": 0.593,
+          "logLik": -13.624608266309577
+        },
+        {
+          "lambda": 0.594,
+          "logLik": -13.624019383072813
+        },
+        {
+          "lambda": 0.595,
+          "logLik": -13.623436064743432
+        },
+        {
+          "lambda": 0.596,
+          "logLik": -13.622858291492642
+        },
+        {
+          "lambda": 0.597,
+          "logLik": -13.62228604358933
+        },
+        {
+          "lambda": 0.598,
+          "logLik": -13.621719301399358
+        },
+        {
+          "lambda": 0.599,
+          "logLik": -13.621158045384966
+        },
+        {
+          "lambda": 0.6,
+          "logLik": -13.620602256104112
+        },
+        {
+          "lambda": 0.601,
+          "logLik": -13.620051914209874
+        },
+        {
+          "lambda": 0.602,
+          "logLik": -13.619507000449802
+        },
+        {
+          "lambda": 0.603,
+          "logLik": -13.618967495665325
+        },
+        {
+          "lambda": 0.604,
+          "logLik": -13.618433380791105
+        },
+        {
+          "lambda": 0.605,
+          "logLik": -13.61790463685447
+        },
+        {
+          "lambda": 0.606,
+          "logLik": -13.617381244974784
+        },
+        {
+          "lambda": 0.607,
+          "logLik": -13.616863186362874
+        },
+        {
+          "lambda": 0.608,
+          "logLik": -13.61635044232041
+        },
+        {
+          "lambda": 0.609,
+          "logLik": -13.615842994239346
+        },
+        {
+          "lambda": 0.61,
+          "logLik": -13.615340823601318
+        },
+        {
+          "lambda": 0.611,
+          "logLik": -13.614843911977081
+        },
+        {
+          "lambda": 0.612,
+          "logLik": -13.614352241025916
+        },
+        {
+          "lambda": 0.613,
+          "logLik": -13.613865792495083
+        },
+        {
+          "lambda": 0.614,
+          "logLik": -13.613384548219258
+        },
+        {
+          "lambda": 0.615,
+          "logLik": -13.612908490119963
+        },
+        {
+          "lambda": 0.616,
+          "logLik": -13.612437600205007
+        },
+        {
+          "lambda": 0.617,
+          "logLik": -13.611971860567952
+        },
+        {
+          "lambda": 0.618,
+          "logLik": -13.611511253387551
+        },
+        {
+          "lambda": 0.619,
+          "logLik": -13.611055760927227
+        },
+        {
+          "lambda": 0.62,
+          "logLik": -13.610605365534527
+        },
+        {
+          "lambda": 0.621,
+          "logLik": -13.610160049640573
+        },
+        {
+          "lambda": 0.622,
+          "logLik": -13.609719795759556
+        },
+        {
+          "lambda": 0.623,
+          "logLik": -13.60928458648822
+        },
+        {
+          "lambda": 0.624,
+          "logLik": -13.608854404505307
+        },
+        {
+          "lambda": 0.625,
+          "logLik": -13.608429232571066
+        },
+        {
+          "lambda": 0.626,
+          "logLik": -13.608009053526748
+        },
+        {
+          "lambda": 0.627,
+          "logLik": -13.607593850294075
+        },
+        {
+          "lambda": 0.628,
+          "logLik": -13.607183605874765
+        },
+        {
+          "lambda": 0.629,
+          "logLik": -13.606778303349998
+        },
+        {
+          "lambda": 0.63,
+          "logLik": -13.606377925879963
+        },
+        {
+          "lambda": 0.631,
+          "logLik": -13.60598245670332
+        },
+        {
+          "lambda": 0.632,
+          "logLik": -13.605591879136758
+        },
+        {
+          "lambda": 0.633,
+          "logLik": -13.605206176574468
+        },
+        {
+          "lambda": 0.634,
+          "logLik": -13.604825332487694
+        },
+        {
+          "lambda": 0.635,
+          "logLik": -13.604449330424261
+        },
+        {
+          "lambda": 0.636,
+          "logLik": -13.604078154008063
+        },
+        {
+          "lambda": 0.637,
+          "logLik": -13.603711786938636
+        },
+        {
+          "lambda": 0.638,
+          "logLik": -13.60335021299067
+        },
+        {
+          "lambda": 0.639,
+          "logLik": -13.602993416013552
+        },
+        {
+          "lambda": 0.64,
+          "logLik": -13.602641379930914
+        },
+        {
+          "lambda": 0.641,
+          "logLik": -13.602294088740177
+        },
+        {
+          "lambda": 0.642,
+          "logLik": -13.601951526512092
+        },
+        {
+          "lambda": 0.643,
+          "logLik": -13.6016136773903
+        },
+        {
+          "lambda": 0.644,
+          "logLik": -13.60128052559089
+        },
+        {
+          "lambda": 0.645,
+          "logLik": -13.600952055401939
+        },
+        {
+          "lambda": 0.646,
+          "logLik": -13.600628251183114
+        },
+        {
+          "lambda": 0.647,
+          "logLik": -13.600309097365196
+        },
+        {
+          "lambda": 0.648,
+          "logLik": -13.599994578449676
+        },
+        {
+          "lambda": 0.649,
+          "logLik": -13.599684679008323
+        },
+        {
+          "lambda": 0.65,
+          "logLik": -13.599379383682752
+        },
+        {
+          "lambda": 0.651,
+          "logLik": -13.599078677184009
+        },
+        {
+          "lambda": 0.652,
+          "logLik": -13.59878254429215
+        },
+        {
+          "lambda": 0.653,
+          "logLik": -13.598490969855845
+        },
+        {
+          "lambda": 0.654,
+          "logLik": -13.598203938791928
+        },
+        {
+          "lambda": 0.655,
+          "logLik": -13.59792143608503
+        },
+        {
+          "lambda": 0.656,
+          "logLik": -13.597643446787155
+        },
+        {
+          "lambda": 0.657,
+          "logLik": -13.597369956017271
+        },
+        {
+          "lambda": 0.658,
+          "logLik": -13.597100948960938
+        },
+        {
+          "lambda": 0.659,
+          "logLik": -13.596836410869873
+        },
+        {
+          "lambda": 0.66,
+          "logLik": -13.596576327061587
+        },
+        {
+          "lambda": 0.661,
+          "logLik": -13.596320682918995
+        },
+        {
+          "lambda": 0.662,
+          "logLik": -13.596069463890014
+        },
+        {
+          "lambda": 0.663,
+          "logLik": -13.595822655487183
+        },
+        {
+          "lambda": 0.664,
+          "logLik": -13.595580243287289
+        },
+        {
+          "lambda": 0.665,
+          "logLik": -13.595342212930978
+        },
+        {
+          "lambda": 0.666,
+          "logLik": -13.595108550122395
+        },
+        {
+          "lambda": 0.667,
+          "logLik": -13.594879240628794
+        },
+        {
+          "lambda": 0.668,
+          "logLik": -13.594654270280188
+        },
+        {
+          "lambda": 0.669,
+          "logLik": -13.594433624968955
+        },
+        {
+          "lambda": 0.67,
+          "logLik": -13.594217290649494
+        },
+        {
+          "lambda": 0.671,
+          "logLik": -13.594005253337865
+        },
+        {
+          "lambda": 0.672,
+          "logLik": -13.593797499111416
+        },
+        {
+          "lambda": 0.673,
+          "logLik": -13.59359401410842
+        },
+        {
+          "lambda": 0.674,
+          "logLik": -13.593394784527762
+        },
+        {
+          "lambda": 0.675,
+          "logLik": -13.593199796628552
+        },
+        {
+          "lambda": 0.676,
+          "logLik": -13.593009036729764
+        },
+        {
+          "lambda": 0.677,
+          "logLik": -13.592822491209938
+        },
+        {
+          "lambda": 0.678,
+          "logLik": -13.592640146506787
+        },
+        {
+          "lambda": 0.679,
+          "logLik": -13.59246198911689
+        },
+        {
+          "lambda": 0.68,
+          "logLik": -13.592288005595345
+        },
+        {
+          "lambda": 0.681,
+          "logLik": -13.592118182555414
+        },
+        {
+          "lambda": 0.682,
+          "logLik": -13.591952506668223
+        },
+        {
+          "lambda": 0.683,
+          "logLik": -13.591790964662389
+        },
+        {
+          "lambda": 0.684,
+          "logLik": -13.591633543323743
+        },
+        {
+          "lambda": 0.685,
+          "logLik": -13.591480229494962
+        },
+        {
+          "lambda": 0.686,
+          "logLik": -13.591331010075244
+        },
+        {
+          "lambda": 0.687,
+          "logLik": -13.591185872020016
+        },
+        {
+          "lambda": 0.688,
+          "logLik": -13.591044802340608
+        },
+        {
+          "lambda": 0.689,
+          "logLik": -13.590907788103907
+        },
+        {
+          "lambda": 0.69,
+          "logLik": -13.59077481643207
+        },
+        {
+          "lambda": 0.691,
+          "logLik": -13.59064587450221
+        },
+        {
+          "lambda": 0.692,
+          "logLik": -13.590520949546063
+        },
+        {
+          "lambda": 0.693,
+          "logLik": -13.590400028849714
+        },
+        {
+          "lambda": 0.694,
+          "logLik": -13.590283099753266
+        },
+        {
+          "lambda": 0.695,
+          "logLik": -13.590170149650543
+        },
+        {
+          "lambda": 0.696,
+          "logLik": -13.590061165988786
+        },
+        {
+          "lambda": 0.697,
+          "logLik": -13.58995613626836
+        },
+        {
+          "lambda": 0.698,
+          "logLik": -13.589855048042455
+        },
+        {
+          "lambda": 0.699,
+          "logLik": -13.589757888916782
+        },
+        {
+          "lambda": 0.7,
+          "logLik": -13.589664646549302
+        },
+        {
+          "lambda": 0.701,
+          "logLik": -13.589575308649897
+        },
+        {
+          "lambda": 0.702,
+          "logLik": -13.589489862980123
+        },
+        {
+          "lambda": 0.703,
+          "logLik": -13.589408297352902
+        },
+        {
+          "lambda": 0.704,
+          "logLik": -13.589330599632223
+        },
+        {
+          "lambda": 0.705,
+          "logLik": -13.589256757732896
+        },
+        {
+          "lambda": 0.706,
+          "logLik": -13.589186759620251
+        },
+        {
+          "lambda": 0.707,
+          "logLik": -13.589120593309815
+        },
+        {
+          "lambda": 0.708,
+          "logLik": -13.589058246867147
+        },
+        {
+          "lambda": 0.709,
+          "logLik": -13.588999708407446
+        },
+        {
+          "lambda": 0.71,
+          "logLik": -13.588944966095342
+        },
+        {
+          "lambda": 0.711,
+          "logLik": -13.5888940081446
+        },
+        {
+          "lambda": 0.712,
+          "logLik": -13.588846822817874
+        },
+        {
+          "lambda": 0.713,
+          "logLik": -13.588803398426418
+        },
+        {
+          "lambda": 0.714,
+          "logLik": -13.58876372332982
+        },
+        {
+          "lambda": 0.715,
+          "logLik": -13.588727785935758
+        },
+        {
+          "lambda": 0.716,
+          "logLik": -13.588695574699713
+        },
+        {
+          "lambda": 0.717,
+          "logLik": -13.58866707812474
+        },
+        {
+          "lambda": 0.718,
+          "logLik": -13.588642284761164
+        },
+        {
+          "lambda": 0.719,
+          "logLik": -13.588621183206381
+        },
+        {
+          "lambda": 0.72,
+          "logLik": -13.588603762104558
+        },
+        {
+          "lambda": 0.721,
+          "logLik": -13.588590010146381
+        },
+        {
+          "lambda": 0.722,
+          "logLik": -13.588579916068845
+        },
+        {
+          "lambda": 0.723,
+          "logLik": -13.58857346865496
+        },
+        {
+          "lambda": 0.724,
+          "logLik": -13.588570656733516
+        },
+        {
+          "lambda": 0.725,
+          "logLik": -13.58857146917886
+        },
+        {
+          "lambda": 0.726,
+          "logLik": -13.58857589491061
+        },
+        {
+          "lambda": 0.727,
+          "logLik": -13.588583922893443
+        },
+        {
+          "lambda": 0.728,
+          "logLik": -13.588595542136853
+        },
+        {
+          "lambda": 0.729,
+          "logLik": -13.588610741694897
+        },
+        {
+          "lambda": 0.73,
+          "logLik": -13.588629510665953
+        },
+        {
+          "lambda": 0.731,
+          "logLik": -13.588651838192513
+        },
+        {
+          "lambda": 0.732,
+          "logLik": -13.588677713460912
+        },
+        {
+          "lambda": 0.733,
+          "logLik": -13.588707125701129
+        },
+        {
+          "lambda": 0.734,
+          "logLik": -13.58874006418653
+        },
+        {
+          "lambda": 0.735,
+          "logLik": -13.58877651823364
+        },
+        {
+          "lambda": 0.736,
+          "logLik": -13.588816477201924
+        },
+        {
+          "lambda": 0.737,
+          "logLik": -13.588859930493573
+        },
+        {
+          "lambda": 0.738,
+          "logLik": -13.588906867553243
+        },
+        {
+          "lambda": 0.739,
+          "logLik": -13.588957277867854
+        },
+        {
+          "lambda": 0.74,
+          "logLik": -13.589011150966373
+        },
+        {
+          "lambda": 0.741,
+          "logLik": -13.589068476419582
+        },
+        {
+          "lambda": 0.742,
+          "logLik": -13.589129243839844
+        },
+        {
+          "lambda": 0.743,
+          "logLik": -13.58919344288093
+        },
+        {
+          "lambda": 0.744,
+          "logLik": -13.589261063237753
+        },
+        {
+          "lambda": 0.745,
+          "logLik": -13.589332094646183
+        },
+        {
+          "lambda": 0.746,
+          "logLik": -13.589406526882815
+        },
+        {
+          "lambda": 0.747,
+          "logLik": -13.58948434976478
+        },
+        {
+          "lambda": 0.748,
+          "logLik": -13.589565553149514
+        },
+        {
+          "lambda": 0.749,
+          "logLik": -13.589650126934542
+        },
+        {
+          "lambda": 0.75,
+          "logLik": -13.589738061057307
+        },
+        {
+          "lambda": 0.751,
+          "logLik": -13.589829345494913
+        },
+        {
+          "lambda": 0.752,
+          "logLik": -13.589923970263966
+        },
+        {
+          "lambda": 0.753,
+          "logLik": -13.59002192542033
+        },
+        {
+          "lambda": 0.754,
+          "logLik": -13.590123201058969
+        },
+        {
+          "lambda": 0.755,
+          "logLik": -13.59022778731369
+        },
+        {
+          "lambda": 0.756,
+          "logLik": -13.590335674356997
+        },
+        {
+          "lambda": 0.757,
+          "logLik": -13.590446852399852
+        },
+        {
+          "lambda": 0.758,
+          "logLik": -13.59056131169151
+        },
+        {
+          "lambda": 0.759,
+          "logLik": -13.59067904251928
+        },
+        {
+          "lambda": 0.76,
+          "logLik": -13.590800035208392
+        },
+        {
+          "lambda": 0.761,
+          "logLik": -13.59092428012173
+        },
+        {
+          "lambda": 0.762,
+          "logLik": -13.591051767659708
+        },
+        {
+          "lambda": 0.763,
+          "logLik": -13.591182488260031
+        },
+        {
+          "lambda": 0.764,
+          "logLik": -13.591316432397537
+        },
+        {
+          "lambda": 0.765,
+          "logLik": -13.591453590583972
+        },
+        {
+          "lambda": 0.766,
+          "logLik": -13.591593953367846
+        },
+        {
+          "lambda": 0.767,
+          "logLik": -13.59173751133421
+        },
+        {
+          "lambda": 0.768,
+          "logLik": -13.591884255104489
+        },
+        {
+          "lambda": 0.769,
+          "logLik": -13.592034175336298
+        },
+        {
+          "lambda": 0.77,
+          "logLik": -13.59218726272326
+        },
+        {
+          "lambda": 0.771,
+          "logLik": -13.592343507994801
+        },
+        {
+          "lambda": 0.772,
+          "logLik": -13.592502901916017
+        },
+        {
+          "lambda": 0.773,
+          "logLik": -13.592665435287438
+        },
+        {
+          "lambda": 0.774,
+          "logLik": -13.592831098944913
+        },
+        {
+          "lambda": 0.775,
+          "logLik": -13.592999883759356
+        },
+        {
+          "lambda": 0.776,
+          "logLik": -13.593171780636656
+        },
+        {
+          "lambda": 0.777,
+          "logLik": -13.593346780517427
+        },
+        {
+          "lambda": 0.778,
+          "logLik": -13.59352487437688
+        },
+        {
+          "lambda": 0.779,
+          "logLik": -13.593706053224642
+        },
+        {
+          "lambda": 0.78,
+          "logLik": -13.593890308104564
+        },
+        {
+          "lambda": 0.781,
+          "logLik": -13.594077630094581
+        },
+        {
+          "lambda": 0.782,
+          "logLik": -13.594268010306509
+        },
+        {
+          "lambda": 0.783,
+          "logLik": -13.594461439885924
+        },
+        {
+          "lambda": 0.784,
+          "logLik": -13.594657910011945
+        },
+        {
+          "lambda": 0.785,
+          "logLik": -13.594857411897088
+        },
+        {
+          "lambda": 0.786,
+          "logLik": -13.59505993678712
+        },
+        {
+          "lambda": 0.787,
+          "logLik": -13.59526547596085
+        },
+        {
+          "lambda": 0.788,
+          "logLik": -13.595474020730034
+        },
+        {
+          "lambda": 0.789,
+          "logLik": -13.595685562439119
+        },
+        {
+          "lambda": 0.79,
+          "logLik": -13.595900092465179
+        },
+        {
+          "lambda": 0.791,
+          "logLik": -13.596117602217694
+        },
+        {
+          "lambda": 0.792,
+          "logLik": -13.59633808313841
+        },
+        {
+          "lambda": 0.793,
+          "logLik": -13.596561526701171
+        },
+        {
+          "lambda": 0.794,
+          "logLik": -13.596787924411789
+        },
+        {
+          "lambda": 0.795,
+          "logLik": -13.597017267807846
+        },
+        {
+          "lambda": 0.796,
+          "logLik": -13.597249548458583
+        },
+        {
+          "lambda": 0.797,
+          "logLik": -13.597484757964708
+        },
+        {
+          "lambda": 0.798,
+          "logLik": -13.597722887958266
+        },
+        {
+          "lambda": 0.799,
+          "logLik": -13.597963930102486
+        },
+        {
+          "lambda": 0.8,
+          "logLik": -13.59820787609162
+        },
+        {
+          "lambda": 0.801,
+          "logLik": -13.59845471765078
+        },
+        {
+          "lambda": 0.802,
+          "logLik": -13.598704446535837
+        },
+        {
+          "lambda": 0.803,
+          "logLik": -13.598957054533216
+        },
+        {
+          "lambda": 0.804,
+          "logLik": -13.59921253345978
+        },
+        {
+          "lambda": 0.805,
+          "logLik": -13.599470875162682
+        },
+        {
+          "lambda": 0.806,
+          "logLik": -13.599732071519202
+        },
+        {
+          "lambda": 0.807,
+          "logLik": -13.59999611443662
+        },
+        {
+          "lambda": 0.808,
+          "logLik": -13.600262995852068
+        },
+        {
+          "lambda": 0.809,
+          "logLik": -13.600532707732375
+        },
+        {
+          "lambda": 0.81,
+          "logLik": -13.600805242073942
+        },
+        {
+          "lambda": 0.811,
+          "logLik": -13.601080590902589
+        },
+        {
+          "lambda": 0.812,
+          "logLik": -13.601358746273421
+        },
+        {
+          "lambda": 0.813,
+          "logLik": -13.601639700270676
+        },
+        {
+          "lambda": 0.814,
+          "logLik": -13.601923445007603
+        },
+        {
+          "lambda": 0.815,
+          "logLik": -13.602209972626317
+        },
+        {
+          "lambda": 0.816,
+          "logLik": -13.602499275297648
+        },
+        {
+          "lambda": 0.817,
+          "logLik": -13.602791345221029
+        },
+        {
+          "lambda": 0.818,
+          "logLik": -13.603086174624357
+        },
+        {
+          "lambda": 0.819,
+          "logLik": -13.60338375576382
+        },
+        {
+          "lambda": 0.82,
+          "logLik": -13.603684080923818
+        },
+        {
+          "lambda": 0.821,
+          "logLik": -13.603987142416802
+        },
+        {
+          "lambda": 0.822,
+          "logLik": -13.604292932583142
+        },
+        {
+          "lambda": 0.823,
+          "logLik": -13.60460144379098
+        },
+        {
+          "lambda": 0.824,
+          "logLik": -13.604912668436146
+        },
+        {
+          "lambda": 0.825,
+          "logLik": -13.605226598941973
+        },
+        {
+          "lambda": 0.826,
+          "logLik": -13.605543227759211
+        },
+        {
+          "lambda": 0.827,
+          "logLik": -13.605862547365872
+        },
+        {
+          "lambda": 0.828,
+          "logLik": -13.606184550267114
+        },
+        {
+          "lambda": 0.829,
+          "logLik": -13.60650922899511
+        },
+        {
+          "lambda": 0.83,
+          "logLik": -13.606836576108929
+        },
+        {
+          "lambda": 0.831,
+          "logLik": -13.607166584194392
+        },
+        {
+          "lambda": 0.832,
+          "logLik": -13.607499245863963
+        },
+        {
+          "lambda": 0.833,
+          "logLik": -13.60783455375663
+        },
+        {
+          "lambda": 0.834,
+          "logLik": -13.608172500537767
+        },
+        {
+          "lambda": 0.835,
+          "logLik": -13.608513078899017
+        },
+        {
+          "lambda": 0.836,
+          "logLik": -13.608856281558175
+        },
+        {
+          "lambda": 0.837,
+          "logLik": -13.609202101259056
+        },
+        {
+          "lambda": 0.838,
+          "logLik": -13.60955053077139
+        },
+        {
+          "lambda": 0.839,
+          "logLik": -13.609901562890688
+        },
+        {
+          "lambda": 0.84,
+          "logLik": -13.610255190438126
+        },
+        {
+          "lambda": 0.841,
+          "logLik": -13.610611406260432
+        },
+        {
+          "lambda": 0.842,
+          "logLik": -13.61097020322977
+        },
+        {
+          "lambda": 0.843,
+          "logLik": -13.611331574243613
+        },
+        {
+          "lambda": 0.844,
+          "logLik": -13.611695512224628
+        },
+        {
+          "lambda": 0.845,
+          "logLik": -13.61206201012058
+        },
+        {
+          "lambda": 0.846,
+          "logLik": -13.61243106090418
+        },
+        {
+          "lambda": 0.847,
+          "logLik": -13.612802657573019
+        },
+        {
+          "lambda": 0.848,
+          "logLik": -13.6131767931494
+        },
+        {
+          "lambda": 0.849,
+          "logLik": -13.61355346068027
+        },
+        {
+          "lambda": 0.85,
+          "logLik": -13.613932653237088
+        },
+        {
+          "lambda": 0.851,
+          "logLik": -13.61431436391572
+        },
+        {
+          "lambda": 0.852,
+          "logLik": -13.614698585836306
+        },
+        {
+          "lambda": 0.853,
+          "logLik": -13.615085312143181
+        },
+        {
+          "lambda": 0.854,
+          "logLik": -13.615474536004756
+        },
+        {
+          "lambda": 0.855,
+          "logLik": -13.615866250613399
+        },
+        {
+          "lambda": 0.856,
+          "logLik": -13.616260449185324
+        },
+        {
+          "lambda": 0.857,
+          "logLik": -13.616657124960506
+        },
+        {
+          "lambda": 0.858,
+          "logLik": -13.617056271202545
+        },
+        {
+          "lambda": 0.859,
+          "logLik": -13.617457881198582
+        },
+        {
+          "lambda": 0.86,
+          "logLik": -13.617861948259185
+        },
+        {
+          "lambda": 0.861,
+          "logLik": -13.618268465718238
+        },
+        {
+          "lambda": 0.862,
+          "logLik": -13.618677426932834
+        },
+        {
+          "lambda": 0.863,
+          "logLik": -13.619088825283194
+        },
+        {
+          "lambda": 0.864,
+          "logLik": -13.619502654172537
+        },
+        {
+          "lambda": 0.865,
+          "logLik": -13.619918907026989
+        },
+        {
+          "lambda": 0.866,
+          "logLik": -13.62033757729547
+        },
+        {
+          "lambda": 0.867,
+          "logLik": -13.620758658449619
+        },
+        {
+          "lambda": 0.868,
+          "logLik": -13.621182143983654
+        },
+        {
+          "lambda": 0.869,
+          "logLik": -13.621608027414299
+        },
+        {
+          "lambda": 0.87,
+          "logLik": -13.62203630228068
+        },
+        {
+          "lambda": 0.871,
+          "logLik": -13.622466962144227
+        },
+        {
+          "lambda": 0.872,
+          "logLik": -13.622900000588544
+        },
+        {
+          "lambda": 0.873,
+          "logLik": -13.623335411219365
+        },
+        {
+          "lambda": 0.874,
+          "logLik": -13.623773187664398
+        },
+        {
+          "lambda": 0.875,
+          "logLik": -13.624213323573288
+        },
+        {
+          "lambda": 0.876,
+          "logLik": -13.624655812617467
+        },
+        {
+          "lambda": 0.877,
+          "logLik": -13.625100648490076
+        },
+        {
+          "lambda": 0.878,
+          "logLik": -13.625547824905892
+        },
+        {
+          "lambda": 0.879,
+          "logLik": -13.625997335601191
+        },
+        {
+          "lambda": 0.88,
+          "logLik": -13.62644917433369
+        },
+        {
+          "lambda": 0.881,
+          "logLik": -13.626903334882432
+        },
+        {
+          "lambda": 0.882,
+          "logLik": -13.627359811047697
+        },
+        {
+          "lambda": 0.883,
+          "logLik": -13.627818596650917
+        },
+        {
+          "lambda": 0.884,
+          "logLik": -13.628279685534563
+        },
+        {
+          "lambda": 0.885,
+          "logLik": -13.628743071562074
+        },
+        {
+          "lambda": 0.886,
+          "logLik": -13.62920874861776
+        },
+        {
+          "lambda": 0.887,
+          "logLik": -13.629676710606704
+        },
+        {
+          "lambda": 0.888,
+          "logLik": -13.630146951454677
+        },
+        {
+          "lambda": 0.889,
+          "logLik": -13.630619465108046
+        },
+        {
+          "lambda": 0.89,
+          "logLik": -13.631094245533681
+        },
+        {
+          "lambda": 0.891,
+          "logLik": -13.631571286718879
+        },
+        {
+          "lambda": 0.892,
+          "logLik": -13.632050582671257
+        },
+        {
+          "lambda": 0.893,
+          "logLik": -13.632532127418665
+        },
+        {
+          "lambda": 0.894,
+          "logLik": -13.633015915009134
+        },
+        {
+          "lambda": 0.895,
+          "logLik": -13.63350193951072
+        },
+        {
+          "lambda": 0.896,
+          "logLik": -13.633990195011501
+        },
+        {
+          "lambda": 0.897,
+          "logLik": -13.634480675619415
+        },
+        {
+          "lambda": 0.898,
+          "logLik": -13.63497337546222
+        },
+        {
+          "lambda": 0.899,
+          "logLik": -13.635468288687388
+        },
+        {
+          "lambda": 0.9,
+          "logLik": -13.635965409462035
+        },
+        {
+          "lambda": 0.901,
+          "logLik": -13.636464731972833
+        },
+        {
+          "lambda": 0.902,
+          "logLik": -13.6369662504259
+        },
+        {
+          "lambda": 0.903,
+          "logLik": -13.637469959046765
+        },
+        {
+          "lambda": 0.904,
+          "logLik": -13.637975852080244
+        },
+        {
+          "lambda": 0.905,
+          "logLik": -13.638483923790364
+        },
+        {
+          "lambda": 0.906,
+          "logLik": -13.638994168460309
+        },
+        {
+          "lambda": 0.907,
+          "logLik": -13.6395065803923
+        },
+        {
+          "lambda": 0.908,
+          "logLik": -13.640021153907542
+        },
+        {
+          "lambda": 0.909,
+          "logLik": -13.640537883346123
+        },
+        {
+          "lambda": 0.91,
+          "logLik": -13.641056763066944
+        },
+        {
+          "lambda": 0.911,
+          "logLik": -13.641577787447646
+        },
+        {
+          "lambda": 0.912,
+          "logLik": -13.642100950884517
+        },
+        {
+          "lambda": 0.913,
+          "logLik": -13.642626247792421
+        },
+        {
+          "lambda": 0.914,
+          "logLik": -13.643153672604704
+        },
+        {
+          "lambda": 0.915,
+          "logLik": -13.643683219773143
+        },
+        {
+          "lambda": 0.916,
+          "logLik": -13.644214883767846
+        },
+        {
+          "lambda": 0.917,
+          "logLik": -13.64474865907718
+        },
+        {
+          "lambda": 0.918,
+          "logLik": -13.645284540207703
+        },
+        {
+          "lambda": 0.919,
+          "logLik": -13.645822521684071
+        },
+        {
+          "lambda": 0.92,
+          "logLik": -13.646362598048974
+        },
+        {
+          "lambda": 0.921,
+          "logLik": -13.646904763863054
+        },
+        {
+          "lambda": 0.922,
+          "logLik": -13.647449013704836
+        },
+        {
+          "lambda": 0.923,
+          "logLik": -13.647995342170644
+        },
+        {
+          "lambda": 0.924,
+          "logLik": -13.648543743874534
+        },
+        {
+          "lambda": 0.925,
+          "logLik": -13.649094213448222
+        },
+        {
+          "lambda": 0.926,
+          "logLik": -13.649646745540993
+        },
+        {
+          "lambda": 0.927,
+          "logLik": -13.650201334819654
+        },
+        {
+          "lambda": 0.928,
+          "logLik": -13.650757975968427
+        },
+        {
+          "lambda": 0.929,
+          "logLik": -13.651316663688918
+        },
+        {
+          "lambda": 0.93,
+          "logLik": -13.651877392700003
+        },
+        {
+          "lambda": 0.931,
+          "logLik": -13.65244015773778
+        },
+        {
+          "lambda": 0.932,
+          "logLik": -13.653004953555511
+        },
+        {
+          "lambda": 0.933,
+          "logLik": -13.653571774923497
+        },
+        {
+          "lambda": 0.934,
+          "logLik": -13.654140616629073
+        },
+        {
+          "lambda": 0.935,
+          "logLik": -13.654711473476494
+        },
+        {
+          "lambda": 0.936,
+          "logLik": -13.655284340286872
+        },
+        {
+          "lambda": 0.937,
+          "logLik": -13.655859211898136
+        },
+        {
+          "lambda": 0.938,
+          "logLik": -13.656436083164898
+        },
+        {
+          "lambda": 0.939,
+          "logLik": -13.657014948958471
+        },
+        {
+          "lambda": 0.94,
+          "logLik": -13.657595804166714
+        },
+        {
+          "lambda": 0.941,
+          "logLik": -13.658178643694031
+        },
+        {
+          "lambda": 0.942,
+          "logLik": -13.658763462461254
+        },
+        {
+          "lambda": 0.943,
+          "logLik": -13.659350255405613
+        },
+        {
+          "lambda": 0.944,
+          "logLik": -13.659939017480644
+        },
+        {
+          "lambda": 0.945,
+          "logLik": -13.660529743656133
+        },
+        {
+          "lambda": 0.946,
+          "logLik": -13.661122428918043
+        },
+        {
+          "lambda": 0.947,
+          "logLik": -13.661717068268462
+        },
+        {
+          "lambda": 0.948,
+          "logLik": -13.662313656725507
+        },
+        {
+          "lambda": 0.949,
+          "logLik": -13.6629121893233
+        },
+        {
+          "lambda": 0.95,
+          "logLik": -13.66351266111187
+        },
+        {
+          "lambda": 0.951,
+          "logLik": -13.664115067157093
+        },
+        {
+          "lambda": 0.952,
+          "logLik": -13.66471940254064
+        },
+        {
+          "lambda": 0.953,
+          "logLik": -13.665325662359907
+        },
+        {
+          "lambda": 0.954,
+          "logLik": -13.66593384172795
+        },
+        {
+          "lambda": 0.955,
+          "logLik": -13.666543935773413
+        },
+        {
+          "lambda": 0.956,
+          "logLik": -13.667155939640486
+        },
+        {
+          "lambda": 0.957,
+          "logLik": -13.667769848488815
+        },
+        {
+          "lambda": 0.958,
+          "logLik": -13.66838565749346
+        },
+        {
+          "lambda": 0.959,
+          "logLik": -13.669003361844833
+        },
+        {
+          "lambda": 0.96,
+          "logLik": -13.669622956748615
+        },
+        {
+          "lambda": 0.961,
+          "logLik": -13.670244437425715
+        },
+        {
+          "lambda": 0.962,
+          "logLik": -13.670867799112205
+        },
+        {
+          "lambda": 0.963,
+          "logLik": -13.671493037059244
+        },
+        {
+          "lambda": 0.964,
+          "logLik": -13.672120146533048
+        },
+        {
+          "lambda": 0.965,
+          "logLik": -13.67274912281479
+        },
+        {
+          "lambda": 0.966,
+          "logLik": -13.673379961200576
+        },
+        {
+          "lambda": 0.967,
+          "logLik": -13.674012657001358
+        },
+        {
+          "lambda": 0.968,
+          "logLik": -13.674647205542888
+        },
+        {
+          "lambda": 0.969,
+          "logLik": -13.675283602165662
+        },
+        {
+          "lambda": 0.97,
+          "logLik": -13.675921842224852
+        },
+        {
+          "lambda": 0.971,
+          "logLik": -13.67656192109025
+        },
+        {
+          "lambda": 0.972,
+          "logLik": -13.677203834146207
+        },
+        {
+          "lambda": 0.973,
+          "logLik": -13.677847576791587
+        },
+        {
+          "lambda": 0.974,
+          "logLik": -13.67849314443969
+        },
+        {
+          "lambda": 0.975,
+          "logLik": -13.679140532518211
+        },
+        {
+          "lambda": 0.976,
+          "logLik": -13.679789736469171
+        },
+        {
+          "lambda": 0.977,
+          "logLik": -13.680440751748876
+        },
+        {
+          "lambda": 0.978,
+          "logLik": -13.68109357382784
+        },
+        {
+          "lambda": 0.979,
+          "logLik": -13.681748198190741
+        },
+        {
+          "lambda": 0.98,
+          "logLik": -13.682404620336362
+        },
+        {
+          "lambda": 0.981,
+          "logLik": -13.683062835777545
+        },
+        {
+          "lambda": 0.982,
+          "logLik": -13.683722840041103
+        },
+        {
+          "lambda": 0.983,
+          "logLik": -13.684384628667804
+        },
+        {
+          "lambda": 0.984,
+          "logLik": -13.685048197212298
+        },
+        {
+          "lambda": 0.985,
+          "logLik": -13.685713541243068
+        },
+        {
+          "lambda": 0.986,
+          "logLik": -13.686380656342367
+        },
+        {
+          "lambda": 0.987,
+          "logLik": -13.687049538106148
+        },
+        {
+          "lambda": 0.988,
+          "logLik": -13.687720182144067
+        },
+        {
+          "lambda": 0.989,
+          "logLik": -13.688392584079361
+        },
+        {
+          "lambda": 0.99,
+          "logLik": -13.689066739548844
+        },
+        {
+          "lambda": 0.991,
+          "logLik": -13.689742644202829
+        },
+        {
+          "lambda": 0.992,
+          "logLik": -13.69042029370508
+        },
+        {
+          "lambda": 0.993,
+          "logLik": -13.691099683732764
+        },
+        {
+          "lambda": 0.994,
+          "logLik": -13.691780809976395
+        },
+        {
+          "lambda": 0.995,
+          "logLik": -13.692463668139784
+        },
+        {
+          "lambda": 0.996,
+          "logLik": -13.693148253939972
+        },
+        {
+          "lambda": 0.997,
+          "logLik": -13.693834563107218
+        },
+        {
+          "lambda": 0.998,
+          "logLik": -13.694522591384901
+        },
+        {
+          "lambda": 0.999,
+          "logLik": -13.695212334529486
+        },
+        {
+          "lambda": 1,
+          "logLik": -13.695903788310497
+        }
+      ]
+    },
+    "policy": [
+      {
+        "cls": "FORMAT",
+        "q": 0.9,
+        "theta": 0.6200000000000001,
+        "pZero": 0.5,
+        "trials": 10,
+        "successes": 5,
+        "decision": "ESCALATE",
+        "prescribed": "retry",
+        "agrees": false,
+        "priorOnly": false,
+        "qFlip": 0.78
+      },
+      {
+        "cls": "LOGIC",
+        "q": 0.7,
+        "theta": 0.42,
+        "pZero": 0.022727272727272728,
+        "trials": 21,
+        "successes": 0,
+        "decision": "ESCALATE",
+        "prescribed": "escalate",
+        "agrees": true,
+        "priorOnly": false,
+        "qFlip": 0.3027272727272727
+      },
+      {
+        "cls": "BROKEN",
+        "q": 0,
+        "theta": -0.27999999999999997,
+        "pZero": 0.5,
+        "trials": 0,
+        "successes": 0,
+        "decision": "ABORT",
+        "prescribed": "abort",
+        "agrees": true,
+        "priorOnly": true,
+        "qFlip": 0.78
+      },
+      {
+        "cls": "LOST",
+        "q": 0.6,
+        "theta": 0.32,
+        "pZero": 0.5,
+        "trials": 0,
+        "successes": 0,
+        "decision": "RETRY",
+        "prescribed": "escalate",
+        "agrees": false,
+        "priorOnly": true,
+        "qFlip": 0.78
+      }
+    ],
+    "arms": [
+      {
+        "id": "A_stubborn",
+        "label": "A · Stubborn",
+        "represents": "every agent shipping today",
+        "decisions": {
+          "FORMAT": "RETRY",
+          "LOGIC": "RETRY",
+          "BROKEN": "RETRY",
+          "LOST": "RETRY"
+        }
+      },
+      {
+        "id": "B_needy",
+        "label": "B · Needy",
+        "represents": "the naive \"add a human\" answer",
+        "decisions": {
+          "FORMAT": "ESCALATE",
+          "LOGIC": "ESCALATE",
+          "BROKEN": "ESCALATE",
+          "LOST": "ESCALATE"
+        }
+      },
+      {
+        "id": "C_random",
+        "label": "C · Random",
+        "represents": "the control that makes it science",
+        "decisions": {
+          "FORMAT": "ESCALATE",
+          "LOGIC": "RETRY",
+          "BROKEN": "RETRY",
+          "LOST": "ESCALATE"
+        }
+      },
+      {
+        "id": "D_ccos",
+        "label": "D · CC-OS",
+        "represents": "our contribution",
+        "decisions": {
+          "FORMAT": "ESCALATE",
+          "LOGIC": "ESCALATE",
+          "BROKEN": "RETRY",
+          "LOST": "RETRY"
+        }
+      }
+    ],
+    "horizons": [
+      {
+        "cls": "FORMAT",
+        "result": {
+          "values": [
+            0.94875,
+            0.9375,
+            0.915,
+            0.87,
+            0.78,
+            0.6000000000000001
+          ],
+          "decisions": [
+            "RETRY",
+            "RETRY",
+            "RETRY",
+            "RETRY",
+            "RETRY"
+          ],
+          "thresholds": [
+            -5.079999999999998,
+            -3.470588235294118,
+            -1.9230769230769222,
+            -0.727272727272727,
+            0.05000000000000006
+          ]
+        }
+      },
+      {
+        "cls": "LOGIC",
+        "result": {
+          "values": [
+            0.39999999999999997,
+            0.39999999999999997,
+            0.39999999999999997,
+            0.39999999999999997,
+            0.39999999999999997,
+            0.39999999999999997
+          ],
+          "decisions": [
+            "ESCALATE",
+            "ESCALATE",
+            "ESCALATE",
+            "ESCALATE",
+            "ESCALATE"
+          ],
+          "thresholds": [
+            0.03333333333333336,
+            0.03333333333333336,
+            0.03333333333333336,
+            0.03333333333333336,
+            0.03333333333333336
+          ]
+        }
+      }
+    ],
+    "survivorship": {
+      "successes": 10,
+      "retriedAfterSuccess": 0,
+      "confounded": true,
+      "maxDepth": 4
+    }
+  }
+}
