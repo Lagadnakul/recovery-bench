@@ -238,21 +238,24 @@ grid:
     enabled: true
     models: [nemotron_ultra]
     tasks: failure_pool
-    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    # l2_5_diagnose_revise dropped — D34. a2 ran it on all four tasks and it
+    # refused 80 of 80 cells. It is not measurable without Docker, and 80 rows
+    # of PROVIDER_ERROR are not a condition, they are a hole in the table.
+    strategies: [l1_blind_retry, l2_reflection]
     edit_formats: [search_replace]
     thinking: [false]
     rounds: 4                         # Phase 2: LOST is unreachable below K=4
-    repeats: 5                        # 240 cells
+    repeats: 5                        # 160 cells + 20 baselines = 180
 
   a4_reasoning:
     enabled: true
     models: [nemotron_nano]
     tasks: failure_pool
-    strategies: [l1_blind_retry, l2_reflection, l2_5_diagnose_revise]
+    strategies: [l1_blind_retry, l2_reflection]   # l2_5 dropped — D34
     edit_formats: [search_replace]
     thinking: [false, true]           # the manipulated variable
     rounds: 4                         # Phase 2: LOST is unreachable below K=4
-    repeats: 5                        # 480 cells
+    repeats: 5                        # 320 cells + 40 baselines = 360
 
   a5_format_at_scale:
     enabled: true

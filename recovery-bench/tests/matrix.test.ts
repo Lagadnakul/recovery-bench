@@ -60,16 +60,21 @@ const outcome = (c: Cell): CellOutcome => ({
 
 // ───────────────────────────────────────────────────────────── enumeration
 describe("enumeration", () => {
-  test("the committed grid is 1,844 cells in 1,076 lineages", () => {
-    // 1,752 condition cells plus 92 round-0 baselines — one per group, which
+  test("the committed grid is 1,604 cells in 1,016 lineages", () => {
+    // 1,512 condition cells plus 92 round-0 baselines — one per group, which
     // the recovery conditions read (D26). Before those existed, 2 of the 3
     // conditions could never run.
     //
     // Grew from 1,308 on 25 Oct 2026: a2/a3/a4 went to rounds 4 because Phase 2
     // proved LOST is unreachable below K=4, and a6 was enabled at 2 repeats.
+    //
+    // Shrank from 1,844 on 26 Oct 2026: D34 dropped l2_5_diagnose_revise from
+    // a3 (-80 cells, -20 lineages) and a4 (-160, -40) after a2 measured it
+    // refusing 80 of 80. The baseline count is untouched — baselines are per
+    // group and a group is not a strategy.
     const cells = enumerateCells(cfg, tasks);
-    expect(cells.length).toBe(1844);
-    expect(toLineages(cells).length).toBe(1076);
+    expect(cells.length).toBe(1604);
+    expect(toLineages(cells).length).toBe(1016);
   });
 
   test("a baseline is inserted per group, not per condition", () => {
@@ -133,8 +138,10 @@ describe("enumeration", () => {
     // Config comments give the condition cells; baselines are added on top.
     expect(by.a1_replication).toBe(24 + 4);
     expect(by.a2_workhorse).toBe(240 + 20);
-    expect(by.a3_capability).toBe(240 + 20);
-    expect(by.a4_reasoning).toBe(480 + 40);
+    // D34: l2_5_diagnose_revise dropped from a3 and a4 after it refused 80 of
+    // 80 cells in a2. Two strategies, not three.
+    expect(by.a3_capability).toBe(160 + 20);
+    expect(by.a4_reasoning).toBe(320 + 40);
     expect(by.a5_format_at_scale).toBe(720);
     expect(by.a6_qwencloud).toBe(48 + 8);
   });

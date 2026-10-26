@@ -1249,3 +1249,46 @@ Both are the D18 category error reappearing at the presentation layer: an
 instrument limit folded into a rate, or made small enough to miss. Excluding
 those cells from the arithmetic was necessary and was not sufficient — the
 exclusion has to be as visible as the number it changes.
+
+---
+
+## D34 — `l2_5_diagnose_revise` dropped from a3 and a4
+
+a2 settled this empirically on 26 Oct 2026. Across all four `failure_pool`
+tasks, the condition refused **80 of 80 cells** — a 100% refusal rate, not an
+estimate:
+
+```
+l0_baseline            APPLIED 15  NO_PATCH  4  TRUNCATED 1
+l1_blind_retry         APPLIED 55  NO_PATCH 17  MALFORMED 1  PROVIDER_ERROR  7
+l2_reflection          APPLIED 53  NO_PATCH 16  MALFORMED 4  PROVIDER_ERROR  7
+l2_5_diagnose_revise                                         PROVIDER_ERROR 80
+```
+
+The mechanism is D22, working as designed. Diagnose+Revise is *defined* by
+feeding the model real evidence of why the previous patch failed. D6 put Docker
+permanently out of reach, so the only live evidence available is an
+`apply_error`, which exists only when the previous patch **failed to apply**.
+a5 measured muse_30b at a 97.8% apply rate. The evidence the condition needs is
+produced by the very failure the condition almost never sees.
+
+Keeping it in a3 and a4 would have bought 80 and 160 more rows of
+`PROVIDER_ERROR` at zero token cost and zero information. The cost is not
+quota; it is the table. A reader scanning outcome kinds sees "the provider
+failed 240 times" and discounts the arm. An instrument that cannot fire is not
+a condition — it is a hole, and D18 says a hole must be named rather than
+averaged into a rate.
+
+a3 goes 260 → 180 cells, a4 goes 520 → 360.
+
+**a1 keeps it.** a1 is a replication of the pilot, and the pilot ran all three
+strategies. A replication that silently drops an arm is not a replication; if
+`l2_5` starves there too, that is a finding about the pilot, reported as one.
+
+**a6 keeps it**, for 8 cells. If a fourth vendor on separate hardware refuses at
+the same rate, the refusal is demonstrably a property of the design under D6
+rather than of one model's unusually high apply rate. That is worth 8 cells.
+
+The condition is not deleted from the codebase and is not disowned. It is
+reported as a *conditional* condition, grounded in the archive's 73
+test-verified rows, where real test output existed and it could actually run.
