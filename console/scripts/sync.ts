@@ -58,7 +58,10 @@ const patches: Record<string, string> = {};
 let patchMismatch = 0;
 
 const trimmed = rows.map((row) => {
-  const { response: _response, patch, ...rest } = row;
+  // `response` is destructured only to exclude it from `rest`; it is the 5 MB
+  // of raw model output this script drops.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { response, patch, ...rest } = row;
   const outcome = { ...(rest.outcome as Record<string, unknown>) };
 
   if (typeof patch === "string") {

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "contrast": "bun scripts/contrast.ts",
-    "check": "bun scripts/contrast.ts && bun test && bun run typecheck && next build",
+    "check": "bun scripts/contrast.ts && bun test && bun run typecheck && eslint && next build",
     "typecheck": "next typegen && tsc --noEmit",
     "sync": "bun scripts/sync.ts",
     "test": "bun test"

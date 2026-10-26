@@ -572,30 +572,96 @@ test *weakens* it. Round 1 is where reflection wins (90% vs 75%), so a test over
 rounds averages the help against the harm and reports less. Excluding round 1 is the
 finding, not a convenience, and now it is a test.
 
-### Phase 3 — screen 6, the instrument · 2 days
+### Phase 3 — screen 6, the instrument · DONE 26 October
 
-**Build this first.** It is the hardest, the most impressive, and the literal answer to
-the professor's question. If the schedule slips, you want the irreplaceable thing
-finished rather than five conventional screens and a gap.
+**The hero this phase was specified to build cannot be built, and building it would have
+been a fabrication.** The spec said *"the field of 1,604 cells, θ drawn across it … drag
+`h` and the cells migrate across the boundary."* Reading `ccos.json` properly killed it:
 
-The field of 1,604 cells, θ drawn across it, three sliders in the rail. Drag `h` and the
-cells migrate across the boundary; the counts recount as they move. The formula sits
-under the sliders, as text:
+- The policy is **class-conditioned**. Its input is a class belief `p̂_c`, not a per-cell
+  probability. Cells do not each have a `p` to sort by.
+- The live sweep has **no LOGIC class at all** (Phase 2). Sorting 1,604 apply-only cells
+  by a class-conditioned threshold would have meant inventing the quantity being plotted.
+
+The real evidence is the **31 test-verified archive trials** — FORMAT 10, LOGIC 21. The
+1,604 cells belong on screens 1 and 5.
+
+#### What the data says, and it is better than the spec's version
+
+At the committed payoffs `G = 1, r = 0.02, h = 0.3`:
+
+| class | p̂ | θ myopic | myopic | finite-horizon | q | qFlip | trials |
+|---|---:|---:|---|---|---:|---:|---:|
+| FORMAT | 0.500 | 0.62 | **ask a human** | **retry** | 0.9 | 0.78 | 10 |
+| LOGIC | 0.023 | 0.42 | ask a human | ask a human | 0.7 | 0.303 | 21 |
+| BROKEN | 0.5 prior | −0.28 | abort | — | 0 | — | 0 |
+| LOST | 0.5 prior | 0.32 | retry | — | 0.6 | — | 0 |
+
+**1. The myopic rule and the finite-horizon rule disagree on FORMAT** — the one class
+that actually recovered in the pilot, 3 of 3. A failed retry does not end the episode, it
+leaves the agent its remaining attempts, so a cheap retry (`r = 0.02`) is worth taking
+even when its own one-step value looks worse than asking. *The stopping rule has to be
+finite-horizon, not myopic, and the pilot data shows exactly where that matters.* This is
+a far stronger screen than "watch the algorithm be right", and it is honest.
+
+**2. The verdict is entirely cost-driven, and no cost has been measured.** Verified
+through the same code the UI calls:
 
 ```
-RETRY  ⟺  p(c,k) > θ_c          θ_c = q_c − (h − r)/G
+h=0.10  FORMAT:ESC/RET  LOGIC:ESC/ESC  BROKEN:ABO  LOST:ESC
+h=0.42  FORMAT:ESC/RET  LOGIC:ESC/ESC  BROKEN:ABO  LOST:RET
+h=0.43  FORMAT:RET/RET  LOGIC:ESC/ESC  BROKEN:ABO  LOST:RET
+h=0.80  FORMAT:RET/RET  LOGIC:RET/RET  BROKEN:ABO  LOST:RET
 ```
 
-Finding line: the stopping rule is a threshold on a belief, and the four arms in the
-literature are **one algorithm at four values of θ** — Stubborn −∞, Needy +∞, Random
-ignores class, CC-OS θ_c. Add a control that snaps to each, so the professor can see the
-baselines *are* the same rule.
+FORMAT flips at `h > 0.42`, exactly as the algebra says. And at `h = 0.80` the rule
+retries **LOGIC** — a class that never once succeeded in 21 trials. That is not a bug; it
+is what the rule means, and a professor can watch it happen.
 
-Every curve here is **illustrative**, so every one carries the caption from §2. The cells
-are real; the policy outcome is not measured.
+**3. λ is not measured, and the claim that it is should be corrected elsewhere.**
+`isMeasured: false`, interval `[0.121, 1]`, `excludesNoDecay: false`, and the policy ran
+with **λ = 1 — no decay at all**, so the belief is flat in the attempt index.
+`proposal/index.html`, `BUILD.md` and `ENGINE.md` all state that λ is *"a measured
+property of the run, not a tuned knob"*. **It is not yet.** Screen 6 says so; the other
+three documents should be corrected before a reviewer does it for them.
 
-**Acceptance:** dragging a slider re-sorts real cells at 60fps. Reduced-motion gives
-instant re-sort. Four arms reachable from one control. Every synthetic mark captioned.
+Also stated on screen: `q` is an assumption and never was measured; BROKEN and LOST are
+the prior alone at zero trials; and `survivorship.confounded = true` — 10 successes, 0
+retried afterwards, so the data never observes what retrying after a success does.
+
+#### What got built
+
+| File | Role |
+|---|---|
+| `src/model/ccos.ts` | zod schema for `ccos.json`'s CC-OS section |
+| `src/model/policy.ts` | live recompute — `θ_c`, `qFlip`, myopic decision, and finite-horizon backward induction in O(K) |
+| `src/model/policy.test.ts` | 23 tests. **Reproduces `ccos.json` exactly** |
+| `src/components/marks/DecisionPlane.tsx` | the hero. Hand-drawn SVG, `crispEdges`, 0 radius on every mark |
+| `src/components/shell/Rail.tsx` | `Rail` + `Shell`. Persistent, with the screen-aware control slot |
+| `src/components/screens/StoppingRule.tsx` | the screen |
+| `src/app/stopping-rule/page.tsx` | server page → compact projection → client |
+
+**The acceptance test is the reason to trust the screen.** `policy.ts` recomputes what
+recovery-bench computed once, and the test asserts the two agree at the committed
+payoffs — all four `θ`, all four decisions, both `qFlip` values, and the finite-horizon
+`V_k` and thresholds **to ten decimal places**. An independent backward-induction
+implementation reproducing Nakul's is strong evidence both are right. The professor is
+dragging the same algorithm the paper describes, not a lookalike.
+
+Two tests exist to stop a claim decaying rather than to check a number: λ's
+`isMeasured === false`, so if a future fit changes that the test fails and the screen's
+wording gets revisited deliberately; and `qFlip` actually being where each decision turns
+over, checked either side of the boundary.
+
+#### Notes for later phases
+
+- **The rail's nav renders unbuilt screens as disabled, not as links.** A static export
+  has no useful 404, and a nav that walks a professor into a blank page costs more trust
+  than an obviously unfinished one. Flip `built: true` in `SCREENS` as each lands.
+- **`typedRoutes` is on**, so a nav `href` is `Link`'s own href type, not `string`. A
+  route that does not exist is a build error — which is the point, but it means the page
+  has to exist before the nav can link to it.
+- `eslint` is now the fifth gate in `bun run check`.
 
 ### Phase 4 — screen 2, the collapse · 1 day
 
