@@ -24,7 +24,8 @@ providers:
   nvidia:
     kind: openai_compat
     base_url: https://integrate.api.nvidia.com/v1
-    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3, NVIDIA_KEY_4]  # key pool
+    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3, NVIDIA_KEY_4,
+                  NVIDIA_KEY_5, NVIDIA_KEY_6, NVIDIA_KEY_7]               # key pool
     # 300. Set from MEASURED latency, after 180 was tried and refuted.
     #
     # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
@@ -69,12 +70,13 @@ providers:
 
   gemini:
     kind: gemini
-    # Two keys, pooled. NOT declared per_key in the budget below: Gemini's free
-    # tier is quota'd per PROJECT, so two keys from one Google Cloud project
-    # share one allowance. Pooling still buys retry headroom against a single
-    # key's rate limit; it does not buy a second token ceiling unless the keys
-    # really are separate projects (D28's test applies here too).
-    api_key_env: [gemini_api_key, gemini_api_key1]
+    # Four keys, pooled. Gemini's free tier is quota'd per PROJECT, so keys
+    # from one Google Cloud project share one allowance no matter how many
+    # there are. Pooling always buys retry headroom against a single key's
+    # rate limit; it buys a second token ceiling only if the keys really are
+    # separate projects, which is the same test D28 applied to NVIDIA_KEY_4.
+    # See the gemini budget block below for what is being claimed, and D35.
+    api_key_env: [gemini_api_key, gemini_api_key1, gemini_api_key2, gemini_api_key3]
     # 300. Set from MEASURED latency, after 180 was tried and refuted.
     #
     # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
@@ -194,12 +196,14 @@ budget:
   estimate_before_run: true
   stop_on_exhaustion: skip_arm
   nvidia:
-    # PER KEY, not per provider. The three keys in api_key_env were each created
-    # from a separate build.nvidia.com account, so each has its own allowance
-    # (D28). NVIDIA_KEY_4 was confirmed by Nakul on 25 Oct 2026 to be a fourth
-    # separate account, so effective capacity is 4 x 8M = 32M; the sweep
-    # distributes load round-robin and excludes a key once its own ceiling is
-    # reached.
+    # PER KEY, not per provider. The three original keys in api_key_env were
+    # each created from a separate build.nvidia.com account, so each has its own
+    # allowance (D28). NVIDIA_KEY_4 was confirmed by Nakul on 25 Oct 2026 to be
+    # a fourth separate account. KEYS 5-7 were added 26 Oct 2026 and are
+    # ASSUMED separate on the same grounds — if they are not, the claimed
+    # capacity is wrong, but the failure mode is 429s the pool rotates away
+    # from, not money. The sweep distributes load round-robin and excludes a
+    # key once its own ceiling is reached.
     per_key: true
     max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
     max_calls: 1500
@@ -207,8 +211,17 @@ budget:
     max_tokens: 900000                # under the 1M free quota, deliberately
     max_calls: 100
   gemini:
+    # PER KEY as of 26 Oct 2026 — D35. Four keys, and a1 needs 28 calls against
+    # what was a single 30-call ceiling with 3 already spent. It did not fit.
+    #
+    # The claim this makes is narrow and must stay narrow: Gemini's free tier is
+    # quota'd per PROJECT, so this is only true if the four keys come from four
+    # separate Google accounts. Nakul added them for exactly that reason. The
+    # per-key ceilings below are unchanged from the single-key values, so
+    # nothing is being relaxed per key — only the pool is wider.
+    per_key: true
     max_tokens: 500000
-    max_calls: 30                     # ~20/day ceiling
+    max_calls: 30                     # ~20/day ceiling, PER KEY
 
 # --------------------------------------------------------------------- grid
 grid:

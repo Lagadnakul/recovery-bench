@@ -1292,3 +1292,36 @@ rather than of one model's unusually high apply rate. That is worth 8 cells.
 The condition is not deleted from the codebase and is not disowned. It is
 reported as a *conditional* condition, grounded in the archive's 73
 test-verified rows, where real test output existed and it could actually run.
+
+---
+
+## D35 — Gemini declared `per_key`, and what that claim rests on
+
+a1 did not fit. It needs 28 calls; the gemini ceiling was a single 30-call
+allowance with 3 already spent on health probes, leaving 27. The arm would have
+stopped one cell short of complete, which for a *replication* is worse than not
+running it — a replication missing a cell replicates nothing.
+
+Nakul added `gemini_api_key2` and `gemini_api_key3` on 26 Oct 2026, and the
+provider is now declared `per_key: true`: 4 keys x 30 calls = 120, and a1 sits
+at 23%.
+
+**The claim is narrow and the narrowness is the point.** Gemini's free tier is
+quota'd per *project*, not per key. Four keys cut from one Google account share
+one allowance, and declaring `per_key` would then overstate capacity by 4x.
+This rests on the keys coming from four separate accounts, which is the same
+test D28 applied to `NVIDIA_KEY_4` and the reason that one was confirmed
+explicitly rather than assumed.
+
+The per-key ceilings are unchanged — still 500k tokens and 30 calls each.
+Nothing was relaxed per key; only the pool got wider. If the accounts turn out
+to be shared the failure is a 429 the pool rotates away from, and the ledger
+still refuses to let the arm exceed what it thinks it has. It costs no money
+either way. But an overstated ceiling would let a1 begin an arm it cannot
+finish, and a half-finished replication is the one outcome worth engineering
+against here.
+
+`NVIDIA_KEY_5`, `_6` and `_7` were added in the same change, taking nvidia from
+4 x 8M to 7 x 8M. They are **assumed** separate accounts on the same grounds as
+keys 1-4 and are not separately confirmed. Nothing currently queued needs that
+headroom — a1 is the last arm, and it is Gemini.
