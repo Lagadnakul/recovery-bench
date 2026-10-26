@@ -63,3 +63,9 @@ __pycache__/
 # sha beats a duplicate in the repository. Rebuild it with the recipe in
 # recovery-bench/archive/MANIFEST.md.
 Dissertation-main/
+
+# The taste-skill's working directory: the dealt sheet and the inspector's
+# screenshots at 1440/768/390, rewritten on every run. Not committed, because
+# the only part worth keeping is the seed, and that is written into
+# DASHBOARD.md §2 — `draw.mjs --show` reprints the sheet from it.
+.taste-skill/
