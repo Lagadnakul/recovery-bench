@@ -1,0 +1,15 @@
+{
+  "syncedFrom": "recovery-bench/data",
+  "commit": "c014eb36d5880fdaaba4e043b3029ff1dbc38408",
+  "rows": 1604,
+  "patches": 735,
+  "dropped": [
+    "response",
+    "outcome.patch (duplicate of patch)"
+  ],
+  "sourceHashes": {
+    "sweep_rows.jsonl": "131624fab837cf5c3b792a93a3bd744c0455e595831189ad615b4900cc680a9a",
+    "power.json": "91c00cb78e616411eb51c4cf69bc32db1f8d43ff37c09751ca10478d6d19ff54",
+    "ccos.json": "07b52fd226e3a26052d2ed7a81883504777ebbe4424424bb7e6fe2e6df24241d"
+  }
+}

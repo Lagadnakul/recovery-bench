@@ -68,6 +68,20 @@ Rendering the kind directly prints *"the API failed 176 times"*, which is false.
 > Verified: 98 + 26 + 6 = 130 by-design refusals, 46 real failures (27 HTTP 503,
 > 15 timeouts, 2 HTTP 404, 2 other). 130 + 46 = 176.
 
+> **Correction found in Phase 2, and it is the important one.** The 130 are **two
+> different things**, and R3's 32 are a **subset of them, not a separate population**:
+>
+> | | n | Reason prefix | What it is |
+> |---|---:|---|---|
+> | **STARVED** | 98 | `needs real evidence` | `l2_5_diagnose_revise` needs test evidence, which needs Docker, which D6 ruled out. The condition could not run on *any* row — a structural limit of the design |
+> | **CASCADE** | 32 | `needs a previous attempt` | A reflection condition whose earlier round died, so there was nothing to reflect on (D36). a1 lost 4, a2 lost 8, a4 lost 20 |
+> | **REAL** | 46 | — | 27 HTTP 503, 15 timeouts, 2 HTTP 404, 2 other |
+>
+> So the split is three-way, and **reporting "130 refused" alongside "32 holes" as
+> separate figures double-counts those 32.** Screen 1's KPI strip must not do that.
+> `splitProviderError()` returns all three plus `byDesign = starved + cascade`, and a
+> test asserts `byDesign === starved + holes().length`.
+
 **R3 — 32 cells never ran (D36). They are holes, never zeros.** A blank in a results
 table reads as a measured zero. Draw them as absences: a gap in the grid, an explicit
 count, a named reason. Where set-aside exceeds measured, it leads the panel (D18).
@@ -471,34 +485,92 @@ present, `body` resolving to `--color-canvas`, `prefers-reduced-motion` honoured
 `focus-visible` present, and **zero `prefers-color-scheme` rules** — the light-only
 decision holds in the output.
 
-### Phase 2 — the data layer · 1 day
+### Phase 2 — the data layer · DONE 26 October
 
-The highest-risk phase. Everything downstream inherits its mistakes.
+The highest-risk phase, and it earned the label: it found the R2/R3 double-count above
+and two schema facts that would each have produced a confidently wrong chart.
 
 ```
-console/scripts/sync.ts        reads ../recovery-bench/data/* → src/data/*.json
-console/src/data/              committed, so the build is hermetic
-console/src/model/rows.ts      zod schema from §3, parsed once
-console/src/model/derive.ts    every aggregate, pure functions, unit-tested
+console/scripts/sync.ts          recovery-bench/data/* -> src/data/* + public/
+console/src/data/                committed, so the build is hermetic
+console/src/model/rows.ts        zod schema, parsed once at build time
+console/src/model/derive.ts      every aggregate. No component computes one
+console/src/model/derive.test.ts 40 tests, 3,655 assertions
 ```
 
-Derivations to implement, each with a test:
+#### What ships, and what does not
 
-| Function | Returns |
+The source is **7.6 MB**, and 5 MB of that is `response` — the model's raw unparsed
+output. Everything the console says about *why* a cell failed is already in
+`outcome.reason`, `detail`, `searchText` and `gitStderr`, so `response` is dropped. The
+archival copy stays in `recovery-bench/data/sweep_rows.jsonl`.
+
+`patch` and `outcome.patch` are **byte-identical on all 735 rows** that have one —
+checked in the sync script, which exits non-zero if that ever stops being true rather
+than silently shipping the wrong patch next to a row.
+
+| Output | Size | How it is loaded |
+|---|---:|---|
+| `src/data/rows.json` | 1,103 KB | imported by **server** components only, so it is consumed at build time and never reaches the browser |
+| `src/data/ccos.json` | 132 KB | same |
+| `src/data/power.json` | 8 KB | same |
+| `public/patches.json` | 862 KB | fetched on demand when a row is expanded |
+
+**The architectural rule Phase 3 onward must preserve:** aggregates are computed in
+server components and prerendered into HTML. A client component that imports `rows.json`
+drags 1.1 MB into the first paint. When a client screen needs per-row data, pass it a
+**compact projection** computed at build time. Verified after this phase: no row data
+appears in any client chunk.
+
+`provenance.json` records the source commit and a SHA-256 per input file — what the Data
+Availability statement needs. It deliberately has **no `generated_at`**, for the reason
+in §7.
+
+#### Two schema facts that would have produced wrong charts
+
+1. **`round` is not numbered consistently across arms.** The five recovery arms number
+   the baseline **0** and recovery rounds 1–4 (92 rows at round 0). `a5` has no recovery
+   and numbers its single shot **1** (720 rows). So "round 1" means *first retry* in
+   a2/a3/a4/a6/a1 and *the only attempt* in a5. My first schema had
+   `round: positive()`, which rejects 0 — the build would have failed, which is the good
+   outcome; pooling rounds across arms is the bad one. `roundSeries()` therefore
+   **requires** an arm argument rather than defaulting to all.
+
+2. **No live row can ever be `LOGIC`.** LOGIC means "the patch applied and the test
+   still failed", and no live row ran a test (R1). `classify()` returns `null` for
+   `APPLIED` — which on the sweep is an *unknown*, not a success — and a test asserts
+   zero LOGIC rows across all 1,604. **Screen 4 must therefore draw its four classes
+   from `ccos.json`'s archive triage** (FORMAT 9, LOGIC 25, BROKEN 0, LOST 0, 17
+   resolved, over 51 test-verified records) and keep the live sweep's outcome kinds as a
+   separate panel. Mixing them would imply the sweep measured logic failures.
+
+Also: `BROKEN` is exactly the 46 real errors and nothing else. A by-design refusal
+classifies as `null`, because D18 forbids folding an instrument limit into a failure
+rate.
+
+#### The nine derivations, all tested against CONSOLE.md §3
+
+| Function | Asserted |
 |---|---|
-| `armSummary()` | rows, applied, malformed, refused-by-design, real errors, calls, tokens, wall time |
-| `splitProviderError()` | `{ byDesign: 130, real: 46 }` — **R2, reason prefix not status** |
-| `applyRateByFormat()` | a5's paired columns |
-| `roundSeries()` | apply rate per round per strategy per model |
-| `pairedMcNemar()` | `{ b, c, n, p }` exact, two-sided binomial at ½ |
-| `malformedByReason()` | sorted, with `block_unterminated` relabelled |
-| `holes()` | the 32 unrun cells with their lineage reason — **R3** |
-| `thetaFor(G, r, h, q)` | `θ_c = q_c − (h − r)/G` |
-| `classify(row)` | FORMAT / LOGIC / BROKEN / LOST, from `outcome` only |
+| `totals()` | 1,604 rows · 1,428 calls · 18,102,295 tokens · 6 arms · 5 models |
+| `armSummary()` | every arm's rows/tasks/models/maxRound, and the per-arm columns summing to the totals |
+| `splitProviderError()` | 98 / 32 / 46, **and** that `status === null` gives 145 and is therefore unusable |
+| `applyRateByFormat()` | 96.4% vs 13.1%, b=301 c=1 n=302 concordant=58, 0 dropped, **p = 7.44e-89** to three significant figures |
+| `roundSeries()` | blind retry 75/75/80/75, reflection 90/45/40/50, n=20 per point |
+| `reflectionHarm()` | a3 b=19 c=0 p<4e-6; a2 b=4 c=4 p=1.000 |
+| `mcNemar()` | the floor is arithmetic — p=0.0625 at 5 pairs, 0.03125 at 6 |
+| `malformedByReason()` | 206/182/86/80/17/1, summing to 572 |
+| `holes()` | 32, each with a lineage reason, and `byDesign === starved + holes` |
 
-**Acceptance:** `armSummary()` reproduces §3's table exactly. `splitProviderError()`
-returns 130/46. Totals equal 1,604 rows / 1,428 calls / 18,102,295 tokens. A test asserts
-`evidenceSource === "none"` on every live row, so R1 can never silently become false.
+Two tests exist to stop a claim decaying silently rather than to check a number:
+`evidenceSource === "none"` on all 1,604 rows, so **R1 cannot quietly stop being true**;
+and zero `LOGIC` rows, so R1 holds as a property of the classifier rather than as a
+caption.
+
+One more worth keeping: a test asserts that pooling round 1 into the reflection-harm
+test *weakens* it. Round 1 is where reflection wins (90% vs 75%), so a test over all four
+rounds averages the help against the harm and reports less. Excluding round 1 is the
+finding, not a convenience, and now it is a test.
 
 ### Phase 3 — screen 6, the instrument · 2 days
 

@@ -1,0 +1,390 @@
+{
+  "alpha": 0.05,
+  "targetPower": 0.8,
+  "minDiscordant": 6,
+  "rates": {
+    "failureRate": 0.4,
+    "logicShare": 0.5,
+    "logicRate": 0.2,
+    "formatRate": 0.2,
+    "evaluableShare": 0.875,
+    "source": {
+      "failures": 8,
+      "tasks": 20,
+      "logic": 4,
+      "format": 4,
+      "evaluable": 7
+    }
+  },
+  "curve": [
+    {
+      "n": 10,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.00013449527527962664
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.0012032624921083312
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.004979217693554706
+        }
+      ]
+    },
+    {
+      "n": 20,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.008349595199197937
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.043037531259372375
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.09501379782708108
+        }
+      ]
+    },
+    {
+      "n": 30,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.04554764218699313
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.15284576295611324
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.23540910031859313
+        }
+      ]
+    },
+    {
+      "n": 40,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.11318350004131075
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.28175236114555
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.3637055421266892
+        }
+      ]
+    },
+    {
+      "n": 60,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.2809990126972978
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.5035661269617828
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.5808549092029038
+        }
+      ]
+    },
+    {
+      "n": 90,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.502257016544369
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.7390006188666007
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.7916666922496174
+        }
+      ]
+    },
+    {
+      "n": 120,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.670677219667776
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.8708545152021443
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.9035135562764139
+        }
+      ]
+    },
+    {
+      "n": 150,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.7915379039986395
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.9380314120401725
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.9600627076676428
+        }
+      ]
+    },
+    {
+      "n": 200,
+      "alpha": 0.05,
+      "power": [
+        {
+          "label": "small",
+          "pOnlyA": 0.1,
+          "pOnlyB": 0.02,
+          "power": 0.9050135362389073
+        },
+        {
+          "label": "medium",
+          "pOnlyA": 0.15,
+          "pOnlyB": 0.03,
+          "power": 0.9843016634822496
+        },
+        {
+          "label": "large",
+          "pOnlyA": 0.2,
+          "pOnlyB": 0.05,
+          "power": 0.9919813927527373
+        }
+      ]
+    }
+  ],
+  "requirement": [
+    {
+      "label": "small",
+      "pOnlyA": 0.1,
+      "pOnlyB": 0.02,
+      "nPairs": 153,
+      "tasksForH1": 765
+    },
+    {
+      "label": "medium",
+      "pOnlyA": 0.15,
+      "pOnlyB": 0.03,
+      "nPairs": 102,
+      "tasksForH1": 510
+    },
+    {
+      "label": "large",
+      "pOnlyA": 0.2,
+      "pOnlyB": 0.05,
+      "nPairs": 92,
+      "tasksForH1": 460
+    }
+  ],
+  "pilot": {
+    "logicPool": 4,
+    "minDiscordant": 6,
+    "couldEverReject": false,
+    "bestAttainableP": 0.125
+  },
+  "subTest": {
+    "dist": {
+      "n": 300,
+      "min": 1,
+      "median": 1,
+      "q75": 2,
+      "q90": 3,
+      "max": 355,
+      "mean": 3.466666666666667,
+      "buckets": [
+        {
+          "label": "exactly 1",
+          "count": 192,
+          "share": 0.64
+        },
+        {
+          "label": "2",
+          "count": 74,
+          "share": 0.24666666666666667
+        },
+        {
+          "label": "3-5",
+          "count": 21,
+          "share": 0.07
+        },
+        {
+          "label": "6-9",
+          "count": 5,
+          "share": 0.016666666666666666
+        },
+        {
+          "label": "10 or more",
+          "count": 8,
+          "share": 0.02666666666666667
+        }
+      ],
+      "singleTest": 192,
+      "multiTest": 108,
+      "atLeastSix": 13
+    },
+    "diffs": [
+      {
+        "taskId": "astropy__astropy-7746",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 1,
+        "diff": 0
+      },
+      {
+        "taskId": "astropy__astropy-7746",
+        "round": 2,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 1,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11019",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 6,
+        "f2pB": 6,
+        "f2pTotal": 16,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11019",
+        "round": 2,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 6,
+        "f2pB": 6,
+        "f2pTotal": 16,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11283",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 1,
+        "diff": 0
+      },
+      {
+        "taskId": "django__django-11564",
+        "round": 1,
+        "strategyA": "l1_blind_retry",
+        "strategyB": "l2_5_diagnose_revise",
+        "f2pA": 0,
+        "f2pB": 0,
+        "f2pTotal": 2,
+        "diff": 0
+      }
+    ],
+    "informative": 0,
+    "floor": 6,
+    "helps": false,
+    "p2pAvailability": 0.98,
+    "p2pMedian": 44,
+    "observedRegressions": [
+      {
+        "taskId": "django__django-11019",
+        "strategy": "l0_baseline",
+        "round": 0,
+        "broken": 33,
+        "p2pTotal": 58
+      },
+      {
+        "taskId": "django__django-11283",
+        "strategy": "l2_5_diagnose_revise",
+        "round": 1,
+        "broken": 8,
+        "p2pTotal": 8
+      }
+    ]
+  }
+}
