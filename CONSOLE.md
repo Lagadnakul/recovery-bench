@@ -414,26 +414,62 @@ that proves both fonts and tabular figures render.
 `bun run build`, output `out`. Confirm a deploy of the placeholder *before* writing
 screens — do not discover a deploy problem on 12 November.
 
-### Phase 1 — tokens and primitives · 1 day
+### Phase 1 — tokens and primitives · DONE 26 October
 
-`app/globals.css` with the `@theme` block from §4. Then the primitives, and **only**
-these:
+`src/app/globals.css` holds the `@theme` block from §4. Seven primitives in
+`src/components/primitives/`, and **only** these:
 
 ```
-Panel          surface + 1px rule + 6px radius. No shadow by default
-Figure         mono, tabular, right-aligned. The only way a number is rendered
-Rule           a hairline that carries a value (scale, baseline, divider)
-Finding        the sentence under a screen title
-Note           an R1/R2/R3 statement. Visually quiet, never dismissible
-Slider         G, r, h — label, value in mono, track with real tick values
-ClassMark      FORMAT solid / LOGIC hatched. One component, one source of truth
+Panel          surface + 1px rule + 6px radius. No shadow. PanelEmpty keeps the frame
+Figure         mono, tabular. The only way a number is rendered. null -> grey dash
+Rule           a hairline that CARRIES A VALUE (scale, baseline, floor, threshold)
+Finding        the screen's conclusion, in prose, under the title
+Note           an R1/R2/R3 statement. No dismiss control, ever. + Illustrative
+Slider         G, r, h on Radix. Label, live value in mono, ticks with real values
+ClassMark      four classes by value + texture. classFill() / ClassMarkDefs
 ```
 
-Write `scripts/contrast.ts` — every token pair, light, fails the build under AA. Copy the
-approach from `kuotivo-dashboard`.
+`src/app/primitives/` renders all seven with real sweep values. It stays in the app: when
+a screen looks wrong later, the question is whether the primitive or the usage is wrong,
+and that is only answerable if the primitives are visible on their own.
 
-**Acceptance:** `bun run contrast` green. A primitives page renders all seven. No screen
-code yet.
+#### The contrast gate caught four defects in the tokens as designed
+
+`scripts/contrast.ts` parses the `--color-*` tokens **out of `globals.css` itself** rather
+than a duplicated list, converts OKLCH to linear sRGB, and asserts 20 pairs plus an sRGB
+gamut check. It is not decoration — on first run it failed four of my own values:
+
+| Token | As designed | Measured | Fix |
+|---|---|---|---|
+| `measure` | `oklch(44% 0.17 232)` | **outside sRGB** | chroma **0.088**. The gamut boundary at L=44%, h=232 is 0.0910, computed. Above it the browser silently clips to a different colour than the file states |
+| `rule-strong` | `84%` | 1.58:1, need 3 | **64%**. It is the boundary of a *control*, which WCAG 1.4.11 does not treat as decorative |
+| `class-format` | `72%` | 2.37:1, need 3 | **63%**. A filled mark that carries data must be visible on its own; a mark you cannot see is not a lighter mark |
+| `class-logic` | `38%` | passed | **33%**, to hold separation after FORMAT darkened |
+
+The `rule` / `rule-strong` split is the durable lesson: **a divider is decorative and
+exempt, a control boundary is not.** Using `rule` on an input border is the mistake the
+two tokens exist to prevent.
+
+The gate also checks **greyscale separation** of the two classes as a luminance
+difference, not a contrast ratio — a printer sees the former. 0.220 against a 0.18 floor.
+
+#### Three more traps
+
+1. **`@theme` accepts only custom properties and `@keyframes`.** A malformed comment
+   inside the block is not reported as a comment error — Tailwind reports *"`@theme` blocks
+   must only contain custom properties"* and points at the next declaration, which sends
+   you looking at the wrong line.
+2. **`tsc --noEmit` fails on a clean tree.** `LayoutProps` and `PageProps` are generated
+   into `.next/types` by the build, so typechecking must run **after** `next typegen`.
+   The `typecheck` script does that; running bare `tsc` after `rm -rf .next` does not.
+3. **`import.meta.dir` is Bun-only** and fails under `tsc`. `fileURLToPath(new
+   URL(..., import.meta.url))` works in both.
+
+**Gates:** `bun run check` = contrast, then `next typegen && tsc --noEmit`, then
+`next build`. All green. Verified in the built CSS rather than assumed: every token
+present, `body` resolving to `--color-canvas`, `prefers-reduced-motion` honoured,
+`focus-visible` present, and **zero `prefers-color-scheme` rules** — the light-only
+decision holds in the output.
 
 ### Phase 2 — the data layer · 1 day
 

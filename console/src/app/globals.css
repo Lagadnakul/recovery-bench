@@ -2,129 +2,176 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Light only, and this variant is what enforces it.
+ *
+ * Do not delete it. Tailwind v4's built-in `dark:` is a prefers-color-scheme
+ * media query, so removing this override would make every `dark:` class in a
+ * shadcn component fire on a viewer whose OS is in dark mode -- against a
+ * palette that has no dark values. Redefining the variant as `.dark *` makes
+ * `dark:` opt-in via a class this app never sets, which is how a light-only
+ * design stays light-only. The `.dark` block itself is gone; it was dead.
+ *
+ * Light-only is a decision, not a shortcut. The figures are printed in a
+ * journal, and a design that survives greyscale is the one that survives print.
+ */
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  /* ─────────────────────────────────────────────── type
+   * Two families, sharply distinct in role. A number is never set in the sans:
+   * any digit a reader might compare to another digit is mono and tabular.
+   * This one rule does most of the typographic work on a screen that is almost
+   * entirely numbers.
+   */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --font-heading: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: 1.75rem;
+  --text-display--line-height: 2.125rem;
+  --text-display--font-weight: 600;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: 1.3125rem;
+  --text-h1--line-height: 1.75rem;
+  --text-h1--font-weight: 600;
+  --text-h1--letter-spacing: -0.015em;
+
+  --text-h2: 1.0625rem;
+  --text-h2--line-height: 1.4375rem;
+  --text-h2--font-weight: 600;
+  --text-h2--letter-spacing: -0.01em;
+
+  /* 14px on 22px is 1.57 -- inside the 1.5-1.75 that body prose wants. */
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.375rem;
+
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.25rem;
+
+  /* Rail labels and table headers. Narrowed via the wdth axis rather than
+   * tracked-out uppercase, which is the generic tell this project avoids. */
+  --text-label: 0.6875rem;
+  --text-label--line-height: 0.875rem;
+  --text-label--font-weight: 500;
+
+  /* ─────────────────────────────────────────────── colour
+   * One accent. It marks measured values and nothing else; all chrome is
+   * greyscale and means nothing, which is exactly why the accent reads as loud.
+   * Every pair below is checked by scripts/contrast.ts, which fails the build.
+   */
+  --color-canvas: oklch(98.8% 0.003 85);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-sunk: oklch(97.3% 0.003 85);
+
+  /* Two rules, two jobs, and the difference is an accessibility rule rather
+   * than a preference. `rule` is a divider: decorative, exempt from WCAG
+   * 1.4.11, free to be a true hairline. `rule-strong` is the *boundary of a
+   * control* -- an input, a slider track -- which 1.4.11 requires to reach 3:1,
+   * so it is far darker than a divider wants to be. Using `rule` on an input
+   * border is the mistake this split exists to prevent. */
+  --color-rule: oklch(91% 0.004 85);
+  --color-rule-strong: oklch(64% 0.008 85);
+
+  --color-ink: oklch(19% 0.012 260);
+  --color-ink-muted: oklch(44.5% 0.014 260);
+
+  /* Chroma 0.088, not the 0.17 this started at. The sRGB gamut boundary at
+   * L=44%, hue 232 is chroma 0.0910 (computed, not guessed), so anything above
+   * that is a colour the browser silently clips to something else -- the token
+   * would no longer be the colour the file says it is. The accent is therefore
+   * a muted steel blue rather than a saturated one, which suits an instrument
+   * better than the original would have. */
+  --color-measure: oklch(44% 0.088 232);
+  --color-measure-wash: oklch(95.5% 0.025 232);
+
+  /* The two failure classes cannot be two hues -- they have to separate in
+   * greyscale, in print. So they separate by VALUE, and the mark adds texture:
+   * FORMAT solid, LOGIC hatched at 45 degrees. The hatch carries meaning --
+   * something underneath did not work. See ClassMark.
+   *
+   * Both are filled marks that carry data, so both must clear 3:1 against the
+   * canvas on their own -- a mark you cannot see is not a lighter mark. The
+   * first attempt had FORMAT at 72% lightness, which looked right on screen and
+   * measured 2.37:1. */
+  --color-class-format: oklch(63% 0.075 232);
+  --color-class-logic: oklch(33% 0.05 262);
+
+  /* ─────────────────────────────────────────────── radii
+   * A data mark with a rounded corner is a lie about precision, so plotted
+   * marks get 0. Controls and panels get just enough to not look unfinished.
+   */
+  --radius-control: 4px;
+  --radius-panel: 6px;
+
+  /* ─────────────────────────────────────────────── motion
+   * Three moments in the whole console. These are their durations.
+   */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Repoint shadcn's semantic variables at the tokens above, so any component
+ * added with `shadcn add` inherits this palette instead of fighting it. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-instrument-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-instrument-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
-
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --color-background: var(--color-canvas);
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-ink);
+  --color-popover: var(--color-surface);
+  --color-popover-foreground: var(--color-ink);
+  --color-primary: var(--color-measure);
+  --color-primary-foreground: var(--color-surface);
+  --color-secondary: var(--color-surface-sunk);
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted: var(--color-surface-sunk);
+  --color-muted-foreground: var(--color-ink-muted);
+  --color-accent: var(--color-measure-wash);
+  --color-accent-foreground: var(--color-measure);
+  --color-destructive: oklch(52% 0.19 25);
+  --color-border: var(--color-rule);
+  --color-input: var(--color-rule-strong);
+  --color-ring: var(--color-measure);
+  --radius-sm: var(--radius-control);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-panel);
+  --radius-xl: var(--radius-panel);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/60;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+
   html {
     @apply font-sans;
+    /* Instrument Sans ships a wdth axis; 100% is its default and is stated
+     * explicitly so a narrowed child can return to it. */
+    font-variation-settings: "wdth" 100;
+  }
+
+  body {
+    @apply bg-canvas text-ink text-body;
+  }
+
+  /* Every figure in this app is tabular. Belt and braces alongside the Figure
+   * component, so a raw number in a table cell still lines up. */
+  :is(table, [data-figures]) :is(td, th) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* A keyboard user must always see where they are. */
+  :focus-visible {
+    @apply outline-ring outline-2 outline-offset-2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
