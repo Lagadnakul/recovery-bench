@@ -1,6 +1,12 @@
 import { Overview, type OverviewData } from "@/components/screens/Overview";
-import { loadRows, loadProvenance, ARM_LABEL, ARM_QUESTION } from "@/model/rows";
-import { armSummary, holes, totals } from "@/model/derive";
+import {
+  loadRows,
+  loadProvenance,
+  ARM_LABEL,
+  ARM_QUESTION,
+  STRATEGY_LABEL,
+} from "@/model/rows";
+import { armSummary, holes, refusalKind, totals } from "@/model/derive";
 
 /**
  * Server component. Replaces the Phase 0 placeholder, which hardcoded the five
@@ -43,6 +49,27 @@ export default function Page() {
         calls: a.calls,
         maxRound: a.maxRound,
       })),
+    // The third designed condition. Every figure counted from the rows, so if
+    // a future run ever collects the evidence this needs, the panel stops
+    // saying "never ran" on its own.
+    thirdStrategy: (() => {
+      const scope = rows.filter(
+        (r) => r.cell.strategy === "l2_5_diagnose_revise",
+      );
+      const blocks = [...new Set(scope.map((r) => r.arm))].map((arm) => ({
+        label: ARM_LABEL[arm],
+        rows: scope.filter((r) => r.arm === arm).length,
+      }));
+      return {
+        label: STRATEGY_LABEL.l2_5_diagnose_revise,
+        rows: scope.length,
+        calls: scope.filter((r) => r.usage).length,
+        applied: scope.filter((r) => r.outcome.kind === "APPLIED").length,
+        starved: scope.filter((r) => refusalKind(r) === "STARVED").length,
+        cascade: scope.filter((r) => refusalKind(r) === "CASCADE").length,
+        blocks: blocks.sort((a, b) => b.rows - a.rows),
+      };
+    })(),
     provenance: (() => {
       const p = loadProvenance();
       return { commit: p.commit, rows: p.rows };

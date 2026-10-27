@@ -29,6 +29,8 @@ export type GateData = {
   notApplied: number;
   /** Attempts whose fix was ever actually tested. It is zero, and that is act 2. */
   tested: number;
+  /** The third retry strategy, which the same closed gate starved. */
+  starvedStrategy: { label: string; rows: number };
 };
 
 const W = 840;
@@ -218,7 +220,13 @@ export function GateScene({ data }: { data: GateData }) {
           A patch that applies neatly and fixes nothing counts here as a
           success.
         </p>
-        <p data-gate="step-4" className="text-ink-muted text-small">
+        <p data-gate="step-5" className="text-ink text-body">
+          It cost more than that. One of the three retry strategies —{" "}
+          <strong>{data.starvedStrategy.label}</strong> — needed that same real
+          error to work from. It was attempted{" "}
+          {data.starvedStrategy.rows} times and never ran once.
+        </p>
+        <p data-gate="step-5" className="text-ink-muted text-small">
           This is why the console never says a bug was <em>resolved</em>, and
           why the stopping rule on a later screen rests on 31 older trials
           instead of these {data.attempts.toLocaleString("en-US")}.
@@ -288,5 +296,10 @@ export const buildGate: BuildScene = (tl, scope) => {
   tl.fromTo(q2, { opacity: 0 }, { opacity: 1, duration: 0.35 })
     .to(acceptedBar, { scaleX: 1.06, duration: 0.25, ease: "power2.in" }, "<")
     .to(acceptedBar, { scaleX: 1, duration: 0.5, ease: "elastic.out(1, 0.5)" })
-    .fromTo(step(4), { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.12 }, "<-=0.2");
+    .fromTo(step(4), { opacity: 0 }, { opacity: 1, duration: 0.4 }, "<-=0.2");
+
+  // The same closed gate took a whole condition with it. Held back as its own
+  // step, because it is a second consequence and reads as one.
+  tl.addLabel("and-it-cost-a-strategy");
+  tl.fromTo(step(5), { opacity: 0 }, { opacity: 1, duration: 0.4, stagger: 0.14 });
 };

@@ -66,6 +66,20 @@ export type OverviewData = {
     calls: number;
     maxRound: number;
   }[];
+  /**
+   * The condition that was designed, ran 104 times, and produced nothing. It
+   * had no place on any screen until now, which made a third of the
+   * experimental design invisible.
+   */
+  thirdStrategy: {
+    label: string;
+    rows: number;
+    calls: number;
+    applied: number;
+    starved: number;
+    cascade: number;
+    blocks: { label: string; rows: number }[];
+  };
   provenance: { commit: string | null; rows: number };
 };
 
@@ -263,6 +277,64 @@ export function Overview({ data }: { data: OverviewData }) {
           </table>
         </div>
         )}
+      </Panel>
+
+      <Panel
+        className="mt-4"
+        title="The strategy that never ran"
+        aside={`${data.thirdStrategy.rows} attempts · ${data.thirdStrategy.calls} calls`}
+      >
+        <Plain>
+          The study designed <strong>three</strong> ways of retrying, not two.
+          The third — <strong>{data.thirdStrategy.label}</strong> — was to show
+          the model the real error its patch produced and ask it to diagnose
+          from that, rather than guess.
+        </Plain>
+        <Plain className="mt-3">
+          <strong>
+            It was attempted {data.thirdStrategy.rows} times and not one
+            attempt ever reached a model.
+          </strong>{" "}
+          Seeing the real error means running the project&rsquo;s tests, and
+          that is the same thing the run could not do. With no evidence to
+          diagnose from, the harness refused the call.
+        </Plain>
+
+        <div className="border-rule mt-4 flex flex-col gap-2 border-t pt-3">
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="text-ink text-small">
+              Refused — no real error to diagnose from
+            </span>
+            <Figure value={data.thirdStrategy.starved} className="text-small" />
+          </div>
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="text-ink text-small">
+              Refused — no earlier attempt existed to diagnose
+            </span>
+            <Figure value={data.thirdStrategy.cascade} className="text-small" />
+          </div>
+          <div className="border-rule flex items-baseline justify-between gap-3 border-t pt-2">
+            <span className="text-ink-muted text-small">
+              Patches produced
+            </span>
+            <Figure
+              value={data.thirdStrategy.applied}
+              className="text-small"
+            />
+          </div>
+        </div>
+
+        <Note className="mt-4">
+          <strong>Refusing was the right call.</strong> Running this condition
+          without the real error would have made it identical to simply showing
+          the model its own last attempt — the second strategy — while still
+          being reported as a third. The harness recorded a refusal instead of
+          producing data that looked like a third condition and was not.
+        </Note>
+
+        <Receipt>
+          attempted in {data.thirdStrategy.blocks.map((b) => `${b.label} (${b.rows})`).join(", ")}
+        </Receipt>
       </Panel>
 
       <section className="mt-10 flex max-w-prose flex-col gap-3">

@@ -1,5 +1,5 @@
 import { HowItWorks, type HowItWorksData } from "@/components/screens/HowItWorks";
-import { loadRows } from "@/model/rows";
+import { loadRows, STRATEGY_LABEL } from "@/model/rows";
 import {
   applyRateByFormat,
   malformedByReason,
@@ -54,6 +54,12 @@ export default function Page() {
         // so this counts to zero from the data rather than being typed in as a
         // zero that a later run could silently falsify.
         tested: rows.filter((r) => r.verification !== "apply").length,
+        starvedStrategy: {
+          label: STRATEGY_LABEL.l2_5_diagnose_revise,
+          rows: rows.filter(
+            (r) => r.cell.strategy === "l2_5_diagnose_revise",
+          ).length,
+        },
       };
     })(),
     format: (() => {
