@@ -196,6 +196,81 @@ export default function Page() {
         })),
       };
     })(),
+    needs: (() => {
+      const run = loadCcos();
+      const { G, r, h } = run.payoffs;
+      const byClass = (cls: string) => run.policy.find((p) => p.cls === cls)!;
+      const fmt = byClass("FORMAT");
+      const logic = byClass("LOGIC");
+      const priorOnly = run.policy.filter((p) => p.priorOnly);
+      const trials = run.observations.reduce((n, o) => n + o.trials, 0);
+
+      const items = [
+        {
+          key: "p-format",
+          label: "Chance a retry works — formatting slips",
+          detail: `${fmt.successes} worked of ${fmt.trials} tried`,
+          state: "measured" as const,
+          status: `measured · ${fmt.trials} trials`,
+        },
+        {
+          key: "p-logic",
+          label: "Chance a retry works — wrong ideas",
+          detail: `${logic.successes} worked of ${logic.trials} tried`,
+          state: "measured" as const,
+          status: `measured · ${logic.trials} trials`,
+        },
+        {
+          key: "p-prior",
+          label: `Chance a retry works — the other ${priorOnly.length} kinds`,
+          detail: priorOnly
+            .map((p) => p.cls.toLowerCase())
+            .join(" and "),
+          state: "none" as const,
+          status: "no evidence · 0 trials",
+        },
+        {
+          key: "q",
+          label: "How often a person succeeds instead",
+          detail: `assumed ${byClass("FORMAT").q} and ${byClass("LOGIC").q}; never measured`,
+          state: "assumed" as const,
+          status: "chosen, not measured",
+        },
+        {
+          key: "payoffs",
+          label: "What a fix is worth, and what each option costs",
+          detail: `set to ${G}, ${r} and ${h}`,
+          state: "assumed" as const,
+          status: "chosen, not measured",
+        },
+        {
+          key: "lambda",
+          label: "How fast the chance fades with each try",
+          detail: `fitted at ${run.lambda.estimate}, but the range reaches ${run.lambda.interval.hi}`,
+          state: "inconclusive" as const,
+          status: `inconclusive · ran at ${run.lambda.used}`,
+        },
+        {
+          key: "survivorship",
+          label: "What retrying after a success does",
+          detail: `${run.survivorship.successes} succeeded, ${run.survivorship.retriedAfterSuccess} were tried again`,
+          state: "none" as const,
+          status: "never observed",
+        },
+      ];
+
+      return {
+        items,
+        measured: items.filter((i) => i.state === "measured").length,
+        trials,
+        lambda: {
+          estimate: run.lambda.estimate,
+          lo: run.lambda.interval.lo,
+          hi: run.lambda.interval.hi,
+          used: run.lambda.used,
+        },
+      };
+    })(),
   };
 
   return <HowItWorks data={data} />;

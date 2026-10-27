@@ -1051,8 +1051,8 @@ bun run build           # writes out/ — there is no separate export command
 | λ corrected in `BUILD.md` | **done** |
 | Vercel production deploy, URL recorded in `README.md` | **PENDING** — needs Aayush |
 | Zenodo archive for the DOI | **PENDING** — blocked on repo ownership |
-| A 90-second viva demo script | **PENDING** |
-| A visual explainer of the method | **PENDING** — under consideration, see below |
+| A 90-second viva demo script | **done** — the explainer is it |
+| A visual explainer of the method | **done** — six acts at `/how-it-works` |
 
 **The deploy needs one thing `vercel.json` cannot set:** in the dashboard, **Root
 Directory → `console`**. Without it Vercel builds from the repo root, finds no Next app
@@ -1078,6 +1078,85 @@ context rot exists at all"* and returns `null` unless decay is genuinely exclude
 `BUILD.md` carried it unqualified.
 
 ---
+
+### Phase 8 — the explainer · 1 day — **DONE**
+
+A seventh screen at `/how-it-works`, first in the rail and unnumbered, for the reader who
+does not yet know what to ask. Six acts, each one a scene that plays itself:
+
+| Act | What it shows |
+|---|---|
+| 1 An agent that never stops | the problem: retries cost real tokens and nothing says stop |
+| 2 The question nobody asked | 718 attempts hit a barrier labelled *did the fix actually work? never asked* |
+| 3 How you ask decides what you get | 96.4% against 13.1%, from one word in the prompt |
+| 4 Thinking about the mistake makes it worse | the two lines crossing, and why |
+| 5 When should it stop? | a dot, a line, and every shipping agent as that rule at an extreme |
+| 6 What it still needs | the ledger: **2 of 7** quantities measured |
+
+**It replaces the 90-second viva demo script.** Scrolling it end to end *is* the demo:
+the argument runs in order, the presenter talks instead of scrolling, and the numbered
+buttons jump straight to a step when an examiner asks about one.
+
+#### Played, not scrolled — and that was a correction
+
+Built scroll-driven first, with pinned scenes scrubbed to scroll position. Wrong for the
+job: in a viva the presenter is talking, and an examiner across a desk cannot drive the
+page. Replacing scroll with a play button also deleted the whole pin-versus-sticky-rail
+risk, which was the thing the architecture had been most worried about.
+
+Nothing autoplays. WCAG 2.2.2 wants a stop control on anything auto-playing past five
+seconds; an explicit play button satisfies that by construction, and the scene stays
+still and readable until someone wants it to move.
+
+#### Two bugs in the player, both the same shape
+
+- **`settle()` then `tl.set()` at position 0.** A paused timeline never renders its first
+  frame, so the set never applied and every act opened fully revealed. Content is now
+  visible in the markup by default and `fromTo`'s immediate render hides it at build
+  time — which also makes the no-JavaScript and reduced-motion states correct rather
+  than blank.
+- **`onUpdate` wired in the constructor.** GSAP renders tweens as they are created, so it
+  fired during construction and the player reported the last step before anyone pressed
+  anything. Callbacks attach after the rewind now.
+
+#### The drawings are proportional, never rounded
+
+Every figure is derived, and so is every length. Act 2's bands are 77.9px and 96.1px on
+one 180px span — ratio 0.8104 against the real 718/886 = 0.8104, with the gap taken
+*out* of the span so both share one scale. Act 3's bars are 414.5px and 56.1px on one
+430px track, 7.3830 against the real 7.3830. Act 5's line animates to thresholds carried
+on the element as data attributes, so the position it moves to and the figure the prose
+quotes are the same derived number.
+
+The alternative everyone reaches for — one square per ten attempts — would have meant
+160 squares standing for 1,604 and 71.8 rounding to 72.
+
+#### Layout traps specific to SVG
+
+**`<text>` does not wrap.** A two-sentence class description ran straight across act 5's
+plot and under both lanes. There is now an **anchor-aware overflow check** —
+`textAnchor` decides which edge the text grows from, so centred and end-anchored strings
+are not falsely flagged — and it caught two more lines in act 2 after the type was
+raised a step throughout.
+
+**GSAP writes its own SVG transforms** and ignores the CSS `transform-origin`, so act 2's
+bands would have grown outwards from their centres. Origins go on the tween.
+
+#### Reduced motion removes the player, not just the motion
+
+A sequence whose content *is* movement has nothing to soften, so under
+`prefers-reduced-motion` the scene renders complete and still and the controls are
+replaced by a line saying why. Doing nothing is the correct static state, because the
+content is visible in the markup by default.
+
+The global `prefers-reduced-motion` rule in `globals.css` does **not** cover this: it
+neutralises CSS animation, and GSAP writes inline styles from JavaScript. The gate is
+`gsap.matchMedia()`.
+
+#### Cost
+
+`gsap` + `@gsap/react` is ~130 KB and loads on this route only — verified, the chunk is
+referenced by exactly one page. Every other screen is unchanged at 341 KB eager.
 
 ## 7. Decisions
 

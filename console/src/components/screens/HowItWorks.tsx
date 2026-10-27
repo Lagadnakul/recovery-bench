@@ -26,6 +26,11 @@ import {
   buildRule,
   type RuleData,
 } from "@/components/explain/scenes/Rule";
+import {
+  NeedsScene,
+  buildNeeds,
+  type NeedsData,
+} from "@/components/explain/scenes/Needs";
 import { Shell } from "@/components/shell/Rail";
 
 /**
@@ -44,6 +49,7 @@ export type HowItWorksData = {
   format: FormatData;
   collapse: CollapseActData;
   rule: RuleData;
+  needs: NeedsData;
 };
 
 export function HowItWorks({ data }: { data: HowItWorksData }) {
@@ -106,11 +112,22 @@ export function HowItWorks({ data }: { data: HowItWorksData }) {
       >
         <RuleScene data={data.rule} />
       </Act>
+
+      <Act
+        id="act-needs"
+        title="What it still needs"
+        lede="The explainer ends on the limitations, not a victory lap. An examiner's first question after act 5 is what the rule actually rests on — so it is answered here, unprompted."
+        build={buildNeeds}
+      >
+        <NeedsScene data={data.needs} />
+      </Act>
       </div>
 
       <section className="border-rule mt-10 border-t pt-6">
-        <p className="text-ink-muted max-w-prose text-small">
-          Act 6 is next: what the rule still needs before it is a result.
+        <p className="text-ink max-w-prose text-body">
+          That is the whole study. The other six screens hold the data behind
+          every number here — start with <strong>Overview</strong> for what was
+          measured, or <strong>Cells</strong> to check any figure yourself.
         </p>
       </section>
     </Shell>
