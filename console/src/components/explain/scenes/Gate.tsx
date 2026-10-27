@@ -72,7 +72,7 @@ export function GateScene({ data }: { data: GateData }) {
               fill="var(--color-class-format)"
             />
           ))}
-          <text x={8} y={TOP + 2} className="fill-ink text-[12px]">
+          <text x={8} y={TOP + 2} className="fill-ink text-[14px]">
             {data.tasks} real bugs
           </text>
         </g>
@@ -88,20 +88,20 @@ export function GateScene({ data }: { data: GateData }) {
             fill="var(--color-measure-wash)"
             stroke="var(--color-measure)"
           />
-          <text x={150} y={TOP + 2} className="fill-ink text-[12px]">
+          <text x={150} y={TOP + 2} className="fill-ink text-[14px]">
             {data.attempts.toLocaleString("en-US")} attempts
           </text>
         </g>
 
         {/* ── question 1: an open gate ────────────────────────────────── */}
         <g data-gate="q1">
-          <text x={246} y={TOP + 2} className="fill-ink text-[12px]">
+          <text x={246} y={TOP + 2} className="fill-ink text-[14px]">
             Did the patch apply?
           </text>
           <text
             x={246}
             y={TOP + SPAN + 30}
-            className="fill-ink-muted text-[11px]"
+            className="fill-ink-muted text-[13px]"
           >
             asked every time
           </text>
@@ -136,7 +136,7 @@ export function GateScene({ data }: { data: GateData }) {
             height={appliedH}
             fill="var(--color-measure)"
           />
-          <text x={336} y={TOP + 10 + appliedH / 2 + 4} className="fill-surface text-[12px]">
+          <text x={336} y={TOP + 10 + appliedH / 2 + 4} className="fill-surface text-[14px]">
             {data.applied} accepted
           </text>
         </g>
@@ -154,7 +154,7 @@ export function GateScene({ data }: { data: GateData }) {
           <text
             x={336}
             y={TOP + 10 + appliedH + GAP + rejectedH / 2 + 4}
-            className="fill-ink-muted text-[12px]"
+            className="fill-ink-muted text-[14px]"
           >
             {data.notApplied} not accepted
           </text>
@@ -171,17 +171,22 @@ export function GateScene({ data }: { data: GateData }) {
             height={SPAN + 32}
             fill="var(--color-ink)"
           />
-          <text x={614} y={TOP + 2} className="fill-ink text-[12px]">
+          <text x={614} y={TOP + 2} className="fill-ink text-[14px]">
             Did the fix actually work?
           </text>
-          <text x={614} y={TOP + 22} className="fill-ink text-[12px]">
+          <text x={614} y={TOP + 22} className="fill-ink text-[14px]">
             Never asked.
           </text>
-          <text x={614} y={TOP + 48} className="fill-ink-muted text-[11px]">
-            Running the project&rsquo;s tests needed
+          {/* SVG text does not wrap, so the reason is hand-broken to fit the
+              226px between the barrier and the viewBox edge. */}
+          <text x={614} y={TOP + 48} className="fill-ink-muted text-[13px]">
+            Testing the fix needed a
           </text>
-          <text x={614} y={TOP + 63} className="fill-ink-muted text-[11px]">
-            a container the run could not reach.
+          <text x={614} y={TOP + 65} className="fill-ink-muted text-[13px]">
+            container the run could
+          </text>
+          <text x={614} y={TOP + 82} className="fill-ink-muted text-[13px]">
+            not reach.
           </text>
 
           <text
@@ -191,7 +196,7 @@ export function GateScene({ data }: { data: GateData }) {
           >
             {data.tested}
           </text>
-          <text x={614} y={TOP + SPAN + 12} className="fill-ink-muted text-[11px]">
+          <text x={614} y={TOP + SPAN + 12} className="fill-ink-muted text-[13px]">
             attempts were ever tested
           </text>
         </g>

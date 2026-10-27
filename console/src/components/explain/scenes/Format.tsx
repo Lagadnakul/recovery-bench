@@ -58,14 +58,14 @@ export function FormatScene({ data }: { data: FormatData }) {
             stroke="var(--color-rule-strong)"
             shapeRendering="crispEdges"
           />
-          <text x={68} y={150} textAnchor="middle" className="fill-ink text-[12px]">
+          <text x={68} y={150} textAnchor="middle" className="fill-ink text-[14px]">
             one bug
           </text>
           <text
             x={68}
             y={167}
             textAnchor="middle"
-            className="fill-ink-muted text-[11px]"
+            className="fill-ink-muted text-[13px]"
           >
             one model
           </text>
@@ -89,19 +89,19 @@ export function FormatScene({ data }: { data: FormatData }) {
 
         {/* ── the two instructions ────────────────────────────────────── */}
         <g data-fmt="ask-a" opacity={0}>
-          <text x={206} y={62} className="fill-ink text-[12px]">
+          <text x={206} y={62} className="fill-ink text-[14px]">
             &ldquo;Quote the lines you want to change.&rdquo;
           </text>
-          <text x={206} y={78} className="fill-ink-muted text-[11px]">
+          <text x={206} y={78} className="fill-ink-muted text-[13px]">
             copy the old text, write the new text
           </text>
         </g>
 
         <g data-fmt="ask-b" opacity={0}>
-          <text x={206} y={220} className="fill-ink text-[12px]">
+          <text x={206} y={220} className="fill-ink text-[14px]">
             &ldquo;Write it the way Git does.&rdquo;
           </text>
-          <text x={206} y={236} className="fill-ink-muted text-[11px]">
+          <text x={206} y={236} className="fill-ink-muted text-[13px]">
             count the lines, and get the count right
           </text>
         </g>
@@ -128,11 +128,11 @@ export function FormatScene({ data }: { data: FormatData }) {
             x={BAR_X + TRACK * data.quote.rate - 10}
             y={111}
             textAnchor="end"
-            className="fill-surface font-mono text-[15px] tabular-nums"
+            className="fill-surface font-mono text-[17px] tabular-nums"
           >
             {pct(data.quote.rate)}
           </text>
-          <text x={BAR_X} y={138} className="fill-ink-muted text-[11px]">
+          <text x={BAR_X} y={138} className="fill-ink-muted text-[13px]">
             {data.quote.applied} of {data.quote.rows} patches accepted
           </text>
         </g>
@@ -157,11 +157,11 @@ export function FormatScene({ data }: { data: FormatData }) {
             data-fmt-pct-b
             x={BAR_X + TRACK * data.diff.rate + 10}
             y={269}
-            className="fill-ink font-mono text-[15px] tabular-nums"
+            className="fill-ink font-mono text-[17px] tabular-nums"
           >
             {pct(data.diff.rate)}
           </text>
-          <text x={BAR_X} y={296} className="fill-ink-muted text-[11px]">
+          <text x={BAR_X} y={296} className="fill-ink-muted text-[13px]">
             {data.diff.applied} of {data.diff.rows} patches accepted
           </text>
         </g>
@@ -198,7 +198,7 @@ export function FormatScene({ data }: { data: FormatData }) {
             x={(BAR_X + TRACK * data.diff.rate + BAR_X + TRACK * data.quote.rate) / 2}
             y={184}
             textAnchor="middle"
-            className="fill-measure text-[13px]"
+            className="fill-measure text-[15px]"
           >
             {data.ratio.toFixed(1)}× more often
           </text>
@@ -206,7 +206,7 @@ export function FormatScene({ data }: { data: FormatData }) {
             x={(BAR_X + TRACK * data.diff.rate + BAR_X + TRACK * data.quote.rate) / 2}
             y={206}
             textAnchor="middle"
-            className="fill-ink-muted text-[11px]"
+            className="fill-ink-muted text-[13px]"
           >
             and the only thing that changed was the question
           </text>

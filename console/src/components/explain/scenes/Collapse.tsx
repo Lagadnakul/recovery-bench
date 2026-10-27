@@ -87,13 +87,13 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
               strokeWidth={2}
               strokeDasharray="6 3"
             />
-            <text x={8} y={64} className="fill-ink text-[12px]">
+            <text x={8} y={64} className="fill-ink text-[14px]">
               Retry blind
             </text>
-            <text x={8} y={94} className="fill-ink-muted text-[11px]">
+            <text x={8} y={94} className="fill-ink-muted text-[13px]">
               &ldquo;That failed. Try again.&rdquo;
             </text>
-            <text x={8} y={109} className="fill-ink-muted text-[11px]">
+            <text x={8} y={109} className="fill-ink-muted text-[13px]">
               Nothing else is said.
             </text>
           </g>
@@ -107,16 +107,16 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
               stroke="var(--color-measure)"
               strokeWidth={2}
             />
-            <text x={8} y={150} className="fill-ink text-[12px]">
+            <text x={8} y={150} className="fill-ink text-[14px]">
               Reflect first
             </text>
-            <text x={8} y={180} className="fill-ink-muted text-[11px]">
+            <text x={8} y={180} className="fill-ink-muted text-[13px]">
               &ldquo;Explain why that failed,
             </text>
-            <text x={8} y={195} className="fill-ink-muted text-[11px]">
+            <text x={8} y={195} className="fill-ink-muted text-[13px]">
               then try again.&rdquo;
             </text>
-            <text x={8} y={216} className="fill-ink-muted text-[11px]">
+            <text x={8} y={216} className="fill-ink-muted text-[13px]">
               The popular advice.
             </text>
           </g>
@@ -137,13 +137,13 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
               x={PLOT.left - 8}
               y={y(rate) + 4}
               textAnchor="end"
-              className="fill-ink-muted font-mono text-[10px] tabular-nums"
+              className="fill-ink-muted font-mono text-[12px] tabular-nums"
             >
               {rate * 100}
             </text>
           </g>
         ))}
-        <text x={PLOT.left} y={28} className="fill-ink-muted text-[11px]">
+        <text x={PLOT.left} y={28} className="fill-ink-muted text-[13px]">
           out of every 100 patches, how many the repository accepted
         </text>
         {rounds.map((round) => (
@@ -152,7 +152,7 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
             x={x(round)}
             y={PLOT.bottom + 22}
             textAnchor="middle"
-            className="fill-ink-muted font-mono text-[10px] tabular-nums"
+            className="fill-ink-muted font-mono text-[12px] tabular-nums"
           >
             {round}
           </text>
@@ -161,7 +161,7 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
           x={(PLOT.left + PLOT.right) / 2}
           y={PLOT.bottom + 40}
           textAnchor="middle"
-          className="fill-ink-muted text-[11px]"
+          className="fill-ink-muted text-[13px]"
         >
           try number
         </text>
@@ -179,7 +179,7 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
             x={(x(rounds[0]!) + x(rounds[1]!)) / 2}
             y={PLOT.top - 12}
             textAnchor="middle"
-            className="fill-measure text-[12px]"
+            className="fill-measure text-[14px]"
           >
             it happens here
           </text>
@@ -232,14 +232,14 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
           <text
             x={x(rounds[0]!) + 8}
             y={y(data.reflect[0]!.rate) - 8}
-            className="fill-measure font-mono text-[12px] tabular-nums"
+            className="fill-measure font-mono text-[14px] tabular-nums"
           >
             {pct(data.reflect[0]!.rate)}
           </text>
           <text
             x={x(rounds[0]!) + 8}
             y={y(data.blind[0]!.rate) + 16}
-            className="fill-ink-muted font-mono text-[12px] tabular-nums"
+            className="fill-ink-muted font-mono text-[14px] tabular-nums"
           >
             {pct(data.blind[0]!.rate)}
           </text>
@@ -250,7 +250,7 @@ export function CollapseScene({ data }: { data: CollapseActData }) {
           <text
             x={x(rounds[1]!) + 8}
             y={y(data.reflect[1]!.rate) + 16}
-            className="fill-measure font-mono text-[12px] tabular-nums"
+            className="fill-measure font-mono text-[14px] tabular-nums"
           >
             {pct(data.reflect[1]!.rate)}
           </text>

@@ -56,14 +56,14 @@ export function LoopScene({ data }: { data: LoopData }) {
             stroke="var(--color-rule-strong)"
             shapeRendering="crispEdges"
           />
-          <text x={83} y={86} textAnchor="middle" className="fill-ink text-[13px]">
+          <text x={83} y={86} textAnchor="middle" className="fill-ink text-[15px]">
             AI agent
           </text>
           <text
             x={83}
             y={105}
             textAnchor="middle"
-            className="fill-ink-muted text-[11px]"
+            className="fill-ink-muted text-[13px]"
           >
             asked to fix a bug
           </text>
@@ -80,7 +80,7 @@ export function LoopScene({ data }: { data: LoopData }) {
             stroke="var(--color-rule-strong)"
             shapeRendering="crispEdges"
           />
-          <text x={737} y={74} textAnchor="middle" className="fill-ink text-[13px]">
+          <text x={737} y={74} textAnchor="middle" className="fill-ink text-[15px]">
             the broken code
           </text>
           {[88, 100, 112].map((y, i) => (
@@ -131,7 +131,7 @@ export function LoopScene({ data }: { data: LoopData }) {
           <text
             y={4}
             textAnchor="middle"
-            className="fill-measure text-[11px]"
+            className="fill-measure text-[13px]"
           >
             a fix
           </text>
@@ -143,7 +143,7 @@ export function LoopScene({ data }: { data: LoopData }) {
             x={737}
             y={160}
             textAnchor="middle"
-            className="fill-ink text-[12px]"
+            className="fill-ink text-[14px]"
           >
             still broken
           </text>
@@ -164,14 +164,14 @@ export function LoopScene({ data }: { data: LoopData }) {
               <text
                 x={8}
                 y={198 + i * ROW}
-                className="fill-ink-muted text-[12px]"
+                className="fill-ink-muted text-[14px]"
               >
                 Attempt {i + 1}
               </text>
               <text
                 x={150}
                 y={198 + i * ROW}
-                className="fill-ink font-mono text-[12px] tabular-nums"
+                className="fill-ink font-mono text-[14px] tabular-nums"
               >
                 {attempt.tokens === null
                   ? "–"
@@ -180,14 +180,14 @@ export function LoopScene({ data }: { data: LoopData }) {
               <text
                 x={222}
                 y={198 + i * ROW}
-                className="fill-ink-muted text-[12px]"
+                className="fill-ink-muted text-[14px]"
               >
                 tokens written
               </text>
               <text
                 x={400}
                 y={198 + i * ROW}
-                className="fill-ink-muted text-[12px]"
+                className="fill-ink-muted text-[14px]"
               >
                 still broken
               </text>

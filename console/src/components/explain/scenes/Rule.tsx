@@ -51,8 +51,8 @@ const W = 840;
 const H = 330;
 
 const PLOT = { left: 250, right: 770 };
-const LANE_A = 132;
-const LANE_B = 226;
+const LANE_A = 142;
+const LANE_B = 214;
 
 export function RuleScene({ data }: { data: RuleData }) {
   // The axis is a probability, so it is always 0 to 1. Thresholds outside that
@@ -71,13 +71,10 @@ export function RuleScene({ data }: { data: RuleData }) {
         stroke="var(--color-rule)"
         shapeRendering="crispEdges"
       />
-      <text x={8} y={y - 10} className="fill-ink text-[12px]">
+      <text x={8} y={y - 6} className="fill-ink text-[15px]">
         {cls.label}
       </text>
-      <text x={8} y={y + 6} className="fill-ink-muted text-[11px]">
-        {cls.plain}
-      </text>
-      <text x={8} y={y + 22} className="fill-ink-muted text-[11px]">
+      <text x={8} y={y + 14} className="fill-ink-muted text-[13px]">
         {cls.successes} worked of {cls.trials} tried
       </text>
     </g>
@@ -92,7 +89,7 @@ export function RuleScene({ data }: { data: RuleData }) {
         aria-label={`For ${data.lead.label}, one more try works about ${pct(data.lead.pHat)} of the time, and the break-even point sits at ${pct(data.lead.theta)}. Because the dot is below the line, the rule says ask a person.`}
       >
         {/* ── the axis: a probability, floor to ceiling ───────────────── */}
-        <text x={PLOT.left} y={46} className="fill-ink-muted text-[11px]">
+        <text x={PLOT.left} y={38} className="fill-ink-muted text-[13px]">
           how likely is one more try to work?
         </text>
         {[0, 0.25, 0.5, 0.75, 1].map((p) => (
@@ -100,16 +97,16 @@ export function RuleScene({ data }: { data: RuleData }) {
             <line
               x1={x(p)}
               x2={x(p)}
-              y1={56}
-              y2={268}
+              y1={54}
+              y2={258}
               stroke="var(--color-rule)"
               shapeRendering="crispEdges"
             />
             <text
               x={x(p)}
-              y={286}
+              y={296}
               textAnchor="middle"
-              className="fill-ink-muted font-mono text-[10px] tabular-nums"
+              className="fill-ink-muted font-mono text-[12px] tabular-nums"
             >
               {p * 100}
             </text>
@@ -121,36 +118,36 @@ export function RuleScene({ data }: { data: RuleData }) {
           <rect
             data-rule-ask
             x={PLOT.left}
-            y={62}
+            y={54}
             width={x(data.lead.theta) - PLOT.left}
-            height={54}
+            height={204}
             fill="var(--color-surface-sunk)"
           />
           <rect
             data-rule-try
             x={x(data.lead.theta)}
-            y={62}
+            y={54}
             width={PLOT.right - x(data.lead.theta)}
-            height={54}
+            height={204}
             fill="var(--color-measure-wash)"
           />
           <text
             data-rule-asklabel
             x={(PLOT.left + x(data.lead.theta)) / 2}
-            y={94}
+            y={80}
             textAnchor="middle"
-            className="fill-ink text-[12px]"
+            className="fill-ink text-[14px]"
           >
-            below the line — ask a person
+            below — ask a person
           </text>
           <text
             data-rule-trylabel
             x={(x(data.lead.theta) + PLOT.right) / 2}
-            y={94}
+            y={80}
             textAnchor="middle"
-            className="fill-measure text-[12px]"
+            className="fill-measure text-[14px]"
           >
-            above the line — keep trying
+            above — keep trying
           </text>
         </g>
 
@@ -176,17 +173,17 @@ export function RuleScene({ data }: { data: RuleData }) {
             data-rule-theta
             x1={x(data.lead.theta)}
             x2={x(data.lead.theta)}
-            y1={62}
-            y2={252}
+            y1={54}
+            y2={258}
             stroke="var(--color-ink)"
             strokeWidth={2}
           />
           <text
             data-rule-thetalabel
             x={x(data.lead.theta)}
-            y={266}
+            y={276}
             textAnchor="middle"
-            className="fill-ink font-mono text-[11px] tabular-nums"
+            className="fill-ink font-mono text-[14px] tabular-nums"
           >
             {pct(data.lead.theta)}
           </text>
@@ -204,7 +201,7 @@ export function RuleScene({ data }: { data: RuleData }) {
             x={x(data.lead.pHat)}
             y={LANE_A - 14}
             textAnchor="middle"
-            className="fill-measure font-mono text-[12px] tabular-nums"
+            className="fill-measure font-mono text-[14px] tabular-nums"
           >
             {pct(data.lead.pHat)}
           </text>
@@ -219,8 +216,8 @@ export function RuleScene({ data }: { data: RuleData }) {
           />
           <text
             x={x(data.second.pHat) + 14}
-            y={LANE_B + 4}
-            className="fill-ink font-mono text-[12px] tabular-nums"
+            y={LANE_B + 5}
+            className="fill-ink font-mono text-[14px] tabular-nums"
           >
             {pct(data.second.pHat)}
           </text>
@@ -231,9 +228,9 @@ export function RuleScene({ data }: { data: RuleData }) {
           <text
             data-rule-verdicttext
             x={PLOT.right}
-            y={LANE_A - 34}
+            y={38}
             textAnchor="end"
-            className="fill-ink text-[13px]"
+            className="fill-ink text-[15px]"
           >
             the rule says: ask a person
           </text>
@@ -258,11 +255,28 @@ export function RuleScene({ data }: { data: RuleData }) {
           {data.demo.toH} — and the line slides left, until the same dot that
           meant &ldquo;ask&rdquo; now means &ldquo;keep trying&rdquo;.
         </p>
-        <p data-rule="step-4" className="text-ink text-body">
-          It is a different line for <strong>each kind of failure</strong>.
-          A formatting slip is worth another go; a wrong idea is not. That is
-          the contribution — not one threshold, but one per kind.
-        </p>
+        <div data-rule="step-4" className="flex flex-col gap-2">
+          <p className="text-ink text-body">
+            It is a different line for{" "}
+            <strong>each kind of failure</strong>.
+          </p>
+          {/* First sentence only. CLASS_PLAIN carries two, and the second is a
+              clarification that belongs on the failure-classes screen, not in
+              the middle of this argument. Lower-casing them ran the two
+              sentences together mid-stop. */}
+          <ul className="flex flex-col gap-1">
+            {[data.lead, data.second].map((cls) => (
+              <li key={cls.key} className="text-ink-muted text-small">
+                <span className="text-ink font-medium">{cls.label}</span> —{" "}
+                {cls.plain.split(". ")[0]}.
+              </li>
+            ))}
+          </ul>
+          <p className="text-ink text-body">
+            A formatting slip is worth another go; a wrong idea is not. That is
+            the contribution — not one threshold, but one per kind.
+          </p>
+        </div>
         <p
           data-rule="step-5"
           className="text-ink border-rule-strong border-l-2 pl-3 text-body"
