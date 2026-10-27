@@ -640,6 +640,20 @@ Two properties to prove by test, because both are claims the paper makes:
   — *"a measured property of the run, not a tuned knob, and reporting it is a result in its own
   right."* Write the fit; report the number.
 
+  > **This was the instruction. The outcome was different, and the outcome is what a
+  > reader of this document needs.** The fit ran and returned λ̂ ≈ 0.724, but its 95%
+  > likelihood-ratio interval is **[0.121, 1.000]** — it reaches 1, so it cannot rule out
+  > *no decay at all*. `reportedLambda` therefore returns `null`, `isMeasured` is
+  > `false`, and **the committed policy ran at λ = 1**, meaning the belief is flat in the
+  > attempt index. On 31 trials context rot is not visible.
+  >
+  > The pipeline is honest about this on its own terms — `analysis/ccos.ts` says in its
+  > header that *"the pilot provides no evidence that context rot exists at all"*, and
+  > the null-return is a deliberate safeguard against a sampling artefact setting θ_c.
+  > The bullet above is a design instruction written before the fit was run, and quoting
+  > it as a result would overstate what the run established. Screen 6 of the console
+  > states the limitation on screen.
+
 Feed it `replay_rows.json`. The output is θ_c per class and the decision trace — **a
 demonstration that the method is implementable, labelled as such.** Not a finding.
 
