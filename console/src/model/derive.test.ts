@@ -9,6 +9,7 @@ import {
   malformedByReason,
   mcNemar,
   outcomeKinds,
+  harmByTask,
   refusalKind,
   reflectionHarm,
   REJECTION_FLOOR,
@@ -16,6 +17,7 @@ import {
   shouldRetry,
   splitProviderError,
   thetaFor,
+  tokenSeries,
   totals,
 } from "./derive";
 
@@ -374,5 +376,143 @@ describe("the stopping rule", () => {
     const theta = thetaFor(10, 1, 4, 0.5);
     expect(shouldRetry(theta + 0.01, theta)).toBe(true);
     expect(shouldRetry(theta - 0.01, theta)).toBe(false);
+  });
+});
+
+describe("screen 2 -- the collapse", () => {
+  const rows = loadRows();
+
+  test("the reflection collapse is in a3, and matches CONSOLE.md exactly", () => {
+    const blind = roundSeries(rows, "a3_capability", "l1_blind_retry");
+    const reflect = roundSeries(rows, "a3_capability", "l2_reflection");
+    expect(blind.map((p) => Math.round(p.rate * 100))).toEqual([75, 75, 80, 75]);
+    expect(reflect.map((p) => Math.round(p.rate * 100))).toEqual([90, 45, 40, 50]);
+  });
+
+  test("reflection wins round 1 and loses every round after", () => {
+    // The shape of the whole screen, as an assertion rather than a drawing.
+    const blind = roundSeries(rows, "a3_capability", "l1_blind_retry");
+    const reflect = roundSeries(rows, "a3_capability", "l2_reflection");
+    expect(reflect[0]!.rate).toBeGreaterThan(blind[0]!.rate);
+    for (let i = 1; i < 4; i++) {
+      expect(reflect[i]!.rate).toBeLessThan(blind[i]!.rate);
+    }
+  });
+
+  test("the paired test on rounds 2-4 is b=19 c=0 of 60 pairs", () => {
+    const t = reflectionHarm(rows, "a3_capability");
+    expect(t.b).toBe(19);
+    expect(t.c).toBe(0);
+    expect(t.n).toBe(19);
+    expect(t.concordant).toBe(41);
+    expect(t.n + t.concordant).toBe(60);
+    expect(t.dropped).toBe(0);
+    expect(t.canReject).toBe(true);
+    expect(t.p.toExponential(1)).toBe("3.8e-6");
+  });
+
+  test("pooling round 1 would have hidden the result", () => {
+    // Why `fromRound` defaults to 2. Not a convenience: at fromRound = 1 the
+    // round-1 win cancels part of the later harm and p moves three orders of
+    // magnitude. If this ever stops being true the exclusion needs rearguing.
+    const pooled = reflectionHarm(rows, "a3_capability", 1);
+    expect(pooled.c).toBeGreaterThan(0);
+    expect(pooled.p).toBeGreaterThan(reflectionHarm(rows, "a3_capability").p * 100);
+  });
+
+  test("the 30B arm is null, and that is reported not averaged", () => {
+    const t = reflectionHarm(rows, "a2_workhorse");
+    expect(t.b).toBe(4);
+    expect(t.c).toBe(4);
+    expect(t.p).toBe(1);
+  });
+
+  test("a4 forms pairs at all -- thinking is in the pair key", () => {
+    // The regression this guards: a4_reasoning crosses `thinking`, so a key
+    // without it gives every group two rows per side and all 60 pairs are
+    // dropped. n = 0 renders as "no harm found" when it means "no pairs
+    // formed", which is exactly the R3 failure.
+    const t = reflectionHarm(rows, "a4_reasoning");
+    expect(t.dropped).toBe(0);
+    expect(t.n).toBeGreaterThan(0);
+    expect(t.b).toBe(5);
+    expect(t.c).toBe(9);
+    // Leans toward reflection, nowhere near significance. Not a replication.
+    expect(t.canReject).toBe(true);
+    expect(t.p).toBeGreaterThan(0.05);
+  });
+
+  test("adding thinking and editFormat to the key moved no other arm", () => {
+    // The four single-model recovery arms are single-valued on both dimensions,
+    // so the fix had to be a no-op for them.
+    expect(reflectionHarm(rows, "a6_qwencloud").b).toBe(1);
+    expect(reflectionHarm(rows, "a1_replication").b).toBe(1);
+    for (const arm of ["a2_workhorse", "a3_capability", "a6_qwencloud", "a1_replication"] as const) {
+      const scope = rows.filter((r) => r.arm === arm);
+      expect(new Set(scope.map((r) => r.cell.thinking)).size).toBe(1);
+      expect(new Set(scope.map((r) => r.cell.editFormat)).size).toBe(1);
+    }
+  });
+
+  test("no task reverses, and one task supplies over half the signal", () => {
+    const byTask = harmByTask(rows, "a3_capability");
+    expect(byTask.length).toBe(4);
+    for (const task of byTask) expect(task.c).toBe(0);
+    expect(byTask.reduce((n, t) => n + t.b, 0)).toBe(19);
+    // The clustering limitation, as a number. Sorted descending, so [0] is the
+    // worst offender.
+    expect(byTask[0]!.taskId).toBe("django__django-11019");
+    expect(byTask[0]!.n).toBe(10);
+    expect(byTask[0]!.n / 19).toBeGreaterThan(0.5);
+  });
+
+  test("the mechanism: reflection is longer, and climbs every round", () => {
+    const reflect = tokenSeries(rows, "a3_capability", "l2_reflection");
+    const blind = tokenSeries(rows, "a3_capability", "l1_blind_retry");
+    const mean = (s: typeof reflect) => s.map((p) => Math.round(p.meanCompletion!));
+    expect(mean(reflect)).toEqual([1407, 1448, 1463, 1594]);
+    expect(mean(blind)).toEqual([799, 946, 1119, 1092]);
+    // Monotone for reflection...
+    for (let i = 1; i < reflect.length; i++) {
+      expect(reflect[i]!.meanCompletion!).toBeGreaterThan(reflect[i - 1]!.meanCompletion!);
+    }
+    // ...and NOT flat for blind retry, which CONSOLE.md used to claim.
+    expect(blind[2]!.meanCompletion! / blind[0]!.meanCompletion!).toBeGreaterThan(1.3);
+    // Every round of reflection is longer than the same round of blind retry.
+    for (let i = 0; i < reflect.length; i++) {
+      expect(reflect[i]!.meanCompletion!).toBeGreaterThan(blind[i]!.meanCompletion!);
+    }
+  });
+
+  test("every malformed patch after round 1 failed the same way", () => {
+    const after = (strategy: "l1_blind_retry" | "l2_reflection") =>
+      rows.filter(
+        (r) =>
+          r.arm === "a3_capability" &&
+          r.cell.strategy === strategy &&
+          r.cell.round >= 2,
+      );
+    const reflect = malformedByReason(after("l2_reflection"));
+    expect(reflect.length).toBe(1);
+    expect(reflect[0]!.reason).toBe("search_not_found");
+    expect(reflect[0]!.count).toBe(28);
+    expect(reflect[0]!.share).toBe(1);
+    // Against exactly one malformed patch from the control, for a different
+    // reason entirely.
+    const blind = malformedByReason(after("l1_blind_retry"));
+    expect(blind.reduce((n, x) => n + x.count, 0)).toBe(1);
+    expect(blind[0]!.reason).not.toBe("search_not_found");
+  });
+
+  test("a round where every call refused yields null, not zero", () => {
+    // R3 in tokenSeries: `l2_5_diagnose_revise` refused 80/80 in a2, so it has
+    // no completions to average. A zero there would read as "the model replied
+    // with nothing", which is a different and false claim.
+    const starved = tokenSeries(rows, "a2_workhorse", "l2_5_diagnose_revise");
+    expect(starved.length).toBeGreaterThan(0);
+    for (const point of starved) {
+      expect(point.calls).toBe(0);
+      expect(point.meanCompletion).toBeNull();
+    }
   });
 });

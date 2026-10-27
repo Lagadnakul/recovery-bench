@@ -383,12 +383,20 @@ export function roundSeries(
 
 /**
  * The reflection-harm test: blind retry against reflection on rounds 2-4,
- * paired within (task, repeat, round).
+ * paired within (task, model, repeat, round, thinking, editFormat).
  *
  * Round 1 is excluded deliberately and that is the finding, not a convenience.
  * Reflection HELPS at round 1 (90% against 75%); the harm appears from round 2
  * onward, so a test pooling all four rounds would average the help against the
  * harm and report nothing.
+ *
+ * `thinking` and `editFormat` are in the key because `a4_reasoning` crosses
+ * `thinking` within an arm. Without them every a4 group holds two rows per side
+ * and `pairOnApplied` -- correctly refusing to half-use a group -- drops all 60.
+ * That returns `n = 0`, which renders as "no harm found" when it means "no pairs
+ * formed": the exact failure R3 exists to prevent. The other four recovery arms
+ * are single-valued on both dimensions, so adding them changes nothing there
+ * (asserted in derive.test.ts).
  */
 export function reflectionHarm(rows: SweepRow[], arm: Arm, fromRound = 2) {
   const scope = rows.filter((r) => r.arm === arm && r.cell.round >= fromRound);
@@ -397,8 +405,81 @@ export function reflectionHarm(rows: SweepRow[], arm: Arm, fromRound = 2) {
     (r) => r.cell.strategy,
     "l1_blind_retry",
     "l2_reflection",
-    (r) => [r.cell.taskId, r.cell.model, r.cell.repeat, r.cell.round].join("|"),
+    (r) =>
+      [
+        r.cell.taskId,
+        r.cell.model,
+        r.cell.repeat,
+        r.cell.round,
+        r.cell.thinking,
+        r.cell.editFormat,
+      ].join("|"),
   );
+}
+
+/**
+ * The same test run inside each task separately.
+ *
+ * The reflection result rests on 4 tasks with 5 repeats, so its 19 discordant
+ * pairs are not 19 independent observations -- they cluster. Drawing the split
+ * per task turns that limitation from a sentence a reader can skim into a
+ * figure they can see: one task supplies over half the signal.
+ */
+export function harmByTask(rows: SweepRow[], arm: Arm, fromRound = 2) {
+  const scope = rows.filter((r) => r.arm === arm && r.cell.round >= fromRound);
+  const tasks = [...new Set(scope.map((r) => r.cell.taskId))].sort();
+  return tasks
+    .map((taskId) => ({
+      taskId,
+      ...reflectionHarm(
+        scope.filter((r) => r.cell.taskId === taskId),
+        arm,
+        fromRound,
+      ),
+    }))
+    .sort((x, y) => y.n - x.n || x.taskId.localeCompare(y.taskId));
+}
+
+// ── completion tokens per round ────────────────────────────────────────────
+
+export type TokenPoint = {
+  round: number;
+  /** Rows carrying a usage object. A refused row has none and is not averaged. */
+  calls: number;
+  meanCompletion: number | null;
+};
+
+/**
+ * Mean completion tokens per round for one strategy within one arm -- the
+ * mechanism behind the reflection collapse.
+ *
+ * Rows without a `usage` object are excluded rather than counted as zero: a
+ * refusal that never reached the network did not produce a short completion, it
+ * produced no completion. A round where every row refused yields `null`, which
+ * `Figure` draws as a grey dash.
+ */
+export function tokenSeries(
+  rows: SweepRow[],
+  arm: Arm,
+  strategy: Strategy,
+): TokenPoint[] {
+  const scope = rows.filter(
+    (r) => r.arm === arm && r.cell.strategy === strategy,
+  );
+  const rounds = [...new Set(scope.map((r) => r.cell.round))].sort(
+    (x, y) => x - y,
+  );
+  return rounds.map((round) => {
+    const calls = scope.filter((r) => r.cell.round === round && r.usage);
+    return {
+      round,
+      calls: calls.length,
+      meanCompletion: calls.length
+        ? calls.reduce((n, r) => n + r.usage!.completionTokens, 0) /
+          calls.length
+        : null,
+    };
+  });
 }
 
 // ── malformed reasons ──────────────────────────────────────────────────────

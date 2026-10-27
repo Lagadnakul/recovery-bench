@@ -181,13 +181,23 @@ Strategy totals: `l0_baseline` 812 · `l1_blind_retry` 344 · `l2_reflection` 34
    `unified_diff` 13.1%. Exact McNemar **p = 7.44e-89** on 360 pairs; **p = 3.32e-65**
    after discarding every ambiguous failure. 60 tasks. Mechanism:
    `hunk_count_mismatch` on 206 of 304 FORMAT rows.
-2. **Reflection helps once, then poisons.** 550B model: blind retry 75 / 75 / 80 / 75
-   across rounds 1–4; reflection **90 / 45 / 40 / 50**. Paired exact McNemar on rounds
-   2–4: **b = 19, c = 0, p = 3.8e-6**, no reversals in any of the 4 tasks. The 30B model
-   is null: `b = 4, c = 4, p = 1.000`. Mechanism: completion tokens climb monotonically
-   with reflection depth (1125 → 1284 → 1317 → 1397) while blind retry sits flat near
-   740, and 29 of 30 MALFORMED rows are `search_not_found` — the model anchors on its own
-   prior output instead of the file. **The prescription is K = 1.**
+2. **Reflection helps once, then poisons.** `a3_capability`, 550B (`nemotron_ultra`):
+   blind retry 75 / 75 / 80 / 75 across rounds 1–4; reflection **90 / 45 / 40 / 50**.
+   Paired exact McNemar on rounds 2–4: **b = 19, c = 0, p = 3.8e-6** on 19 discordant of
+   **60** pairs, no reversals in any of the 4 tasks. The 30B model is null:
+   `b = 4, c = 4, p = 1.000`. Mechanism: mean completion tokens climb monotonically with
+   reflection depth (**1407 → 1448 → 1463 → 1594**) and run ~1.8× blind retry's
+   (**799 → 946 → 1119 → 1092**), and **all 28** MALFORMED rows after round 1 are
+   `search_not_found` against **1** for blind retry — the model anchors on its own prior
+   output instead of the file. **The prescription is K = 1.**
+
+   > **Three numbers in this finding were wrong until Phase 4 re-derived them.** The
+   > token series read `1125 → 1284 → 1317 → 1397` with blind retry "flat near 740", and
+   > the malformed count read "29 of 30". None of the three matches `sweep_rows.jsonl`.
+   > The result is unaffected and the mechanism is *sharper* than the old numbers claimed
+   > — 28 of 28, not 29 of 30 — but **blind retry is not flat**: it climbs 37% from round
+   > 1 to round 3. Do not cite "flat near 740" anywhere. Asserted now in
+   > `derive.test.ts`, so it cannot drift back.
 3. **Capability runs backwards**, three independent times, including 30B at 25.6% apply
    vs 550B at 0.6% on `unified_diff`.
 4. **The pilot design has zero power, demonstrated.** `a1` re-ran it and produced **0
@@ -663,19 +673,63 @@ over, checked either side of the boundary.
   has to exist before the nav can link to it.
 - `eslint` is now the fifth gate in `bun run check`.
 
-### Phase 4 — screen 2, the collapse · 1 day
+### Phase 4 — screen 2, the collapse · 1 day — **DONE**
 
-The reflection-harm result. One slope chart, two series, straight 2px segments, no fill,
-no point markers, 4 faint gridlines, no y-axis line, a 1px dashed reference at baseline.
-The r1→r2 inversion annotated **with its cause**, not just a marker.
+The reflection-harm result, at `/recovery`. One slope chart, two series, straight 2px
+segments, no fill, no point markers, 5 faint gridlines, no y-axis line, a 1px dashed
+reference at the round-1 baseline. The y-domain is **pinned to 0–1, never fitted** — the
+screen's claim is that one series collapses, so it has to be legible against a fixed
+scale or it is a drawing trick.
 
-Beside it the paired-test panel: `b=19 c=0 n=60`, the 6-pair rejection floor drawn as a
-reference line, and a2's `b=4 c=4 p=1.000` for contrast.
+| File | Role |
+|---|---|
+| `src/components/marks/SlopeChart.tsx` | the hero. Pinned domain, no smoothing, annotated segment |
+| `src/components/marks/PairStrip.tsx` | one paired test, scaled by **total** pairs, with the 6-pair floor as a tick |
+| `src/components/screens/Collapse.tsx` | the screen. No `"use client"` |
+| `src/app/recovery/page.tsx` | server page → projection |
+| `src/model/derive.ts` | `+ harmByTask`, `+ tokenSeries`, and a fix to `reflectionHarm` |
 
-Body text must say: 4 tasks, 5 repeats, pairs cluster within task.
+**The screen ships zero JavaScript of its own.** Nothing a reader could drag moves any
+number on it, so there is nothing to hydrate, and the rail's control slot stays empty —
+the convention `Rail.tsx` exists to enforce.
 
-**Acceptance:** numbers match §3 finding 2 exactly. The clustering limitation is on
-screen, in prose.
+#### A bug in my own Phase 2 derivation
+
+`reflectionHarm`'s pair key was `(task, model, repeat, round)`. **`a4_reasoning` crosses
+`thinking` within the arm**, so every group held two rows per side, and `pairOnApplied` —
+correctly refusing to half-use a group — dropped **all 60**. The function returned
+`n = 0`, which on screen reads as *"no harm found"* when it means *"no pairs formed"*.
+That is precisely the R3 failure, produced by my own code.
+
+With `thinking` and `editFormat` in the key: **`b = 5, c = 9, n = 14, p = 0.42`**. The
+other four recovery arms are single-valued on both dimensions, so the fix is a no-op
+there — asserted, not assumed.
+
+And it turns a4 into the screen's honest counterweight: **the harm does not replicate on
+`nemotron_nano`.** It leans the other way and does not reach significance. Three arms,
+three different answers, reported as three rather than averaged into one.
+
+`PairStrip` therefore draws a zero-pair test as *"No pairs formed. Not a null result —
+nothing was compared."* A p-value of 1.000 from 8 pairs and no p-value at all are
+different claims and must not render alike.
+
+#### Two things the strip shows that a p-value hides
+
+**The discarded majority.** The exact test throws away every concordant pair, so the
+strip is scaled by **total** pairs and the 41 discarded ones are drawn — faint, but
+drawn. `p = 3.8e-6` from 19 of 60 pairs and the same p from 19 of 19 are different
+claims, and the difference should not require reading the method.
+
+**The clustering.** `harmByTask` splits the test per task, and all four run the same
+direction (c = 0 everywhere) — but `django__django-11019` supplies **10 of the 19**
+discordant pairs alone. The effective sample is nearer 4 than 19. That limitation is now
+a figure a reader can see rather than a sentence they can skim.
+
+**Acceptance met:** every number traces to a `derive.ts` function, no component holds a
+hardcoded figure, and the rendered HTML was checked to contain `b=19 c=0`,
+`19 discordant of 60 pairs`, the corrected token series, `Search text not found 28`, the
+`b=5 c=9` non-replication and all four limitation notes. 74 tests, five gates green, and
+no row data in any client chunk.
 
 ### Phase 5 — screens 1, 3, 4, 5 · 2 days
 
