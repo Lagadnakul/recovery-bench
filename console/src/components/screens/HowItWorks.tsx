@@ -21,6 +21,11 @@ import {
   buildCollapseAct,
   type CollapseActData,
 } from "@/components/explain/scenes/Collapse";
+import {
+  RuleScene,
+  buildRule,
+  type RuleData,
+} from "@/components/explain/scenes/Rule";
 import { Shell } from "@/components/shell/Rail";
 
 /**
@@ -38,6 +43,7 @@ export type HowItWorksData = {
   gate: GateData;
   format: FormatData;
   collapse: CollapseActData;
+  rule: RuleData;
 };
 
 export function HowItWorks({ data }: { data: HowItWorksData }) {
@@ -91,11 +97,20 @@ export function HowItWorks({ data }: { data: HowItWorksData }) {
       >
         <CollapseScene data={data.collapse} />
       </Act>
+
+      <Act
+        id="act-rule"
+        title="When should it stop?"
+        lede="The contribution. A dot, a line, and the claim that every agent shipping today is already this rule with the line jammed at one end."
+        build={buildRule}
+      >
+        <RuleScene data={data.rule} />
+      </Act>
       </div>
 
       <section className="border-rule mt-10 border-t pt-6">
         <p className="text-ink-muted max-w-prose text-small">
-          Acts 5 and 6 are next: the stopping rule, and what it still needs.
+          Act 6 is next: what the rule still needs before it is a result.
         </p>
       </section>
     </Shell>

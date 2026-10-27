@@ -6,10 +6,13 @@ import {
   outcomeKinds,
   reflectionHarm,
   roundSeries,
+  thetaFor,
   tokenSeries,
   totals,
 } from "@/model/derive";
 import { chanceInWords } from "@/model/glossary";
+import { loadCcos } from "@/model/ccos";
+import { CLASS_LABEL, CLASS_PLAIN } from "@/components/primitives/ClassMark";
 
 /**
  * Server component. Every figure the explainer shows is derived here, the same
@@ -147,6 +150,50 @@ export default function Page() {
           verdict("a2_workhorse", "the 30B model"),
           verdict("a4_reasoning", "the reasoning model"),
         ],
+      };
+    })(),
+    rule: (() => {
+      const run = loadCcos();
+      const { G, r, h } = run.payoffs;
+      const of = (cls: "FORMAT" | "LOGIC") => {
+        const row = run.policy.find((p) => p.cls === cls)!;
+        return {
+          key: cls,
+          label: CLASS_LABEL[cls],
+          plain: CLASS_PLAIN[cls],
+          pHat: row.pZero,
+          theta: row.theta,
+          trials: row.trials,
+          successes: row.successes,
+        };
+      };
+      const lead = of("FORMAT");
+      const leadQ = run.policy.find((p) => p.cls === "FORMAT")!.q;
+      // The cost of asking a person at which the lead class flips from "ask"
+      // to "keep trying": theta = q - (h - r)/G, so it crosses pHat at
+      // h = r + G(q - pHat). Computed, not typed in, so the narration cannot
+      // drift from the line the scene actually draws.
+      const toH = Math.round((r + G * (leadQ - lead.pHat) + 0.18) * 100) / 100;
+      return {
+        payoffs: run.payoffs,
+        lead,
+        second: of("LOGIC"),
+        demo: {
+          fromH: h,
+          fromTheta: lead.theta,
+          toH,
+          toTheta: thetaFor(G, r, toH, leadQ),
+        },
+        arms: run.arms.map((a) => ({
+          label: a.label,
+          plain: a.represents,
+          at:
+            a.id === "A_stubborn"
+              ? 0
+              : a.id === "B_needy"
+                ? 1
+                : ("class" as const),
+        })),
       };
     })(),
   };
