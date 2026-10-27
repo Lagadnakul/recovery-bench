@@ -1043,11 +1043,39 @@ bunx tsc --noEmit
 bun run build           # writes out/ — there is no separate export command
 ```
 
-- Vercel production deploy, URL recorded in `README.md`.
-- `recovery-bench/docs/LIMITATIONS.md` — referenced from several documents, still never
-  written. R1, R2, R3, the 4-task clustering, and the 460–765 power requirement.
-- Zenodo archive for the DOI, after the repo-ownership question is settled.
-- A 90-second demo script for the viva: open screen 6, drag `h`, say one sentence.
+| Item | State |
+|---|---|
+| The five gates, green on a clean checkout (17s) | **done** |
+| `console/vercel.json` — `bun run check` as the build command | **done** |
+| `recovery-bench/docs/LIMITATIONS.md` | **done** — 34 figures, all re-derived |
+| λ corrected in `BUILD.md` | **done** |
+| Vercel production deploy, URL recorded in `README.md` | **PENDING** — needs Aayush |
+| Zenodo archive for the DOI | **PENDING** — blocked on repo ownership |
+| A 90-second viva demo script | **PENDING** |
+| A visual explainer of the method | **PENDING** — under consideration, see below |
+
+**The deploy needs one thing `vercel.json` cannot set:** in the dashboard, **Root
+Directory → `console`**. Without it Vercel builds from the repo root, finds no Next app
+and fails. Framework auto-detects as Next.js; leave Build and Output Settings on
+default, because the config overrides them. The build command is `bun run check`, not
+`next build`, so a failing contrast ratio, test, type error or lint error **fails the
+deploy** — a wrong number cannot reach an examiner through a green deployment.
+
+**The Zenodo DOI is blocked, not forgotten.** `ENGINE.md` requires the repository to
+move under `Lagadnakul` before the Data Availability statement is written, and the
+authorship question is unresolved. Minting a DOI against the wrong owner is not
+reversible.
+
+**Two things that were on this list and should not have been.** `data/ledger.jsonl` was
+listed as "the 1,428-call audit trail, still gitignored". It is **36 entries** from
+30 September 2026 — doctor probes and a four-task pilot — and `recovery-bench/.gitignore`
+already gives the correct reason to exclude it: per-machine spend state, which on a fresh
+clone would appear as tokens already spent and would conflict on every run. It also
+carries a `keyName` field. The real audit trail, `sweep_rows.jsonl`, is committed.
+Separately, the λ claim was reported as wrong in two `recovery-bench` source comments;
+it was not. `analysis/ccos.ts` already states *"the pilot provides no evidence that
+context rot exists at all"* and returns `null` unless decay is genuinely excluded. Only
+`BUILD.md` carried it unqualified.
 
 ---
 
