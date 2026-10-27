@@ -36,6 +36,17 @@ export const CLASS_MEANING: Record<FailureClass, string> = {
   LOST: "the trajectory stopped making progress",
 };
 
+/** The same four meanings for a reader who has never met the taxonomy. */
+export const CLASS_PLAIN: Record<FailureClass, string> = {
+  FORMAT:
+    "The model wrote something the repository could not use at all. A mechanical mistake, not a misunderstanding.",
+  LOGIC:
+    "The patch was accepted and the bug was still there. The model understood the format and misunderstood the problem.",
+  BROKEN:
+    "The tools failed, not the model. Nothing about the model's ability can be read from these.",
+  LOST: "The attempt stopped getting anywhere — going round in circles.",
+};
+
 const PATTERN_ID: Record<FailureClass, string | null> = {
   FORMAT: null, // solid
   LOGIC: "cm-hatch-logic",
@@ -49,6 +60,17 @@ const SOLID: Record<FailureClass, string> = {
   BROKEN: "var(--color-rule-strong)",
   LOST: "var(--color-ink-muted)",
 };
+
+/**
+ * The flat CSS colour for a class, for HTML elements.
+ *
+ * Separate from `classFill` on purpose: that one returns `url(#cm-hatch-logic)`
+ * for the patterned classes, which is meaningless as a CSS `background` and
+ * fails silently to transparent. Anything that is not an SVG shape wants this.
+ */
+export function classColor(cls: FailureClass): string {
+  return SOLID[cls];
+}
 
 /**
  * The SVG fill for a class. Render `<ClassMarkDefs />` once on any page that

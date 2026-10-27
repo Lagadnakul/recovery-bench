@@ -36,14 +36,14 @@ type Entry = { id: ScreenId; label: string; href: Href; built: boolean };
 export const SCREENS: Entry[] = [
   { id: "overview", label: "Overview", href: "/", built: true },
   { id: "recovery", label: "Recovery", href: "/recovery", built: true },
-  { id: "edit-format", label: "Edit format", href: "/", built: false },
+  { id: "edit-format", label: "Edit format", href: "/edit-format", built: true },
   {
     id: "failure-classes",
     label: "Failure classes",
-    href: "/",
-    built: false,
+    href: "/failure-classes",
+    built: true,
   },
-  { id: "cells", label: "Cells", href: "/", built: false },
+  { id: "cells", label: "Cells", href: "/cells", built: true },
   {
     id: "stopping-rule",
     label: "Stopping rule",

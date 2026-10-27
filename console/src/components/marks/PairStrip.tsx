@@ -1,5 +1,6 @@
 import { Figure } from "@/components/primitives/Figure";
 import { REJECTION_FLOOR } from "@/model/derive";
+import { chanceInWords, strengthInWords } from "@/model/glossary";
 
 /**
  * One paired test, drawn as the pairs it actually used.
@@ -18,6 +19,9 @@ import { REJECTION_FLOOR } from "@/model/derive";
 export type PairTest = {
   label: string;
   sub?: string;
+  /** The two things being compared, named. Used in the plain-language sentence. */
+  methodA: string;
+  methodB: string;
   b: number;
   c: number;
   concordant: number;
@@ -59,7 +63,8 @@ export function PairStrip({ test }: { test: PairTest }) {
 
       {total === 0 ? (
         <p className="text-ink-muted mt-1 text-small">
-          No pairs formed. Not a null result — nothing was compared.
+          No attempts could be matched up here, so nothing was compared. That is
+          different from finding no difference — this test was never run.
         </p>
       ) : (
         <>
@@ -67,7 +72,7 @@ export function PairStrip({ test }: { test: PairTest }) {
             className="border-rule relative mt-1.5 flex w-full overflow-hidden border"
             style={{ height: H }}
             role="img"
-            aria-label={`${test.b} favour the control, ${test.c} favour reflection, ${test.concordant} tied and discarded, of ${total} pairs`}
+            aria-label={`${test.b} favour ${test.methodA}, ${test.c} favour ${test.methodB}, ${test.concordant} tied and discarded, of ${total} pairs`}
           >
             <div
               className="bg-measure"
@@ -92,6 +97,17 @@ export function PairStrip({ test }: { test: PairTest }) {
             />
           </div>
 
+          {/* The sentence first. The notation underneath is the receipt. */}
+          <p className="text-ink mt-1.5 text-small">
+            Of {total} matched attempts, {test.n} disagreed:{" "}
+            <strong>{test.b}</strong> where {test.methodA} worked and{" "}
+            {test.methodB} did not, <strong>{test.c}</strong> the other way
+            round. The remaining {test.concordant} came out the same both ways
+            and tell us nothing.{" "}
+            {test.canReject
+              ? `${strengthInWords(test.p, true)} — a split this lopsided happens by luck ${chanceInWords(test.p)}.`
+              : `Fewer than ${REJECTION_FLOOR} disagreements, so this test cannot give an answer either way.`}
+          </p>
           <p className="text-ink-muted mt-1 font-mono text-label tabular-nums">
             b={test.b} c={test.c} · {test.n} discordant of {total} pairs
             {test.dropped > 0 ? ` · ${test.dropped} dropped` : ""}
@@ -103,16 +119,29 @@ export function PairStrip({ test }: { test: PairTest }) {
 }
 
 /** The legend, stated once for a group of strips rather than on each. */
-export function PairStripLegend() {
+export function PairStripLegend({
+  methodA,
+  methodB,
+}: {
+  methodA: string;
+  methodB: string;
+}) {
   return (
-    <p className="text-ink-muted text-label">
-      <span className="bg-measure mr-1 inline-block h-2 w-2 align-middle" />
-      control won ·
-      <span className="bg-class-format mx-1 inline-block h-2 w-2 align-middle" />
-      reflection won ·
-      <span className="bg-surface-sunk border-rule mx-1 inline-block h-2 w-2 border align-middle" />
-      tied, discarded by the test · the vertical rule is the {REJECTION_FLOOR}
-      -pair rejection floor
-    </p>
+    <div className="text-ink-muted flex flex-col gap-1 text-small">
+      <p>
+        <span className="bg-measure mr-1.5 inline-block h-2 w-2 align-middle" />
+        {methodA} won ·
+        <span className="bg-class-format mx-1.5 inline-block h-2 w-2 align-middle" />
+        {methodB} won ·
+        <span className="bg-surface-sunk border-rule mx-1.5 inline-block h-2 w-2 border align-middle" />
+        same result both ways, thrown away by the test
+      </p>
+      <p>
+        Each bar is every matched attempt, so you can see how much of it the
+        test actually used. The thin vertical line marks {REJECTION_FLOOR}{" "}
+        disagreements — below that, this test cannot return an answer however
+        lopsided the result looks.
+      </p>
+    </div>
   );
 }

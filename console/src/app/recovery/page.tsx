@@ -55,7 +55,13 @@ export default function Page() {
 
   const test = (arm: Arm, label: string, sub: string) => {
     const t = reflectionHarm(rows, arm, FROM_ROUND);
-    return { label, sub, ...t };
+    return {
+      label,
+      sub,
+      methodA: STRATEGY_LABEL.l1_blind_retry.toLowerCase(),
+      methodB: STRATEGY_LABEL.l2_reflection.toLowerCase(),
+      ...t,
+    };
   };
 
   const data: CollapseData = {
@@ -64,6 +70,9 @@ export default function Page() {
     tasks: new Set(rows.filter((r) => r.arm === SUBJECT).map((r) => r.cell.taskId)).size,
     repeats: new Set(rows.filter((r) => r.arm === SUBJECT).map((r) => r.cell.repeat)).size,
     fromRound: FROM_ROUND,
+    // What excluding attempt 1 is worth, so the screen can state it rather
+    // than assert that excluding it mattered.
+    pooledP: reflectionHarm(rows, SUBJECT, 1).p,
     series: [
       {
         id: "l2_reflection",

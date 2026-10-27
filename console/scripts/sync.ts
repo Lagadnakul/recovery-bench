@@ -83,6 +83,59 @@ if (patchMismatch > 0) {
   process.exit(1);
 }
 
+// ── the cell table's projection ────────────────────────────────────────────
+/**
+ * Screen 5 lets a reader sort and filter all 1,604 attempts, which means the
+ * rows have to reach the browser. Inlining them into the page would put ~480 KB
+ * into the HTML, duplicated again in the streaming payload, on a screen most
+ * readers never open.
+ *
+ * So the table's rows ship as their own file in public/ and are fetched when
+ * the screen opens -- the same arrangement as patches.json, for the same
+ * reason. Only the fields the table actually shows are kept; everything else
+ * stays in rows.json for the server-side derivations.
+ */
+/**
+ * Diagnostic text is capped for the table's copy. The full value stays in
+ * rows.json and in recovery-bench's archive; what the screen needs is enough to
+ * see WHY a cell failed, and a 12 KB search block helps nobody. Truncation is
+ * marked in the text itself so it can never be mistaken for the whole value.
+ */
+const CAP = 600;
+const clip = (v: unknown): string | null => {
+  if (typeof v !== "string") return null;
+  return v.length <= CAP ? v : `${v.slice(0, CAP)}\n… truncated for display`;
+};
+
+const cells = trimmed.map((raw) => {
+  // `trimmed`'s element type is inferred from a rest-spread, so TypeScript only
+  // knows about `outcome`. The source is untyped JSONL either way; this is the
+  // one cast, made explicit rather than repeated per field.
+  const row = raw as Record<string, unknown>;
+  const cell = row.cell as Record<string, unknown>;
+  const outcome = row.outcome as Record<string, unknown>;
+  const usage = row.usage as Record<string, unknown> | null;
+  return {
+    key: row.key,
+    arm: row.arm,
+    taskId: cell.taskId,
+    model: cell.model,
+    strategy: cell.strategy,
+    editFormat: cell.editFormat,
+    thinking: cell.thinking,
+    round: cell.round,
+    repeat: cell.repeat,
+    kind: outcome.kind,
+    reason: outcome.reason ?? null,
+    detail: clip(outcome.detail),
+    searchText: clip(outcome.searchText),
+    gitStderr: clip(outcome.gitStderr),
+    status: outcome.status ?? null,
+    completionTokens: usage ? usage.completionTokens : null,
+    latencyMs: usage ? usage.latencyMs : null,
+  };
+});
+
 // ── derived analyses, copied as-is ─────────────────────────────────────────
 const power = readFileSync(`${SRC}/power.json`, "utf8");
 const ccos = readFileSync(`${SRC}/ccos.json`, "utf8");
@@ -93,6 +146,7 @@ const outputs: [string, string][] = [
   [`${OUT_DATA}/power.json`, power],
   [`${OUT_DATA}/ccos.json`, ccos],
   [`${OUT_PUBLIC}/patches.json`, JSON.stringify(patches)],
+  [`${OUT_PUBLIC}/cells.json`, JSON.stringify(cells)],
 ];
 
 for (const [path, contents] of outputs) writeFileSync(path, contents);
@@ -102,6 +156,7 @@ const provenance = {
   commit: gitHead(),
   rows: trimmed.length,
   patches: Object.keys(patches).length,
+  cells: cells.length,
   dropped: ["response", "outcome.patch (duplicate of patch)"],
   sourceHashes: {
     "sweep_rows.jsonl": sha(jsonlRaw),

@@ -41,11 +41,55 @@ export const OUTCOME_KINDS = [
   "PROVIDER_ERROR",
 ] as const;
 
+/**
+ * Each block of the experiment in plain words, and the question it was run to
+ * answer.
+ *
+ * The arm ids are internal names (`a3_capability`) that mean nothing to a
+ * reader meeting them for the first time, and an examiner should never have to
+ * learn six of them to follow an argument. The ids stay in the receipts; these
+ * labels are what appears on screen.
+ */
+export const ARM_LABEL: Record<Arm, string> = {
+  a1_replication: "The pilot, re-run",
+  a2_workhorse: "The everyday model",
+  a3_capability: "The large model",
+  a4_reasoning: "Extended thinking",
+  a5_format_at_scale: "Edit format, at scale",
+  a6_qwencloud: "A hosted commercial model",
+};
+
+export const ARM_QUESTION: Record<Arm, string> = {
+  a1_replication:
+    "Could the original pilot design have detected anything at all, even in principle?",
+  a2_workhorse:
+    "On an ordinary model, does retrying help — and does thinking about the failure first help more?",
+  a3_capability:
+    "Does a far larger model recover from its own mistakes any better?",
+  a4_reasoning:
+    "Does turning on the model's extended thinking mode change how it recovers?",
+  a5_format_at_scale:
+    "Across 60 bugs: does the way the model is asked to write its edit decide whether it can be applied?",
+  a6_qwencloud:
+    "Do the same patterns appear on a commercial hosted model, or are they an artifact of one provider?",
+};
+
 export const STRATEGY_LABEL: Record<Strategy, string> = {
-  l0_baseline: "Baseline",
+  l0_baseline: "First attempt",
   l1_blind_retry: "Blind retry",
   l2_reflection: "Reflection",
-  l2_5_diagnose_revise: "Diagnose + revise",
+  l2_5_diagnose_revise: "Diagnose from evidence",
+};
+
+/** What each way of retrying actually does, for a reader meeting it cold. */
+export const STRATEGY_PLAIN: Record<Strategy, string> = {
+  l0_baseline: "The model's first go at the bug, with no retry.",
+  l1_blind_retry:
+    "Tell the model it failed and ask again, without saying what went wrong.",
+  l2_reflection:
+    "Ask the model to explain why it failed, then write a new patch.",
+  l2_5_diagnose_revise:
+    "Show the model the real error output and ask it to diagnose from that. Needs evidence the run could not collect, so it mostly refused.",
 };
 
 export const EDIT_FORMAT_LABEL: Record<EditFormat, string> = {
@@ -123,6 +167,7 @@ export const Provenance = z.object({
   commit: z.string().nullable(),
   rows: z.number(),
   patches: z.number(),
+  cells: z.number(),
   dropped: z.array(z.string()),
   sourceHashes: z.record(z.string(), z.string()),
 });

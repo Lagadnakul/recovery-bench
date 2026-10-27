@@ -2,9 +2,21 @@ import { Panel } from "@/components/primitives/Panel";
 import { Figure } from "@/components/primitives/Figure";
 import { Finding } from "@/components/primitives/Finding";
 import { Note } from "@/components/primitives/Note";
+import {
+  Plain,
+  Receipt,
+  ReadThis,
+  Term,
+  TermList,
+} from "@/components/primitives/Plain";
 import { Shell } from "@/components/shell/Rail";
 import { SlopeChart, type Series } from "@/components/marks/SlopeChart";
-import { PairStrip, PairStripLegend, type PairTest } from "@/components/marks/PairStrip";
+import {
+  PairStrip,
+  PairStripLegend,
+  type PairTest,
+} from "@/components/marks/PairStrip";
+import { chanceInWords, type TermKey } from "@/model/glossary";
 
 /**
  * Screen 2 -- the collapse.
@@ -19,12 +31,31 @@ import { PairStrip, PairStripLegend, type PairTest } from "@/components/marks/Pa
  * the convention Rail.tsx exists to enforce.
  */
 
+const TERMS: TermKey[] = [
+  "reflection",
+  "blindRetry",
+  "applied",
+  "applyRate",
+  "round",
+  "repeat",
+  "pairedTest",
+  "discordant",
+  "concordant",
+  "pValue",
+  "mcNemar",
+  "rejectionFloor",
+  "clustering",
+  "malformed",
+];
+
 export type CollapseData = {
   arm: string;
   model: string;
   tasks: number;
   repeats: number;
   fromRound: number;
+  /** The same test with attempt 1 included -- what excluding it is worth. */
+  pooledP: number;
   series: Series[];
   baseline: { rate: number; label: string } | null;
   tests: PairTest[];
@@ -45,38 +76,46 @@ export function Collapse({ data }: { data: CollapseData }) {
   const headline = data.tests[0];
   const maxTokens = Math.max(
     1,
-    ...data.tokens.flatMap((s) =>
-      s.points.map((p) => p.meanCompletion ?? 0),
-    ),
+    ...data.tokens.flatMap((s) => s.points.map((p) => p.meanCompletion ?? 0)),
   );
   const topTask = data.byTask[0];
+  const reflect = data.series.find((s) => s.id === "l2_reflection");
+  const blind = data.series.find((s) => s.id === "l1_blind_retry");
+  const pct = (n: number | undefined) =>
+    n === undefined ? "—" : `${Math.round(n * 100)}%`;
 
   return (
     <Shell current="recovery">
       <header className="max-w-prose">
         <p className="text-ink-muted text-label">Screen 2</p>
         <h1 className="text-ink text-h1 mt-0.5">The collapse</h1>
-        <Finding
-          className="mt-3"
-          stat={
-            headline && headline.n > 0
-              ? `b = ${headline.b}, c = ${headline.c}, exact McNemar p = ${headline.p.toExponential(1)}`
-              : undefined
-          }
-        >
-          Asking the model to reflect on its own failure{" "}
-          <strong>helps once and then poisons every attempt after it</strong>.
-          Reflection beats blind retry at the first recovery round and loses at
-          every round that follows, with no reversal in any task — so the
-          prescription is not &ldquo;reflect better&rdquo;, it is{" "}
-          <strong>K&nbsp;=&nbsp;1</strong>.
+        <Finding className="mt-3">
+          Asking the model to explain its own mistake before trying again{" "}
+          <strong>helps the first time and hurts every time after that</strong>.
+          There was no task where it came out the other way — so the advice is
+          not &ldquo;reflect better&rdquo;, it is{" "}
+          <strong>let it reflect once, then stop</strong>.
         </Finding>
       </header>
 
-      <div className="mt-8 grid gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+      <ReadThis question="If a coding agent gets a bug fix wrong, does asking it to think about why help it do better next time?">
+        <p>
+          Two ways of retrying are compared head to head. In{" "}
+          <Term k="blindRetry" />, the model is told only that it failed. In{" "}
+          <Term k="reflection" />, it is asked to explain the failure first and
+          then try again. Everything else is held the same.
+        </p>
+        <p>
+          The chart shows how often each one produced a patch the repository
+          could accept, at each attempt. Higher is better. The thing to look for
+          is the point where the two lines cross — that is the whole result.
+        </p>
+      </ReadThis>
+
+      <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
         <Panel
-          title="Apply rate per recovery round"
-          aside={`${data.arm} · ${data.model}`}
+          title="How often the patch was accepted, by attempt"
+          aside={`${data.model}`}
         >
           <SlopeChart
             series={data.series}
@@ -85,60 +124,87 @@ export function Collapse({ data }: { data: CollapseData }) {
               seriesId: "l2_reflection",
               toRound: 2,
               label:
-                "the inversion. Reflection's second attempt is worse than its first, and worse than retrying blind — the model now has its own failed patch in the prompt and anchors on it instead of on the file.",
+                "is where it turns. The model's second attempt is worse than its first, and worse than not thinking about it at all — because its own failed patch is now in front of it, and it starts copying from that instead of from the file.",
             }}
           />
-          <p className="text-ink-muted mt-3 max-w-prose text-small">
-            The dashed line is blind retry, the control. The dotted horizontal
-            rule is the round-1 baseline rate. Both axes are fixed: the vertical
-            scale runs 0 to 100 whatever the data does, so a collapse has to
-            earn its shape.
+          <Plain className="mt-4">
+            On the first attempt, reflection is ahead:{" "}
+            <strong>{pct(reflect?.points[0]?.rate)}</strong> of its patches were
+            accepted against <strong>{pct(blind?.points[0]?.rate)}</strong> for
+            retrying blind. On the second attempt it falls to{" "}
+            <strong>{pct(reflect?.points[1]?.rate)}</strong> while blind retry
+            stays flat, and it never recovers.
+          </Plain>
+          <p className="text-ink-muted mt-2 max-w-prose text-small">
+            The dashed line is blind retry, the comparison. The dotted
+            horizontal line marks where the first attempt started. The vertical
+            scale always runs from 0 to 100, whatever the numbers do, so a drop
+            on this chart is a real drop and not a stretched axis.
           </p>
         </Panel>
 
         <div className="flex flex-col gap-4">
           <Panel
-            title="The paired test"
-            aside={`rounds ${data.fromRound} and up`}
+            title="Is this real, or is it luck?"
+            aside={`attempt ${data.fromRound} onward`}
           >
-            <div className="flex flex-col gap-4">
+            <Plain className="mb-4">
+              Each attempt by reflection is matched against blind retry on the{" "}
+              <em>same bug, same model, same attempt number</em>, so anything
+              that makes one bug harder than another cancels out. Only the pairs
+              that disagreed carry information.
+            </Plain>
+            <div className="flex flex-col gap-5">
               {data.tests.map((test) => (
                 <PairStrip key={test.label} test={test} />
               ))}
             </div>
             <div className="border-rule mt-4 border-t pt-3">
-              <PairStripLegend />
+              <PairStripLegend
+                methodA="blind retry"
+                methodB="reflection"
+              />
             </div>
+            {headline && headline.n > 0 ? (
+              <Receipt>
+                exact McNemar, two-sided binomial at p=½ · b={headline.b} c=
+                {headline.c} n={headline.n} · p={headline.p.toExponential(2)}
+              </Receipt>
+            ) : null}
           </Panel>
 
-          <Panel title="Where the signal comes from" aside="per task">
+          <Panel title="Where the result comes from" aside="each bug separately">
+            <Plain className="mb-3">
+              The same comparison, run inside each bug on its own. If one bug
+              were driving everything, this is where it would show.
+            </Plain>
             <table className="w-full text-small">
               <thead>
                 <tr className="text-ink-muted text-label">
-                  <th className="pb-1 text-left font-normal">Task</th>
-                  <th className="pb-1 text-right font-normal">b</th>
-                  <th className="pb-1 text-right font-normal">c</th>
-                  <th className="pb-1 text-right font-normal">Discordant</th>
+                  <th className="pb-1 text-left font-normal">Bug</th>
+                  <th className="pb-1 text-right font-normal">
+                    Blind retry won
+                  </th>
+                  <th className="pb-1 text-right font-normal">
+                    Reflection won
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {data.byTask.map((task) => (
                   <tr key={task.taskId} className="border-rule border-t">
-                    <td className="text-ink py-1 font-mono text-label">
+                    <td className="text-ink py-1.5 font-mono text-label">
                       {task.taskId}
                     </td>
-                    <td className="py-1 text-right">
-                      <Figure value={task.b} className="text-small" />
-                    </td>
-                    <td className="py-1 text-right">
-                      <Figure value={task.c} className="text-small" />
-                    </td>
-                    <td className="py-1 text-right">
+                    <td className="py-1.5 text-right">
                       <Figure
-                        value={task.n}
+                        value={task.b}
                         tone="measure"
                         className="text-small"
                       />
+                    </td>
+                    <td className="py-1.5 text-right">
+                      <Figure value={task.c} className="text-small" />
                     </td>
                   </tr>
                 ))}
@@ -146,11 +212,13 @@ export function Collapse({ data }: { data: CollapseData }) {
             </table>
             {topTask && headline ? (
               <Note className="mt-3">
-                Every task runs the same direction — c = 0 in all{" "}
-                {data.byTask.length} — but the pairs are not independent.{" "}
-                <span className="font-mono">{topTask.taskId}</span> supplies{" "}
-                {topTask.n} of the {headline.n} discordant pairs on its own, so
-                the effective sample is nearer {data.tasks} than {headline.n}.
+                Every bug points the same way — reflection never won a single
+                disagreement on any of them. But they are not equally
+                informative:{" "}
+                <span className="font-mono">{topTask.taskId}</span> accounts for{" "}
+                {topTask.n} of the {headline.n} disagreements by itself. So this
+                is closer to {data.byTask.length} pieces of evidence than{" "}
+                {headline.n}, and should be read that way.
               </Note>
             ) : null}
           </Panel>
@@ -158,12 +226,18 @@ export function Collapse({ data }: { data: CollapseData }) {
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-2">
-        <Panel title="Why it collapses" aside="mean completion tokens">
-          <div className="flex flex-col gap-3">
+        <Panel title="Why it happens" aside="average length of the reply">
+          <Plain className="mb-4">
+            Reflection makes the model write roughly twice as much, and it
+            writes more with every attempt. The longer the answer, the more of
+            it is the model talking about its own last try rather than reading
+            the file.
+          </Plain>
+          <div className="flex flex-col gap-4">
             {data.tokens.map((s) => (
               <div key={s.label}>
                 <p className="text-ink text-small">{s.label}</p>
-                <div className="mt-1 flex items-end gap-1">
+                <div className="mt-1.5 flex items-end gap-2">
                   {s.points.map((p) => (
                     <div key={p.round} className="flex-1">
                       <div
@@ -184,20 +258,28 @@ export function Collapse({ data }: { data: CollapseData }) {
                         tone="muted"
                         className="mt-1 block text-label"
                       />
+                      <span className="text-ink-muted block text-label">
+                        try {p.round}
+                      </span>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-          <p className="text-ink-muted mt-3 max-w-prose text-small">
-            Reflection writes roughly twice as much and climbs every round.
-            Blind retry climbs too — it is not flat — but it starts far lower
-            and never carries a previous patch forward.
-          </p>
+          <Receipt>mean completion tokens per round, calls only</Receipt>
         </Panel>
 
-        <Panel title="How it fails" aside={`malformed patches, rounds ${data.fromRound}+`}>
+        <Panel
+          title="How it fails"
+          aside={`unusable patches, attempt ${data.fromRound} onward`}
+        >
+          <Plain className="mb-4">
+            This is the mechanism, not a coincidence. Every single unusable
+            patch reflection produced after the first attempt failed for the
+            same reason: it asked the repository to find a piece of text that
+            was not in the file. It was quoting its own previous attempt.
+          </Plain>
           <div className="grid gap-4 sm:grid-cols-2">
             {data.malformed.map((group) => (
               <div key={group.label}>
@@ -212,7 +294,7 @@ export function Collapse({ data }: { data: CollapseData }) {
                 <ul className="mt-1.5 flex flex-col gap-1">
                   {group.reasons.length === 0 ? (
                     <li className="text-ink-muted text-small">
-                      No malformed patches.
+                      No unusable patches at all.
                     </li>
                   ) : (
                     group.reasons.map((reason) => (
@@ -231,45 +313,48 @@ export function Collapse({ data }: { data: CollapseData }) {
               </div>
             ))}
           </div>
-          <p className="text-ink-muted mt-3 max-w-prose text-small">
-            This is the mechanism, not a correlate. Every malformed patch
-            reflection produced after round 1 failed the same way — the search
-            text it asked the engine to find was not in the file. It was
-            quoting its own last attempt.
-          </p>
         </Panel>
       </div>
 
-      <section className="mt-8 flex max-w-prose flex-col gap-3">
-        <h2 className="text-ink text-h2">What this result does not support</h2>
+      <section className="mt-10 flex max-w-prose flex-col gap-3">
+        <h2 className="text-ink text-h2">What this does not prove</h2>
+        <Plain className="text-ink-muted">
+          Four limits, stated here rather than left for a reader to find.
+        </Plain>
         <Note>
-          <strong>Narrow and deep.</strong> {data.tasks} tasks, {data.repeats}{" "}
-          repeats, one model. The edit-format result on screen 3 spans 60 tasks;
-          this one does not, and pairs cluster within task. It is strong evidence
-          that reflection harms <em>this</em> model on <em>these</em> tasks and
-          weak evidence about anything else.
+          <strong>It is narrow.</strong> {data.tasks} bugs, {data.repeats} runs
+          each, one model. The edit-format result on the next screen covers 60
+          bugs; this one does not. It is strong evidence that reflection hurts{" "}
+          <em>this</em> model on <em>these</em> bugs, and weak evidence about
+          anything else.
         </Note>
         <Note>
-          <strong>It does not replicate across models.</strong> The 30B arm is
-          flat and null, and the reasoning arm leans the other way without
-          reaching significance. Three arms, three different answers — reported
-          as three, not averaged into one.
+          <strong>It did not happen to every model.</strong> The smaller model
+          shows no difference at all, and the reasoning model leans very
+          slightly the other way without being convincing either. Three models,
+          three different answers — reported as three rather than averaged into
+          one number that describes none of them.
         </Note>
         <Note>
-          <strong>Applied is not resolved.</strong> Every rate on this screen is
-          the rate at which a patch <em>applied to the repository</em>. No test
-          was run, so none of it measures whether a bug was fixed. A reflection
-          round that produced a clean patch for the wrong reason counts here as a
-          success.
+          <strong>&ldquo;Accepted&rdquo; is not &ldquo;fixed&rdquo;.</strong>{" "}
+          Every number on this screen counts patches the repository was willing
+          to apply. No test was ever run against them, so none of this measures
+          whether a bug was actually fixed. A tidy patch that fixes nothing
+          counts here as a success.
         </Note>
         <Note>
-          <strong>Round 1 is excluded from the test, deliberately.</strong>{" "}
-          Reflection wins round 1. Pooling all four rounds averages that win
-          against the later losses and reports nothing, which is why the test
-          starts at round {data.fromRound} — and why the chart shows round 1
-          anyway.
+          <strong>The first attempt is left out of the test on purpose.</strong>{" "}
+          Reflection wins the first attempt. Including it averages that win
+          against the later losses and the result disappears — which is why the
+          test starts at attempt {data.fromRound}, and why the chart still shows
+          attempt 1 instead of quietly cropping it.
+          {headline
+            ? ` Including it weakens the result from ${chanceInWords(headline.p)} to ${chanceInWords(data.pooledP)}.`
+            : ""}
         </Note>
       </section>
+
+      <TermList keys={TERMS} />
     </Shell>
   );
 }

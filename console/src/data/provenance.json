@@ -1,8 +1,9 @@
 {
   "syncedFrom": "recovery-bench/data",
-  "commit": "c014eb36d5880fdaaba4e043b3029ff1dbc38408",
+  "commit": "e17123f164db3c1f31ef2b60909304a3c0b2e512",
   "rows": 1604,
   "patches": 735,
+  "cells": 1604,
   "dropped": [
     "response",
     "outcome.patch (duplicate of patch)"

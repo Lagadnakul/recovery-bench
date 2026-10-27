@@ -731,29 +731,123 @@ hardcoded figure, and the rendered HTML was checked to contain `b=19 c=0`,
 `b=5 c=9` non-replication and all four limitation notes. 74 tests, five gates green, and
 no row data in any client chunk.
 
-### Phase 5 — screens 1, 3, 4, 5 · 2 days
+### Phase 5 — screens 1, 3, 4, 5 · 2 days — **DONE**
 
-| Screen | Question | Largest block |
+All six screens exist. The rail has no disabled entries left.
+
+| Screen | Route | Question it answers |
 |---|---|---|
-| 1 Overview | Did the experiment measure what it set out to? | the six-arm table |
-| 3 Edit format | Does the format decide whether a patch applies? | a5's paired columns |
-| 4 Failure classes | What actually goes wrong? | 572 MALFORMED by reason |
-| 5 Cells | Which cell broke, and why? | the 1,604-row table |
+| 1 Overview | `/` | Did the experiment measure what it set out to measure? |
+| 3 Edit format | `/edit-format` | Does the format decide whether a patch applies? |
+| 4 Failure classes | `/failure-classes` | What actually goes wrong? |
+| 5 Cells | `/cells` | Which attempt broke, and why? |
 
-Screen 1 opens with a divided KPI strip — **one container split by 1px rules, not four
-cards**, no icons, no sparklines:
+**Acceptance met:** every figure traces to a `derive.ts` function and no component
+holds a hardcoded number. The Phase 0 placeholder at `/` was the last offender — it
+hardcoded all five headline figures as strings.
 
-```
-Cells      Calls      Tokens     Arms       Refused by design
-1,604      1,428      18.1M      6 of 6     130
-```
+#### The plain-language layer — a change across the whole console
 
-Screen 5 is a real data table: virtualised, sortable, filterable by arm / model /
-strategy / outcome / round, each row expanding to its patch and stderr. The holes appear
-as holes.
+Requested after Phase 4, and it changes every screen, so it is recorded here rather
+than as its own phase.
 
-**Acceptance:** every figure traceable to a `derive.ts` function. No hardcoded numbers in
-any component.
+The console was written for a reader who already knows what `b = 19, c = 0, p = 3.8e-6`
+means. That is one of its three audiences. The examiner and the student defending the
+work are the other two, and a line of notation serves neither.
+
+**The editorial rule, now enforced everywhere: plain sentence first, notation second as
+the receipt. Never notation alone.** That same test now reads:
+
+> Of 60 matched attempts, 19 disagreed: 19 where blind retry worked and reflection did
+> not, 0 the other way round. The remaining 41 came out the same both ways and tell us
+> nothing. Luck is a very poor explanation for this — a split this lopsided happens by
+> luck about 1 in 260,000.
+>
+> `b=19 c=0 · 19 discordant of 60 pairs`
+
+| File | Role |
+|---|---|
+| `src/model/glossary.ts` | every term, one plain sentence each, plus `chanceInWords` and `strengthInWords` |
+| `src/components/primitives/Plain.tsx` | `Plain`, `Receipt`, `Term`, `TermList`, `ReadThis` |
+| `src/model/rows.ts` | `ARM_LABEL`, `ARM_QUESTION`, `STRATEGY_PLAIN`, and `STRATEGY_LABEL` reworded |
+| `src/components/primitives/ClassMark.tsx` | `CLASS_PLAIN`, and `classColor` for HTML |
+
+Four rules the glossary is tested against, because a glossary that needs a glossary is
+decoration: every definition is a complete sentence; **no definition explains a symbol
+with another symbol** (no `θ`, `λ`, `α`, `β`, `p̂` in any `plain` string); none uses
+"simply", "just", "merely" or "obviously"; and a term's name is never the symbol it is
+explaining.
+
+`chanceInWords` turns a p-value into odds a person can picture — "about 1 in 260,000",
+rounded to two significant figures because `1 in 262,144` claims a precision the
+estimate does not have. `strengthInWords` deliberately never says "significant": that
+word has a technical meaning readers substitute with "important", and the substitution
+is the commonest way a statistics result gets misread.
+
+Every screen also gained a **How to read this screen** block (the question, what you are
+looking at, what would change your mind) and a **Words used on this screen** list.
+
+#### A number on screen 6 contradicted the data beside it
+
+Screen 6 said *"Format is the class that actually recovered in the pilot, 3 of 3"* three
+pixels from a belief of **0.500**. Both cannot be true. `3 of 3` comes from the original
+Chapter 5 pilot matrix; `ccos.json`'s FORMAT class — the one the policy actually runs on
+— has **10 trials and 5 successes**, which is exactly why the belief is 0.5. The screen
+now reads the trials and successes out of the data.
+
+**`README.md` and `BUILD.md` still say 3/3.** They are describing the older matrix, so
+they are not wrong, but a reader moving between them and the console cannot tell that.
+Say which dataset each figure comes from before either is cited.
+
+#### Screen 4 could not draw what it was specified to draw
+
+The spec says "572 MALFORMED by reason" as the largest block, and that is there. But the
+four-class taxonomy is the screen's real subject, and **the live sweep can only ever
+produce two of the four**: FORMAT 710, BROKEN 46, **LOGIC 0, LOST 0**.
+
+LOGIC means "the patch applied and the test still failed", and no live row ran a test.
+So the class the entire stopping rule hinges on is *structurally unreachable* in the new
+data. Drawing a bar at zero would be a lie told with a true number. The screen draws
+those two lanes as **grey dashes labelled "not zero — not measurable"**, and the archive
+triage sits in its own panel, marked as a different and much smaller dataset.
+
+#### Screen 5 is the only screen that ships rows to the browser
+
+Sorting and filtering 1,604 rows cannot happen on a static server, so the rows have to
+travel. They are **fetched, not inlined**: 781 KB, 47 KB gzipped, served from
+`public/cells.json` (written by `sync.ts`) and loaded only by the reader who opens that
+screen. Inlining would have put ~480 KB into the HTML, duplicated again in the streaming
+payload, on a screen most readers never open. `/cells/` is **18 KB**; the next largest
+screen is 74 KB.
+
+Consequences worth knowing:
+
+- The fetch URL is **absolute** (`/cells.json`). `trailingSlash` is on, so a relative
+  `./cells.json` resolves to `/cells/cells.json` — a 404 that appears only in the
+  production export and never in dev.
+- It is **windowed, not paginated**. A scrollbar that takes a long time to drag tells
+  the truth about 1,604 rows in a way "page 1 of 33" does not.
+- This screen therefore has real **loading, empty and error** states, built rather than
+  stubbed — which is most of Phase 6 for this screen already done. The error lives
+  inside the panel that failed and offers Try again.
+
+#### Three traps
+
+- **`classFill` returns `url(#cm-hatch-logic)` for the patterned classes**, which is
+  meaningless as a CSS `background` and fails silently to transparent. Anything that is
+  not an SVG shape needs the new `classColor`.
+- **`as const satisfies Record<string, Entry>` narrows away optional fields.** Reading
+  `.symbol` then only compiles for the terms that have one, so a generic renderer is
+  impossible. Fixed by keeping the literal for checking and exporting it widened.
+- **Calling `setState` synchronously inside an effect is now an eslint *error***, not a
+  warning. The retry button is a counter the effect depends on, so the effect owns every
+  state change that follows from it.
+
+#### If a screen throws `Cannot read properties of undefined`
+
+The dev server caches modules across edits and will serve a stale one after a new export
+is added to a file it already loaded. Production build and `typecheck` passing while
+`next dev` throws is that, every time. Restart it.
 
 ### Phase 6 — states, phone, accessibility · 1 day
 
