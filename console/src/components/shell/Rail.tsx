@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { LayoutGroup, motion, useReducedMotion } from "motion/react";
+import { SPRING_LAYOUT } from "@/lib/ease";
 import { cn } from "@/lib/utils";
 
 /**
@@ -60,10 +64,21 @@ export function Rail({
   /** The screen-aware control slot. Omitted on screens with nothing to control. */
   children?: React.ReactNode;
 }) {
+  const reduced = useReducedMotion();
   return (
     <nav
       aria-label="Screens"
-      className="border-rule bg-surface flex w-full shrink-0 flex-col gap-6 border-b px-4 py-4 lg:h-dvh lg:w-60 lg:overflow-y-auto lg:border-r lg:border-b-0 lg:px-4 lg:py-5"
+      /*
+       * `sticky top-0` is what actually pins this. `h-dvh` alone -- which is
+       * what was here -- gives the rail exactly one viewport of height and its
+       * own scrollbar, but the PAGE is still the scroller, so the whole flex
+       * row slid up together and the rail scrolled away with it. It looked
+       * deliberate, which is why it survived six phases.
+       *
+       * Sticky rather than making main the scroller: a non-scrolling body
+       * breaks find-on-page, scroll restoration and the skip-link anchor.
+       */
+      className="border-rule bg-surface flex w-full shrink-0 flex-col gap-6 border-b px-4 py-4 lg:sticky lg:top-0 lg:h-dvh lg:w-60 lg:overflow-y-auto lg:border-r lg:border-b-0 lg:px-4 lg:py-5"
     >
       <div>
         <p className="text-ink text-h2">Recovery console</p>
@@ -75,6 +90,13 @@ export function Rail({
         </p>
       </div>
 
+      {/*
+       * LayoutGroup so the active marker is ONE element that moves between
+       * items rather than six that fade in and out. That is the whole reason
+       * for the motion: it shows where you came from, which a dot appearing in
+       * place cannot. Everything else in the rail stays still.
+       */}
+      <LayoutGroup id="rail-active">
       <ol className="flex flex-wrap gap-x-4 gap-y-1 lg:flex-col lg:gap-x-0">
         {SCREENS.map((entry) => {
           const active = entry.id === current;
@@ -91,13 +113,15 @@ export function Rail({
                   aria-current={active ? "page" : undefined}
                   className={cn(className, "hover:text-ink rounded-control")}
                 >
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "mt-1.5 h-1 w-1 shrink-0",
-                      active ? "bg-measure" : "bg-transparent",
-                    )}
-                  />
+                  <span aria-hidden className="relative mt-1.5 h-1 w-1 shrink-0">
+                    {active ? (
+                      <motion.span
+                        layoutId="rail-active-dot"
+                        className="bg-measure absolute inset-0"
+                        transition={reduced ? { duration: 0 } : SPRING_LAYOUT}
+                      />
+                    ) : null}
+                  </span>
                   {entry.label}
                 </Link>
               ) : (
@@ -111,6 +135,7 @@ export function Rail({
           );
         })}
       </ol>
+      </LayoutGroup>
 
       {children ? (
         <div className="border-rule flex flex-col gap-5 border-t pt-5">

@@ -919,6 +919,120 @@ Already in place from earlier phases and left alone: `:focus-visible` outlines g
 and `useReducedMotion` on the one animated mark.
 
 
+### Phase 6b — beUI, and three fixes found by looking at it on a laptop · ½ day — **DONE**
+
+Four @beui components were evaluated against the screens. Two were taken whole, one was
+taken and restyled, and one was declined.
+
+#### The rail was never pinned
+
+`Rail.tsx` had `lg:h-dvh lg:overflow-y-auto` — exactly one viewport of height, with its
+own scrollbar — and **nothing that positioned it**. The page body was still the scroller,
+so the whole flex row slid up together. It looked deliberate, which is why it survived
+six phases. `lg:sticky lg:top-0`.
+
+Sticky rather than making `main` the scroller: a non-scrolling body breaks find-on-page,
+scroll restoration and the skip-link anchor.
+
+#### `motion`, not `framer-motion`
+
+Every beUI component imports `motion/react`. Both packages are **14.6.0** — same
+codebase, `motion` is the current name — so the one import in `DecisionPlane.tsx` moved
+and `framer-motion` was dropped. Shipping both would have meant two copies of one
+library.
+
+`shadcn add` also replaced `src/lib/utils.ts` (`export { cn } from "cn"`) with the
+canonical clsx + tailwind-merge `cn`. That is an upgrade — tailwind-merge resolves
+conflicting utilities, which the old one did not — and every component already imported
+`cn` from that path, so the swap was transparent. The `cn` package was removed.
+
+#### Taken, and what each one is actually for
+
+| Component | Where | Why |
+|---|---|---|
+| `table` | screen 5 | virtualised via @tanstack/react-virtual, sorting, column resize and reorder, skeleton, empty state |
+| `code-block` | screen 5 detail | the patch is the evidence; it was in a bare `<pre>` |
+| `range-slider` | screen 6 | the one control the examiner will physically drag |
+
+**Declined: `timeline`.** It wants an events-over-time story and the sweep has none —
+the timestamps record when there was API credit, not a finding. It would have made the
+flashiest thing on the site a non-result, on a console whose argument is that it does
+not dress up what it measured.
+
+**Declined: `animated-sidebar`.** 32,000 characters of provider, trigger, rail, inset,
+header, footer and group for a nav of six links, to fix a one-line `sticky` bug. Its
+`shared-layout-bg.tsx` looked useful, but it follows the **pointer**, not the active
+item, and its `as` prop takes only `div`/`ul` while this nav is an `<ol>` because the
+screens are numbered. The active marker is a `layoutId` instead: **one** element that
+moves between items rather than six that fade in and out, which is the only reason the
+motion is there — it shows where you came from.
+
+#### Three local changes to vendored files, all marked `LOCAL`
+
+Re-apply after any `shadcn add` upgrade.
+
+1. **`table` has no row click.** Selection is wired only to the checkbox column, and
+   there is no `onRowClick`. Master-detail needs one, so `onRowClick` and `activeRowId`
+   were added — additive, so omitting them leaves upstream behaviour exactly as shipped.
+   The row also takes focus and answers Enter and Space, and the table becomes
+   `role="grid"` so `aria-selected` on a row is valid.
+2. **`range-slider` used `bg-foreground`.** This console has one accent and it marks
+   everything measured or interactive; a grey slider would have been the only live
+   control on the site not using it. Two class strings now point at `measure`.
+3. **eslint ignores `src/components/motion/**` and `src/components/agents/**`.** The
+   vendored files fail two React Compiler rules. Disabling those rules globally would
+   stop them catching the same mistake in **our** components — where it already caught
+   one, in `Cells.tsx`. The trade is stated rather than hidden: vendored code is
+   typechecked and exercised by the build, but not linted.
+
+#### Screen 5 is master-detail now
+
+The old row grid was `2fr 1fr 3rem 3rem 1fr 5rem`. On a laptop the Bug column alone was
+**~650px holding ~180px of text**, leaving ~470px of dead space before the next column,
+with reply length stranded at the far right edge. Connecting a row to its own number
+meant crossing that gap by eye, and opening a row shoved 1,600 rows up and down the page.
+
+The list is now narrow, **the far-right column is gone** — reply length belongs beside
+the patch it describes — and selecting a row changes only the pane, which is sticky.
+
+`editable`, `onInsertRow`, `onDeleteRow` and `onColumnRename` are deliberately **off**.
+They are opt-in, and a finished experiment that looks editable implies the data can be
+changed.
+
+`CodeBlock` gets `language="diff"` only for a real unified diff. A `search_replace`
+block is not one, and highlighting it as a diff would paint arbitrary lines red and
+green — inventing additions and deletions that are not in the patch.
+
+#### `range-slider` is an accessibility gain, not only a nicer feel
+
+It replaced Radix. `useSlider` handles arrows, PageUp/Down, Home and End, and it sets
+**`aria-valuetext`**, which the Radix version did not — a screen reader now announces
+the formatted value rather than a bare number. `showTicks` stays **off**: these ranges
+are 30 and 100 steps, so dots would be a grey smear, and the labelled values under the
+track carry real numbers instead.
+
+One thing that had to be fixed with it: `RangeSlider`'s root takes no `id`, so the
+wrapper's `<label htmlFor>` pointed at nothing. A label associated with no control is
+worse than no label element, so it is a `<span>` and the name comes from `aria-label`.
+
+#### Measured, not assumed
+
+```
+341 KB eager JS per page (~110 KB gzipped) — unchanged by any of this
+/cells/ 40 KB · / 49 KB · /stopping-rule/ 42 KB
+no row or ccos data in any client chunk
+87 tests, five gates green
+```
+
+`out/_next/static/chunks` is 15 MB, which is shiki's grammars. **Trimming `langs` to
+`["diff"]` saves exactly nothing** — measured, 15 MB before and after — because the
+`shiki` entry point bundles every grammar and `langs` only selects which to load at
+runtime. Trimming it would have added a throw on any other language for no gain, so it
+was reverted. Real trimming needs `shiki/core` with explicit grammar imports, which is a
+genuine fork of `agent-code.tsx`. The grammars are lazily chunked and never fetched, so
+this costs deploy artifact size and nothing a reader experiences.
+
+
 ### Phase 7 — gates, deploy, handover · ½ day
 
 ```sh

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Panel, PanelEmpty } from "@/components/primitives/Panel";
 import { Figure } from "@/components/primitives/Figure";
 import { Finding } from "@/components/primitives/Finding";
@@ -12,12 +12,11 @@ import {
   TermList,
 } from "@/components/primitives/Plain";
 import { Shell } from "@/components/shell/Rail";
+import { Table } from "@/components/motion/table";
+import type { SortState, TableColumn } from "@/components/motion/table/types";
+import { CodeBlock } from "@/components/agents/code-block";
 import { cn } from "@/lib/utils";
-import {
-  fetchCells,
-  fetchPatches,
-  type Cell,
-} from "@/model/cells";
+import { fetchCells, fetchPatches, type Cell } from "@/model/cells";
 import {
   ARM_LABEL,
   STRATEGY_LABEL,
@@ -27,23 +26,26 @@ import {
 import type { TermKey } from "@/model/glossary";
 
 /**
- * Screen 5 -- every attempt, one row each.
+ * Screen 5 -- every attempt, as a list beside a detail pane.
  *
- * The screen that makes the other four checkable. Everything else in the
- * console is a summary, and a summary is a claim about data a reader cannot
- * see. Here they can see it: filter to the exact condition any other screen
- * talks about, and count the rows themselves.
+ * It was an inline-expanding full-width table and that was the wrong shape.
+ * The row grid was `2fr 1fr 3rem 3rem 1fr 5rem`, so on a laptop the Bug column
+ * alone was ~650px holding ~180px of text, and the reply length sat ~470px of
+ * empty space away at the right edge. Connecting a row to its own number meant
+ * crossing that gap by eye, and opening a row shoved 1,600 rows up and down
+ * the page.
  *
- * Three decisions worth knowing about:
+ * Master-detail fixes all three at once: the list is narrow so nothing is
+ * stranded, the far-right column is gone because reply length belongs beside
+ * the patch it describes, and selecting a row changes only the pane.
  *
- * - **The rows are fetched, not inlined.** 781 KB of them, only for the reader
- *   who opens this screen. Which means this screen has real loading and error
- *   states, and they are built rather than stubbed.
- * - **It is windowed, not paginated.** Pagination hides the size of the thing;
- *   a scrollbar that takes a long time to drag tells the truth about 1,604
- *   rows in a way "page 1 of 33" does not.
- * - **Refusals are drawn as absences.** A row that never reached a model has a
- *   grey dash in every measured column, never a zero.
+ * The table is @beui/table -- virtualised through @tanstack/react-virtual,
+ * with sorting, column resize and reorder. Two of its props (`onRowClick`,
+ * `activeRowId`) are a local addition; see its `types.ts`.
+ *
+ * What is deliberately NOT enabled: `editable`, `onInsertRow`, `onDeleteRow`,
+ * `onColumnRename`. They are all opt-in, and a finished experiment that looks
+ * editable implies the data can be changed. It cannot.
  */
 
 const TERMS: TermKey[] = [
@@ -62,8 +64,8 @@ const TERMS: TermKey[] = [
   "hole",
 ];
 
-const ROW_HEIGHT = 32;
-const OVERSCAN = 8;
+const ROW_HEIGHT = 34;
+const TABLE_HEIGHT = 560;
 
 const KIND_LABEL: Record<string, string> = {
   APPLIED: "Accepted",
@@ -74,8 +76,6 @@ const KIND_LABEL: Record<string, string> = {
   NO_OUTPUT: "Empty",
   PROVIDER_ERROR: "No answer",
 };
-
-type SortKey = "taskId" | "round" | "repeat" | "kind" | "completionTokens";
 
 type Filters = {
   arm: string;
@@ -93,6 +93,15 @@ const EMPTY: Filters = {
   kind: "",
   format: "",
   query: "",
+};
+
+export type CellsSnapshot = {
+  /**
+   * Row count from the build-time snapshot, so the heading is right before the
+   * fetch resolves and does not hardcode 1,604.
+   */
+  rows: number;
+  commit: string | null;
 };
 
 function Select({
@@ -127,45 +136,52 @@ function Select({
   );
 }
 
-/** A labelled block of diagnostic text inside an expanded row. */
-function Detail({ label, value }: { label: string; value: string | null }) {
+/** One labelled fact in the detail pane. */
+function Fact({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-rule flex items-baseline justify-between gap-3 border-b py-1.5">
+      <span className="text-ink-muted shrink-0 text-label">{label}</span>
+      <span className="text-ink text-right text-small">{children}</span>
+    </div>
+  );
+}
+
+/** A block of diagnostic text the engine recorded. */
+function Diagnostic({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | null;
+}) {
   if (!value) return null;
   return (
     <div>
       <p className="text-ink-muted text-label">{label}</p>
-      <pre className="bg-surface-sunk border-rule text-ink mt-1 max-h-60 overflow-auto border p-2 font-mono text-label whitespace-pre-wrap">
+      <pre className="bg-surface-sunk border-rule text-ink mt-1 max-h-48 overflow-auto border p-2 font-mono text-label whitespace-pre-wrap">
         {value}
       </pre>
     </div>
   );
 }
 
-export type CellsSnapshot = {
-  /** Row count from the build-time snapshot, so the heading is right before
-   * the fetch resolves and does not hardcode 1,604. */
-  rows: number;
-  commit: string | null;
-};
-
 export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
   const [rows, setRows] = useState<Cell[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState<Filters>(EMPTY);
-  const [sort, setSort] = useState<{ key: SortKey; desc: boolean }>({
-    key: "taskId",
-    desc: false,
-  });
-  const [open, setOpen] = useState<string | null>(null);
-  const [patches, setPatches] = useState<Record<string, string> | null>(null);
-  const [scrollTop, setScrollTop] = useState(0);
-  const [viewport, setViewport] = useState(640);
-  const scroller = useRef<HTMLDivElement>(null);
-
-  // Retry is a counter rather than a function that resets state, because
-  // setting state synchronously inside an effect is what causes the cascading
-  // render React warns about. Bumping this re-runs the effect, and the effect
-  // owns every state change that follows from it.
   const [attempt, setAttempt] = useState(0);
+  const [filters, setFilters] = useState<Filters>(EMPTY);
+  const [sort, setSort] = useState<SortState | null>({
+    key: "taskId",
+    direction: "asc",
+  });
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [patches, setPatches] = useState<Record<string, string> | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -182,26 +198,15 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
     return () => controller.abort();
   }, [attempt]);
 
-  // The expanded row's patch. Fetched on first expansion and kept, so the
-  // 862 KB map is paid for at most once per visit.
+  // The patch map, fetched on first selection and kept. 862 KB paid once.
   useEffect(() => {
-    if (!open || patches) return;
+    if (!activeId || patches) return;
     const controller = new AbortController();
     fetchPatches(controller.signal)
       .then(setPatches)
       .catch(() => setPatches({}));
     return () => controller.abort();
-  }, [open, patches]);
-
-  useEffect(() => {
-    const el = scroller.current;
-    if (!el) return;
-    const observer = new ResizeObserver(() =>
-      setViewport(el.clientHeight || 640),
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [rows]);
+  }, [activeId, patches]);
 
   const options = useMemo(() => {
     const source = rows ?? [];
@@ -219,7 +224,7 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
   const visible = useMemo(() => {
     if (!rows) return [];
     const q = filters.query.trim().toLowerCase();
-    const filtered = rows.filter(
+    return rows.filter(
       (c) =>
         (!filters.arm || c.arm === filters.arm) &&
         (!filters.model || c.model === filters.model) &&
@@ -230,56 +235,72 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
           c.taskId.toLowerCase().includes(q) ||
           (c.reason ?? "").toLowerCase().includes(q)),
     );
-    const dir = sort.desc ? -1 : 1;
-    return [...filtered].sort((a, b) => {
-      const x = a[sort.key];
-      const y = b[sort.key];
-      // Nulls last in both directions: a missing value is not a small value,
-      // and sorting it to the top of an ascending column says it is.
-      if (x === null && y === null) return 0;
-      if (x === null) return 1;
-      if (y === null) return -1;
-      if (typeof x === "number" && typeof y === "number") return (x - y) * dir;
-      return String(x).localeCompare(String(y)) * dir;
-    });
-  }, [rows, filters, sort]);
+  }, [rows, filters]);
 
-  const first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN);
-  const last = Math.min(
-    visible.length,
-    Math.ceil((scrollTop + viewport) / ROW_HEIGHT) + OVERSCAN,
-  );
-  const window = visible.slice(first, last);
-
-  const header = (key: SortKey, label: string, align: "left" | "right" = "left") => (
-    <button
-      type="button"
-      onClick={() =>
-        setSort((s) => ({ key, desc: s.key === key ? !s.desc : false }))
-      }
-      className={cn(
-        "hover:text-ink rounded-control focus-visible:ring-ring flex w-full items-center gap-1 focus-visible:ring-2 focus-visible:outline-none",
-        align === "right" && "justify-end",
-        sort.key === key ? "text-ink" : "text-ink-muted",
-      )}
-      // `aria-sort` belongs on a columnheader, not on a button, and this grid
-      // has no table semantics to hang it on. The state goes in the accessible
-      // name instead, which is what a screen reader actually announces.
-      aria-label={
-        sort.key === key
-          ? `${label}, sorted ${sort.desc ? "descending" : "ascending"}. Activate to reverse.`
-          : `${label}, not sorted. Activate to sort.`
-      }
-    >
-      {label}
-      <span aria-hidden className="text-label">
-        {sort.key === key ? (sort.desc ? "↓" : "↑") : ""}
-      </span>
-    </button>
+  const active = useMemo(
+    () => visible.find((c) => c.key === activeId) ?? null,
+    [visible, activeId],
   );
 
-  const active =
-    Object.entries(filters).filter(([, v]) => v !== "").length > 0;
+  const columns = useMemo<TableColumn<Cell>[]>(
+    () => [
+      {
+        key: "taskId",
+        header: "Bug",
+        sortable: true,
+        width: "230px",
+        cell: (row) => (
+          <span className="text-ink font-mono text-label">{row.taskId}</span>
+        ),
+      },
+      {
+        key: "strategy",
+        header: "Way of retrying",
+        sortable: true,
+        width: "150px",
+        cell: (row) => (
+          <span className="text-ink-muted text-label">
+            {STRATEGY_LABEL[row.strategy]}
+          </span>
+        ),
+      },
+      {
+        key: "round",
+        header: "Try",
+        sortable: true,
+        align: "right",
+        width: "54px",
+        cell: (row) => <Figure value={row.round} className="text-label" />,
+      },
+      {
+        key: "repeat",
+        header: "Run",
+        sortable: true,
+        align: "right",
+        width: "54px",
+        cell: (row) => <Figure value={row.repeat} className="text-label" />,
+      },
+      {
+        key: "kind",
+        header: "Outcome",
+        sortable: true,
+        width: "110px",
+        cell: (row) => (
+          <span
+            className={cn(
+              "text-label",
+              row.kind === "APPLIED" ? "text-measure" : "text-ink-muted",
+            )}
+          >
+            {KIND_LABEL[row.kind] ?? row.kind}
+          </span>
+        ),
+      },
+    ],
+    [],
+  );
+
+  const anyFilter = Object.values(filters).some((v) => v !== "");
 
   return (
     <Shell current="cells">
@@ -298,14 +319,14 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
 
       <ReadThis question="Which attempts broke, and what exactly went wrong in each one?">
         <p>
-          The other screens summarise. This one does not. Use the filters to
-          narrow to a block, a model, a way of retrying or a kind of outcome,
-          and the count underneath tells you how many attempts match.
+          The other screens summarise. This one does not. Narrow with the
+          filters to a block, a model, a way of retrying or a kind of outcome,
+          and the count tells you how many attempts match.
         </p>
         <p>
-          Click any row to open it. You will see the engine&rsquo;s own reason,
-          whatever diagnostic text it recorded, and the actual patch the model
-          wrote, where there was one.
+          <strong>Click any row</strong> and everything recorded about it
+          appears on the right, including the patch the model actually wrote.
+          Drag a column edge to resize it, or a column header to reorder.
         </p>
       </ReadThis>
 
@@ -313,7 +334,7 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
         className="mt-6"
         title="Filter"
         aside={
-          active ? (
+          anyFilter ? (
             <button
               type="button"
               onClick={() => setFilters(EMPTY)}
@@ -362,7 +383,9 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
             onChange={(v) => setFilters((f) => ({ ...f, format: v }))}
           />
           <label className="flex flex-col gap-1">
-            <span className="text-ink-muted text-label">Search bug or reason</span>
+            <span className="text-ink-muted text-label">
+              Search bug or reason
+            </span>
             <input
               type="search"
               value={filters.query}
@@ -380,251 +403,208 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
             "Loading the attempts…"
           ) : (
             <>
-              Showing{" "}
-              <strong>{visible.length.toLocaleString("en-US")}</strong> of{" "}
-              {(rows?.length ?? 0).toLocaleString("en-US")} attempts.
-              {active && visible.length === 0
-                ? " Nothing matches these filters — that is a real empty set, not an error."
-                : ""}
+              Showing <strong>{visible.length.toLocaleString("en-US")}</strong>{" "}
+              of {(rows?.length ?? 0).toLocaleString("en-US")} attempts.
             </>
           )}
         </p>
       </Panel>
 
-      <Panel className="mt-4" title="Attempts" aside={`${visible.length} rows`}>
-        {error ? (
-          // The error lives inside the block that failed, never as a page
-          // banner: what failed, what the data was when it was last good, and
-          // a way to try again.
-          <div className="py-6" role="alert">
-            <p className="text-ink max-w-prose text-body">
-              The attempts could not be loaded, so this table is empty — not
-              because there are no attempts. Every other screen on this site is
-              unaffected: they were built from the same snapshot and do not
-              need this file.
-            </p>
-            <p className="text-ink-muted mt-2 max-w-prose text-small">
-              The snapshot it is trying to read holds{" "}
-              {snapshot.rows.toLocaleString("en-US")} attempts, taken at commit{" "}
-              <span className="font-mono">
-                {snapshot.commit?.slice(0, 7) ?? "unknown"}
-              </span>
-              .
-            </p>
-            <Receipt>{error}</Receipt>
-            <button
-              type="button"
-              onClick={() => {
-                setError(null);
-                setRows(null);
-                setAttempt((n) => n + 1);
-              }}
-              className="border-rule-strong rounded-control text-ink hover:bg-surface-sunk focus-visible:ring-ring mt-3 border px-3 py-1.5 text-small focus-visible:ring-2 focus-visible:outline-none"
-            >
-              Try again
-            </button>
-          </div>
-        ) : rows === null ? (
-          // The real layout with each value replaced by a bar at its true size.
-          // No shimmer, and no shift when the data lands.
-          // The final layout with each value replaced by a flat bar at its
-          // real size. Rows are ROW_HEIGHT so nothing shifts when the data
-          // lands. No shimmer: a pulsing skeleton animates for everyone,
-          // including readers who asked for no animation.
-          <div aria-busy="true" aria-live="polite">
-            <span className="sr-only">Loading the attempts.</span>
-            {Array.from({ length: 14 }).map((_, i) => (
-              <div
-                key={i}
-                style={{ height: ROW_HEIGHT }}
-                className="border-rule grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)_3rem_3rem_minmax(0,1fr)_5rem] items-center gap-3 border-b"
+      <div className="mt-4 grid items-start gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <Panel title="Attempts" aside={`${visible.length} rows`}>
+          {error ? (
+            <div className="py-6" role="alert">
+              <p className="text-ink max-w-prose text-body">
+                The attempts could not be loaded, so this table is empty — not
+                because there are no attempts. Every other screen on this site
+                is unaffected: they were built from the same snapshot and do
+                not need this file.
+              </p>
+              <p className="text-ink-muted mt-2 max-w-prose text-small">
+                The snapshot it is trying to read holds{" "}
+                {snapshot.rows.toLocaleString("en-US")} attempts, taken at
+                commit{" "}
+                <span className="font-mono">
+                  {snapshot.commit?.slice(0, 7) ?? "unknown"}
+                </span>
+                .
+              </p>
+              <Receipt>{error}</Receipt>
+              <button
+                type="button"
+                onClick={() => {
+                  setError(null);
+                  setRows(null);
+                  setAttempt((n) => n + 1);
+                }}
+                className="border-rule-strong rounded-control text-ink hover:bg-surface-sunk focus-visible:ring-ring mt-3 border px-3 py-1.5 text-small focus-visible:ring-2 focus-visible:outline-none"
               >
-                <span className="bg-surface-sunk h-3 w-40" />
-                <span className="bg-surface-sunk h-3 w-20" />
-                <span className="bg-surface-sunk h-3 w-4 justify-self-end" />
-                <span className="bg-surface-sunk h-3 w-4 justify-self-end" />
-                <span className="bg-surface-sunk h-3 w-16" />
-                <span className="bg-surface-sunk h-3 w-10 justify-self-end" />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <>
-            <div className="text-ink-muted border-rule grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)_3rem_3rem_minmax(0,1fr)_5rem] gap-3 border-b pb-1.5 text-label">
-              {header("taskId", "Bug")}
-              <span>Way of retrying</span>
-              {header("round", "Try", "right")}
-              {header("repeat", "Run", "right")}
-              {header("kind", "Outcome")}
-              {header("completionTokens", "Reply", "right")}
+                Try again
+              </button>
             </div>
+          ) : (
+            <div className="-mx-3 -mb-3">
+              <Table
+                data={visible}
+                columns={columns}
+                getRowId={(row) => row.key}
+                sort={sort}
+                onSortChange={setSort}
+                resizable
+                reorderable
+                rowHeight={ROW_HEIGHT}
+                height={TABLE_HEIGHT}
+                loading={rows === null}
+                skeletonRows={14}
+                onRowClick={(_row, id) => setActiveId(id)}
+                activeRowId={activeId}
+                emptyState={
+                  <span className="text-ink-muted text-small">
+                    No attempt matches these filters. That is a real empty set —
+                    the combination you picked was never run — not a failure to
+                    load.
+                  </span>
+                }
+              />
+            </div>
+          )}
+        </Panel>
 
-            {visible.length === 0 ? (
-              <PanelEmpty>
-                No attempt matches these filters. That is a real empty set —
-                the combination you picked was never run — not a failure to
-                load. Clear a filter to widen it.
-              </PanelEmpty>
-            ) : null}
-
-            <div
-              ref={scroller}
-              onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
-              className="max-h-[32rem] overflow-y-auto"
-            >
-              <div
-                style={{ height: visible.length * ROW_HEIGHT }}
-                className="relative"
+        <Panel
+          className="xl:sticky xl:top-4"
+          title={active ? "This attempt" : "Detail"}
+          aside={
+            active ? (
+              <button
+                type="button"
+                onClick={() => setActiveId(null)}
+                className="hover:text-ink underline underline-offset-2"
               >
-                <div
-                  style={{ transform: `translateY(${first * ROW_HEIGHT}px)` }}
-                >
-                  {window.map((cell) => {
-                    const expanded = open === cell.key;
-                    return (
-                      <div key={cell.key}>
-                        <button
-                          type="button"
-                          onClick={() => setOpen(expanded ? null : cell.key)}
-                          aria-expanded={expanded}
-                          style={{ height: ROW_HEIGHT }}
-                          // Selected has to read differently from hover, or a
-                          // reader cannot tell which row they opened once the
-                          // pointer moves away. Hover tints; selected tints AND
-                          // carries a measure-coloured edge.
-                          className={cn(
-                            "border-rule focus-visible:ring-ring relative grid w-full grid-cols-[minmax(0,2fr)_minmax(0,1fr)_3rem_3rem_minmax(0,1fr)_5rem] items-center gap-3 border-b pl-2 text-left text-small focus-visible:ring-2 focus-visible:outline-none",
-                            expanded
-                              ? "bg-measure-wash before:bg-measure before:absolute before:top-0 before:bottom-0 before:left-0 before:w-0.5 before:content-['']"
-                              : "hover:bg-surface-sunk",
-                          )}
-                          aria-label={`${cell.taskId}, ${STRATEGY_LABEL[cell.strategy]}, try ${cell.round}, run ${cell.repeat}: ${KIND_LABEL[cell.kind] ?? cell.kind}. ${expanded ? "Open" : "Closed"}.`}
-                        >
-                          <span className="text-ink truncate font-mono text-label">
-                            {cell.taskId}
-                          </span>
-                          <span className="text-ink-muted truncate text-label">
-                            {STRATEGY_LABEL[cell.strategy]}
-                          </span>
-                          <Figure value={cell.round} className="text-label" />
-                          <Figure value={cell.repeat} className="text-label" />
-                          <span
-                            className={cn(
-                              "truncate text-label",
-                              cell.kind === "APPLIED"
-                                ? "text-measure"
-                                : "text-ink-muted",
-                            )}
-                          >
-                            {KIND_LABEL[cell.kind] ?? cell.kind}
-                          </span>
-                          <Figure
-                            value={cell.completionTokens}
-                            className="text-label"
-                          />
-                        </button>
+                Close
+              </button>
+            ) : null
+          }
+        >
+          {!active ? (
+            <PanelEmpty>
+              Select a row to see everything recorded about that attempt — what
+              the engine said went wrong, the diagnostic text it kept, and the
+              patch the model actually wrote.
+            </PanelEmpty>
+          ) : (
+            <div className="flex flex-col gap-4">
+              <div>
+                <p className="text-ink font-mono text-small">{active.taskId}</p>
+                <p className="text-ink-muted mt-0.5 text-label">
+                  {ARM_LABEL[active.arm]} · {STRATEGY_LABEL[active.strategy]}
+                </p>
+              </div>
 
-                        {expanded ? (
-                          <div className="border-rule bg-surface-sunk flex flex-col gap-3 border-b p-3">
-                            <div className="flex flex-wrap gap-x-6 gap-y-1 text-small">
-                              <span className="text-ink-muted">
-                                Block{" "}
-                                <span className="text-ink">
-                                  {ARM_LABEL[cell.arm]}
-                                </span>
-                              </span>
-                              <span className="text-ink-muted">
-                                Model{" "}
-                                <span className="text-ink font-mono text-label">
-                                  {cell.model}
-                                </span>
-                              </span>
-                              <span className="text-ink-muted">
-                                Format{" "}
-                                <span className="text-ink">
-                                  {cell.editFormat === "search_replace"
-                                    ? "quote the lines"
-                                    : "Git-style diff"}
-                                </span>
-                              </span>
-                              <span className="text-ink-muted">
-                                Extended thinking{" "}
-                                <span className="text-ink">
-                                  {cell.thinking ? "on" : "off"}
-                                </span>
-                              </span>
-                              <span className="text-ink-muted">
-                                Took{" "}
-                                <Figure
-                                  value={
-                                    cell.latencyMs === null
-                                      ? null
-                                      : Math.round(cell.latencyMs / 1000)
-                                  }
-                                  unit="s"
-                                  className="text-small"
-                                />
-                              </span>
-                            </div>
+              <div>
+                <Fact label="Outcome">
+                  <span
+                    className={
+                      active.kind === "APPLIED"
+                        ? "text-measure"
+                        : "text-ink-muted"
+                    }
+                  >
+                    {KIND_LABEL[active.kind] ?? active.kind}
+                  </span>
+                </Fact>
+                <Fact label="Try / run">
+                  <Figure value={active.round} className="text-small" /> /{" "}
+                  <Figure value={active.repeat} className="text-small" />
+                </Fact>
+                <Fact label="Model">
+                  <span className="font-mono text-label">{active.model}</span>
+                </Fact>
+                <Fact label="Edit format">
+                  {active.editFormat === "search_replace"
+                    ? "quote the lines"
+                    : "Git-style diff"}
+                </Fact>
+                <Fact label="Extended thinking">
+                  {active.thinking ? "on" : "off"}
+                </Fact>
+                <Fact label="Reply length">
+                  <Figure
+                    value={active.completionTokens}
+                    unit="tokens"
+                    className="text-small"
+                  />
+                </Fact>
+                <Fact label="Took">
+                  <Figure
+                    value={
+                      active.latencyMs === null
+                        ? null
+                        : Math.round(active.latencyMs / 1000)
+                    }
+                    unit="s"
+                    className="text-small"
+                  />
+                </Fact>
+              </div>
 
-                            {cell.reason ? (
-                              <p className="text-ink max-w-prose text-small">
-                                <span className="text-ink-muted">
-                                  Why it ended this way:{" "}
-                                </span>
-                                <span className="font-mono text-label">
-                                  {cell.reason}
-                                </span>
-                              </p>
-                            ) : null}
+              {active.reason ? (
+                <p className="text-ink max-w-prose text-small">
+                  <span className="text-ink-muted">
+                    Why it ended this way:{" "}
+                  </span>
+                  <span className="font-mono text-label">{active.reason}</span>
+                </p>
+              ) : null}
 
-                            {cell.status === null &&
-                            cell.kind === "PROVIDER_ERROR" ? (
-                              <Note>
-                                No request was ever sent for this attempt. It is
-                                not a failure of the model — the conditions for
-                                making the call were not met, so there is
-                                nothing here to measure.
-                              </Note>
-                            ) : null}
+              {active.status === null && active.kind === "PROVIDER_ERROR" ? (
+                <Note>
+                  No request was ever sent for this attempt. It is not a failure
+                  of the model — the conditions for making the call were not
+                  met, so there is nothing here to measure.
+                </Note>
+              ) : null}
 
-                            <Detail label="Detail" value={cell.detail} />
-                            <Detail
-                              label="Text the model asked for, and could not be found"
-                              value={cell.searchText}
-                            />
-                            <Detail
-                              label="What the repository said"
-                              value={cell.gitStderr}
-                            />
+              <Diagnostic label="Detail" value={active.detail} />
+              <Diagnostic
+                label="Text the model asked for, and could not be found"
+                value={active.searchText}
+              />
+              <Diagnostic
+                label="What the repository said"
+                value={active.gitStderr}
+              />
 
-                            <div>
-                              <p className="text-ink-muted text-label">
-                                The patch the model wrote
-                              </p>
-                              {patches === null ? (
-                                <div className="bg-surface mt-1 h-16 w-full" />
-                              ) : patches[cell.key] ? (
-                                <pre className="bg-surface border-rule text-ink mt-1 max-h-72 overflow-auto border p-2 font-mono text-label whitespace-pre">
-                                  {patches[cell.key]}
-                                </pre>
-                              ) : (
-                                <p className="text-ink-muted mt-1 text-small">
-                                  No patch was recorded for this attempt.
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        ) : null}
-                      </div>
-                    );
-                  })}
-                </div>
+              <div>
+                <p className="text-ink-muted text-label">
+                  The patch the model wrote
+                </p>
+                {patches === null ? (
+                  <div className="bg-surface-sunk mt-1 h-24 w-full" />
+                ) : patches[active.key] ? (
+                  <CodeBlock
+                    className="mt-1"
+                    code={patches[active.key]!}
+                    // `diff` only colours a real unified diff. A search_replace
+                    // block is not one, and highlighting it as a diff would
+                    // paint arbitrary lines red and green -- inventing
+                    // additions and deletions that are not there.
+                    language={
+                      active.editFormat === "unified_diff" ? "diff" : "text"
+                    }
+                    showLineNumbers
+                    maxHeight={320}
+                    copyable
+                  />
+                ) : (
+                  <p className="text-ink-muted mt-1 text-small">
+                    No patch was recorded for this attempt.
+                  </p>
+                )}
               </div>
             </div>
-          </>
-        )}
-      </Panel>
+          )}
+        </Panel>
+      </div>
 
       <section className="mt-10 flex max-w-prose flex-col gap-3">
         <h2 className="text-ink text-h2">Reading this table</h2>
@@ -636,7 +616,7 @@ export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
           anything across this column.
         </Plain>
         <Note>
-          <strong>A grey dash is not a zero.</strong> Where the reply length is
+          <strong>A grey dash is not a zero.</strong> Where reply length is
           blank, no reply was received — usually because no request was sent.
           Nothing is known about those attempts, and the dash says so.
         </Note>
