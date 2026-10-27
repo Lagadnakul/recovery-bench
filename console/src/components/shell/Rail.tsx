@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
  */
 
 export type ScreenId =
+  | "how-it-works"
   | "overview"
   | "recovery"
   | "edit-format"
@@ -38,6 +39,9 @@ type Entry = { id: ScreenId; label: string; href: Href; built: boolean };
  * blank page costs more trust than an obviously unfinished one.
  */
 export const SCREENS: Entry[] = [
+  // Unnumbered and first. The six screens below it keep their numbers; this is
+  // the way in for a reader who does not yet know what to ask.
+  { id: "how-it-works", label: "How it works", href: "/how-it-works", built: true },
   { id: "overview", label: "Overview", href: "/", built: true },
   { id: "recovery", label: "Recovery", href: "/recovery", built: true },
   { id: "edit-format", label: "Edit format", href: "/edit-format", built: true },

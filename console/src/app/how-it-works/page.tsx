@@ -1,0 +1,149 @@
+import { HowItWorks, type HowItWorksData } from "@/components/screens/HowItWorks";
+import { loadRows } from "@/model/rows";
+import {
+  applyRateByFormat,
+  malformedByReason,
+  outcomeKinds,
+  reflectionHarm,
+  roundSeries,
+  tokenSeries,
+  totals,
+} from "@/model/derive";
+import { chanceInWords } from "@/model/glossary";
+
+/**
+ * Server component. Every figure the explainer shows is derived here, the same
+ * way the other six screens do it, so an animation can never drift from the
+ * data it claims to describe.
+ *
+ * Act 1's token counts are blind retry on the 550B arm: the cheapest, simplest
+ * retry strategy in the study, which is the right one to open with because it
+ * is what an agent does by default.
+ */
+export default function Page() {
+  const rows = loadRows();
+  const attempts = tokenSeries(rows, "a3_capability", "l1_blind_retry");
+
+  const data: HowItWorksData = {
+    loop: {
+      attempts: attempts.map((p) => ({
+        round: p.round,
+        meanCompletion: p.meanCompletion,
+        tokens: p.meanCompletion,
+      })),
+      // Summed AFTER rounding, not before. The four means are 799.2, 945.65,
+      // 1118.85 and 1091.5; rounding the sum gives 3,955 while the four rows
+      // on screen add to 3,956. A reader who adds the column must get the
+      // total it sits under, so the displayed figures are the ones summed.
+      totalTokens: attempts.reduce(
+        (n, p) => n + Math.round(p.meanCompletion ?? 0),
+        0,
+      ),
+      model: "the 550B model, retrying without being told what went wrong",
+    },
+    gate: (() => {
+      const t = totals(rows);
+      const applied =
+        outcomeKinds(rows).find((k) => k.kind === "APPLIED")?.count ?? 0;
+      return {
+        tasks: t.tasks,
+        attempts: t.rows,
+        applied,
+        notApplied: t.rows - applied,
+        // Derived, not asserted. `verification` is "apply" on every live row,
+        // so this counts to zero from the data rather than being typed in as a
+        // zero that a later run could silently falsify.
+        tested: rows.filter((r) => r.verification !== "apply").length,
+      };
+    })(),
+    format: (() => {
+      // a5 is the only block designed to test the format, and the only one
+      // spanning 60 bugs. The other five held the format fixed, so they cannot
+      // speak to this and are not pooled in.
+      const ARM = "a5_format_at_scale" as const;
+      const f = applyRateByFormat(rows, ARM);
+      const inArm = rows.filter((r) => r.arm === ARM);
+      const losing = inArm.filter((r) => r.cell.editFormat === "unified_diff");
+      return {
+        tasks: new Set(inArm.map((r) => r.cell.taskId)).size,
+        models: [...new Set(inArm.map((r) => r.cell.model))].sort(),
+        quote: {
+          rows: f.searchReplace.rows,
+          applied: f.searchReplace.applied,
+          rate: f.searchReplace.rate,
+        },
+        diff: {
+          rows: f.unifiedDiff.rows,
+          applied: f.unifiedDiff.applied,
+          rate: f.unifiedDiff.rate,
+        },
+        ratio: f.searchReplace.rate / f.unifiedDiff.rate,
+        reasons: malformedByReason(losing).map((r) => ({
+          label: r.label,
+          count: r.count,
+          share: r.share,
+        })),
+      };
+    })(),
+    collapse: (() => {
+      // a3 is where the collapse appears. a2 and a4 are carried as the
+      // replication check, because an act that showed only a3 would be the
+      // most quotable and the least honest.
+      const A = "a3_capability" as const;
+      const after = (strategy: "l1_blind_retry" | "l2_reflection") =>
+        rows.filter(
+          (r) => r.arm === A && r.cell.strategy === strategy && r.cell.round >= 2,
+        );
+      const reflectReason = malformedByReason(after("l2_reflection"))[0];
+      const blindReason = malformedByReason(after("l1_blind_retry"))[0];
+      const test = reflectionHarm(rows, A);
+      const inArm = rows.filter((r) => r.arm === A);
+
+      // Three arms, three different answers, and the wording has to keep them
+      // different. "No harm at all" for both would be true and useless: one is
+      // dead even and the other actually leans toward reflection.
+      const verdict = (arm: "a2_workhorse" | "a4_reasoning", label: string) => {
+        const t = reflectionHarm(rows, arm);
+        if (t.n === 0) return { label, verdict: "no pairs to compare" };
+        if (t.p <= 0.05)
+          return { label, verdict: t.b > t.c ? "same direction" : "the opposite" };
+        if (t.b === t.c) return { label, verdict: "dead even" };
+        return {
+          label,
+          verdict: t.c > t.b ? "leans the other way" : "no clear difference",
+        };
+      };
+
+      return {
+        blind: roundSeries(rows, A, "l1_blind_retry").map((p) => ({
+          round: p.round,
+          rate: p.rate,
+        })),
+        reflect: roundSeries(rows, A, "l2_reflection").map((p) => ({
+          round: p.round,
+          rate: p.rate,
+        })),
+        tasks: new Set(inArm.map((r) => r.cell.taskId)).size,
+        repeats: new Set(inArm.map((r) => r.cell.repeat)).size,
+        test: {
+          b: test.b,
+          c: test.c,
+          pairs: test.n + test.concordant,
+          odds: chanceInWords(test.p),
+        },
+        mechanism: {
+          reflectCount: reflectReason?.count ?? 0,
+          reflectReason: reflectReason?.label ?? "",
+          blindCount: blindReason?.count ?? 0,
+          blindReason: blindReason?.label ?? "",
+        },
+        replication: [
+          verdict("a2_workhorse", "the 30B model"),
+          verdict("a4_reasoning", "the reasoning model"),
+        ],
+      };
+    })(),
+  };
+
+  return <HowItWorks data={data} />;
+}
