@@ -63,6 +63,39 @@ export function SlopeChart({
   const from = annotated?.points.find((p) => p.round === annotate!.toRound - 1);
   const to = annotated?.points.find((p) => p.round === annotate!.toRound);
 
+  /**
+   * The empty chart is still a chart.
+   *
+   * CONSOLE.md's rule: draw the grid and the axis, leave the series out, and
+   * say in one sentence what is absent. No "No data" illustration and no
+   * padded range -- an empty plot area at the real scale tells a reader the
+   * shape of what is missing, which a shrug icon does not.
+   */
+  if (rounds.length === 0) {
+    return (
+      <figure className="m-0">
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="No rounds measured">
+          {gridlines.map((rate) => (
+            <line
+              key={rate}
+              x1={PAD.left}
+              x2={PAD.left + plotW}
+              y1={y(rate)}
+              y2={y(rate)}
+              stroke="var(--color-rule)"
+              strokeWidth={1}
+              shapeRendering="crispEdges"
+            />
+          ))}
+        </svg>
+        <figcaption className="text-ink-muted mt-1 max-w-prose text-small">
+          No rounds were measured for these conditions, so there is nothing to
+          plot. This is an absence, not a run of zeros.
+        </figcaption>
+      </figure>
+    );
+  }
+
   return (
     <figure className="m-0">
       <svg

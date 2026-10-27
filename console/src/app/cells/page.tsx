@@ -1,4 +1,5 @@
 import { Cells } from "@/components/screens/Cells";
+import { loadProvenance } from "@/model/rows";
 
 /**
  * The only screen whose data is fetched in the browser rather than resolved at
@@ -7,5 +8,10 @@ import { Cells } from "@/components/screens/Cells";
  * served from public/ rather than inlined.
  */
 export default function Page() {
-  return <Cells />;
+  // The snapshot's own figures, so the heading is correct before the fetch
+  // resolves and the error state can say what it was trying to read.
+  const provenance = loadProvenance();
+  return (
+    <Cells snapshot={{ rows: provenance.rows, commit: provenance.commit }} />
+  );
 }

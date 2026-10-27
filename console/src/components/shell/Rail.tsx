@@ -133,9 +133,34 @@ export function Shell({
 }) {
   return (
     <div className="flex min-h-dvh flex-col lg:flex-row">
+      {/*
+       * The skip link. Six screens share a rail of six links, so a keyboard
+       * reader otherwise tabs through the same six before reaching the content
+       * on every single screen. Visually hidden until focused, then it lands
+       * on top of the rail rather than shifting the layout.
+       */}
+      <a
+        href="#content"
+        className="bg-surface border-rule-strong text-ink rounded-control sr-only z-50 border px-3 py-2 text-small focus:not-sr-only focus:absolute focus:top-3 focus:left-3"
+      >
+        Skip to the screen
+      </a>
       <Rail current={current}>{rail}</Rail>
-      <main className="min-w-0 flex-1 px-4 py-8 lg:px-10 lg:py-10">
-        {children}
+      <main
+        id="content"
+        // Focusable so the skip link actually moves focus, not just the
+        // viewport: -1 keeps it out of the tab order otherwise.
+        tabIndex={-1}
+        className="min-w-0 flex-1 px-4 py-8 focus-visible:outline-none lg:px-10 lg:py-10"
+      >
+        {/*
+         * Capped for the room, not the phone. This is shown on a laptop and
+         * through a projector, so the floor is fine -- the grids all use
+         * minmax(0,…) and collapse to one column under 1280. The ceiling is
+         * the real risk: on a 27" monitor an uncapped two-column grid gives
+         * each panel 1,100px, and a chart that wide reads as decoration.
+         */}
+        <div className="mx-auto w-full max-w-[96rem]">{children}</div>
       </main>
     </div>
   );

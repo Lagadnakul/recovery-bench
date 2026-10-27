@@ -169,6 +169,11 @@ export function FailureClasses({ data }: { data: FailureClassesData }) {
               The raw outcome of every attempt, in the engine&rsquo;s own
               categories. The classes above are built from these.
             </Plain>
+            {data.kinds.length === 0 ? (
+              <PanelEmpty>
+                The snapshot recorded no outcomes at all.
+              </PanelEmpty>
+            ) : null}
             <ul className="flex flex-col gap-2.5">
               {data.kinds.map((kind) => (
                 <li key={kind.kind}>
@@ -202,6 +207,12 @@ export function FailureClasses({ data }: { data: FailureClassesData }) {
           experiment, and it breaks down into a handful of specific, fixable
           mistakes. None of them is about understanding the bug.
         </Plain>
+        {data.reasons.length === 0 ? (
+          <PanelEmpty>
+            No unusable patches were recorded, so there is nothing to break
+            down here.
+          </PanelEmpty>
+        ) : null}
         <ul className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
           {data.reasons.map((reason) => (
             <li key={reason.raw}>

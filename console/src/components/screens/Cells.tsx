@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Panel } from "@/components/primitives/Panel";
+import { Panel, PanelEmpty } from "@/components/primitives/Panel";
 import { Figure } from "@/components/primitives/Figure";
 import { Finding } from "@/components/primitives/Finding";
 import { Note } from "@/components/primitives/Note";
@@ -114,7 +114,7 @@ function Select({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="border-rule-strong rounded-control bg-surface text-ink focus-visible:ring-ring h-8 border px-2 text-small focus-visible:ring-2 focus-visible:outline-none"
+        className="border-rule-strong rounded-control bg-surface text-ink focus-visible:ring-ring hover:border-ink-muted h-8 cursor-pointer border px-2 text-small focus-visible:ring-2 focus-visible:outline-none"
       >
         <option value="">All</option>
         {options.map((option) => (
@@ -140,7 +140,14 @@ function Detail({ label, value }: { label: string; value: string | null }) {
   );
 }
 
-export function Cells() {
+export type CellsSnapshot = {
+  /** Row count from the build-time snapshot, so the heading is right before
+   * the fetch resolves and does not hardcode 1,604. */
+  rows: number;
+  commit: string | null;
+};
+
+export function Cells({ snapshot }: { snapshot: CellsSnapshot }) {
   const [rows, setRows] = useState<Cell[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>(EMPTY);
@@ -280,9 +287,8 @@ export function Cells() {
         <p className="text-ink-muted text-label">Screen 5</p>
         <h1 className="text-ink text-h1 mt-0.5">Every attempt</h1>
         <Finding className="mt-3">
-          All{" "}
-          {rows ? rows.length.toLocaleString("en-US") : "1,604"} attempts, one
-          row each, with what happened and why.{" "}
+          All {(rows?.length ?? snapshot.rows).toLocaleString("en-US")}{" "}
+          attempts, one row each, with what happened and why.{" "}
           <strong>
             Every number anywhere else in this console can be checked here
           </strong>{" "}
@@ -364,7 +370,7 @@ export function Cells() {
               onChange={(e) =>
                 setFilters((f) => ({ ...f, query: e.target.value }))
               }
-              className="border-rule-strong rounded-control bg-surface text-ink placeholder:text-ink-muted focus-visible:ring-ring h-8 w-56 border px-2 text-small focus-visible:ring-2 focus-visible:outline-none"
+              className="border-rule-strong rounded-control bg-surface text-ink placeholder:text-ink-muted focus-visible:ring-ring hover:border-ink-muted h-8 w-56 border px-2 text-small focus-visible:ring-2 focus-visible:outline-none"
             />
           </label>
         </div>
@@ -387,10 +393,23 @@ export function Cells() {
 
       <Panel className="mt-4" title="Attempts" aside={`${visible.length} rows`}>
         {error ? (
-          <div className="py-6">
+          // The error lives inside the block that failed, never as a page
+          // banner: what failed, what the data was when it was last good, and
+          // a way to try again.
+          <div className="py-6" role="alert">
             <p className="text-ink max-w-prose text-body">
               The attempts could not be loaded, so this table is empty — not
-              because there are no attempts.
+              because there are no attempts. Every other screen on this site is
+              unaffected: they were built from the same snapshot and do not
+              need this file.
+            </p>
+            <p className="text-ink-muted mt-2 max-w-prose text-small">
+              The snapshot it is trying to read holds{" "}
+              {snapshot.rows.toLocaleString("en-US")} attempts, taken at commit{" "}
+              <span className="font-mono">
+                {snapshot.commit?.slice(0, 7) ?? "unknown"}
+              </span>
+              .
             </p>
             <Receipt>{error}</Receipt>
             <button
@@ -408,9 +427,25 @@ export function Cells() {
         ) : rows === null ? (
           // The real layout with each value replaced by a bar at its true size.
           // No shimmer, and no shift when the data lands.
-          <div aria-busy className="flex flex-col gap-2 py-2">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="bg-surface-sunk h-4 w-full" />
+          // The final layout with each value replaced by a flat bar at its
+          // real size. Rows are ROW_HEIGHT so nothing shifts when the data
+          // lands. No shimmer: a pulsing skeleton animates for everyone,
+          // including readers who asked for no animation.
+          <div aria-busy="true" aria-live="polite">
+            <span className="sr-only">Loading the attempts.</span>
+            {Array.from({ length: 14 }).map((_, i) => (
+              <div
+                key={i}
+                style={{ height: ROW_HEIGHT }}
+                className="border-rule grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)_3rem_3rem_minmax(0,1fr)_5rem] items-center gap-3 border-b"
+              >
+                <span className="bg-surface-sunk h-3 w-40" />
+                <span className="bg-surface-sunk h-3 w-20" />
+                <span className="bg-surface-sunk h-3 w-4 justify-self-end" />
+                <span className="bg-surface-sunk h-3 w-4 justify-self-end" />
+                <span className="bg-surface-sunk h-3 w-16" />
+                <span className="bg-surface-sunk h-3 w-10 justify-self-end" />
+              </div>
             ))}
           </div>
         ) : (
@@ -423,6 +458,14 @@ export function Cells() {
               {header("kind", "Outcome")}
               {header("completionTokens", "Reply", "right")}
             </div>
+
+            {visible.length === 0 ? (
+              <PanelEmpty>
+                No attempt matches these filters. That is a real empty set —
+                the combination you picked was never run — not a failure to
+                load. Clear a filter to widen it.
+              </PanelEmpty>
+            ) : null}
 
             <div
               ref={scroller}
@@ -445,10 +488,17 @@ export function Cells() {
                           onClick={() => setOpen(expanded ? null : cell.key)}
                           aria-expanded={expanded}
                           style={{ height: ROW_HEIGHT }}
+                          // Selected has to read differently from hover, or a
+                          // reader cannot tell which row they opened once the
+                          // pointer moves away. Hover tints; selected tints AND
+                          // carries a measure-coloured edge.
                           className={cn(
-                            "border-rule hover:bg-surface-sunk focus-visible:ring-ring grid w-full grid-cols-[minmax(0,2fr)_minmax(0,1fr)_3rem_3rem_minmax(0,1fr)_5rem] items-center gap-3 border-b text-left text-small focus-visible:ring-2 focus-visible:outline-none",
-                            expanded && "bg-surface-sunk",
+                            "border-rule focus-visible:ring-ring relative grid w-full grid-cols-[minmax(0,2fr)_minmax(0,1fr)_3rem_3rem_minmax(0,1fr)_5rem] items-center gap-3 border-b pl-2 text-left text-small focus-visible:ring-2 focus-visible:outline-none",
+                            expanded
+                              ? "bg-measure-wash before:bg-measure before:absolute before:top-0 before:bottom-0 before:left-0 before:w-0.5 before:content-['']"
+                              : "hover:bg-surface-sunk",
                           )}
+                          aria-label={`${cell.taskId}, ${STRATEGY_LABEL[cell.strategy]}, try ${cell.round}, run ${cell.repeat}: ${KIND_LABEL[cell.kind] ?? cell.kind}. ${expanded ? "Open" : "Closed"}.`}
                         >
                           <span className="text-ink truncate font-mono text-label">
                             {cell.taskId}

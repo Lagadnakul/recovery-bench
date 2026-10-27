@@ -1,4 +1,4 @@
-import { Panel } from "@/components/primitives/Panel";
+import { Panel, PanelEmpty } from "@/components/primitives/Panel";
 import { Figure } from "@/components/primitives/Figure";
 import { Finding } from "@/components/primitives/Finding";
 import { Note } from "@/components/primitives/Note";
@@ -197,13 +197,18 @@ export function Overview({ data }: { data: OverviewData }) {
       >
         <Plain className="mb-4">
           Each block answers its own question with its own model. Notice the
-          shape difference: one block covers {Math.max(
-            ...data.arms.map((a) => a.tasks),
-          )}{" "}
-          bugs, the rest cover 4 each with repeats. That makes one result broad
+          shape difference: one block covers{" "}
+          {data.arms.reduce((most, a) => Math.max(most, a.tasks), 0)} bugs, the
+          rest cover 4 each with repeats. That makes one result broad
           and the others deep but narrow, and the console says so wherever it
           matters.
         </Plain>
+        {data.arms.length === 0 ? (
+          <PanelEmpty>
+            The snapshot holds no completed blocks. Nothing has been measured
+            yet — this is not a run of zeros.
+          </PanelEmpty>
+        ) : (
         <div className="-mx-3 overflow-x-auto px-3">
           <table className="w-full min-w-[46rem] text-small">
             <thead>
@@ -257,6 +262,7 @@ export function Overview({ data }: { data: OverviewData }) {
             </tbody>
           </table>
         </div>
+        )}
       </Panel>
 
       <section className="mt-10 flex max-w-prose flex-col gap-3">

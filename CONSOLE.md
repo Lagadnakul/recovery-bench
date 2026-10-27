@@ -849,31 +849,75 @@ The dev server caches modules across edits and will serve a stale one after a ne
 is added to a file it already loaded. Production build and `typecheck` passing while
 `next dev` throws is that, every time. Restart it.
 
-### Phase 6 — states, phone, accessibility · 1 day
+### Phase 6 — states and accessibility · 1 day — **DONE**
 
-Half the build, and the half that separates professional from demo.
+**Phone was dropped, deliberately.** The console is shown on a laptop and through a
+projector at a viva. Building phone layouts would have spent the day on a width nobody
+will use, and a 1,604-row table on a 390px screen is not a thing worth having.
 
-For every block: empty, zero, loading, error. For every row and control: hover, selected,
-focus, disabled.
+What that does *not* mean is "ignore width". The floor still has to not break: every
+grid uses `minmax(0, …)` so it collapses to one column under 1280 rather than forcing
+the page sideways, and the one fixed-width table sits inside its own `overflow-x-auto`
+so it scrolls within its panel. The **ceiling** turned out to be the real risk —
+uncapped, a two-column grid on a 27" monitor gives each panel 1,100px, and a chart that
+wide reads as decoration. `main` is now capped at `96rem`.
 
-- A real zero prints `0`, never a dash. A missing value is a grey dash, never `--` at
-  value size.
-- An empty section keeps its frame and header, and adds one sentence spanning the block.
-- An empty chart is drawn — zero line, missing bars, no padded range, no "No data"
-  illustration.
-- Loading is the final layout with each value replaced by a flat grey bar at its real
-  size. No shimmer, no layout shift when data lands.
-- An error lives **inside the block that failed**, never as a page banner: what failed,
-  when the data was last good, and a Retry text button.
+#### Every block now has its four states
 
-Phone: rail folds to a 48px top bar, KPIs become 2 columns, charts full width at
-160–200px with 3–4 x labels, **the table becomes two-line rows** — identity and key
-figure on line 1, the rest in 13px grey on line 2. Never a sideways-scrolling page.
+| State | Rule |
+|---|---|
+| Empty | keeps its frame and header, one sentence spanning the block |
+| Zero | prints `0`; **never** a dash |
+| Missing | grey dash at value size; **never** `0`, never `--` |
+| Loading | the final layout with values replaced by flat bars at their real size |
+| Error | inside the block that failed, never a page banner |
 
-Keyboard: visible focus everywhere, sliders arrow-key operable, the table navigable.
+`PanelEmpty` was written in Phase 1 and used exactly once. It is now on the six-block
+table, the reasons lists on screens 3 and 4, the per-bug split on screen 2, and the
+filtered table on screen 5.
 
-**Acceptance:** 0 failures at 1440, 768 and 390 on the **production build**. Every state
-reachable in a dev-only state gallery.
+Two charts could not previously be drawn empty at all. `SlopeChart` with no rounds
+divided by zero; `DecisionPlane` with no lanes rendered an axis under nothing. Both now
+draw **the grid without the series** and say what is absent — no "No data"
+illustration, no padded range.
+
+The contract those states rest on is tested rather than trusted: `armSummary`,
+`malformedByReason`, `outcomeKinds`, `holes` and `harmByTask` return **empty lists, not
+fabricated zero rows**; a rate over no rows is `0` while a mean over no calls is `null`;
+and `mcNemar(0,0)` is distinguishable from a test that compared 8 pairs and found
+nothing, **despite both having p = 1.000**.
+
+#### Screen 5's states are real, because its data is
+
+It is the only screen that fetches, so it is the only one where loading and error are
+reachable. Loading is 14 rows at the true `ROW_HEIGHT`, so nothing shifts when the data
+lands — **no shimmer**, because a pulsing skeleton animates for everyone including
+readers who asked for no animation. The error states what failed, **what the snapshot
+held when it was last good** (row count and commit), that every other screen is
+unaffected, and offers Try again.
+
+Its heading also stopped hardcoding `1,604` as a pre-fetch fallback — it reads the
+count from `provenance.json`.
+
+#### Accessibility
+
+- **Skip link** on every screen. Six screens share a rail of six links; without it a
+  keyboard reader tabs through all six before reaching the content, every time. `main`
+  is `tabIndex={-1}` so the link moves focus rather than only the viewport.
+- **Selected is distinct from hover** on a table row. Hover tints; selected tints *and*
+  carries a measure-coloured edge — otherwise a reader cannot tell which row they opened
+  once the pointer moves away.
+- **Every row carries its own accessible name**: bug, strategy, try, run, outcome, and
+  whether it is open. The grid has no table semantics to hang column headers on, so the
+  name has to be self-sufficient.
+- Verified in the built HTML: one `h1` per screen and **no skipped heading levels**,
+  `main#content` and the skip link on all six, and **zero** `role="img"` marks without
+  an `aria-label`.
+
+Already in place from earlier phases and left alone: `:focus-visible` outlines globally,
+`prefers-reduced-motion` zeroing every transition, tabular figures on all table cells,
+and `useReducedMotion` on the one animated mark.
+
 
 ### Phase 7 — gates, deploy, handover · ½ day
 

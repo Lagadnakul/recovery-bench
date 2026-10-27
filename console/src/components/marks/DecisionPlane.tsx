@@ -54,7 +54,19 @@ const VERDICT_COPY: Record<Decision, string> = {
 
 export function DecisionPlane({ lanes }: { lanes: Lane[] }) {
   const reduced = useReducedMotion();
+  // Zero lanes would give the svg a height of AXIS_H alone and render an axis
+  // under nothing, which looks like a chart that failed rather than a policy
+  // with no classes to decide about.
   const H = lanes.length * LANE_H + AXIS_H;
+
+  if (lanes.length === 0) {
+    return (
+      <p className="text-ink-muted max-w-prose text-small">
+        The policy has no failure classes to decide about, so there is nothing
+        to draw. This is an absence of classes, not a decision to abort.
+      </p>
+    );
+  }
 
   const spring = reduced
     ? { duration: 0 }

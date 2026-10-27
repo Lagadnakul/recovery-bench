@@ -516,3 +516,51 @@ describe("screen 2 -- the collapse", () => {
     }
   });
 });
+
+describe("empty and zero are different, all the way down", () => {
+  // The screens draw an absence differently from a measured zero. That only
+  // holds if the derivations below them keep the two apart, so these pin the
+  // contract each empty state depends on.
+  const rows = loadRows();
+
+  test("no rows produces empty lists, never fabricated zero entries", () => {
+    expect(armSummary([])).toEqual([]);
+    expect(malformedByReason([])).toEqual([]);
+    expect(outcomeKinds([])).toEqual([]);
+    expect(holes([])).toEqual([]);
+    expect(harmByTask([], "a3_capability")).toEqual([]);
+  });
+
+  test("a rate over no rows is 0, and a mean over no calls is null", () => {
+    // Both are correct and they are not the same statement. "0% of nothing
+    // applied" is a true zero; "the average reply was nothing long" is not a
+    // measurement at all.
+    const format = applyRateByFormat([], "a3_capability");
+    expect(format.searchReplace.rate).toBe(0);
+    expect(format.searchReplace.rows).toBe(0);
+
+    const starved = tokenSeries(rows, "a2_workhorse", "l2_5_diagnose_revise");
+    for (const point of starved) expect(point.meanCompletion).toBeNull();
+  });
+
+  test("a test with no pairs is distinguishable from a test that found nothing", () => {
+    const none = mcNemar(0, 0);
+    expect(none.n).toBe(0);
+    expect(none.canReject).toBe(false);
+
+    // Same p-value, completely different claim: this one compared 8 pairs.
+    const null_ = reflectionHarm(rows, "a2_workhorse");
+    expect(null_.p).toBe(none.p);
+    expect(null_.n).toBeGreaterThan(0);
+    expect(null_.canReject).toBe(true);
+  });
+
+  test("totals over no rows are zero, and the arm count is zero not six", () => {
+    const empty = totals([]);
+    expect(empty.rows).toBe(0);
+    expect(empty.calls).toBe(0);
+    // ARMS has six entries; armSummary filters to the ones with rows, so an
+    // empty snapshot must report zero completed blocks rather than "6 of 6".
+    expect(empty.arms).toBe(0);
+  });
+});

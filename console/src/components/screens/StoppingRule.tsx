@@ -161,7 +161,7 @@ export function StoppingRule({ data }: { data: StoppingRuleData }) {
           <button
             type="button"
             onClick={() => setPayoffs(data.payoffs)}
-            className="text-measure rounded-control mt-2 text-small underline underline-offset-2"
+            className="text-measure hover:text-ink rounded-control mt-2 text-small underline underline-offset-2"
           >
             Reset to the committed values
           </button>

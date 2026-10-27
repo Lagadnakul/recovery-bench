@@ -1,4 +1,4 @@
-import { Panel } from "@/components/primitives/Panel";
+import { Panel, PanelEmpty } from "@/components/primitives/Panel";
 import { Figure } from "@/components/primitives/Figure";
 import { Finding } from "@/components/primitives/Finding";
 import { Note } from "@/components/primitives/Note";
@@ -197,6 +197,12 @@ export function EditFormat({ data }: { data: EditFormatData }) {
               common failure is the model miscounting how many lines its own
               change touches.
             </Plain>
+            {data.reasons.length === 0 ? (
+              <PanelEmpty>
+                No unusable patches were recorded in this format, so there is
+                no breakdown to show.
+              </PanelEmpty>
+            ) : null}
             <ul className="flex flex-col gap-1">
               {data.reasons.map((reason) => (
                 <li

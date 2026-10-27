@@ -1,4 +1,4 @@
-import { Panel } from "@/components/primitives/Panel";
+import { Panel, PanelEmpty } from "@/components/primitives/Panel";
 import { Figure } from "@/components/primitives/Figure";
 import { Finding } from "@/components/primitives/Finding";
 import { Note } from "@/components/primitives/Note";
@@ -178,6 +178,12 @@ export function Collapse({ data }: { data: CollapseData }) {
               The same comparison, run inside each bug on its own. If one bug
               were driving everything, this is where it would show.
             </Plain>
+            {data.byTask.length === 0 ? (
+              <PanelEmpty>
+                No bug had attempts that could be matched up, so there is
+                nothing to split.
+              </PanelEmpty>
+            ) : null}
             <table className="w-full text-small">
               <thead>
                 <tr className="text-ink-muted text-label">
