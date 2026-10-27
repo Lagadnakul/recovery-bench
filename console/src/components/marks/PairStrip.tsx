@@ -98,7 +98,7 @@ export function PairStrip({ test }: { test: PairTest }) {
           </div>
 
           {/* The sentence first. The notation underneath is the receipt. */}
-          <p className="text-ink mt-1.5 text-small">
+          <p className="text-ink mt-1.5 text-small [overflow-wrap:anywhere]">
             Of {total} matched attempts, {test.n} disagreed:{" "}
             <strong>{test.b}</strong> where {test.methodA} worked and{" "}
             {test.methodB} did not, <strong>{test.c}</strong> the other way

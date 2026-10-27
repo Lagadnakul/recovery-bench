@@ -317,14 +317,27 @@ export const GLOSSARY: Record<TermKey, Entry> = ENTRIES;
  * "About 1 in 262,000" is the same number, stated so a reader can judge it.
  */
 export function chanceInWords(p: number): string {
-  if (!Number.isFinite(p) || p <= 0) return "far less than 1 in a million";
+  if (!Number.isFinite(p) || p <= 0) return "never, as far as this test can tell";
   if (p >= 0.999) return "exactly what chance alone would produce";
   if (p >= 0.5) return `about 1 in ${(1 / p).toFixed(1)}`;
 
   const oneIn = 1 / p;
+  const exponent = Math.floor(Math.log10(oneIn));
+
+  /**
+   * Past a certain size a grouped number stops being readable and starts being
+   * scenery. The edit-format result is p = 7.4e-89, which spelled out in full
+   * is an 89-digit number: it broke the line, overflowed the page sideways, and
+   * told the reader nothing a shorter phrase would not.
+   *
+   * It is also unbreakable text -- no spaces, and browsers do not wrap on
+   * commas -- so it is the layout's problem as well as the reader's.
+   */
+  if (exponent >= 15) return `about 1 in 10 followed by ${exponent} zeros`;
+
   // Two significant figures, then grouped -- "1 in 262,000", not "1 in 262,144",
   // which implies a precision the estimate does not have.
-  const magnitude = Math.pow(10, Math.floor(Math.log10(oneIn)) - 1);
+  const magnitude = Math.pow(10, exponent - 1);
   const rounded = Math.round(oneIn / magnitude) * magnitude;
   return `about 1 in ${rounded.toLocaleString("en-US")}`;
 }

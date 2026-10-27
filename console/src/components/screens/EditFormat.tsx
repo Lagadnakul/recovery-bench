@@ -15,7 +15,7 @@ import {
   PairStripLegend,
   type PairTest,
 } from "@/components/marks/PairStrip";
-import { chanceInWords, type TermKey } from "@/model/glossary";
+import type { TermKey } from "@/model/glossary";
 
 /**
  * Screen 3 -- the edit format.
@@ -181,11 +181,9 @@ export function EditFormat({ data }: { data: EditFormatData }) {
               />
             </div>
             <Plain className="mt-4">
-              A result this lopsided would happen by chance{" "}
-              {chanceInWords(data.test.p)} — which is to say, never. This is not
-              a marginal finding that needs careful statistics to defend. The
-              statistics are here because they should be, not because the result
-              is close.
+              This is not a marginal finding that needs careful statistics to
+              defend. The statistics are here because they should be, not
+              because the result is close.
             </Plain>
             <Receipt>
               exact McNemar, two-sided binomial at p=½ · b={data.test.b} c=

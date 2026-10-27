@@ -993,7 +993,7 @@ bun run contrast   # 127 palette checks — keep it green
 |---|---|---|
 | **1 · The decision** | Sliders for G, r, h and per-class q_c; θ_c and the RETRY/ASK boundary recompute live | The thesis made tangible. A professor can *move* the inequality and watch the policy change. Nothing else you build communicates the contribution this fast. |
 | **2 · Triage** | All 42 records classified, zero model calls, holes drawn as holes | The feasibility claim, and D2/D15 honesty in one picture |
-| **3 · Pilot evidence** | 12 PASS / 4 FAIL / 4 ERROR; the recovery matrix with its 8 unrun cells | The real result you already own: 0/4 logic, 3/3 format |
+| **3 · Pilot evidence** | 12 PASS / 4 FAIL / 4 ERROR; the recovery matrix with its 8 unrun cells | The real result you already own: 0/4 logic, 3/3 format — **20-task pilot matrix**, not the 31-trial archive the stopping rule is fitted on (there: 0/21 logic, 5/10 format) |
 | **4 · Power** | Power vs N, chosen N marked, the pilot's 0.27–0.57 shown | Pre-empts the reviewer's first attack, in a figure |
 | **5 · Cost** | 3× input tokens for identical outcomes; the 31,098-token file; 0.2% evidence retention | H3, and the strongest sentence in the paper: *0% recovery at 3× token cost* |
 | **6 · Four arms** | A/B/C/D as one policy; Pareto axes drawn, **explicitly unmeasured** | The design, honestly labelled |
@@ -1049,8 +1049,10 @@ manipulation worked, or reviewers assume it cannot fail:
    *unrunnable* whenever the prior attempt applied cleanly, because there is no apply error to
    show. Cells must be **refused and recorded**, never silently downgraded.
 2. **Positive control** — SEARCH/REPLACE eliminates format failures. You already have this:
-   format-class recovered 3/3, and the 0→6 sub-test jump on `django-11019` came from the
-   retrofit, not from the strategy.
+   format-class recovered 3/3 **in the 20-task pilot matrix**, and the 0→6 sub-test jump
+   on `django-11019` came from the retrofit, not from the strategy. The 31-trial archive
+   that `ccos.json` fits the policy on puts the same class at **5 of 10**; cite whichever
+   you mean by name, never `3/3` beside a belief of `0.500`.
 
 ### Things that are findings, not footnotes
 

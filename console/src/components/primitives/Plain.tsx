@@ -30,7 +30,16 @@ export function Plain({
   className?: string;
 }) {
   return (
-    <p className={cn("text-ink max-w-prose text-body", className)}>
+    // `overflow-wrap: anywhere` is a guard, not a style. A long unbroken
+    // figure -- "1 in 13,000,000,..." with no spaces and no break opportunity,
+    // since browsers do not wrap on commas -- otherwise widens the whole page
+    // and introduces horizontal scroll on every screen below it.
+    <p
+      className={cn(
+        "text-ink max-w-prose text-body [overflow-wrap:anywhere]",
+        className,
+      )}
+    >
       {children}
     </p>
   );
@@ -50,7 +59,7 @@ export function Receipt({
   return (
     <p
       className={cn(
-        "text-ink-muted mt-1 font-mono text-label tabular-nums",
+        "text-ink-muted mt-1 font-mono text-label tabular-nums [overflow-wrap:anywhere]",
         className,
       )}
     >

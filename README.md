@@ -20,6 +20,13 @@ Blind Retry, Reflection-only, and Diagnose+Revise:
 | **Format** | The patch was malformed and never applied | **3 of 3** |
 | **Logic** | The patch applied cleanly; the test still failed | **0 of 4** |
 
+> **Which dataset this is.** These are the **20-task pilot matrix**. The stopping
+> rule is fitted on a different and larger set — the **31 hand-triaged archive
+> trials** in `data/ccos.json`, where Format is **5 of 10** and Logic is **0 of
+> 21**. Both are correct; they are not the same evidence. Always say which one a
+> figure comes from, because `3 of 3` and a class belief of `0.500` sitting near
+> each other look like a contradiction and are not.
+
 All three strategies produced identical outcomes, across two independent rounds.
 Telling the model *why* it failed changed nothing. Changing *how the edit was
 expressed* — unified diff to SEARCH/REPLACE — changed everything.

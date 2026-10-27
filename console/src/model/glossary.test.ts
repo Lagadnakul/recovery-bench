@@ -42,6 +42,9 @@ describe("the plain-language layer", () => {
     // Rounded to two significant figures: 1/3.8147e-6 is 262,144 exactly, and
     // printing that implies a precision the estimate does not have.
     expect(chanceInWords(3.814697265625e-6)).toBe("about 1 in 260,000");
+    // The boundary either side, so the switch cannot drift unnoticed.
+    expect(chanceInWords(1e-14)).toBe("about 1 in 100,000,000,000,000");
+    expect(chanceInWords(1e-16)).toBe("about 1 in 10 followed by 16 zeros");
   });
 
   test("the two headline results read correctly in words", () => {
@@ -52,10 +55,21 @@ describe("the plain-language layer", () => {
       "Luck is a very poor explanation for this",
     );
 
-    // The format result underflows no further than 7.4e-89, so the odds phrase
-    // has to survive a number that large rather than fall back to the floor.
+    // The format result is p = 7.4e-89. Spelled out as odds that is an
+    // 89-digit number, which overflowed the page sideways and told the reader
+    // nothing. Past 10^15 it switches to a power of ten.
     const format = applyRateByFormat(rows, "a5_format_at_scale").test;
-    expect(chanceInWords(format.p)).toMatch(/^about 1 in [\d,]+$/);
+    expect(chanceInWords(format.p)).toBe("about 1 in 10 followed by 88 zeros");
+  });
+
+  test("no phrase this function returns can break a layout", () => {
+    // The actual defect: an unbreakable 89-digit figure with no spaces, which
+    // browsers will not wrap on commas, widened every screen below it.
+    for (const p of [1, 0.5, 0.05, 1e-3, 1e-6, 1e-20, 1e-100, 0]) {
+      const words = chanceInWords(p);
+      const longest = Math.max(...words.split(" ").map((w) => w.length));
+      expect(longest, `chanceInWords(${p}) = "${words}"`).toBeLessThan(28);
+    }
   });
 
   test("a result with too few pairs is never described as a null result", () => {
