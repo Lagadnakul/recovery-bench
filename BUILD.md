@@ -982,7 +982,14 @@ tasks, so pairs cluster within task. State all three before a reviewer does.
 
 ---
 
-## 5. Phase 3 — the dashboard · build 1–13 Nov alongside the paper, polish 21–30 Nov
+## 5. Phase 3 — the dashboard · SHIPPED 27-28 October 2026
+
+> **Superseded by `CONSOLE.md`.** This section planned six views extending
+> `recovery-bench/packages/dashboard`, with Next.js ruled out because a server would break
+> `file://`. What was built instead is a **Next.js app at `console/`**, statically exported
+> — which removes the `file://` objection — with seven routes and a six-act explainer.
+> The reasoning below is kept as the record of what was asked for; `CONSOLE.md` is what
+> exists.
 
 This is the part you want the professor to see, so it gets a real design brief rather than
 "make a dashboard."
@@ -1203,10 +1210,16 @@ Written to the project memory directory as each completes, per standing instruct
       30B. a1 reproduced the pilot's zero power (0 discordant against a floor of 6). a6
       confirmed D34 on a fourth vendor. Open: a4 is a floor not a recovery curve; 32 cells
       lost to the D36 cascade; the equivalence margin still unchosen.
-- [ ] **M3** — dashboard v1 shipped, contrast green
+- [x] **M3** — 27-28 Oct 2026. **The console shipped**, built fresh as a Next.js app at
+      `console/` rather than as an extension of `packages/dashboard`, and statically exported
+      so no server is needed. Seven routes, including a six-act visual explainer at
+      `/how-it-works` that doubles as the viva demo. All five gates green on a clean
+      checkout in 17s, chained as `bun run check` so a failing contrast ratio or a wrong
+      number fails the deploy. Specified in `CONSOLE.md`. Open: the Vercel production deploy
+      (needs Root Directory -> `console`) and the URL in `README.md`.
 - [ ] **M4** — abstract submitted (13 Nov)
 - [ ] **M5** — Stage 1 submitted
-- [ ] **M6** — dashboard v2, `LIMITATIONS.md`, Zenodo DOI
+- [ ] **M6** — dashboard v2, ~~`LIMITATIONS.md`~~ (**done** — 34 figures, all re-derived), Zenodo DOI (**blocked** on the repo ownership move)
 
 ---
 

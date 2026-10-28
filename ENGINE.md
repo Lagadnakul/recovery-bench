@@ -413,14 +413,15 @@ The ones that still shape decisions: **D2** 8 of 24 cells produced no evaluable 
 | **32 cells lost to the cascade** | D36. A round killed by a 503 leaves every later round in its lineage with nothing to reflect on. The refusal is correct; the serial design is the cost |
 | **Phase 1c** | Blocked on the **equivalence margin** — a scientific judgement, not a computation |
 | **N is deliberately unchosen** | It follows from the margin |
-| **Phase 3 dashboard** | Not started. Six views specified in `BUILD.md` §5 |
-| **Phase 4 writing** | Not started |
+| ~~Phase 3 dashboard~~ | **DONE 27-28 Oct 2026.** Built fresh as a **Next.js** app at `console/`, seven routes, all five gates green in 17s. That reverses `BUILD.md` §5, which banned Next.js because a server would break `file://` — it is statically exported instead. Specified in `CONSOLE.md` |
+| **Phase 4 writing** | **Not started, and now the critical path.** Abstract 13 Nov, Stage 1 20 Nov |
 | Triage CLI does not read `sweep_rows.jsonl` | `triageAttempt` classifies the new rows correctly; only the CLI wiring is missing |
 | The projector counts a refused cell as a call | `a1` projected 28 and made 17. Harmless here, but do not trust a projection until it is fixed |
 | `block_unterminated` is a misleading label | In a4, 164 of 181 such rows **did** close the block — the `=======` divider is what was missing. Rename before it reaches the paper |
 | A design refusal shares `PROVIDER_ERROR` | 130 refusals sit in the same outcome kind as 46 real errors, separable only by `status: null` plus the reason string. Any outcome-kind table will read as "the API failed 176 times" |
+| Vercel deploy | **Pending.** Needs Root Directory -> `console` in the dashboard, or the build runs from the repo root, finds no Next app and fails |
 | D35's `per_key` claim is untested | Gemini rotated across 4 keys with **zero 429s anywhere in the ledger**, so we never approached a ceiling. Unconfirmed, not disproven |
-| Repo ownership move | `recovery-bench` must sit under `Lagadnakul` before the Data Availability statement |
+| Repo ownership move | `recovery-bench` must sit under `Lagadnakul` before the Data Availability statement. **This now blocks the Zenodo DOI**, which cannot be minted against the wrong owner and is not reversible |
 
 ---
 
