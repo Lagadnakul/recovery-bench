@@ -1,5 +1,6 @@
 # The whole project, explained simply
 
+
 **Project:** Self-Reflection and Failure Recovery in Agentic AI Coding Systems
 **Author:** Lagad Nakul Kiran (2503032340022) · M.Tech, AI & Data Science · PIET, Parul University
 **This file written:** 28 October 2026
