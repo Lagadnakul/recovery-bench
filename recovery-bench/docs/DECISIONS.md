@@ -1362,3 +1362,185 @@ finished and the data stands:
 
 Until then the honest statement is the one the rows already make: these cells
 were not measured, and they are not counted as failures of the condition.
+
+---
+
+## D37 — The venue changed: a Scopus journal in November, not an MSR Registered Report
+
+Decided 31 Oct 2026. The build had been aimed at MSR 2027 Registered Reports:
+Stage 1 on 20 Nov 2026, in-principle acceptance 4 Feb 2027, Stage 2 to EMSE by
+30 Sep 2027.
+
+**That timeline cannot satisfy the degree requirement.** The college requires a
+Scopus-indexed *publication* by May 2027 or the programme adds a six-month
+extension. An MSR Registered Report's Stage 2 is not submitted until September
+2027 and is not published until later still, so the route is structurally
+incapable of meeting the deadline — not late, incapable.
+
+The target is now a standalone Scopus-indexed journal paper, submitted November
+2026. `WORKFLOW.md:111` already named this fallback before it was needed: *"A
+fast Scopus journal (JKSU-CIS and similar: 5–8 weeks to first decision)."*
+
+What follows for the paper, and it is not cosmetic:
+
+1. **The lead contribution changes.** A Registered Report is judged on its
+   design, so CC-OS could lead while remaining unmeasured. A standalone paper is
+   judged on results, so it must lead with the edit-format finding — 60 tasks,
+   302 discordant of 360 pairs, p = 7.44e-89 — which is the only result in the
+   study with breadth.
+2. **CC-OS becomes a derived framework with a sensitivity analysis**, not a
+   measured cost saving. `LIMITATIONS.md` §4 is already the honest inventory of
+   what it still needs; none of that changes, only where it sits in the paper.
+3. **The null result stays in.** It is reframed from "the design we will fix in
+   Stage 2" to a reported finding: a pilot that could not have rejected, shown
+   by re-running it rather than argued from a power curve.
+
+The one unrecoverable risk is unchanged and stays parked: the `ccos-study`
+repository outside this tree targets e-Informatica with the same CC-OS
+contribution. Two submissions of one contribution is duplicate publication, and
+it must be settled by conversation, not by code.
+
+---
+
+## D38 — Azure is not used, and the student credit is not the budget
+
+Corrects a planning error made on 31 Oct 2026, in which phase 2 was costed
+against "Azure credit" and the $9,940 student grant was described as making cost
+a non-constraint. Both statements were wrong, and the mistake mattered because
+it understated the real limit.
+
+The record, checked rather than recalled:
+
+```
+grep -ri azure configs/ packages/   ->  0 matches
+```
+
+Every model in the grid resolves to a free tier:
+
+| model | provider |
+|---|---|
+| `muse_30b`, `nemotron_ultra`, `nemotron_nano` | `nvidia` — 7-key pool |
+| `qwen_max` | `qwencloud` — 1 key |
+| `gemini_flash` | `gemini` — 4-key pool |
+
+Measured spend across all rows to date:
+
+```
+nvidia      1,806 cells   20,904,907 tokens
+qwencloud      56 cells      488,831
+gemini         28 cells      161,349
+                          ───────────
+                           21,555,087
+```
+
+Azure Foundry was attempted on 30 Oct 2026 and never provisioned: the
+subscription had zero GPU quota, nothing was deployed, and nothing was spent.
+The $9,940 remains untouched and is irrelevant to every budget decision in this
+file.
+
+**The real ceiling is the free tier, and it is a token ceiling, not a price.**
+`budget.nvidia` is `per_key: true` with `max_tokens: 8000000` across seven keys
+— a 56M allowance, of which ~21M is spent and a7 is consuming more as it runs.
+
+**The real constraint, though, is time.** The latency note at `configs/base.yaml:28`
+records calls of 80–155 s at both 899 and 29,555 prompt tokens: the free tier is
+queueing, and prompt size does not drive it. An arm's duration is therefore set
+by its cell count and the provider's queue, not by its token total. Any future
+plan that calls cost "not a constraint" must say *quota and wall-clock*, because
+money was never the variable.
+
+---
+
+## D39 — Triage and CC-OS read the live rows, and `RoundId` is why LOST never fired
+
+Before this change, `§6` (the failure taxonomy) and `§7` (CC-OS) were computed
+over the pilot's **51 archived records and 31 trials**, while 1,604 live rows sat
+unread. `grep -n sweep_rows packages/pipeline/analysis/*.ts` returned nothing:
+the connection was never written, so the gap is an omission, not a judgement.
+
+**The cause of the most visible symptom is a type.**
+
+```ts
+// packages/pipeline/analysis/runs.ts:19
+export type RoundId = "R0" | "R1" | "R2";
+```
+
+`LOST` is a property of a *sequence* — `lostAt` needs a window of three
+consecutive attempts, so it needs a fourth attempt to exist before it can fire
+once. The archive's rounds stop at R2 and the type stops with them. a3's live
+rows run `r0 … r4`.
+
+So `triage.lostObservable: false` has never been a statement about the models.
+**A class of the taxonomy was unfalsifiable because the round identifier could
+not count past two.** That belongs in the paper either way: a class given 1,785
+chances and never firing is a finding, and it argues the taxonomy should be
+three classes rather than four. A class that could not fire is a defect.
+
+What is implemented, and what is deliberately not:
+
+- **An adapter** from `data/sweep_rows.jsonl` to the row shape
+  `triageSummary` already consumes, and a widened round type.
+- **`triageAttempt` is not modified.** The classifier is already pure —
+  `(outcome, resolved) => verdict`, no archive dependency — so the 51 archive
+  numbers stay bit-identical and no reviewer can claim the classifier was tuned
+  until it gave a better answer.
+- **`resolved: null` on every row with `evidenceSource: none`.** The existing
+  contract refuses to read an unverified apply as a LOGIC failure; without
+  Docker (D6) that is almost every live row, and the guard is the only reason
+  the pipeline cannot manufacture logic failures it never observed.
+
+Two further consequences are expected but not promised: λ is fitted on 31 trials
+with an interval of `[0.121, 1.0]`, and the FORMAT policy row currently reports
+`decision: ESCALATE` against `prescribed: retry` with `agrees: false` — a direct
+contradiction between the taxonomy and the rule derived from it, on a fit of ten
+trials. More data should resolve both. If it does not, both get reported.
+
+Zero API calls. The change is arithmetic over rows already paid for.
+
+---
+
+## D40 — Phase 2 is reinstated, and a7 is what makes it defensible
+
+Phase 2 — the recovery arms — was dropped on 31 Oct 2026 to protect writing
+time, then reinstated the same day. The reason for reinstating it is not that
+more data is always better. It is that `a7` turns an inherited choice into a
+measured one.
+
+**The weakness being fixed.** C2 — reflection helps once, then harms — is the
+study's most surprising result and its narrowest. `LIMITATIONS.md` §3 states it:
+four tasks, and `django__django-11019` alone supplies **10 of the 19 discordant
+pairs**. *"The effective sample is nearer 4 than 19."* It also does not travel:
+a3 (550B) `b=19 c=0`, a2 (30B) `b=4 c=4` null, a4 (reasoning) `b=5 c=9` leaning
+the other way.
+
+**Why it could not be fixed before.** Recovery can only be studied on a task the
+baseline failed, and only four such tasks were available — inherited from the
+pilot, never measured here. *"We used four tasks from a previous study"* is the
+answer a reviewer will not accept.
+
+**What a7 supplies.** Over its first 60 tasks on `search_replace`, 8 of 120
+task–model combinations produced a non-`APPLIED` outcome: two failing on both
+models (`django-11564`, `sphinx-8627`) and six on one. At 6.7%, the full 300
+instances should yield roughly 40 combinations — a tenfold pool, and a
+documented census rather than an inheritance. **This, not the 60→300 upgrade to
+C1, is a7's main value**, and the earlier framing had it the wrong way round.
+
+**The design: a3's, pointed at the measured pool.**
+
+```
+a3 (done)     4 inherited tasks × 5 repeats  =   180 cells
+phase 2     ~40 measured  tasks × 3 repeats  ≈ 1,080 cells  (~14M tokens)
+```
+
+**Repeats are traded for tasks on purpose.** McNemar pairs at the task level, and
+five repeats of one bug are not five independent observations — that is exactly
+how one task came to carry half of C2's signal. Forty tasks at three repeats
+yields more *independent* pairs than four at five, for comparable quota, and it
+addresses the clustering directly rather than burying it in a caveat.
+
+`nemotron_ultra` only. Replicate the effect on the model where it appeared
+before generalising; a2 and a4 already stand as the honest "it does not travel"
+sentence, and adding models here multiplies the queue and muddies the claim.
+
+Phase 2 cannot start before a7 finishes, because a7's census is its input. D39
+has no such dependency and proceeds in parallel.

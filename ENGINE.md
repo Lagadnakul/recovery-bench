@@ -90,7 +90,7 @@ You are writing a **Registered Report** for MSR 2027. A Stage 1 Registered Repor
 That means the correct state of the project in November is exactly this one:
 
 - a **pilot** with real measurements (you have it: 20 tasks, 12 resolved, Docker-verified),
-- an **engine** that provably works offline and is ready to run (you have it: 559 tests),
+- an **engine** that provably works offline and is ready to run (you have it: 572 tests),
 - a **power analysis** proving the design can answer the question (built, Phase 1),
 - a **feasibility demonstration** that the method is implementable (built, Phase 2),
 - and **no Stage 2 data at all**, because collecting it before in-principle acceptance is pointless.
@@ -131,11 +131,19 @@ The archive is **gitignored on purpose** — every file already lives upstream a
 | **Phase 1b** | Is partial credit (sub-test scoring) a way out? | **done** · M1b |
 | **Phase 1c** | Equivalence power curve | **blocked on you** — needs the margin |
 | **Phase 2** | Triage + CC-OS: the method is implementable | **done** · M2 |
-| **Phase 3** | Dashboard, six views | **not started** |
-| **Phase 4** | Writing the Stage 1 protocol | **not started** |
-| Stage 2 | The live sweep | **after 4 Feb 2027 IPA** |
+| **Phase 3** | Dashboard, six views | **done** — shipped 27–28 Oct 2026 at `console/` |
+| **The live sweep** | a1–a6, 1,604 cells | **done** — every planned cell has exactly one row |
+| **a7** | Baseline over all 300 instances | **running** (31 Oct 2026) |
+| **Phase 2 recovery arms** | Reflection on a7's measured failure pool | **planned** · D40 |
+| **§6/§7 over live rows** | Triage + CC-OS read `sweep_rows.jsonl` | **planned** · D39 |
+| **Phase 4** | Writing the paper | **not started** — the only thing left |
 
-Current totals: **559 tests across 27 files, 0 failures, 6,069 assertions.** All **7** `bun run verify` gates green in ~14s.
+Stage 2 and the 4 Feb 2027 IPA date are **void**: the venue changed on 31 Oct 2026
+from an MSR 2027 Registered Report to a standalone Scopus journal paper submitted
+in November 2026, because Stage 2 could not publish before the May 2027 degree
+deadline. See **D37**.
+
+Current totals: **572 tests across 29 files, 0 failures, 6,102 assertions.** All **7** `bun run verify` gates green in ~31s.
 
 ### How each finished phase was done
 
@@ -173,7 +181,7 @@ recovery-bench/
 │   └── analysis/             read the archive, compute every number
 ├── packages/dashboard/       React 19 + Vite, opens from file://
 ├── scripts/verify.ts         all seven gates, one command
-└── tests/                    559 tests
+└── tests/                    572 tests
 ```
 
 ### 4.1 `packages/core` — the contract
@@ -437,7 +445,7 @@ bun run doctor          # preconditions, offline
 bun run report          # regenerate master_table.md from the archive
 bun run power           # the sample-size analysis
 bun run ccos            # triage + CC-OS
-bun test                # 559 tests
+bun test                # 572 tests
 
 # these spend quota — the full grid has already been run
 bun run doctor:live     # probe endpoints with real keys
