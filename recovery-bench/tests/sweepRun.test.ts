@@ -354,10 +354,29 @@ describe("sweep — a task whose file cannot be read", () => {
    * the D15 defect exactly — a cell that was attempted and left no record — so
    * it needs a test of its own rather than a comment.
    *
-   * `django__django-11099` is in the frozen dataset but not in the committed
-   * file cache, and the sweep runs cache-only.
+   * ## Why this no longer names a real uncached task
+   *
+   * It used to assert that `django__django-11099` was in the frozen dataset but
+   * absent from the committed file cache. That held until `e99acad` warmed the
+   * cache for a7, taking it from 62 entries to **all 300** SWE-bench Lite
+   * instances — at which point the premise was false, `getTaskFile` resolved,
+   * and both tests here failed. The guard test below caught it exactly as its
+   * comment promised, which is the one good outcome of the episode.
+   *
+   * Picking a different task id would only postpone the same failure. So the
+   * uncached-ness is now *constructed*: a real task with its `baseCommit`
+   * replaced by a sha that does not exist. The cache is keyed
+   * `repo@sha:path`, so no warm-cache run can ever populate this key, and the
+   * test cannot be silently emptied again.
    */
   const UNCACHED = "django__django-11099";
+
+  /** A sha no commit will ever have, so its cache key is unreachable by design. */
+  const ABSENT_COMMIT = "0000000000000000000000000000000000000000";
+
+  /** The dataset with that one task pinned to the unreachable commit. */
+  const uncachedTasks = new Map(tasks);
+  uncachedTasks.set(UNCACHED, { ...tasks.get(UNCACHED)!, baseCommit: ABSENT_COMMIT });
 
   async function uncachedHarness() {
     const dir = await mkdtemp(join(tmpdir(), "rb-uncached-"));
@@ -396,14 +415,24 @@ describe("sweep — a task whose file cannot be read", () => {
     return { cfg, rowsPath: join(dir, "rows.jsonl"), ledgerPath: join(dir, "ledger.jsonl") };
   }
 
-  test("the task really is absent from the committed cache", async () => {
-    // If this ever fails the cache grew and the test below is testing nothing.
+  test("the task really is absent from the cache, and cannot be warmed into it", async () => {
+    // If this ever fails the cache reached an impossible commit, and the test
+    // below is testing nothing.
     const { getTaskFile } = await import("../packages/pipeline/tasks/files.ts");
     const { localise } = await import("../packages/pipeline/tasks/localise.ts");
-    const t = tasks.get(UNCACHED)!;
+    const t = uncachedTasks.get(UNCACHED)!;
     await expect(
       getTaskFile(t, localise(t), { allowNetwork: false }),
     ).rejects.toThrow(/not cached/);
+  });
+
+  test("the real task IS cached, so the absence above is constructed, not incidental", async () => {
+    // The other half of the guard: if this fails, the cache shrank and the
+    // construction above is hiding a genuine regression in warm-cache.
+    const { getTaskFile } = await import("../packages/pipeline/tasks/files.ts");
+    const { localise } = await import("../packages/pipeline/tasks/localise.ts");
+    const t = tasks.get(UNCACHED)!;
+    expect(await getTaskFile(t, localise(t), { allowNetwork: false })).toBeTruthy();
   });
 
   test("every cell still gets a row, and no request is sent", async () => {
@@ -411,7 +440,7 @@ describe("sweep — a task whose file cannot be read", () => {
     const s = stub();
     const res = await sweep({
       cfg: h.cfg,
-      tasks,
+      tasks: uncachedTasks,
       arms: ["probe_arm"],
       rowsPath: h.rowsPath,
       ledgerPath: h.ledgerPath,

@@ -80,6 +80,13 @@ const GATES: Gate[] = [
     needsArchive: true,
   },
   {
+    name: "live-triage",
+    meaning:
+      "the live sweep holds a row the taxonomy cannot classify, or the trajectory builder " +
+      "no longer reaches the LOST window",
+    cmd: [BUN, "packages/pipeline/cli.ts", "live-triage"],
+  },
+  {
     name: "contrast",
     meaning: "a dashboard colour pair fails WCAG in light or dark",
     cmd: [BUN, "scripts/check_contrast.ts"],

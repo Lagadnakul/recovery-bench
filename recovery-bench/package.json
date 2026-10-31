@@ -12,6 +12,7 @@
     "export-dataset": "bun scripts/export_dataset.ts",
     "replay": "bun packages/pipeline/cli.ts replay",
     "ccos": "bun packages/pipeline/cli.ts ccos",
+    "live-triage": "bun packages/pipeline/cli.ts live-triage",
     "power": "bun packages/pipeline/cli.ts power",
     "report": "bun packages/pipeline/cli.ts report",
     "sweep": "bun --env-file ../.env.local packages/pipeline/cli.ts sweep",

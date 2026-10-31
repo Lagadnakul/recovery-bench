@@ -1544,3 +1544,86 @@ sentence, and adding models here multiplies the queue and muddies the claim.
 
 Phase 2 cannot start before a7 finishes, because a7's census is its input. D39
 has no such dependency and proceeds in parallel.
+
+---
+
+## D41 — LOST fires, on reflection only, and the first grouping key was wrong
+
+D39 implemented, 31 Oct 2026, as `packages/pipeline/analysis/liveTriage.ts` and
+`bun run live-triage`. Over 1,989 live rows, with zero model calls:
+
+```
+FORMAT 864   LOGIC 0 (unobservable)   BROKEN 202   LOST 6
+unverified applies 923   contaminated 0
+216 trajectories, deepest 5, 74 long enough for window=3
+```
+
+**LOST fires for the first time anywhere in the study** — 6 trajectories. The
+archive could not reach it at depth 3 and the type said so; see D39.
+
+**The grouping key was wrong on the first attempt, and the output is what
+caught it.** `cellKey` ends `…|r${round}|n${repeat}`, so `SweepRecord.key` is
+unique per *row*. Grouping trajectories on it produced 792 trajectories of
+uniform depth 2 — one per attempt, plus its prepended baseline — and
+`0 long enough for window=3`. A depth of exactly 2 across 792 sequences is not a
+plausible measurement, which is the only reason the error was visible at all.
+`lineageKey` drops the round and keeps the repeat. `tests/liveTriage.test.ts`
+pins it: reinstating `rec.key` fails **8** tests, checked by doing it.
+
+**The interesting finding is not the count, it is the exposure-matched
+contrast:**
+
+| Strategy | Eligible trajectories | LOST fires | Distinct tasks |
+|---|---:|---:|---:|
+| `l1_blind_retry` | 38 | **0** | 0 |
+| `l2_reflection` | 36 | **6** | 2 |
+| `l2_5_diagnose_revise` | 0 | — | — |
+
+Exposure is matched at 38 against 36, so the asymmetry is not an artefact of
+which strategy happened to produce deep sequences. This is **a second,
+independent measure agreeing with §5**: Jaccard novelty over patch *content*
+never inspects whether a patch applied, and exact McNemar over apply outcomes
+never inspects patch content. The mechanism already recorded in
+`LIMITATIONS.md` §8 item 2 — reflection quotes its own previous attempt —
+predicts this signature exactly. The observed novelty traces are
+`1.000 → 0.000 → 0.000 → 0.000` and similar.
+
+**The clustering caveat is the same one and must be stated with it.** The 6
+firings come from 2 distinct tasks across repeats, so they are not 6 independent
+observations. Corroboration of a narrow finding, not a broad one.
+
+Three further things the implementation fixed or declared, none of them
+cosmetic:
+
+1. **`LOGIC` is now the unobservable class, by type.** The first draft wrote
+   `rec.verification === "test" ? … : null` to mirror `triageTable`. `tsc`
+   refused: `TS2367 — the types '"apply"' and '"test"' have no overlap`. That
+   error is a stronger guarantee than the branch, and it is kept as the reason.
+2. **File-level novelty fires 48 times against line-level's 6**, which is D21's
+   degeneracy reproducing at scale on independent data. Both are published; only
+   the line-level number is used.
+3. **620 attempts carry no patch and are excluded from traces, not scored as
+   zero novelty.** A MALFORMED round produces nothing to compare. Substituting
+   the raw response would redefine novelty mid-study, so the count is published
+   instead.
+
+`triageAttempt` was not modified and `runs.ts` was not widened: the 51 archive
+numbers are unchanged, and `RoundId` stays narrow because it is the archive's
+run registry, not a round counter.
+
+### The sweep test this exposed
+
+`bun run verify` went to 8 gates with `live-triage` added, and the full suite
+then showed **2 unrelated failures in `tests/sweepRun.test.ts`**. They were not
+caused by this work: warming the cache for a7 in `e99acad` took
+`data/file_cache` from **62 entries to all 300**, so `django__django-11099` —
+named by that test as "in the frozen dataset but not in the committed cache" —
+became cached, `getTaskFile` resolved, and the premise was false.
+
+The guard test did exactly what its comment promised: *"If this ever fails the
+cache grew and the test below is testing nothing."* Naming a different task id
+would only postpone the same failure, so the absence is now **constructed**: the
+task is cloned with `baseCommit` set to forty zeroes. The cache is keyed
+`repo@sha:path`, so no warm-cache run can reach that key. A second test asserts
+the *real* task IS cached, so the construction cannot hide a genuine warm-cache
+regression.

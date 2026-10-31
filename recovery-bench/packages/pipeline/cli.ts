@@ -14,6 +14,7 @@ import { doctor } from "./doctor.ts";
 import { replay, report } from "./analysis/replay.ts";
 import { power } from "./analysis/power.ts";
 import { ccos } from "./analysis/ccos.ts";
+import { liveTriage } from "./analysis/liveTriage.ts";
 import { tryCell } from "./tryCell.ts";
 import { warmCache } from "./warmCache.ts";
 import { runSweep } from "./runSweep.ts";
@@ -25,6 +26,7 @@ const USAGE = `recovery-bench
   report [--stdout]                    regenerate master_table.md and figure data
   power  [--stdout]                    regenerate the sample-size analysis
   ccos   [--stdout]                    regenerate triage + the CC-OS demonstration
+  live-triage [--stdout]               the same classifier over the live sweep rows
   try [options]                        run ONE cell end to end and print it all
   warm-cache [--set <name>]            pre-fetch task files so runs are offline
   sweep [options]                      enumerate, project, and run the grid
@@ -81,6 +83,13 @@ switch (command) {
 
   case "ccos":
     process.exit(await ccos(flag("stdout")));
+
+  // `ccos` reads the archive; this reads data/sweep_rows.jsonl. Separate
+  // commands because the two inputs observe different classes and must not be
+  // pooled — the archive can see LOGIC and cannot reach LOST, and the live
+  // sweep is the reverse.
+  case "live-triage":
+    process.exit(await liveTriage(flag("stdout")));
 
   case "try":
     process.exit(

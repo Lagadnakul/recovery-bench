@@ -145,11 +145,48 @@ own header.
 `0.9` for FORMAT, `0.7` for LOGIC, `0.6` for LOST, `0` for BROKEN — **all assumed**.
 Every threshold and every verdict inherits them, because θ_c = q_c − (h − r)/G.
 
-### 4.3 Two of the four classes have no evidence at all
+### 4.3 Two of the four classes have no evidence *in the archive*
 
-`BROKEN` and `LOST` have **zero trials**. Their beliefs sit at the 0.5 prior because
-nothing has moved them, not because anything was observed. Any line drawn for them is an
-assumption rendered as a chart.
+In the fitted CC-OS model, `BROKEN` and `LOST` have **zero trials**. Their beliefs sit at
+the 0.5 prior because nothing moved them, not because anything was observed. Any line
+drawn for them there is an assumption rendered as a chart.
+
+**Both now have live evidence, and it did not come from re-analysis.** `bun run
+live-triage` classifies the sweep with the same `triageAttempt` function:
+
+| | archive (51 records) | live sweep (1,989 rows) |
+|---|---:|---:|
+| `BROKEN` | 0 | **202** |
+| `LOST` | 0 — unreachable | **6 of 216 trajectories** |
+
+`LOST`'s archive zero was never a statement about model behaviour. `lostAt` needs a
+window of 3 consecutive attempts, so the class needs a *fourth* attempt to exist before
+it can fire once — and `runs.ts:19` declares `RoundId = "R0" | "R1" | "R2"`. **The class
+was unfalsifiable because the archive's round identifier could not count past two.** The
+live rows run `r0 … r4`. See **D39**, and `docs/live_triage.md` for the full table.
+
+Two cautions travel with that, and neither is optional:
+
+1. **`LOGIC` is now the unobservable one.** It requires `resolved === false`, which
+   requires test verification, which requires Docker (D6). `tsc` rejected the branch that
+   would have read it — `SweepRecord.verification` is the literal `"apply"`, so the type
+   system refuses to let a live row be treated as test-verified. The archive's 25 `LOGIC`
+   records remain the only evidence for that class, at n = 51. **The two datasets are
+   complementary, not substitutes: neither is a superset of the other.**
+2. **The 6 `LOST` firings come from 2 distinct tasks** across repeats, so they are not 6
+   independent observations — the same clustering §3 records for the McNemar result.
+
+What they do support is a *second, independent* line of evidence for §3's reflection
+finding, on a measure that never looks at whether a patch applied:
+
+| Strategy | Eligible trajectories | `LOST` fires |
+|---|---:|---:|
+| `l1_blind_retry` | 38 | **0** |
+| `l2_reflection` | 36 | **6** |
+
+Exposure is matched; the outcome is not. Jaccard novelty over patch content and exact
+McNemar over apply outcomes point the same way, and the mechanism in §8 item 2 — the
+model quoting its own previous attempt — predicts exactly this signature.
 
 ### 4.4 The retry evidence is survivorship-confounded
 

@@ -1,0 +1,8752 @@
+{
+  "generated_by": "packages/pipeline/analysis/liveTriage.ts",
+  "source": "data/sweep_rows.jsonl",
+  "rows": 2026,
+  "skipped": 0,
+  "arms": [
+    "a1_replication",
+    "a2_workhorse",
+    "a3_capability",
+    "a4_reasoning",
+    "a5_format_at_scale",
+    "a6_qwencloud",
+    "a7_format_full_benchmark"
+  ],
+  "tasks": 166,
+  "models": [
+    "gemini_flash",
+    "muse_30b",
+    "nemotron_nano",
+    "nemotron_ultra",
+    "qwen_max"
+  ],
+  "counts": {
+    "FORMAT": 881,
+    "LOGIC": 0,
+    "BROKEN": 202,
+    "LOST": 6,
+    "unverified": 943,
+    "contaminated": 0
+  },
+  "measuring": 1824,
+  "notMeasuring": 202,
+  "modelCalls": 0,
+  "formatReasons": {
+    "no_file_header": 142,
+    "hunk_count_mismatch": 313,
+    "APPLY_FAIL": 28,
+    "search_not_found": 87,
+    "search_not_found_whitespace": 21,
+    "hunk_header_unparseable": 1,
+    "NO_PATCH": 106,
+    "block_unterminated": 182,
+    "search_ambiguous": 1
+  },
+  "trajectories": {
+    "total": 216,
+    "longEnough": 74,
+    "maxDepth": 5,
+    "lostObservable": true,
+    "lostFiredLine": 6,
+    "lostFiredFile": 48,
+    "attemptsWithoutPatch": 620
+  },
+  "logicObservable": false,
+  "traces": [
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 1,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 21,
+          "novelty": 0.9130434782608696,
+          "cumulative": 23
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.7777777777777778,
+          "cumulative": 9
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.7692307692307692,
+          "cumulative": 13
+        },
+        {
+          "index": 4,
+          "size": 4,
+          "novelty": 0.7857142857142857,
+          "cumulative": 14
+        },
+        {
+          "index": 5,
+          "size": 4,
+          "novelty": 0.875,
+          "cumulative": 16
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 0.8,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.6923076923076923,
+          "cumulative": 13
+        },
+        {
+          "index": 4,
+          "size": 6,
+          "novelty": 0.7333333333333334,
+          "cumulative": 15
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.7777777777777778,
+          "cumulative": 18
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        3
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.7272727272727273,
+          "cumulative": 11
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.8,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 0.6666666666666667,
+          "cumulative": 9
+        },
+        {
+          "index": 3,
+          "size": 4,
+          "novelty": 0.9166666666666666,
+          "cumulative": 12
+        },
+        {
+          "index": 4,
+          "size": 9,
+          "novelty": 0.6875,
+          "cumulative": 16
+        },
+        {
+          "index": 5,
+          "size": 9,
+          "novelty": 0.8095238095238095,
+          "cumulative": 21
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 0.7,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 4,
+          "novelty": 0.7272727272727273,
+          "cumulative": 11
+        },
+        {
+          "index": 4,
+          "size": 6,
+          "novelty": 0.6923076923076923,
+          "cumulative": 13
+        },
+        {
+          "index": 5,
+          "size": 4,
+          "novelty": 0.8666666666666667,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 18,
+          "novelty": 1,
+          "cumulative": 18
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.9130434782608696,
+          "cumulative": 23
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.8518518518518519,
+          "cumulative": 27
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.8666666666666667,
+          "cumulative": 30
+        },
+        {
+          "index": 5,
+          "size": 9,
+          "novelty": 0.9166666666666666,
+          "cumulative": 36
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.8571428571428572,
+          "cumulative": 14
+        },
+        {
+          "index": 3,
+          "size": 10,
+          "novelty": 0.8571428571428572,
+          "cumulative": 21
+        },
+        {
+          "index": 4,
+          "size": 8,
+          "novelty": 0.7391304347826086,
+          "cumulative": 23
+        },
+        {
+          "index": 5,
+          "size": 8,
+          "novelty": 0.76,
+          "cumulative": 25
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.9230769230769231,
+          "cumulative": 13
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.46153846153846156,
+          "cumulative": 13
+        },
+        {
+          "index": 5,
+          "size": 8,
+          "novelty": 0.6,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 13,
+          "novelty": 0.8235294117647058,
+          "cumulative": 17
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.8095238095238095,
+          "cumulative": 21
+        },
+        {
+          "index": 4,
+          "size": 8,
+          "novelty": 0.6818181818181819,
+          "cumulative": 22
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.8846153846153846,
+          "cumulative": 26
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.5,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 11,
+          "novelty": 0.6,
+          "cumulative": 15
+        },
+        {
+          "index": 4,
+          "size": 8,
+          "novelty": 0.6470588235294117,
+          "cumulative": 17
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.6666666666666667,
+          "cumulative": 18
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 3,
+          "size": 4,
+          "novelty": 0.33333333333333337,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 4,
+          "novelty": 0,
+          "cumulative": 4
+        },
+        {
+          "index": 3,
+          "size": 4,
+          "novelty": 0,
+          "cumulative": 4
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.6666666666666667,
+          "cumulative": 9
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.11111111111111116,
+          "cumulative": 9
+        },
+        {
+          "index": 4,
+          "size": 8,
+          "novelty": 0.11111111111111116,
+          "cumulative": 9
+        },
+        {
+          "index": 5,
+          "size": 8,
+          "novelty": 0.11111111111111116,
+          "cumulative": 9
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": 5
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.375,
+          "cumulative": 8
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.33333333333333337,
+          "cumulative": 9
+        },
+        {
+          "index": 4,
+          "size": 9,
+          "novelty": 0.8,
+          "cumulative": 15
+        },
+        {
+          "index": 5,
+          "size": 9,
+          "novelty": 0.4,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 1,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.125,
+          "cumulative": 8
+        },
+        {
+          "index": 3,
+          "size": 14,
+          "novelty": 0.7058823529411764,
+          "cumulative": 17
+        },
+        {
+          "index": 4,
+          "size": 8,
+          "novelty": 0.5294117647058824,
+          "cumulative": 17
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.8333333333333334,
+          "cumulative": 12
+        },
+        {
+          "index": 3,
+          "size": 9,
+          "novelty": 0.5,
+          "cumulative": 14
+        },
+        {
+          "index": 4,
+          "size": 11,
+          "novelty": 0.8095238095238095,
+          "cumulative": 21
+        },
+        {
+          "index": 5,
+          "size": 11,
+          "novelty": 0.7692307692307692,
+          "cumulative": 26
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 1,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.33333333333333337,
+          "cumulative": 9
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.11111111111111116,
+          "cumulative": 9
+        },
+        {
+          "index": 4,
+          "size": 13,
+          "novelty": 0.4285714285714286,
+          "cumulative": 14
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 18,
+          "novelty": 1,
+          "cumulative": 18
+        },
+        {
+          "index": 2,
+          "size": 12,
+          "novelty": 0.8,
+          "cumulative": 25
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 2,
+          "size": 17,
+          "novelty": 0.5294117647058824,
+          "cumulative": 17
+        },
+        {
+          "index": 3,
+          "size": 17,
+          "novelty": 0.11111111111111116,
+          "cumulative": 18
+        },
+        {
+          "index": 4,
+          "size": 17,
+          "novelty": 0.05555555555555558,
+          "cumulative": 18
+        },
+        {
+          "index": 5,
+          "size": 17,
+          "novelty": 0.05555555555555558,
+          "cumulative": 18
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": 5
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": 4
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.25,
+          "cumulative": 8
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.125,
+          "cumulative": 8
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.125,
+          "cumulative": 8
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": 4
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0,
+          "cumulative": 7
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.25,
+          "cumulative": 8
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.125,
+          "cumulative": 8
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.125,
+          "cumulative": 8
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": 4
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 11,
+          "novelty": 0.95,
+          "cumulative": 20
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "astropy__astropy-7746",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.8,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 10,
+          "novelty": 0.33333333333333337,
+          "cumulative": 12
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 62,
+          "novelty": 1,
+          "cumulative": 62
+        },
+        {
+          "index": 2,
+          "size": 72,
+          "novelty": 0.5894736842105264,
+          "cumulative": 95
+        },
+        {
+          "index": 3,
+          "size": 67,
+          "novelty": 0.5535714285714286,
+          "cumulative": 112
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        },
+        {
+          "index": 2,
+          "size": 42,
+          "novelty": 0.7241379310344828,
+          "cumulative": 58
+        },
+        {
+          "index": 3,
+          "size": 23,
+          "novelty": 0.7727272727272727,
+          "cumulative": 66
+        },
+        {
+          "index": 4,
+          "size": 24,
+          "novelty": 0.8888888888888888,
+          "cumulative": 81
+        },
+        {
+          "index": 5,
+          "size": 35,
+          "novelty": 0.991304347826087,
+          "cumulative": 115
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 21,
+          "novelty": 1,
+          "cumulative": 21
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 21,
+          "novelty": 1,
+          "cumulative": 23
+        },
+        {
+          "index": 3,
+          "size": 28,
+          "novelty": 0.8666666666666667,
+          "cumulative": 45
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 1,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 39,
+          "novelty": 1,
+          "cumulative": 39
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.9302325581395349,
+          "cumulative": 43
+        },
+        {
+          "index": 3,
+          "size": 41,
+          "novelty": 0.7272727272727273,
+          "cumulative": 66
+        },
+        {
+          "index": 4,
+          "size": 26,
+          "novelty": 0.7733333333333333,
+          "cumulative": 75
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 16,
+          "novelty": 1,
+          "cumulative": 16
+        },
+        {
+          "index": 2,
+          "size": 42,
+          "novelty": 0.9824561403508771,
+          "cumulative": 57
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.9666666666666667,
+          "cumulative": 60
+        },
+        {
+          "index": 4,
+          "size": 44,
+          "novelty": 0.6835443037974683,
+          "cumulative": 79
+        },
+        {
+          "index": 5,
+          "size": 38,
+          "novelty": 0.6704545454545454,
+          "cumulative": 88
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 14,
+          "novelty": 1,
+          "cumulative": 14
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [
+        2,
+        3
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 36,
+          "novelty": 1,
+          "cumulative": 38
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 24,
+          "novelty": 1,
+          "cumulative": 24
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [
+        1,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 23,
+          "novelty": 1,
+          "cumulative": 23
+        },
+        {
+          "index": 2,
+          "size": 43,
+          "novelty": 0.7547169811320755,
+          "cumulative": 53
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 16,
+          "novelty": 1,
+          "cumulative": 16
+        },
+        {
+          "index": 2,
+          "size": 19,
+          "novelty": 0.9393939393939394,
+          "cumulative": 33
+        },
+        {
+          "index": 3,
+          "size": 2,
+          "novelty": 0.9705882352941176,
+          "cumulative": 34
+        },
+        {
+          "index": 4,
+          "size": 19,
+          "novelty": 0.7073170731707317,
+          "cumulative": 41
+        },
+        {
+          "index": 5,
+          "size": 22,
+          "novelty": 0.9672131147540983,
+          "cumulative": 61
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 31,
+          "novelty": 1,
+          "cumulative": 31
+        },
+        {
+          "index": 2,
+          "size": 30,
+          "novelty": 0.78,
+          "cumulative": 50
+        },
+        {
+          "index": 3,
+          "size": 19,
+          "novelty": 0.9384615384615385,
+          "cumulative": 65
+        },
+        {
+          "index": 4,
+          "size": 19,
+          "novelty": 0.7076923076923076,
+          "cumulative": 65
+        },
+        {
+          "index": 5,
+          "size": 19,
+          "novelty": 0.9090909090909091,
+          "cumulative": 77
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 19,
+          "novelty": 1,
+          "cumulative": 19
+        },
+        {
+          "index": 2,
+          "size": 19,
+          "novelty": 0,
+          "cumulative": 19
+        },
+        {
+          "index": 3,
+          "size": 15,
+          "novelty": 0.5833333333333333,
+          "cumulative": 24
+        },
+        {
+          "index": 4,
+          "size": 19,
+          "novelty": 0.20833333333333337,
+          "cumulative": 24
+        },
+        {
+          "index": 5,
+          "size": 19,
+          "novelty": 0.6129032258064516,
+          "cumulative": 31
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 90,
+          "novelty": 1,
+          "cumulative": 90
+        },
+        {
+          "index": 2,
+          "size": 19,
+          "novelty": 0.91,
+          "cumulative": 100
+        },
+        {
+          "index": 3,
+          "size": 28,
+          "novelty": 0.905982905982906,
+          "cumulative": 117
+        },
+        {
+          "index": 4,
+          "size": 27,
+          "novelty": 0.9090909090909091,
+          "cumulative": 132
+        },
+        {
+          "index": 5,
+          "size": 27,
+          "novelty": 0.910958904109589,
+          "cumulative": 146
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 1,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 19,
+          "novelty": 1,
+          "cumulative": 19
+        },
+        {
+          "index": 2,
+          "size": 28,
+          "novelty": 0.825,
+          "cumulative": 40
+        },
+        {
+          "index": 3,
+          "size": 69,
+          "novelty": 0.898989898989899,
+          "cumulative": 99
+        },
+        {
+          "index": 4,
+          "size": 19,
+          "novelty": 0.8867924528301887,
+          "cumulative": 106
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 57,
+          "novelty": 1,
+          "cumulative": 57
+        },
+        {
+          "index": 2,
+          "size": 81,
+          "novelty": 0.5625,
+          "cumulative": 96
+        },
+        {
+          "index": 3,
+          "size": 106,
+          "novelty": 0.8323699421965318,
+          "cumulative": 173
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 81,
+          "novelty": 1,
+          "cumulative": 81
+        },
+        {
+          "index": 2,
+          "size": 53,
+          "novelty": 0.8141592920353982,
+          "cumulative": 113
+        },
+        {
+          "index": 3,
+          "size": 63,
+          "novelty": 0.6766917293233083,
+          "cumulative": 133
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 62,
+          "novelty": 1,
+          "cumulative": 62
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 39,
+          "novelty": 1,
+          "cumulative": 39
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 16,
+          "novelty": 1,
+          "cumulative": 16
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 57,
+          "novelty": 1,
+          "cumulative": 57
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 81,
+          "novelty": 1,
+          "cumulative": 81
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 62,
+          "novelty": 1,
+          "cumulative": 62
+        },
+        {
+          "index": 2,
+          "size": 75,
+          "novelty": 0.6699029126213591,
+          "cumulative": 103
+        },
+        {
+          "index": 3,
+          "size": 85,
+          "novelty": 0.6666666666666667,
+          "cumulative": 141
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        },
+        {
+          "index": 2,
+          "size": 31,
+          "novelty": 0.29729729729729726,
+          "cumulative": 37
+        },
+        {
+          "index": 3,
+          "size": 28,
+          "novelty": 0.5869565217391304,
+          "cumulative": 46
+        },
+        {
+          "index": 4,
+          "size": 27,
+          "novelty": 0.4130434782608695,
+          "cumulative": 46
+        },
+        {
+          "index": 5,
+          "size": 26,
+          "novelty": 0.4347826086956522,
+          "cumulative": 46
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 13,
+          "novelty": 1,
+          "cumulative": 15
+        },
+        {
+          "index": 3,
+          "size": 13,
+          "novelty": 0.4444444444444444,
+          "cumulative": 18
+        },
+        {
+          "index": 4,
+          "size": 18,
+          "novelty": 0.6666666666666667,
+          "cumulative": 27
+        },
+        {
+          "index": 5,
+          "size": 13,
+          "novelty": 0.6206896551724138,
+          "cumulative": 29
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 39,
+          "novelty": 1,
+          "cumulative": 39
+        },
+        {
+          "index": 2,
+          "size": 74,
+          "novelty": 0.9134615384615384,
+          "cumulative": 104
+        },
+        {
+          "index": 3,
+          "size": 38,
+          "novelty": 0.7433628318584071,
+          "cumulative": 113
+        },
+        {
+          "index": 4,
+          "size": 42,
+          "novelty": 0.75,
+          "cumulative": 124
+        },
+        {
+          "index": 5,
+          "size": 66,
+          "novelty": 0.7417218543046358,
+          "cumulative": 151
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 16,
+          "novelty": 1,
+          "cumulative": 16
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 22
+        },
+        {
+          "index": 3,
+          "size": 45,
+          "novelty": 0.7818181818181819,
+          "cumulative": 55
+        },
+        {
+          "index": 4,
+          "size": 43,
+          "novelty": 0.5373134328358209,
+          "cumulative": 67
+        },
+        {
+          "index": 5,
+          "size": 32,
+          "novelty": 0.7777777777777778,
+          "cumulative": 81
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 16,
+          "novelty": 1,
+          "cumulative": 16
+        },
+        {
+          "index": 2,
+          "size": 16,
+          "novelty": 0,
+          "cumulative": 16
+        },
+        {
+          "index": 3,
+          "size": 16,
+          "novelty": 0,
+          "cumulative": 16
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 23,
+          "novelty": 1,
+          "cumulative": 23
+        },
+        {
+          "index": 2,
+          "size": 23,
+          "novelty": 0,
+          "cumulative": 23
+        },
+        {
+          "index": 3,
+          "size": 23,
+          "novelty": 0,
+          "cumulative": 23
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 16,
+          "novelty": 1,
+          "cumulative": 16
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 31,
+          "novelty": 1,
+          "cumulative": 31
+        },
+        {
+          "index": 2,
+          "size": 26,
+          "novelty": 0.7045454545454546,
+          "cumulative": 44
+        },
+        {
+          "index": 3,
+          "size": 30,
+          "novelty": 0.8615384615384616,
+          "cumulative": 65
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 19,
+          "novelty": 1,
+          "cumulative": 19
+        },
+        {
+          "index": 2,
+          "size": 22,
+          "novelty": 0.9487179487179487,
+          "cumulative": 39
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 90,
+          "novelty": 1,
+          "cumulative": 90
+        },
+        {
+          "index": 2,
+          "size": 21,
+          "novelty": 0.9528301886792453,
+          "cumulative": 106
+        },
+        {
+          "index": 3,
+          "size": 22,
+          "novelty": 0.8869565217391304,
+          "cumulative": 115
+        },
+        {
+          "index": 4,
+          "size": 22,
+          "novelty": 0.808695652173913,
+          "cumulative": 115
+        },
+        {
+          "index": 5,
+          "size": 22,
+          "novelty": 0.808695652173913,
+          "cumulative": 115
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 19,
+          "novelty": 1,
+          "cumulative": 19
+        },
+        {
+          "index": 2,
+          "size": 4,
+          "novelty": 0.9047619047619048,
+          "cumulative": 21
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 57,
+          "novelty": 1,
+          "cumulative": 57
+        },
+        {
+          "index": 2,
+          "size": 66,
+          "novelty": 0.6914893617021276,
+          "cumulative": 94
+        },
+        {
+          "index": 3,
+          "size": 101,
+          "novelty": 0.7888198757763976,
+          "cumulative": 161
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11019",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 81,
+          "novelty": 1,
+          "cumulative": 81
+        },
+        {
+          "index": 2,
+          "size": 122,
+          "novelty": 0.673202614379085,
+          "cumulative": 153
+        },
+        {
+          "index": 3,
+          "size": 71,
+          "novelty": 0.7486033519553073,
+          "cumulative": 179
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 14,
+          "novelty": 1,
+          "cumulative": 14
+        },
+        {
+          "index": 2,
+          "size": 14,
+          "novelty": 0.782608695652174,
+          "cumulative": 23
+        },
+        {
+          "index": 3,
+          "size": 13,
+          "novelty": 0.7142857142857143,
+          "cumulative": 28
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 9,
+          "novelty": 1,
+          "cumulative": 9
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.4545454545454546,
+          "cumulative": 11
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.2727272727272727,
+          "cumulative": 11
+        },
+        {
+          "index": 4,
+          "size": 8,
+          "novelty": 0.2727272727272727,
+          "cumulative": 11
+        },
+        {
+          "index": 5,
+          "size": 6,
+          "novelty": 0.8666666666666667,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 0.8888888888888888,
+          "cumulative": 9
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.6,
+          "cumulative": 10
+        },
+        {
+          "index": 4,
+          "size": 4,
+          "novelty": 0.6,
+          "cumulative": 10
+        },
+        {
+          "index": 5,
+          "size": 4,
+          "novelty": 0.6,
+          "cumulative": 10
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 0.2857142857142857,
+          "cumulative": 7
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.5,
+          "cumulative": 8
+        },
+        {
+          "index": 4,
+          "size": 4,
+          "novelty": 0.5,
+          "cumulative": 8
+        },
+        {
+          "index": 5,
+          "size": 6,
+          "novelty": 0.4444444444444444,
+          "cumulative": 9
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 5,
+          "novelty": 0.4285714285714286,
+          "cumulative": 7
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.2857142857142857,
+          "cumulative": 7
+        },
+        {
+          "index": 4,
+          "size": 5,
+          "novelty": 0.2857142857142857,
+          "cumulative": 7
+        },
+        {
+          "index": 5,
+          "size": 4,
+          "novelty": 0.9,
+          "cumulative": 10
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 5,
+          "novelty": 1,
+          "cumulative": 5
+        },
+        {
+          "index": 2,
+          "size": 5,
+          "novelty": 0.33333333333333337,
+          "cumulative": 6
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.16666666666666663,
+          "cumulative": 6
+        },
+        {
+          "index": 4,
+          "size": 6,
+          "novelty": 0.5,
+          "cumulative": 8
+        },
+        {
+          "index": 5,
+          "size": 6,
+          "novelty": 0.4444444444444444,
+          "cumulative": 9
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 11,
+          "novelty": 1,
+          "cumulative": 11
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 3,
+          "novelty": 1,
+          "cumulative": 3
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 0.7857142857142857,
+          "cumulative": 14
+        },
+        {
+          "index": 4,
+          "size": 10,
+          "novelty": 0.8571428571428572,
+          "cumulative": 21
+        },
+        {
+          "index": 5,
+          "size": 3,
+          "novelty": 0.9090909090909091,
+          "cumulative": 22
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.9333333333333333,
+          "cumulative": 15
+        },
+        {
+          "index": 3,
+          "size": 11,
+          "novelty": 1,
+          "cumulative": 26
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.8214285714285714,
+          "cumulative": 28
+        },
+        {
+          "index": 5,
+          "size": 4,
+          "novelty": 0.967741935483871,
+          "cumulative": 31
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 2,
+          "novelty": 0.875,
+          "cumulative": 8
+        },
+        {
+          "index": 3,
+          "size": 6,
+          "novelty": 0.9230769230769231,
+          "cumulative": 13
+        },
+        {
+          "index": 4,
+          "size": 4,
+          "novelty": 0.8666666666666667,
+          "cumulative": 15
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.7777777777777778,
+          "cumulative": 18
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 11
+        },
+        {
+          "index": 3,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 18
+        },
+        {
+          "index": 4,
+          "size": 11,
+          "novelty": 0.84,
+          "cumulative": 25
+        },
+        {
+          "index": 5,
+          "size": 8,
+          "novelty": 0.935483870967742,
+          "cumulative": 31
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 3,
+          "novelty": 1,
+          "cumulative": 3
+        },
+        {
+          "index": 2,
+          "size": 10,
+          "novelty": 1,
+          "cumulative": 13
+        },
+        {
+          "index": 3,
+          "size": 11,
+          "novelty": 0.8,
+          "cumulative": 20
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.8260869565217391,
+          "cumulative": 23
+        },
+        {
+          "index": 5,
+          "size": 9,
+          "novelty": 0.9333333333333333,
+          "cumulative": 30
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.5555555555555556,
+          "cumulative": 9
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.6923076923076923,
+          "cumulative": 13
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.6666666666666667,
+          "cumulative": 12
+        },
+        {
+          "index": 3,
+          "size": 8,
+          "novelty": 0.75,
+          "cumulative": 16
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 14,
+          "novelty": 1,
+          "cumulative": 14
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 9,
+          "novelty": 1,
+          "cumulative": 9
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 5,
+          "novelty": 1,
+          "cumulative": 5
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 14,
+          "novelty": 1,
+          "cumulative": 14
+        },
+        {
+          "index": 2,
+          "size": 12,
+          "novelty": 0.8181818181818181,
+          "cumulative": 22
+        },
+        {
+          "index": 3,
+          "size": 16,
+          "novelty": 0.41666666666666663,
+          "cumulative": 24
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 9,
+          "novelty": 1,
+          "cumulative": 9
+        },
+        {
+          "index": 2,
+          "size": 9,
+          "novelty": 0.7142857142857143,
+          "cumulative": 14
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.7333333333333334,
+          "cumulative": 15
+        },
+        {
+          "index": 4,
+          "size": 10,
+          "novelty": 0.6842105263157895,
+          "cumulative": 19
+        },
+        {
+          "index": 5,
+          "size": 16,
+          "novelty": 0.75,
+          "cumulative": 28
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 5,
+          "novelty": 0.875,
+          "cumulative": 8
+        },
+        {
+          "index": 3,
+          "size": 9,
+          "novelty": 0.5833333333333333,
+          "cumulative": 12
+        },
+        {
+          "index": 4,
+          "size": 6,
+          "novelty": 0.875,
+          "cumulative": 16
+        },
+        {
+          "index": 5,
+          "size": 11,
+          "novelty": 0.4117647058823529,
+          "cumulative": 17
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 8,
+          "novelty": 0.8333333333333334,
+          "cumulative": 12
+        },
+        {
+          "index": 3,
+          "size": 13,
+          "novelty": 0.33333333333333337,
+          "cumulative": 15
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.7777777777777778,
+          "cumulative": 18
+        },
+        {
+          "index": 5,
+          "size": 13,
+          "novelty": 0.8928571428571429,
+          "cumulative": 28
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 5,
+          "novelty": 1,
+          "cumulative": 5
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 0.8,
+          "cumulative": 10
+        },
+        {
+          "index": 3,
+          "size": 5,
+          "novelty": 0.6363636363636364,
+          "cumulative": 11
+        },
+        {
+          "index": 4,
+          "size": 7,
+          "novelty": 0.5,
+          "cumulative": 12
+        },
+        {
+          "index": 5,
+          "size": 14,
+          "novelty": 0.7619047619047619,
+          "cumulative": 21
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 4,
+          "novelty": 0,
+          "cumulative": 4
+        },
+        {
+          "index": 3,
+          "size": 4,
+          "novelty": 0,
+          "cumulative": 4
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        },
+        {
+          "index": 2,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 3,
+          "size": 11,
+          "novelty": 0.8125,
+          "cumulative": 16
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 2,
+          "size": 23,
+          "novelty": 0.7083333333333333,
+          "cumulative": 24
+        },
+        {
+          "index": 3,
+          "size": 23,
+          "novelty": 0.04166666666666663,
+          "cumulative": 24
+        },
+        {
+          "index": 4,
+          "size": 23,
+          "novelty": 0.04166666666666663,
+          "cumulative": 24
+        },
+        {
+          "index": 5,
+          "size": 23,
+          "novelty": 0.04166666666666663,
+          "cumulative": 24
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": 5
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 16,
+          "novelty": 0.85,
+          "cumulative": 20
+        },
+        {
+          "index": 3,
+          "size": 16,
+          "novelty": 0.19999999999999996,
+          "cumulative": 20
+        },
+        {
+          "index": 4,
+          "size": 16,
+          "novelty": 0.19999999999999996,
+          "cumulative": 20
+        },
+        {
+          "index": 5,
+          "size": 10,
+          "novelty": 0.8888888888888888,
+          "cumulative": 27
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        0,
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        },
+        {
+          "index": 2,
+          "size": 11,
+          "novelty": 0.8,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 4,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 5,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 3,
+          "novelty": 1,
+          "cumulative": 3
+        },
+        {
+          "index": 2,
+          "size": 3,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 3,
+          "size": 3,
+          "novelty": 0.7142857142857143,
+          "cumulative": 7
+        },
+        {
+          "index": 4,
+          "size": 11,
+          "novelty": 1,
+          "cumulative": 18
+        },
+        {
+          "index": 5,
+          "size": 7,
+          "novelty": 0.8636363636363636,
+          "cumulative": 22
+        }
+      ],
+      "lostFile": 4,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        },
+        {
+          "index": 2,
+          "size": 10,
+          "novelty": 0.8571428571428572,
+          "cumulative": 14
+        },
+        {
+          "index": 3,
+          "size": 13,
+          "novelty": 0.7142857142857143,
+          "cumulative": 21
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11283",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 8,
+          "novelty": 1,
+          "cumulative": 8
+        },
+        {
+          "index": 2,
+          "size": 10,
+          "novelty": 0.6153846153846154,
+          "cumulative": 13
+        },
+        {
+          "index": 3,
+          "size": 12,
+          "novelty": 0.75,
+          "cumulative": 20
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 3,
+          "novelty": 1,
+          "cumulative": 3
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 17,
+          "novelty": 1,
+          "cumulative": 17
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 4,
+          "novelty": 1,
+          "cumulative": 4
+        },
+        {
+          "index": 2,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 11
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [
+        0,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 10,
+          "novelty": 1,
+          "cumulative": 10
+        },
+        {
+          "index": 2,
+          "size": 5,
+          "novelty": 1,
+          "cumulative": 15
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        3
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 26,
+          "novelty": 1,
+          "cumulative": 26
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 10,
+          "novelty": 1,
+          "cumulative": 10
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 1,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 42,
+          "novelty": 1,
+          "cumulative": 42
+        },
+        {
+          "index": 2,
+          "size": 10,
+          "novelty": 0.9803921568627451,
+          "cumulative": 51
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l1_blind_retry",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 11,
+          "novelty": 1,
+          "cumulative": 11
+        },
+        {
+          "index": 2,
+          "size": 11,
+          "novelty": 0.3076923076923077,
+          "cumulative": 13
+        },
+        {
+          "index": 3,
+          "size": 10,
+          "novelty": 0.6470588235294117,
+          "cumulative": 17
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 42,
+          "novelty": 1,
+          "cumulative": 42
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_5_diagnose_revise",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 11,
+          "novelty": 1,
+          "cumulative": 11
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "gemini_flash",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 3,
+          "novelty": 1,
+          "cumulative": 3
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 2,
+          "novelty": 1,
+          "cumulative": 2
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "muse_30b",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 0,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 1,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        2,
+        3,
+        4
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 2,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 3,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 6,
+          "novelty": 1,
+          "cumulative": 6
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 5,
+      "fileTrace": [],
+      "lineTrace": [],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_nano",
+      "editFormat": "search_replace",
+      "thinking": true,
+      "repeat": 4,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 10,
+          "novelty": 1,
+          "cumulative": 10
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 7,
+          "novelty": 1,
+          "cumulative": 7
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 2,
+      "rounds": [
+        0,
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 3,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 32,
+          "novelty": 1,
+          "cumulative": 32
+        },
+        {
+          "index": 2,
+          "size": 15,
+          "novelty": 0.8809523809523809,
+          "cumulative": 42
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 3,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 14,
+          "novelty": 1,
+          "cumulative": 14
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "nemotron_ultra",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 4,
+      "rounds": [
+        1
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 4,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 31,
+          "novelty": 1,
+          "cumulative": 31
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 0,
+      "rounds": [
+        0
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 2,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 42,
+          "novelty": 1,
+          "cumulative": 42
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    },
+    {
+      "taskId": "django__django-11564",
+      "strategy": "l2_reflection",
+      "model": "qwen_max",
+      "editFormat": "search_replace",
+      "thinking": false,
+      "repeat": 1,
+      "rounds": [
+        0,
+        1,
+        2
+      ],
+      "hasBaseline": true,
+      "attemptsWithoutPatch": 0,
+      "fileTrace": [
+        {
+          "index": 1,
+          "size": 1,
+          "novelty": 1,
+          "cumulative": 1
+        },
+        {
+          "index": 2,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        },
+        {
+          "index": 3,
+          "size": 1,
+          "novelty": 0,
+          "cumulative": 1
+        }
+      ],
+      "lineTrace": [
+        {
+          "index": 1,
+          "size": 11,
+          "novelty": 1,
+          "cumulative": 11
+        },
+        {
+          "index": 2,
+          "size": 9,
+          "novelty": 0.9473684210526316,
+          "cumulative": 19
+        },
+        {
+          "index": 3,
+          "size": 37,
+          "novelty": 0.9019607843137255,
+          "cumulative": 51
+        }
+      ],
+      "lostFile": null,
+      "lostLine": null
+    }
+  ]
+}
