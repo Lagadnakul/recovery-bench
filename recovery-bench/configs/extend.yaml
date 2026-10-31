@@ -1,0 +1,320 @@
+# recovery-bench — full configuration
+# Schema: docs/CONFIG.md   Rationale: docs/DECISIONS.md
+# Nothing here is duplicated in source. This file IS the experiment.
+
+run:
+  name: full_grid
+  seed: 20260926          # D0: the original never set one
+  resume: true
+  dry_run: false
+  # Concurrent cells per provider. NVIDIA returns HTTP 200 with an EMPTY BODY
+  # past its 16/16 worker limit rather than a 429 (D20), which a sweep would
+  # record as the model saying nothing. The worker pool, not RPM, is the limit:
+  # four keys raise the request ceiling but not the pool, so 4 in flight stays
+  # the right number. gemini's quota is 30 calls total, so serialise it.
+  default_concurrency: 2
+  concurrency:
+    nvidia: 4
+    gemini: 1
+    qwencloud: 2
+
+# ---------------------------------------------------------------- providers
+# api_key_env holds VARIABLE NAMES ONLY. Values stay in .env.local.
+providers:
+  nvidia:
+    kind: openai_compat
+    base_url: https://integrate.api.nvidia.com/v1
+    api_key_env: [NVIDIA_KEY_1, NVIDIA_KEY_2, NVIDIA_KEY_3, NVIDIA_KEY_4,
+                  NVIDIA_KEY_5, NVIDIA_KEY_6, NVIDIA_KEY_7]               # key pool
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
+    timeout_s: 300
+    # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
+    # same prompt, and a cell that exhausts them is excluded from analysis by
+    # `measuresModel: false` either way. Fewer retries changes how long we wait
+    # before recording that, not what is measured.
+    max_retries: 2
+
+  qwencloud:
+    kind: openai_compat
+    base_url: https://maas.qwencloudapi.com/compatible-mode/v1
+    api_key_env: qwen_api_key
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
+    timeout_s: 300
+    # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
+    # same prompt, and a cell that exhausts them is excluded from analysis by
+    # `measuresModel: false` either way. Fewer retries changes how long we wait
+    # before recording that, not what is measured.
+    max_retries: 2
+
+  gemini:
+    kind: gemini
+    # Four keys, pooled. Gemini's free tier is quota'd per PROJECT, so keys
+    # from one Google Cloud project share one allowance no matter how many
+    # there are. Pooling always buys retry headroom against a single key's
+    # rate limit; it buys a second token ceiling only if the keys really are
+    # separate projects, which is the same test D28 applied to NVIDIA_KEY_4.
+    # See the gemini budget block below for what is being claimed, and D35.
+    api_key_env: [gemini_api_key, gemini_api_key1, gemini_api_key2, gemini_api_key3]
+    # 300. Set from MEASURED latency, after 180 was tried and refuted.
+    #
+    # Seven successful muse_30b calls on failure_pool, 25 Oct 2026 (ms):
+    #   prompt 29,555 -> 80,498 / 96,996 / 140,379 / 152,930
+    #   prompt    899 -> 121,074 / 129,588 / 154,313
+    #
+    # Two things follow. Latency is NOT driven by prompt size — a 899-token
+    # prompt took as long as a 29,555-token one — so it is queueing on the free
+    # tier, which no amount of prompt trimming will fix. And the observed
+    # maximum is 154 s, so a 180 s ceiling sits barely above the distribution:
+    # at 180 s, 4 of the first 10 cells timed out (40%), against 0 of a5's 720
+    # cells at 300 s. 180 was cutting off calls that would have succeeded.
+    timeout_s: 300
+    # 2, not 4. Retries are OPERATIONAL, not experimental: the model sees the
+    # same prompt, and a cell that exhausts them is excluded from analysis by
+    # `measuresModel: false` either way. Fewer retries changes how long we wait
+    # before recording that, not what is measured.
+    max_retries: 2
+
+# ------------------------------------------------------------------- models
+# Measured throughput is recorded for the record; `doctor` re-measures.
+models:
+  gemini_flash:                       # A1 — replication only
+    provider: gemini
+    model: gemini-3.6-flash
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 8192
+    thinking: false
+    supports_tools: false
+
+  muse_30b:                           # A2 workhorse — 29.46 TPS, 2.12 s TTFT
+    provider: nvidia
+    model: meta/muse-glimmer-30b
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 8192
+    thinking: false
+    supports_tools: true
+
+  nemotron_ultra:                     # A3 capability — 164.33 TPS, 1.65 s TTFT
+    provider: nvidia
+    model: nvidia/nemotron-3-ultra-550b-a55b
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 16384
+    thinking: false
+    reasoning_budget: null
+    supports_tools: false
+
+  nemotron_nano:                      # A4 reasoning — 48.93 TPS, 1.27 s TTFT
+    provider: nvidia
+    model: nvidia/nemotron-3-nano-omni-30b-a3b-reasoning
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 16384
+    thinking: false                   # overridden per-arm in A4
+    # Unspendable in this variant: no arm here sets thinking: true, and the
+    # validator correctly refuses a budget nothing can ever spend. base.yaml
+    # keeps 4096 for a4.
+    reasoning_budget: null
+    supports_tools: true
+
+  qwen_max:                           # A6 optional
+    provider: qwencloud
+    model: qwen3.8-max
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 8192
+    thinking: false
+    supports_tools: true
+
+  # DROPPED (D4) — kept documented so the exclusion is auditable:
+  #   z-ai/glm-5-3-flash                    13.24 TPS · 23.99 s TTFT
+  #   nvidia/nemotron-3.5-lightning-30b-a3b  9.61 TPS · 65.07 s TTFT
+  #   happyhorse-1.1-t2v                     text-to-video, not applicable
+
+# -------------------------------------------------------------------- tasks
+tasks:
+  dataset: princeton-nlp/SWE-bench_Lite
+  split: test
+  # Frozen by step 0. The pipeline reads the local file and never touches the
+  # network for tasks; `revision` is asserted against data/swebench_lite.meta.json
+  # so a re-export from a different upstream commit fails loudly.
+  source: data/swebench_lite.jsonl
+  revision: 6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2
+  expected_rows: 300
+
+  failure_pool:                       # PLAN.md §7 — the 4 genuine logic failures
+    selection: explicit
+    ids:
+      - astropy__astropy-7746
+      - django__django-11019
+      - django__django-11283
+      - django__django-11564
+
+  stratified_60:                      # PLAN.md §8.3 — fixes D5 sampling bias
+    selection: stratified
+    n: 60
+    per_repo_min: 3
+
+  all_300:                            # EXTENSION, 31 Oct 2026 — every instance
+    # NOT `selection: all`. That value is in the config schema's enum but is
+    # NOT implemented in resolveTaskSet (dataset.ts:164 handles `explicit`
+    # then falls through to stratified), so it resolves with n=0 and selects
+    # ZERO tasks silently instead of erroring. Logged as a latent defect.
+    # stratified with per_repo_min 0 and n = expected_rows round-robins the
+    # whole dataset, which is every instance, deterministically.
+    selection: stratified
+    n: 300
+    per_repo_min: 0
+
+  context:
+    mode: symbol                      # D7: was whole_file — 31,098 tokens for wcs.py
+    padding_lines: 50
+
+# --------------------------------------------------------------------- edit
+edit:
+  formats: [search_replace, unified_diff]
+  fuzzy_match: false
+
+# ------------------------------------------------------------------- verify
+verify:
+  backend: git_apply                  # D6: the only legal value. No Docker.
+  contamination:
+    enabled: true
+    threshold: 0.95
+
+# ------------------------------------------------------------------- budget
+budget:
+  estimate_before_run: true
+  stop_on_exhaustion: skip_arm
+  nvidia:
+    # PER KEY, not per provider. The three original keys in api_key_env were
+    # each created from a separate build.nvidia.com account, so each has its own
+    # allowance (D28). NVIDIA_KEY_4 was confirmed by Nakul on 25 Oct 2026 to be
+    # a fourth separate account. KEYS 5-7 were added 26 Oct 2026 and are
+    # ASSUMED separate on the same grounds — if they are not, the claimed
+    # capacity is wrong, but the failure mode is 429s the pool rotates away
+    # from, not money. The sweep distributes load round-robin and excludes a
+    # key once its own ceiling is reached.
+    per_key: true
+    max_tokens: 8000000                # 8M — YAML 1.2 has no _ separator, so no underscores
+    max_calls: 1500
+  qwencloud:
+    max_tokens: 900000                # under the 1M free quota, deliberately
+    max_calls: 100
+  gemini:
+    # PER KEY as of 26 Oct 2026 — D35. Four keys, and a1 needs 28 calls against
+    # what was a single 30-call ceiling with 3 already spent. It did not fit.
+    #
+    # The claim this makes is narrow and must stay narrow: Gemini's free tier is
+    # quota'd per PROJECT, so this is only true if the four keys come from four
+    # separate Google accounts. Nakul added them for exactly that reason. The
+    # per-key ceilings below are unchanged from the single-key values, so
+    # nothing is being relaxed per key — only the pool is wider.
+    per_key: true
+    max_tokens: 500000
+    max_calls: 30                     # ~20/day ceiling, PER KEY
+
+# --------------------------------------------------------------------- grid
+grid:
+  # ======================================================================
+  # EXTENSION SWEEP — 31 October 2026
+  #
+  # WHY THIS FILE EXISTS
+  #
+  # The November target changed from an MSR Registered Report (Stage 2 in
+  # Sep 2027) to a standalone Scopus journal paper submitted November 2026.
+  # A standalone paper carries its own empirical weight, and the headline
+  # recovery finding — reflection helps the 550B once then harms it, 19-0,
+  # p = 3.8e-6 — rests on `failure_pool`, which is FOUR tasks. Pairs
+  # cluster within task, so n=60 pairs is not 60 independent units. That is
+  # the first thing a reviewer attacks, and fairly.
+  #
+  # A PLAN THAT WAS TRIED AND REFUTED BEFORE SPENDING ANYTHING
+  #
+  # The obvious fix is to re-run a2/a3 on `stratified_60`. Querying a5,
+  # which already ran `l0_baseline` over exactly that pool, refutes it:
+  #
+  #   search_replace, l0_baseline, per-task over 3 repeats
+  #     muse_30b        58 of 60 tasks APPLIED on every repeat
+  #     nemotron_ultra  55 of 60 tasks APPLIED on every repeat
+  #
+  #   row-level apply FAILURE rate
+  #     search_replace  muse_30b 2.2%   nemotron_ultra 5.0%
+  #     unified_diff    muse_30b 74.4%  nemotron_ultra 99.4%
+  #
+  # On a stratified sample there is almost nothing to recover from. That is
+  # a5's 96.4% apply rate reappearing as a CEILING — the mirror of a4's
+  # floor, and the same category error: you cannot measure recovery where
+  # the baseline does not fail. 12.85M tokens would have bought ~2 failing
+  # tasks. `failure_pool` is 4 tasks because apply failures are RARE, not
+  # because nobody looked.
+  #
+  # WHAT THIS ARM DOES INSTEAD
+  #
+  # Baseline every instance in the pinned revision, both models, both edit
+  # formats, one repeat. One run, two purposes:
+  #
+  #   1. C1 (edit format) becomes a FULL-BENCHMARK claim. a5 established it
+  #      on 60 stratified tasks at p = 7.44e-89; this states it over all
+  #      300 SWE-bench Lite instances, which is a materially stronger
+  #      methods sentence and a citable base rate.
+  #
+  #   2. It FINDS the apply-failure pool empirically instead of inheriting
+  #      the pilot's four. At a 5% failure rate, 300 tasks should yield
+  #      roughly 15 genuinely failing tasks — ~4x the task diversity for
+  #      the recovery arms, selected by data rather than by history.
+  #
+  # Phase 2 — the recovery arms over whatever failures this finds — is NOT
+  # in this file. It cannot be written until the yield is known, and
+  # guessing its size is what went wrong above.
+  #
+  # WHY `l0_baseline` ALONE, AND WHY ONE REPEAT
+  #
+  # Recovery conditions assert to the model that its previous attempt "did
+  # NOT resolve the issue" (conditions.ts:131). `lastRealAttempt` checks
+  # only that an attempt EXISTS, not that it failed — so running recovery
+  # over tasks whose baseline APPLIED would assert something unestablished,
+  # the same defect class as D22 and D34. Recovery must be confined to
+  # lineages that actually failed, which is what phase 2 is for.
+  #
+  # One repeat because this arm measures whether a format is emittable, not
+  # a rate with a confidence interval; a5 already supplies 3 repeats on 60
+  # tasks for that. Breadth is what is missing here, not depth.
+  # ======================================================================
+
+  a7_format_full_benchmark:
+    enabled: true
+    models: [muse_30b, nemotron_ultra]
+    tasks: all_300
+    strategies: [l0_baseline]
+    edit_formats: [search_replace, unified_diff]
+    thinking: [false]
+    rounds: 1
+    repeats: 1
+    note: >-
+      a5 widened from 60 stratified tasks to all 300 instances. Serves C1
+      as a full-benchmark result and locates the apply-failure pool that
+      phase 2's recovery arms will run on.

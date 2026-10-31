@@ -53,6 +53,60 @@
     "lines": 3300,
     "fetchedAt": "2026-09-30T07:01:58.213Z"
   },
+  "django/django@004b4620f6f4ad87261e149898940f2dcd5757ef:django/utils/decorators.py": {
+    "repo": "django/django",
+    "commit": "004b4620f6f4ad87261e149898940f2dcd5757ef",
+    "path": "django/utils/decorators.py",
+    "sha256": "3f722cec8fd77bf7af30a1f9868fecb07ca7b85993cc1eee4f2b272705be5e72",
+    "bytes": 6834,
+    "lines": 180,
+    "fetchedAt": "2026-10-31T07:46:37.917Z"
+  },
+  "django/django@00ea883ef56fb5e092cbe4a6f7ff2e7470886ac4:django/db/models/fields/reverse_related.py": {
+    "repo": "django/django",
+    "commit": "00ea883ef56fb5e092cbe4a6f7ff2e7470886ac4",
+    "path": "django/db/models/fields/reverse_related.py",
+    "sha256": "80d6eec37430d8f2d586810f2c33246ac720c6636e3da3f4adc1b4e765b25a08",
+    "bytes": 11169,
+    "lines": 331,
+    "fetchedAt": "2026-10-31T07:46:35.461Z"
+  },
+  "django/django@03cadb912c78b769d6bf4a943a2a35fc1d952960:django/db/models/fields/__init__.py": {
+    "repo": "django/django",
+    "commit": "03cadb912c78b769d6bf4a943a2a35fc1d952960",
+    "path": "django/db/models/fields/__init__.py",
+    "sha256": "40d4acc37a5ad8d84094bd60e87b1229f3833e8a8ecd22aced255116f876be7e",
+    "bytes": 90874,
+    "lines": 2531,
+    "fetchedAt": "2026-10-31T07:46:42.223Z"
+  },
+  "django/django@0456d3e42795481a186db05719300691fe2a1029:django/contrib/admin/sites.py": {
+    "repo": "django/django",
+    "commit": "0456d3e42795481a186db05719300691fe2a1029",
+    "path": "django/contrib/admin/sites.py",
+    "sha256": "023314e8cbbf3a982bf0513747157007db04f354d0f38ae8ff560ebd5e25fd6b",
+    "bytes": 21971,
+    "lines": 570,
+    "fetchedAt": "2026-10-31T07:46:16.582Z"
+  },
+  "django/django@04b15022e8d1f49af69d8a1e6cd678f31f1280ff:django/forms/boundfield.py": {
+    "repo": "django/django",
+    "commit": "04b15022e8d1f49af69d8a1e6cd678f31f1280ff",
+    "path": "django/forms/boundfield.py",
+    "sha256": "cfece308ec00dd599a387d196fd2a7bc3532f63224237847b1c7a1aa55cb87fa",
+    "bytes": 12036,
+    "lines": 337,
+    "fetchedAt": "2026-10-31T07:46:50.206Z"
+  },
+  "django/django@0773837e15bb632afffb6848a58c59a791008fa1:django/core/management/__init__.py": {
+    "repo": "django/django",
+    "commit": "0773837e15bb632afffb6848a58c59a791008fa1",
+    "path": "django/core/management/__init__.py",
+    "sha256": "e955120ebc95b692e389b65f9bd549594d641664fa9de3ea62823e5703f00af9",
+    "bytes": 16999,
+    "lines": 415,
+    "fetchedAt": "2026-10-31T07:46:19.793Z"
+  },
   "django/django@08a4ee06510ae45562c228eefbdcaac84bd38c7a:django/contrib/auth/migrations/0011_update_proxy_permissions.py": {
     "repo": "django/django",
     "commit": "08a4ee06510ae45562c228eefbdcaac84bd38c7a",
@@ -61,6 +115,60 @@
     "bytes": 1923,
     "lines": 49,
     "fetchedAt": "2026-09-30T07:01:58.896Z"
+  },
+  "django/django@0bd2c0c9015b53c41394a1c0989afbfd94dc2830:django/contrib/auth/management/__init__.py": {
+    "repo": "django/django",
+    "commit": "0bd2c0c9015b53c41394a1c0989afbfd94dc2830",
+    "path": "django/contrib/auth/management/__init__.py",
+    "sha256": "b8a13bed15fa8904836f407a64ff904edfa48d27a598163a1504aac57bf7cef2",
+    "bytes": 5327,
+    "lines": 171,
+    "fetchedAt": "2026-10-31T07:46:51.645Z"
+  },
+  "django/django@0c42cdf0d2422f4c080e93594d5d15381d6e955e:django/db/models/base.py": {
+    "repo": "django/django",
+    "commit": "0c42cdf0d2422f4c080e93594d5d15381d6e955e",
+    "path": "django/db/models/base.py",
+    "sha256": "5fa9569a03e35e7be387e69f44fcb1bcfa2a4d938a8dd01e641e415ec15f4608",
+    "bytes": 89053,
+    "lines": 2140,
+    "fetchedAt": "2026-10-31T07:46:23.892Z"
+  },
+  "django/django@0d4e575c96d408e0efb4dfd0cbfc864219776950:django/db/backends/ddl_references.py": {
+    "repo": "django/django",
+    "commit": "0d4e575c96d408e0efb4dfd0cbfc864219776950",
+    "path": "django/db/backends/ddl_references.py",
+    "sha256": "7f4cdc686470846d96fa16d4897aaecd1b8405fb4ca3455ef0e4c72992ae1d34",
+    "bytes": 8052,
+    "lines": 237,
+    "fetchedAt": "2026-10-31T07:46:40.172Z"
+  },
+  "django/django@142ab6846ac09d6d401e26fc8b6b988a583ac0f5:django/db/models/sql/compiler.py": {
+    "repo": "django/django",
+    "commit": "142ab6846ac09d6d401e26fc8b6b988a583ac0f5",
+    "path": "django/db/models/sql/compiler.py",
+    "sha256": "53c732dd0b0b9a2dc33958d23454f62ad712bfe1624657d52d09de4b9f4a1850",
+    "bytes": 72216,
+    "lines": 1587,
+    "fetchedAt": "2026-10-31T07:46:01.389Z"
+  },
+  "django/django@16218c20606d8cd89c5393970c83da04598a3e04:django/core/exceptions.py": {
+    "repo": "django/django",
+    "commit": "16218c20606d8cd89c5393970c83da04598a3e04",
+    "path": "django/core/exceptions.py",
+    "sha256": "d769615d353f272614405c92a322ef250bb43a4601dac69996201f64b8f247a2",
+    "bytes": 5522,
+    "lines": 194,
+    "fetchedAt": "2026-10-31T07:46:11.702Z"
+  },
+  "django/django@1710cdbe79c90665046034fe1700933d038d90ad:django/db/models/query_utils.py": {
+    "repo": "django/django",
+    "commit": "1710cdbe79c90665046034fe1700933d038d90ad",
+    "path": "django/db/models/query_utils.py",
+    "sha256": "3f1e23f11c37f58db0085a45cf2f1b734b900ded03ca67be072c5ca276398cc6",
+    "bytes": 11719,
+    "lines": 324,
+    "fetchedAt": "2026-10-31T07:46:26.552Z"
   },
   "django/django@17455e924e243e7a55e8a38f45966d8cbb27c273:django/db/models/fields/__init__.py": {
     "repo": "django/django",
@@ -71,6 +179,312 @@
     "lines": 2341,
     "fetchedAt": "2026-09-30T07:23:08.801Z"
   },
+  "django/django@184a6eebb0ef56d5f1b1315a8e666830e37f3f81:django/contrib/syndication/views.py": {
+    "repo": "django/django",
+    "commit": "184a6eebb0ef56d5f1b1315a8e666830e37f3f81",
+    "path": "django/contrib/syndication/views.py",
+    "sha256": "180bf29a79ef7a4aec9256d2e9b7c4610a9d6ebb63832d9fabfb7769b80892d6",
+    "bytes": 8663,
+    "lines": 220,
+    "fetchedAt": "2026-10-31T07:46:12.416Z"
+  },
+  "django/django@191f6a9a4586b5e5f79f4f42f190e7ad4bbacc84:django/contrib/admin/checks.py": {
+    "repo": "django/django",
+    "commit": "191f6a9a4586b5e5f79f4f42f190e7ad4bbacc84",
+    "path": "django/contrib/admin/checks.py",
+    "sha256": "c9be9a16481fe371f3ef7f29ec0330671e94ff93dc287ceae443b78e6b1053d9",
+    "bytes": 49886,
+    "lines": 1353,
+    "fetchedAt": "2026-10-31T07:46:53.483Z"
+  },
+  "django/django@19fc6376ce67d01ca37a91ef2f55ef769f50513a:django/db/models/deletion.py": {
+    "repo": "django/django",
+    "commit": "19fc6376ce67d01ca37a91ef2f55ef769f50513a",
+    "path": "django/db/models/deletion.py",
+    "sha256": "a09990d086e41b6a59f9bf7e704ced12d91e4725ddc994a128fecb638e7ea18a",
+    "bytes": 13965,
+    "lines": 328,
+    "fetchedAt": "2026-10-31T07:45:25.014Z"
+  },
+  "django/django@1bd6a7a0acc11e249fca11c017505ad39f15ebf6:django/contrib/admin/options.py": {
+    "repo": "django/django",
+    "commit": "1bd6a7a0acc11e249fca11c017505ad39f15ebf6",
+    "path": "django/contrib/admin/options.py",
+    "sha256": "a3d8dd4c35a0bdb402f06ca4bc51ebdb7efac5e8e64cf685ce44db6b0cdf23ec",
+    "bytes": 93224,
+    "lines": 2218,
+    "fetchedAt": "2026-10-31T07:46:21.229Z"
+  },
+  "django/django@1d0fa848e084cad62d0bb6bde3b51e4862558e57:django/core/cache/backends/filebased.py": {
+    "repo": "django/django",
+    "commit": "1d0fa848e084cad62d0bb6bde3b51e4862558e57",
+    "path": "django/core/cache/backends/filebased.py",
+    "sha256": "37b91a07ed9bb2c7763c8ef02caadd27168b01a1847385290834b67574fa9f4b",
+    "bytes": 5783,
+    "lines": 170,
+    "fetchedAt": "2026-10-31T07:46:51.314Z"
+  },
+  "django/django@29345aecf6e8d53ccb3577a3762bb0c263f7558d:django/core/management/templates.py": {
+    "repo": "django/django",
+    "commit": "29345aecf6e8d53ccb3577a3762bb0c263f7558d",
+    "path": "django/core/management/templates.py",
+    "sha256": "7f9085a81af64cdd61ac3aa0839e3420537337b6d9e737c3504eaf857299265a",
+    "bytes": 13653,
+    "lines": 341,
+    "fetchedAt": "2026-10-31T07:46:30.036Z"
+  },
+  "django/django@2c01ebb4be5d53cbf6450f356c10e436025d6d07:django/forms/widgets.py": {
+    "repo": "django/django",
+    "commit": "2c01ebb4be5d53cbf6450f356c10e436025d6d07",
+    "path": "django/forms/widgets.py",
+    "sha256": "af0a60022cc23b0a5473d7a8538ee568fbf189458688968ddc67c4941fac34b6",
+    "bytes": 37575,
+    "lines": 1089,
+    "fetchedAt": "2026-10-31T07:46:41.299Z"
+  },
+  "django/django@2e0f04507b17362239ba49830d26fec504d46978:django/contrib/admin/utils.py": {
+    "repo": "django/django",
+    "commit": "2e0f04507b17362239ba49830d26fec504d46978",
+    "path": "django/contrib/admin/utils.py",
+    "sha256": "c499caa453734c978a89dc30b53f146beca58e7dce308a08c8826705fa16e0fb",
+    "bytes": 19546,
+    "lines": 546,
+    "fetchedAt": "2026-10-31T07:45:59.722Z"
+  },
+  "django/django@2f13c476abe4ba787b6cb71131818341911f43cc:django/urls/resolvers.py": {
+    "repo": "django/django",
+    "commit": "2f13c476abe4ba787b6cb71131818341911f43cc",
+    "path": "django/urls/resolvers.py",
+    "sha256": "effa82b907ab7e9a511d542c726ca41a9fe0dd75d6b52ca80bc0a68bf8fce8ba",
+    "bytes": 27894,
+    "lines": 695,
+    "fetchedAt": "2026-10-31T07:46:28.235Z"
+  },
+  "django/django@2f72480fbd27896c986c45193e1603e35c0b19a7:django/db/models/lookups.py": {
+    "repo": "django/django",
+    "commit": "2f72480fbd27896c986c45193e1603e35c0b19a7",
+    "path": "django/db/models/lookups.py",
+    "sha256": "b84a3daf24c78106d67b91c67ab91718dc98e5f5550ea1bd762004dced52e258",
+    "bytes": 20939,
+    "lines": 601,
+    "fetchedAt": "2026-10-31T07:45:49.282Z"
+  },
+  "django/django@30e123ed351317b7527f632b3b7dc4e81e850449:django/db/models/fields/__init__.py": {
+    "repo": "django/django",
+    "commit": "30e123ed351317b7527f632b3b7dc4e81e850449",
+    "path": "django/db/models/fields/__init__.py",
+    "sha256": "f8407186c24fb3f26c75f84fd484dd30a11ad4d30d548f03e1a9cddfe746a76f",
+    "bytes": 92346,
+    "lines": 2555,
+    "fetchedAt": "2026-10-31T07:46:29.114Z"
+  },
+  "django/django@3346b78a8a872286a245d1e77ef4718fc5e6be1a:django/db/models/lookups.py": {
+    "repo": "django/django",
+    "commit": "3346b78a8a872286a245d1e77ef4718fc5e6be1a",
+    "path": "django/db/models/lookups.py",
+    "sha256": "1ea54d91a4547cb4892ce313a02b7b668b949b5e3a9c5b7a8200a01d53e2bcf4",
+    "bytes": 19753,
+    "lines": 551,
+    "fetchedAt": "2026-10-31T07:45:44.222Z"
+  },
+  "django/django@35b03788b0607c1f8d2b64e4fa9e1669b0907ea4:django/contrib/sessions/backends/base.py": {
+    "repo": "django/django",
+    "commit": "35b03788b0607c1f8d2b64e4fa9e1669b0907ea4",
+    "path": "django/contrib/sessions/backends/base.py",
+    "sha256": "a279356f9ebb8166164f6921bf097d1a5c950bb0701525ea7ada718c0cdb7139",
+    "bytes": 13491,
+    "lines": 387,
+    "fetchedAt": "2026-10-31T07:46:14.878Z"
+  },
+  "django/django@361bb8f786f112ee275be136795c0b1ecefff928:django/db/migrations/executor.py": {
+    "repo": "django/django",
+    "commit": "361bb8f786f112ee275be136795c0b1ecefff928",
+    "path": "django/db/migrations/executor.py",
+    "sha256": "8b1f10ae12f3145bee597aa9ccb3f46d3fd88a6c2001fcfe8a438e322e8587b1",
+    "bytes": 18300,
+    "lines": 382,
+    "fetchedAt": "2026-10-31T07:46:42.629Z"
+  },
+  "django/django@36bc47069ce071e80c8129500de3b8664d2058a7:django/forms/models.py": {
+    "repo": "django/django",
+    "commit": "36bc47069ce071e80c8129500de3b8664d2058a7",
+    "path": "django/forms/models.py",
+    "sha256": "2f4ebefce6996d5176e06dd44117f981d3cf93ff7d7b430e5dd75359e4e45fce",
+    "bytes": 57706,
+    "lines": 1402,
+    "fetchedAt": "2026-10-31T07:46:13.877Z"
+  },
+  "django/django@36fa071d6ebd18a61c4d7f1b5c9d17106134bd44:django/db/migrations/serializer.py": {
+    "repo": "django/django",
+    "commit": "36fa071d6ebd18a61c4d7f1b5c9d17106134bd44",
+    "path": "django/db/migrations/serializer.py",
+    "sha256": "32243f4715c66d2a5e96d67d5743ca61d136da6b8ff224bf2c29b74a290bdf24",
+    "bytes": 12935,
+    "lines": 358,
+    "fetchedAt": "2026-10-31T07:46:32.527Z"
+  },
+  "django/django@3bc4240d979812bd11365ede04c028ea13fdc8c6:django/utils/text.py": {
+    "repo": "django/django",
+    "commit": "3bc4240d979812bd11365ede04c028ea13fdc8c6",
+    "path": "django/utils/text.py",
+    "sha256": "d12459a6f55313d2898dfa03933f7ea3debabda6501421dab376696b59406ac5",
+    "bytes": 14062,
+    "lines": 425,
+    "fetchedAt": "2026-10-31T07:46:08.545Z"
+  },
+  "django/django@3f140dde51c0fe6c350acb7727bbe489a99f0632:django/db/models/fields/json.py": {
+    "repo": "django/django",
+    "commit": "3f140dde51c0fe6c350acb7727bbe489a99f0632",
+    "path": "django/db/models/fields/json.py",
+    "sha256": "0c2288b37e3368d6ae9631cb9903251c8efb1eda8185228f1a2d2332269fc9ca",
+    "bytes": 19120,
+    "lines": 527,
+    "fetchedAt": "2026-10-31T07:46:21.960Z"
+  },
+  "django/django@4142739af1cda53581af4169dbe16d6cd5e26948:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "4142739af1cda53581af4169dbe16d6cd5e26948",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "46f4623a3d6849153fb257e45fa120349cecd0bdab6857476e091d7a7c49eb5c",
+    "bytes": 113920,
+    "lines": 2673,
+    "fetchedAt": "2026-10-31T07:46:54.717Z"
+  },
+  "django/django@42e8cf47c7ee2db238bf91197ea398126c546741:django/forms/models.py": {
+    "repo": "django/django",
+    "commit": "42e8cf47c7ee2db238bf91197ea398126c546741",
+    "path": "django/forms/models.py",
+    "sha256": "35bb0b76ae4cc9e5922ab9c1bba15f544a9ecf881ec363f808092bd186bb7d20",
+    "bytes": 57665,
+    "lines": 1401,
+    "fetchedAt": "2026-10-31T07:46:24.816Z"
+  },
+  "django/django@444b6da7cc229a58a2c476a52e45233001dc7073:django/contrib/sitemaps/__init__.py": {
+    "repo": "django/django",
+    "commit": "444b6da7cc229a58a2c476a52e45233001dc7073",
+    "path": "django/contrib/sitemaps/__init__.py",
+    "sha256": "94304753763abe3cb2ecc4dc86ea4478820798ac5e561595b0f56bba5f693e54",
+    "bytes": 9039,
+    "lines": 259,
+    "fetchedAt": "2026-10-31T07:46:50.819Z"
+  },
+  "django/django@447980e72ac01da1594dd3373a03ba40b7ee6f80:django/db/backends/base/schema.py": {
+    "repo": "django/django",
+    "commit": "447980e72ac01da1594dd3373a03ba40b7ee6f80",
+    "path": "django/db/backends/base/schema.py",
+    "sha256": "e50c58ba174e8b813def698bb2cf3c2705c125acd19114ace5cea70615c63f10",
+    "bytes": 55942,
+    "lines": 1201,
+    "fetchedAt": "2026-10-31T07:46:04.947Z"
+  },
+  "django/django@44c24bf02835323d5418512ebe8e76166739ebf8:django/forms/formsets.py": {
+    "repo": "django/django",
+    "commit": "44c24bf02835323d5418512ebe8e76166739ebf8",
+    "path": "django/forms/formsets.py",
+    "sha256": "7a09c679b501c1b63c21f96c55d8c5039d51e76e9c50a2746b5a45b17c22b834",
+    "bytes": 20994,
+    "lines": 575,
+    "fetchedAt": "2026-10-31T07:46:48.087Z"
+  },
+  "django/django@453967477e3ddae704cd739eac2449c0e13d464c:django/db/models/fields/__init__.py": {
+    "repo": "django/django",
+    "commit": "453967477e3ddae704cd739eac2449c0e13d464c",
+    "path": "django/db/models/fields/__init__.py",
+    "sha256": "698c8f5c4dde73670f74b9d121fb52c45a294be1862f155ee1134afbe4eb8ca5",
+    "bytes": 88514,
+    "lines": 2457,
+    "fetchedAt": "2026-10-31T07:46:15.659Z"
+  },
+  "django/django@4652f1f0aa459a7b980441d629648707c32e36bf:django/contrib/staticfiles/handlers.py": {
+    "repo": "django/django",
+    "commit": "4652f1f0aa459a7b980441d629648707c32e36bf",
+    "path": "django/contrib/staticfiles/handlers.py",
+    "sha256": "a25305efffcc639a9f1dfbc615d9721cb3d3d79ae4e8fc13776ce3f3bf0f96fc",
+    "bytes": 3147,
+    "lines": 89,
+    "fetchedAt": "2026-10-31T07:46:07.854Z"
+  },
+  "django/django@466920f6d726eee90d5566e0a9948e92b33a122e:django/db/models/query_utils.py": {
+    "repo": "django/django",
+    "commit": "466920f6d726eee90d5566e0a9948e92b33a122e",
+    "path": "django/db/models/query_utils.py",
+    "sha256": "64d2b7d1fdad7c8d74c33e0eb169b0cc73b484703563e3cc0965a2e982784447",
+    "bytes": 11822,
+    "lines": 325,
+    "fetchedAt": "2026-10-31T07:46:27.391Z"
+  },
+  "django/django@475cffd1d64c690cdad16ede4d5e81985738ceb4:django/contrib/admin/helpers.py": {
+    "repo": "django/django",
+    "commit": "475cffd1d64c690cdad16ede4d5e81985738ceb4",
+    "path": "django/contrib/admin/helpers.py",
+    "sha256": "47aafbc1e6f2e7e8150a6c8ca93314edbd551d4ef8f753611b1006e8dda759f4",
+    "bytes": 16818,
+    "lines": 442,
+    "fetchedAt": "2026-10-31T07:46:38.611Z"
+  },
+  "django/django@49ae7ce50a874f8a04cd910882fb9571ff3a0d7a:django/db/models/query.py": {
+    "repo": "django/django",
+    "commit": "49ae7ce50a874f8a04cd910882fb9571ff3a0d7a",
+    "path": "django/db/models/query.py",
+    "sha256": "d6a59e847cc333fc7c20afbad4a20e75c6506625a4dda09e8157d016842ff93b",
+    "bytes": 82703,
+    "lines": 1978,
+    "fetchedAt": "2026-10-31T07:46:07.168Z"
+  },
+  "django/django@4a72da71001f154ea60906a2f74898d32b7322a7:django/db/migrations/serializer.py": {
+    "repo": "django/django",
+    "commit": "4a72da71001f154ea60906a2f74898d32b7322a7",
+    "path": "django/db/migrations/serializer.py",
+    "sha256": "21569dc1fd27f63450d4c3c548bdb08c4f19d63bdaef9eeb49382707b8d410ed",
+    "bytes": 13750,
+    "lines": 401,
+    "fetchedAt": "2026-10-31T07:46:55.837Z"
+  },
+  "django/django@4c76ffc2d6c77c850b4bef8d9acc197d11c47937:django/utils/functional.py": {
+    "repo": "django/django",
+    "commit": "4c76ffc2d6c77c850b4bef8d9acc197d11c47937",
+    "path": "django/utils/functional.py",
+    "sha256": "5121e463ce3c388eb0fa65e5064a4285d35c8fd6c727a68cc0be17d246a14bab",
+    "bytes": 14489,
+    "lines": 448,
+    "fetchedAt": "2026-10-31T07:46:44.217Z"
+  },
+  "django/django@4fd3044ca0135da903a70dfb66992293f529ecf1:django/core/validators.py": {
+    "repo": "django/django",
+    "commit": "4fd3044ca0135da903a70dfb66992293f529ecf1",
+    "path": "django/core/validators.py",
+    "sha256": "9e91dff33c736fd4de23f76596a5c0f255d56c27a72ffdd9acd66985f36f8833",
+    "bytes": 19707,
+    "lines": 549,
+    "fetchedAt": "2026-10-31T07:46:41.736Z"
+  },
+  "django/django@4fe3774c729f3fd5105b3001fe69a70bdca95ac3:django/db/models/fields/related.py": {
+    "repo": "django/django",
+    "commit": "4fe3774c729f3fd5105b3001fe69a70bdca95ac3",
+    "path": "django/db/models/fields/related.py",
+    "sha256": "2388508b0698b74c3bae77a28d383806765e3ff2f4ef657f5bab7254753a21fa",
+    "bytes": 71030,
+    "lines": 1723,
+    "fetchedAt": "2026-10-31T07:46:36.208Z"
+  },
+  "django/django@50c3ac6fa9b7c8a94a6d1dc87edf775e3bc4d575:django/core/management/commands/shell.py": {
+    "repo": "django/django",
+    "commit": "50c3ac6fa9b7c8a94a6d1dc87edf775e3bc4d575",
+    "path": "django/core/management/commands/shell.py",
+    "sha256": "57f91ca46a49140fa8320b09078cef1dd14954b1cd69dc91a55e3e1c42753997",
+    "bytes": 4027,
+    "lines": 104,
+    "fetchedAt": "2026-10-31T07:46:20.509Z"
+  },
+  "django/django@514efa3129792ec2abb2444f3e7aeb3f21a38386:django/views/debug.py": {
+    "repo": "django/django",
+    "commit": "514efa3129792ec2abb2444f3e7aeb3f21a38386",
+    "path": "django/views/debug.py",
+    "sha256": "8354435f99ee9f770b230d42f3a0f0241d72b7e13013ab599c516b9897371f89",
+    "bytes": 20510,
+    "lines": 524,
+    "fetchedAt": "2026-10-31T07:45:36.785Z"
+  },
   "django/django@580e644f24f1c5ae5b94784fb73a9953a178fd26:django/conf/__init__.py": {
     "repo": "django/django",
     "commit": "580e644f24f1c5ae5b94784fb73a9953a178fd26",
@@ -79,6 +493,231 @@
     "bytes": 9138,
     "lines": 244,
     "fetchedAt": "2026-09-30T07:01:59.249Z"
+  },
+  "django/django@5d674eac871a306405b0fbbaeb17bbeba9c68bf3:django/urls/resolvers.py": {
+    "repo": "django/django",
+    "commit": "5d674eac871a306405b0fbbaeb17bbeba9c68bf3",
+    "path": "django/urls/resolvers.py",
+    "sha256": "0249c25fa171554d6356e7f5573585bacda397f79d47bd3e2be2e48a39dc669e",
+    "bytes": 27307,
+    "lines": 677,
+    "fetchedAt": "2026-10-31T07:45:57.094Z"
+  },
+  "django/django@5eb6a2b33d70b9889e1cafa12594ad6f80773d3a:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "5eb6a2b33d70b9889e1cafa12594ad6f80773d3a",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "ffabf80660e234bf4e1bc2ca3e308974bf669cd06882153abac0a9a0c8cfabc2",
+    "bytes": 114568,
+    "lines": 2694,
+    "fetchedAt": "2026-10-31T07:46:46.829Z"
+  },
+  "django/django@60dc957a825232fdda9138e2f8878b2ca407a7c9:django/utils/autoreload.py": {
+    "repo": "django/django",
+    "commit": "60dc957a825232fdda9138e2f8878b2ca407a7c9",
+    "path": "django/utils/autoreload.py",
+    "sha256": "e4134517c0883f28171ccadc0ad9c17e516377aedf24f981608c401eab676702",
+    "bytes": 22300,
+    "lines": 601,
+    "fetchedAt": "2026-10-31T07:45:34.098Z"
+  },
+  "django/django@62254c5202e80a68f4fe6572a2be46a3d953de1a:django/db/backends/sqlite3/creation.py": {
+    "repo": "django/django",
+    "commit": "62254c5202e80a68f4fe6572a2be46a3d953de1a",
+    "path": "django/db/backends/sqlite3/creation.py",
+    "sha256": "1b601372f20a03503fa4be17829899944356d2695356dfe3001cf278a74258b4",
+    "bytes": 4313,
+    "lines": 102,
+    "fetchedAt": "2026-10-31T07:45:55.619Z"
+  },
+  "django/django@647480166bfe7532e8c471fef0146e3a17e6c0c9:django/db/migrations/operations/models.py": {
+    "repo": "django/django",
+    "commit": "647480166bfe7532e8c471fef0146e3a17e6c0c9",
+    "path": "django/db/migrations/operations/models.py",
+    "sha256": "a691dc45252b1641d025acf793fa4b27a933d03fcd454ef23fe90361c704b4e7",
+    "bytes": 39539,
+    "lines": 1106,
+    "fetchedAt": "2026-10-31T07:46:45.005Z"
+  },
+  "django/django@65e86948b80262574058a94ccaae3a9b59c3faea:django/core/checks/model_checks.py": {
+    "repo": "django/django",
+    "commit": "65e86948b80262574058a94ccaae3a9b59c3faea",
+    "path": "django/core/checks/model_checks.py",
+    "sha256": "e088c567dbb9f141603ccd5969e754ad50b9cafc097c1ad634bdf1dcbb2b5186",
+    "bytes": 8095,
+    "lines": 199,
+    "fetchedAt": "2026-10-31T07:45:39.345Z"
+  },
+  "django/django@6a970a8b4600eb91be25f38caed0a52269d6303d:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "6a970a8b4600eb91be25f38caed0a52269d6303d",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "e771484356251a6edc3d84f1e4fdaccaf83d58d40a57fc0060e83be59854d286",
+    "bytes": 109653,
+    "lines": 2453,
+    "fetchedAt": "2026-10-31T07:46:34.585Z"
+  },
+  "django/django@6df9398cce063874ae4d59db126d4adacb0fa8d3:django/forms/formsets.py": {
+    "repo": "django/django",
+    "commit": "6df9398cce063874ae4d59db126d4adacb0fa8d3",
+    "path": "django/forms/formsets.py",
+    "sha256": "25b05da5244b67964d1f09ccf83f39c82a4b79af6935bdde510a57add70ff648",
+    "bytes": 21068,
+    "lines": 577,
+    "fetchedAt": "2026-10-31T07:46:48.977Z"
+  },
+  "django/django@6f73eb9d90cfec684529aab48d517e3d6449ba8c:django/db/migrations/autodetector.py": {
+    "repo": "django/django",
+    "commit": "6f73eb9d90cfec684529aab48d517e3d6449ba8c",
+    "path": "django/db/migrations/autodetector.py",
+    "sha256": "6d59a8eda11e7657ab631c08e8a7c5794fe7ae4c946f40c4b7c4b4e10f6e97f7",
+    "bytes": 77529,
+    "lines": 1730,
+    "fetchedAt": "2026-10-31T07:46:45.395Z"
+  },
+  "django/django@755dbf39fcdc491fe9b588358303e259c7750be4:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "755dbf39fcdc491fe9b588358303e259c7750be4",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "8fb11f1253c20f621bdefb54ef019660368cd948cc05604320e95add516c654f",
+    "bytes": 110562,
+    "lines": 2470,
+    "fetchedAt": "2026-10-31T07:46:19.080Z"
+  },
+  "django/django@78ad4b4b0201003792bfdbf1a7781cbc9ee03539:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "78ad4b4b0201003792bfdbf1a7781cbc9ee03539",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "d5827e0de182b692778e44aa89b6d2e56f2ed2d59b90ff2982bd4a3b46168edd",
+    "bytes": 107888,
+    "lines": 2415,
+    "fetchedAt": "2026-10-31T07:46:09.295Z"
+  },
+  "django/django@7af8f4127397279d19ef7c7899e93018274e2f9b:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "7af8f4127397279d19ef7c7899e93018274e2f9b",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "f0dd780ae7020fdeffb4b2be417e49da39bd0f8d12b0007cfc9457db0800facb",
+    "bytes": 108323,
+    "lines": 2425,
+    "fetchedAt": "2026-10-31T07:46:10.797Z"
+  },
+  "django/django@7b9596b974fb0ad1868b10c8c2174e10b72be403:django/db/backends/base/creation.py": {
+    "repo": "django/django",
+    "commit": "7b9596b974fb0ad1868b10c8c2174e10b72be403",
+    "path": "django/db/backends/base/creation.py",
+    "sha256": "878114b14a08357a15b39b115a15281f994ff64da13ff9e1bafde5983821bb00",
+    "bytes": 12610,
+    "lines": 305,
+    "fetchedAt": "2026-10-31T07:46:17.542Z"
+  },
+  "django/django@7c4f3965098baad2396e24501e09237425a7bd6f:django/contrib/messages/storage/cookie.py": {
+    "repo": "django/django",
+    "commit": "7c4f3965098baad2396e24501e09237425a7bd6f",
+    "path": "django/contrib/messages/storage/cookie.py",
+    "sha256": "dbde2859c01043e2cd1409a6cf406a4fbdd18f02a222d83144d332a6c938aa5b",
+    "bytes": 6310,
+    "lines": 170,
+    "fetchedAt": "2026-10-31T07:46:43.553Z"
+  },
+  "django/django@7f33c1e22dbc34a7afae7967783725b10f1f13b1:django/forms/formsets.py": {
+    "repo": "django/django",
+    "commit": "7f33c1e22dbc34a7afae7967783725b10f1f13b1",
+    "path": "django/forms/formsets.py",
+    "sha256": "2f9484d1eebefea1207629657c40d9f0cffca5d3584ef7c2174cd3ef048653b9",
+    "bytes": 19864,
+    "lines": 497,
+    "fetchedAt": "2026-10-31T07:46:33.372Z"
+  },
+  "django/django@7f9e4524d6b23424cf44fbe1bf1f4e70f6bb066e:django/contrib/auth/tokens.py": {
+    "repo": "django/django",
+    "commit": "7f9e4524d6b23424cf44fbe1bf1f4e70f6bb066e",
+    "path": "django/contrib/auth/tokens.py",
+    "sha256": "a608ff3a76faa6aa8e35a13b32ae4b975b4afead64f488b7845e94771c44c7fa",
+    "bytes": 4082,
+    "lines": 108,
+    "fetchedAt": "2026-10-31T07:46:18.205Z"
+  },
+  "django/django@8328811f048fed0dd22573224def8c65410c9f2e:django/db/models/base.py": {
+    "repo": "django/django",
+    "commit": "8328811f048fed0dd22573224def8c65410c9f2e",
+    "path": "django/db/models/base.py",
+    "sha256": "74a44c54b393270988a92f3a806a689723050b56a356d3149a7283fb77dad0fc",
+    "bytes": 81684,
+    "lines": 1983,
+    "fetchedAt": "2026-10-31T07:46:06.454Z"
+  },
+  "django/django@84633905273fc916e3d17883810d9969c03f73c2:django/db/models/fields/__init__.py": {
+    "repo": "django/django",
+    "commit": "84633905273fc916e3d17883810d9969c03f73c2",
+    "path": "django/db/models/fields/__init__.py",
+    "sha256": "b605cdadad41cb6f5dbb270b2f60120bd8dadaf010f5c7409dd1a52dbeff93aa",
+    "bytes": 87066,
+    "lines": 2422,
+    "fetchedAt": "2026-10-31T07:45:54.097Z"
+  },
+  "django/django@877c800f255ccaa7abde1fb944de45d1616f5cc9:django/core/management/commands/inspectdb.py": {
+    "repo": "django/django",
+    "commit": "877c800f255ccaa7abde1fb944de45d1616f5cc9",
+    "path": "django/core/management/commands/inspectdb.py",
+    "sha256": "0fb6c93d670484a94f62ad8fa77c5ec174fcec3d86fb2e56fa661e30b8defed5",
+    "bytes": 16172,
+    "lines": 387,
+    "fetchedAt": "2026-10-31T07:46:47.236Z"
+  },
+  "django/django@879cc3da6249e920b8d54518a0ae06de835d7373:django/http/response.py": {
+    "repo": "django/django",
+    "commit": "879cc3da6249e920b8d54518a0ae06de835d7373",
+    "path": "django/http/response.py",
+    "sha256": "a6b41d8e9bce659f1e05ecd26142dbcb5caf94f990fd836aac6b503c8950a50c",
+    "bytes": 19731,
+    "lines": 559,
+    "fetchedAt": "2026-10-31T07:45:22.038Z"
+  },
+  "django/django@895f28f9cbed817c00ab68770433170d83132d90:django/db/models/sql/query.py": {
+    "repo": "django/django",
+    "commit": "895f28f9cbed817c00ab68770433170d83132d90",
+    "path": "django/db/models/sql/query.py",
+    "sha256": "e6d8d7ea25a0d9dcb1d602559ee9facfdbc73c4e2e24e404ea310745ed21ff49",
+    "bytes": 105865,
+    "lines": 2372,
+    "fetchedAt": "2026-10-31T07:46:03.483Z"
+  },
+  "django/django@89d41cba392b759732ba9f1db4ff29ed47da6a56:django/db/migrations/serializer.py": {
+    "repo": "django/django",
+    "commit": "89d41cba392b759732ba9f1db4ff29ed47da6a56",
+    "path": "django/db/migrations/serializer.py",
+    "sha256": "cb8780044644e1e0a2b01c74370a671bd7e4b5d119a4e9e3fd9ad30a8b0e02a0",
+    "bytes": 12346,
+    "lines": 341,
+    "fetchedAt": "2026-10-31T07:45:56.361Z"
+  },
+  "django/django@8d160f154f0240a423e83ffe0690e472f837373c:django/core/management/base.py": {
+    "repo": "django/django",
+    "commit": "8d160f154f0240a423e83ffe0690e472f837373c",
+    "path": "django/core/management/base.py",
+    "sha256": "52885cf458f6dc7878cbf2aea56a89180db9a6282169846f4eae0f8c24644e3b",
+    "bytes": 23803,
+    "lines": 679,
+    "fetchedAt": "2026-10-31T07:46:45.710Z"
+  },
+  "django/django@903aaa35e5ceaa33bfc9b19b7f6da65ce5a91dd4:django/forms/models.py": {
+    "repo": "django/django",
+    "commit": "903aaa35e5ceaa33bfc9b19b7f6da65ce5a91dd4",
+    "path": "django/forms/models.py",
+    "sha256": "86f2860c9798d07049ab76080c09f9011a2aa3ab284bf9e5e726f1be7f0a5e08",
+    "bytes": 58614,
+    "lines": 1425,
+    "fetchedAt": "2026-10-31T07:46:39.294Z"
+  },
+  "django/django@910ecd1b8df7678f45c3d507dde6bcb1faafa243:django/forms/boundfield.py": {
+    "repo": "django/django",
+    "commit": "910ecd1b8df7678f45c3d507dde6bcb1faafa243",
+    "path": "django/forms/boundfield.py",
+    "sha256": "ff64b902b218a17f1efa92777d89df0631a94d5b96c2102d13027dd974ed487c",
+    "bytes": 10536,
+    "lines": 285,
+    "fetchedAt": "2026-10-31T07:46:31.762Z"
   },
   "django/django@93e892bb645b16ebaf287beb5fe7f3ffe8d10408:django/forms/widgets.py": {
     "repo": "django/django",
@@ -89,6 +728,114 @@
     "lines": 1084,
     "fetchedAt": "2026-09-30T07:01:58.561Z"
   },
+  "django/django@965d2d95c630939b53eb60d9c169f5dfc77ee0c6:django/dispatch/dispatcher.py": {
+    "repo": "django/django",
+    "commit": "965d2d95c630939b53eb60d9c169f5dfc77ee0c6",
+    "path": "django/dispatch/dispatcher.py",
+    "sha256": "4a20f1f2421990f18afa01d9f9cb529a5df9566820dc4ef68fbe0e23cc9e496d",
+    "bytes": 10861,
+    "lines": 295,
+    "fetchedAt": "2026-10-31T07:46:22.865Z"
+  },
+  "django/django@979f61abd322507aafced9627702362e541ec34e:django/core/checks/translation.py": {
+    "repo": "django/django",
+    "commit": "979f61abd322507aafced9627702362e541ec34e",
+    "path": "django/core/checks/translation.py",
+    "sha256": "df20abbf8c46c716a2f1ad61258b66319537758c447ba93341f9f835e85db0d1",
+    "bytes": 1917,
+    "lines": 62,
+    "fetchedAt": "2026-10-31T07:45:58.698Z"
+  },
+  "django/django@a4881f5e5d7ee38b7e83301331a0b4962845ef8a:django/db/models/fields/related.py": {
+    "repo": "django/django",
+    "commit": "a4881f5e5d7ee38b7e83301331a0b4962845ef8a",
+    "path": "django/db/models/fields/related.py",
+    "sha256": "c72a84633f964652faafb733828cd5fdd5fffc7938d84eae94dcf35186c59f9d",
+    "bytes": 70356,
+    "lines": 1697,
+    "fetchedAt": "2026-10-31T07:46:02.157Z"
+  },
+  "django/django@a59de6e89e8dc1f3e71c9a5a5bbceb373ea5247e:django/db/models/sql/compiler.py": {
+    "repo": "django/django",
+    "commit": "a59de6e89e8dc1f3e71c9a5a5bbceb373ea5247e",
+    "path": "django/db/models/sql/compiler.py",
+    "sha256": "b65ed53afd6ba0ba11380ba994b0c128877ff10bb50cfce701aa5fdd1209fcec",
+    "bytes": 73051,
+    "lines": 1605,
+    "fetchedAt": "2026-10-31T07:46:10.067Z"
+  },
+  "django/django@a754b82dac511475b6276039471ccd17cc64aeb8:django/db/migrations/operations/models.py": {
+    "repo": "django/django",
+    "commit": "a754b82dac511475b6276039471ccd17cc64aeb8",
+    "path": "django/db/migrations/operations/models.py",
+    "sha256": "09caa2eb9a019d08af8a903deaa8847ebf88f8921fa5c029e55dc676839e3c88",
+    "bytes": 32388,
+    "lines": 885,
+    "fetchedAt": "2026-10-31T07:46:40.669Z"
+  },
+  "django/django@b2b0711b555fa292751763c2df4fe577c396f265:django/db/migrations/autodetector.py": {
+    "repo": "django/django",
+    "commit": "b2b0711b555fa292751763c2df4fe577c396f265",
+    "path": "django/db/migrations/autodetector.py",
+    "sha256": "3a7c4b8b3695aae28d4004bcbcb2ae0311d3504485f06586934fac20fc12bd46",
+    "bytes": 64175,
+    "lines": 1318,
+    "fetchedAt": "2026-10-31T07:46:13.139Z"
+  },
+  "django/django@b30c0081d4d8a31ab7dc7f72a4c7099af606ef29:django/db/migrations/serializer.py": {
+    "repo": "django/django",
+    "commit": "b30c0081d4d8a31ab7dc7f72a4c7099af606ef29",
+    "path": "django/db/migrations/serializer.py",
+    "sha256": "684b845c7ca36b805bcf508cd87e6c26dea3d98fea42a3c64dbc0cd7c5d4e367",
+    "bytes": 13151,
+    "lines": 383,
+    "fetchedAt": "2026-10-31T07:46:48.418Z"
+  },
+  "django/django@b330b918e979ea39a21d47b61172d112caf432c3:django/db/backends/base/creation.py": {
+    "repo": "django/django",
+    "commit": "b330b918e979ea39a21d47b61172d112caf432c3",
+    "path": "django/db/backends/base/creation.py",
+    "sha256": "fbf450596de6e1ab602f158a18468ed3b46bf43c21649d1587b2f72330a6f210",
+    "bytes": 11880,
+    "lines": 294,
+    "fetchedAt": "2026-10-31T07:46:00.645Z"
+  },
+  "django/django@b4817d20b9e55df30be0b1b2ca8c8bb6d61aab07:django/db/backends/postgresql/client.py": {
+    "repo": "django/django",
+    "commit": "b4817d20b9e55df30be0b1b2ca8c8bb6d61aab07",
+    "path": "django/db/backends/postgresql/client.py",
+    "sha256": "efe43e7e920581e1703ba99b34aa2c1d961c090b24700e7c3aa5ca046d64925e",
+    "bytes": 2052,
+    "lines": 65,
+    "fetchedAt": "2026-10-31T07:46:47.645Z"
+  },
+  "django/django@b55ebe32417e0884b6b8b3e1bc0379033aa221af:django/db/models/expressions.py": {
+    "repo": "django/django",
+    "commit": "b55ebe32417e0884b6b8b3e1bc0379033aa221af",
+    "path": "django/db/models/expressions.py",
+    "sha256": "54e2488746e47a5b796039e38710feafe373c2e2ccab9d025570601d53975d5c",
+    "bytes": 54540,
+    "lines": 1492,
+    "fetchedAt": "2026-10-31T07:46:43.041Z"
+  },
+  "django/django@b64db05b9cedd96905d637a2d824cbbf428e40e7:django/contrib/admin/views/autocomplete.py": {
+    "repo": "django/django",
+    "commit": "b64db05b9cedd96905d637a2d824cbbf428e40e7",
+    "path": "django/contrib/admin/views/autocomplete.py",
+    "sha256": "84381647014f804e24d4e5168700cdae66e4a5f941aea09b74ef0ab75092c9d7",
+    "bytes": 3888,
+    "lines": 103,
+    "fetchedAt": "2026-10-31T07:46:36.898Z"
+  },
+  "django/django@b7a17b0ea0a2061bae752a3a2292007d41825814:django/db/models/query.py": {
+    "repo": "django/django",
+    "commit": "b7a17b0ea0a2061bae752a3a2292007d41825814",
+    "path": "django/db/models/query.py",
+    "sha256": "4ebf285bc324f5a812909a80245b954fe5fcc73b1eb21bb130cec89136ec8f38",
+    "bytes": 102235,
+    "lines": 2643,
+    "fetchedAt": "2026-10-31T07:46:55.227Z"
+  },
   "django/django@bceadd2788dc2dad53eba0caae172bd8522fd483:django/db/models/fields/__init__.py": {
     "repo": "django/django",
     "commit": "bceadd2788dc2dad53eba0caae172bd8522fd483",
@@ -97,6 +844,96 @@
     "bytes": 84962,
     "lines": 2369,
     "fetchedAt": "2026-09-30T07:22:52.579Z"
+  },
+  "django/django@bd366ca2aeffa869b7dbc0b0aa01caea75e6dc31:django/contrib/admin/templatetags/admin_modify.py": {
+    "repo": "django/django",
+    "commit": "bd366ca2aeffa869b7dbc0b0aa01caea75e6dc31",
+    "path": "django/contrib/admin/templatetags/admin_modify.py",
+    "sha256": "dedeab6a29e53f72874dbd0e2b53e4af44e50743e167c202ecef079d1ce28ccc",
+    "bytes": 4981,
+    "lines": 151,
+    "fetchedAt": "2026-10-31T07:46:52.516Z"
+  },
+  "django/django@c5cd8783825b5f6384417dac5f3889b4210b7d08:django/template/autoreload.py": {
+    "repo": "django/django",
+    "commit": "c5cd8783825b5f6384417dac5f3889b4210b7d08",
+    "path": "django/template/autoreload.py",
+    "sha256": "3c6b041d9d3bbbea6b48c3b96840e68cfbd5466bd4d865ac82a7e0025d2ee162",
+    "bytes": 1751,
+    "lines": 55,
+    "fetchedAt": "2026-10-31T07:46:43.891Z"
+  },
+  "django/django@c5e373d48cbdd923575956fed477b63d66d9603f:django/db/models/fields/__init__.py": {
+    "repo": "django/django",
+    "commit": "c5e373d48cbdd923575956fed477b63d66d9603f",
+    "path": "django/db/models/fields/__init__.py",
+    "sha256": "fe0075ab052d55706724dd7a5bdc616e856bf0b8a3dede13bc938df8d4ede441",
+    "bytes": 87631,
+    "lines": 2440,
+    "fetchedAt": "2026-10-31T07:45:57.985Z"
+  },
+  "django/django@c61219a7ae051d2baab53f041e00592011fc550c:django/db/migrations/operations/models.py": {
+    "repo": "django/django",
+    "commit": "c61219a7ae051d2baab53f041e00592011fc550c",
+    "path": "django/db/migrations/operations/models.py",
+    "sha256": "55ed33e0e5686210ef3b5dba811bcc8c7f42641b2dd4071d04960ed5d0622f88",
+    "bytes": 40591,
+    "lines": 1143,
+    "fetchedAt": "2026-10-31T07:46:53.892Z"
+  },
+  "django/django@c627226d05dd52aef59447dcfb29cec2c2b11b8a:django/core/checks/templates.py": {
+    "repo": "django/django",
+    "commit": "c627226d05dd52aef59447dcfb29cec2c2b11b8a",
+    "path": "django/core/checks/templates.py",
+    "sha256": "2298d155731736c8c7e1032fe5128888d9a839adf3159bab315008c4017bb490",
+    "bytes": 2243,
+    "lines": 76,
+    "fetchedAt": "2026-10-31T07:46:46.418Z"
+  },
+  "django/django@c86201b6ed4f8256b0a0520c08aa674f623d4127:django/db/models/deletion.py": {
+    "repo": "django/django",
+    "commit": "c86201b6ed4f8256b0a0520c08aa674f623d4127",
+    "path": "django/db/models/deletion.py",
+    "sha256": "60889b0b4b94ec745a64027516e9f1c4ed8021c3d912f2f519a4374a08865155",
+    "bytes": 19670,
+    "lines": 446,
+    "fetchedAt": "2026-10-31T07:46:05.626Z"
+  },
+  "django/django@d232fd76a85870daf345fd8f8d617fe7802ae194:django/db/migrations/autodetector.py": {
+    "repo": "django/django",
+    "commit": "d232fd76a85870daf345fd8f8d617fe7802ae194",
+    "path": "django/db/migrations/autodetector.py",
+    "sha256": "68040cd54e1cd7272dfa23d1863384d7445dc0c72f4895ea25adb7ca39c63a84",
+    "bytes": 64078,
+    "lines": 1324,
+    "fetchedAt": "2026-10-31T07:45:50.823Z"
+  },
+  "django/django@d26b2424437dabeeca94d7900b37d2df4410da0c:django/contrib/auth/validators.py": {
+    "repo": "django/django",
+    "commit": "d26b2424437dabeeca94d7900b37d2df4410da0c",
+    "path": "django/contrib/auth/validators.py",
+    "sha256": "01794d85fc04776b289f3540b22b5b06f28b9c173d0aa746b809a3501f2610f3",
+    "bytes": 685,
+    "lines": 26,
+    "fetchedAt": "2026-10-31T07:45:19.380Z"
+  },
+  "django/django@d4d5427571b4bf3a21c902276c2a00215c2a37cc:django/utils/html.py": {
+    "repo": "django/django",
+    "commit": "d4d5427571b4bf3a21c902276c2a00215c2a37cc",
+    "path": "django/utils/html.py",
+    "sha256": "45a99f4888199e649a8083181bea620bcf09db2bd3f1d77c82417a012b77f912",
+    "bytes": 14218,
+    "lines": 422,
+    "fetchedAt": "2026-10-31T07:46:46.045Z"
+  },
+  "django/django@d51c50d836c5cf8db5566da17963f871be554615:django/views/debug.py": {
+    "repo": "django/django",
+    "commit": "d51c50d836c5cf8db5566da17963f871be554615",
+    "path": "django/views/debug.py",
+    "sha256": "389d23d4bbb32c06246800ebc52ae3ad45f169b9e75dcc5a0d113b96858f6968",
+    "bytes": 21176,
+    "lines": 524,
+    "fetchedAt": "2026-10-31T07:46:04.152Z"
   },
   "django/django@d5276398046ce4a102776a1e67dcac2884d80dfe:django/core/management/commands/sqlmigrate.py": {
     "repo": "django/django",
@@ -107,6 +944,42 @@
     "lines": 66,
     "fetchedAt": "2026-09-30T07:23:06.086Z"
   },
+  "django/django@d559cb02da30f74debbb1fc3a46de0df134d2d80:django/contrib/auth/forms.py": {
+    "repo": "django/django",
+    "commit": "d559cb02da30f74debbb1fc3a46de0df134d2d80",
+    "path": "django/contrib/auth/forms.py",
+    "sha256": "0a6d9cdee5dd9292f2336b24d3f44c22e9f2925152bbd836f64375292fd77dd8",
+    "bytes": 16405,
+    "lines": 486,
+    "fetchedAt": "2026-10-31T07:46:49.796Z"
+  },
+  "django/django@d90e34c61b27fba2527834806639eebbcfab9631:django/views/static.py": {
+    "repo": "django/django",
+    "commit": "d90e34c61b27fba2527834806639eebbcfab9631",
+    "path": "django/views/static.py",
+    "sha256": "f0a93011aca207c40a0703fe7943a9b204e94c644c3c16ac708656557cff882f",
+    "bytes": 4635,
+    "lines": 141,
+    "fetchedAt": "2026-10-31T07:46:44.675Z"
+  },
+  "django/django@df46b329e0900e9e4dc1d60816c1dce6dfc1094e:django/utils/autoreload.py": {
+    "repo": "django/django",
+    "commit": "df46b329e0900e9e4dc1d60816c1dce6dfc1094e",
+    "path": "django/utils/autoreload.py",
+    "sha256": "4a0af822c7a0117c8d32bdfbe8d2bd0324f29f8ddb6ec886f62c7ccf61e3c07c",
+    "bytes": 21740,
+    "lines": 589,
+    "fetchedAt": "2026-10-31T07:45:29.412Z"
+  },
+  "django/django@e02f67ef2d03d48128e7a118bf75f0418e24e8ac:django/db/migrations/serializer.py": {
+    "repo": "django/django",
+    "commit": "e02f67ef2d03d48128e7a118bf75f0418e24e8ac",
+    "path": "django/db/migrations/serializer.py",
+    "sha256": "ac110bc900a4174026f30f40206be0fba6f4cca2651286f90b0cbee2af189620",
+    "bytes": 12415,
+    "lines": 340,
+    "fetchedAt": "2026-10-31T07:45:46.184Z"
+  },
   "django/django@e7fd69d051eaa67cb17f172a39b57253e9cb831a:django/conf/global_settings.py": {
     "repo": "django/django",
     "commit": "e7fd69d051eaa67cb17f172a39b57253e9cb831a",
@@ -116,6 +989,15 @@
     "lines": 635,
     "fetchedAt": "2026-09-30T07:22:52.307Z"
   },
+  "django/django@ec13e801b820614ff374cb0046092caab8d67249:django/utils/numberformat.py": {
+    "repo": "django/django",
+    "commit": "ec13e801b820614ff374cb0046092caab8d67249",
+    "path": "django/utils/numberformat.py",
+    "sha256": "f7d0da84ca48f788600402edd34f9519a37d34c62325f6f8587714f6d9dec124",
+    "bytes": 3733,
+    "lines": 105,
+    "fetchedAt": "2026-10-31T07:46:49.310Z"
+  },
   "django/django@ef082ebb84f00e38af4e8880d04e8365c2766d34:django/db/models/sql/compiler.py": {
     "repo": "django/django",
     "commit": "ef082ebb84f00e38af4e8880d04e8365c2766d34",
@@ -124,6 +1006,123 @@
     "bytes": 68930,
     "lines": 1508,
     "fetchedAt": "2026-09-30T07:22:52.866Z"
+  },
+  "django/django@ef85b6bf0bc5a8b194f0724cf5bbedbcee402b96:django/db/models/sql/compiler.py": {
+    "repo": "django/django",
+    "commit": "ef85b6bf0bc5a8b194f0724cf5bbedbcee402b96",
+    "path": "django/db/models/sql/compiler.py",
+    "sha256": "40778e9c9c4c361fe1cb951cba72440f490246e44875d1deae5b2d0958bd5a9a",
+    "bytes": 87488,
+    "lines": 2059,
+    "fetchedAt": "2026-10-31T07:46:52.154Z"
+  },
+  "django/django@f0adf3b9b7a19cdee05368ff0c0c2d087f011180:django/utils/http.py": {
+    "repo": "django/django",
+    "commit": "f0adf3b9b7a19cdee05368ff0c0c2d087f011180",
+    "path": "django/utils/http.py",
+    "sha256": "74a1159d8a670134d715986010f895d8ceaa19711ff16f1129e7816ccc4fc9a0",
+    "bytes": 16527,
+    "lines": 475,
+    "fetchedAt": "2026-10-31T07:45:47.796Z"
+  },
+  "django/django@f39634ff229887bf7790c069d0c411b38494ca38:django/db/models/base.py": {
+    "repo": "django/django",
+    "commit": "f39634ff229887bf7790c069d0c411b38494ca38",
+    "path": "django/db/models/base.py",
+    "sha256": "a2778453fa66c80b05a65695f8e55a6883e45643cfab2db38ee985f1028c267e",
+    "bytes": 89262,
+    "lines": 2145,
+    "fetchedAt": "2026-10-31T07:46:25.735Z"
+  },
+  "django/django@f9fe062de5fc0896d6bbbf3f260b5c44473b3c77:django/db/migrations/operations/fields.py": {
+    "repo": "django/django",
+    "commit": "f9fe062de5fc0896d6bbbf3f260b5c44473b3c77",
+    "path": "django/db/migrations/operations/fields.py",
+    "sha256": "fface7c3a618c00c6cfd5e08d3905b3ff4f9f2b93347676a51c2f2526ba5f997",
+    "bytes": 12692,
+    "lines": 358,
+    "fetchedAt": "2026-10-31T07:46:52.977Z"
+  },
+  "django/django@fa4e963ee7e6876581b5432363603571839ba00c:django/contrib/auth/forms.py": {
+    "repo": "django/django",
+    "commit": "fa4e963ee7e6876581b5432363603571839ba00c",
+    "path": "django/contrib/auth/forms.py",
+    "sha256": "10e2b56899ddddaab71d6c023a2aa91396240fc777aad0a44d59bec235b8258d",
+    "bytes": 15860,
+    "lines": 441,
+    "fetchedAt": "2026-10-31T07:46:30.853Z"
+  },
+  "django/django@fc2b1cc926e34041953738e58fa6ad3053059b22:django/db/models/enums.py": {
+    "repo": "django/django",
+    "commit": "fc2b1cc926e34041953738e58fa6ad3053059b22",
+    "path": "django/db/models/enums.py",
+    "sha256": "f6cdfb57102ad1ee977af08c8242defdc317066ff6da149b660654f893ff123f",
+    "bytes": 2470,
+    "lines": 76,
+    "fetchedAt": "2026-10-31T07:45:52.426Z"
+  },
+  "django/django@fce90950bef348803fa7cc3e6bc65f4bce429b82:django/template/defaultfilters.py": {
+    "repo": "django/django",
+    "commit": "fce90950bef348803fa7cc3e6bc65f4bce429b82",
+    "path": "django/template/defaultfilters.py",
+    "sha256": "38d6a2d3c6d6a486027d30df2f4ef508387b71f2d8dd8cb646f6bfbe5e189f32",
+    "bytes": 28066,
+    "lines": 983,
+    "fetchedAt": "2026-10-31T07:46:54.268Z"
+  },
+  "django/django@fee75d2aed4e58ada6567c464cfd22e89dc65f4a:django/db/models/fields/__init__.py": {
+    "repo": "django/django",
+    "commit": "fee75d2aed4e58ada6567c464cfd22e89dc65f4a",
+    "path": "django/db/models/fields/__init__.py",
+    "sha256": "54beb217c526d0f2443899ee91b453d5533dbefe3361a29bf610286764cc5d10",
+    "bytes": 86198,
+    "lines": 2400,
+    "fetchedAt": "2026-10-31T07:45:41.907Z"
+  },
+  "matplotlib/matplotlib@00afcc0c6d4d2e4390338127f05b8f4fdb4e7087:lib/matplotlib/axis.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "00afcc0c6d4d2e4390338127f05b8f4fdb4e7087",
+    "path": "lib/matplotlib/axis.py",
+    "sha256": "5607f4e74e94136c0eac3dbf050e8c44207124acad37f09e1074d74fe47ca6c0",
+    "bytes": 98329,
+    "lines": 2703,
+    "fetchedAt": "2026-10-31T07:45:52.765Z"
+  },
+  "matplotlib/matplotlib@149a0398b391cfc4eddb5e659f50b3c66f32ea65:lib/mpl_toolkits/mplot3d/art3d.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "149a0398b391cfc4eddb5e659f50b3c66f32ea65",
+    "path": "lib/mpl_toolkits/mplot3d/art3d.py",
+    "sha256": "bda51510d5b138830f51eaf4239e07dfb43856b281cde03519874275715229c8",
+    "bytes": 30904,
+    "lines": 933,
+    "fetchedAt": "2026-10-31T07:45:22.551Z"
+  },
+  "matplotlib/matplotlib@269c0b94b4fcf8b1135011c1556eac29dc09de15:lib/matplotlib/backends/backend_ps.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "269c0b94b4fcf8b1135011c1556eac29dc09de15",
+    "path": "lib/matplotlib/backends/backend_ps.py",
+    "sha256": "8133199e2ed3df50c038fbb0dd7bcb3e9fccc26766207ebc2121b997f175fbe9",
+    "bytes": 48106,
+    "lines": 1367,
+    "fetchedAt": "2026-10-31T07:45:27.508Z"
+  },
+  "matplotlib/matplotlib@29a86636a9c45ab5ac4d80ac76eaee497f460dce:lib/mpl_toolkits/mplot3d/art3d.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "29a86636a9c45ab5ac4d80ac76eaee497f460dce",
+    "path": "lib/mpl_toolkits/mplot3d/art3d.py",
+    "sha256": "bda51510d5b138830f51eaf4239e07dfb43856b281cde03519874275715229c8",
+    "bytes": 30904,
+    "lines": 933,
+    "fetchedAt": "2026-10-31T07:45:19.790Z"
+  },
+  "matplotlib/matplotlib@332937997d03e0c173be6d9fc1841e9186e857df:lib/matplotlib/axis.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "332937997d03e0c173be6d9fc1841e9186e857df",
+    "path": "lib/matplotlib/axis.py",
+    "sha256": "2ffdbac636393eeef913dedf925c8679d1cf7bfd33803403b35a251e6ddd0e85",
+    "bytes": 98073,
+    "lines": 2693,
+    "fetchedAt": "2026-10-31T07:45:37.196Z"
   },
   "matplotlib/matplotlib@33a0599711d26dc2b79f851c6daed4947df7c167:lib/matplotlib/figure.py": {
     "repo": "matplotlib/matplotlib",
@@ -143,6 +1142,69 @@
     "lines": 1460,
     "fetchedAt": "2026-09-30T07:23:02.894Z"
   },
+  "matplotlib/matplotlib@430fb1db88843300fb4baae3edc499bbfe073b0c:lib/matplotlib/offsetbox.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "430fb1db88843300fb4baae3edc499bbfe073b0c",
+    "path": "lib/matplotlib/offsetbox.py",
+    "sha256": "d8f9e7ba8e432480d2d92a3520687728b5e19a10413ce6fdf09c2a78aefabd75",
+    "bytes": 54510,
+    "lines": 1622,
+    "fetchedAt": "2026-10-31T07:45:44.590Z"
+  },
+  "matplotlib/matplotlib@5c4595267ccd3daf78f5fd05693b7ecbcd575c1e:lib/matplotlib/legend.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "5c4595267ccd3daf78f5fd05693b7ecbcd575c1e",
+    "path": "lib/matplotlib/legend.py",
+    "sha256": "dcc7cccc9be0943f46dc464a7dd31ae1a97ecf30b72913ecd2286879c7d0be5f",
+    "bytes": 50623,
+    "lines": 1262,
+    "fetchedAt": "2026-10-31T07:45:25.358Z"
+  },
+  "matplotlib/matplotlib@66ba515e671638971bd11a34cff12c107a437e0b:lib/matplotlib/cbook.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "66ba515e671638971bd11a34cff12c107a437e0b",
+    "path": "lib/matplotlib/cbook.py",
+    "sha256": "c6986b73cba019f501f97a4aad9d75273ac62fae2bb1ae5d8f02ccd27d02add2",
+    "bytes": 74832,
+    "lines": 2279,
+    "fetchedAt": "2026-10-31T07:45:46.669Z"
+  },
+  "matplotlib/matplotlib@66f7956984cbfc3647e867c6e5fde889a89c64ef:lib/matplotlib/colors.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "66f7956984cbfc3647e867c6e5fde889a89c64ef",
+    "path": "lib/matplotlib/colors.py",
+    "sha256": "7b2d6e5bfd9efefe19c7587d64824114b6039aa90eb6cb04a6ecdff032a42bcf",
+    "bytes": 96083,
+    "lines": 2660,
+    "fetchedAt": "2026-10-31T07:45:42.317Z"
+  },
+  "matplotlib/matplotlib@73394f2b11321e03a5df199ec0196f27a728b0b0:lib/matplotlib/offsetbox.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "73394f2b11321e03a5df199ec0196f27a728b0b0",
+    "path": "lib/matplotlib/offsetbox.py",
+    "sha256": "80957627f99c2915558b4de40d27686d242df3523d22eaf9fc4f950a4e71eb99",
+    "bytes": 54304,
+    "lines": 1618,
+    "fetchedAt": "2026-10-31T07:45:49.689Z"
+  },
+  "matplotlib/matplotlib@78bf53caacbb5ce0dc7aa73f07a74c99f1ed919b:lib/matplotlib/colorbar.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "78bf53caacbb5ce0dc7aa73f07a74c99f1ed919b",
+    "path": "lib/matplotlib/colorbar.py",
+    "sha256": "cec9d08cce2ed709c4eb5dd1362519967f1a6630f3a44adf3bf9106e87849c46",
+    "bytes": 61213,
+    "lines": 1595,
+    "fetchedAt": "2026-10-31T07:45:51.327Z"
+  },
+  "matplotlib/matplotlib@7eafdd8af3c523c1c77b027d378fb337dd489f18:lib/matplotlib/figure.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "7eafdd8af3c523c1c77b027d378fb337dd489f18",
+    "path": "lib/matplotlib/figure.py",
+    "sha256": "d9d78c8be08352a117f1c979795c2ae529d05cb68378c15265e50029a9d51f76",
+    "bytes": 135285,
+    "lines": 3596,
+    "fetchedAt": "2026-10-31T07:45:48.172Z"
+  },
   "matplotlib/matplotlib@97fc1154992f64cfb2f86321155a7404efeb2d8a:lib/mpl_toolkits/mplot3d/axes3d.py": {
     "repo": "matplotlib/matplotlib",
     "commit": "97fc1154992f64cfb2f86321155a7404efeb2d8a",
@@ -151,6 +1213,24 @@
     "bytes": 121457,
     "lines": 3249,
     "fetchedAt": "2026-09-30T07:23:06.375Z"
+  },
+  "matplotlib/matplotlib@a3011dfd1aaa2487cce8aa7369475533133ef777:lib/matplotlib/colors.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "a3011dfd1aaa2487cce8aa7369475533133ef777",
+    "path": "lib/matplotlib/colors.py",
+    "sha256": "b347194abbf1e918094400e7b1de683858d07c72a1d15b76e4d249d779c9ee59",
+    "bytes": 96359,
+    "lines": 2665,
+    "fetchedAt": "2026-10-31T07:45:39.859Z"
+  },
+  "matplotlib/matplotlib@af39f1edffcd828f05cfdd04f2e59506bb4a27bc:lib/matplotlib/axes/_axes.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "af39f1edffcd828f05cfdd04f2e59506bb4a27bc",
+    "path": "lib/matplotlib/axes/_axes.py",
+    "sha256": "185f56a75f21c3862c58b35a25c673e7bcf293071b6266c9565f85670d6e9da1",
+    "bytes": 322598,
+    "lines": 8238,
+    "fetchedAt": "2026-10-31T07:45:31.761Z"
   },
   "matplotlib/matplotlib@b7d05919865fc0c37a0164cf467d5d5513bd0ede:lib/matplotlib/__init__.py": {
     "repo": "matplotlib/matplotlib",
@@ -170,6 +1250,24 @@
     "lines": 1801,
     "fetchedAt": "2026-09-30T07:22:53.685Z"
   },
+  "matplotlib/matplotlib@e148998d9bed9d1b53a91587ad48f9bb43c7737f:lib/matplotlib/style/core.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "e148998d9bed9d1b53a91587ad48f9bb43c7737f",
+    "path": "lib/matplotlib/style/core.py",
+    "sha256": "003fa3410e41155775ee2fc52b7a6c4817f57751dc041c588139c448ebcec546",
+    "bytes": 9441,
+    "lines": 262,
+    "fetchedAt": "2026-10-31T07:45:34.531Z"
+  },
+  "matplotlib/matplotlib@e98d8d085e8f53ec0467422b326f7738a2dd695e:lib/matplotlib/figure.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "e98d8d085e8f53ec0467422b326f7738a2dd695e",
+    "path": "lib/matplotlib/figure.py",
+    "sha256": "6e0a22bc7a129750d274d61d5946512e30e6accf816a5cb5211b442ac14584b8",
+    "bytes": 131407,
+    "lines": 3526,
+    "fetchedAt": "2026-10-31T07:45:29.900Z"
+  },
   "matplotlib/matplotlib@f670fe78795b18eb1118707721852209cd77ad51:lib/matplotlib/widgets.py": {
     "repo": "matplotlib/matplotlib",
     "commit": "f670fe78795b18eb1118707721852209cd77ad51",
@@ -178,6 +1276,15 @@
     "bytes": 143294,
     "lines": 3989,
     "fetchedAt": "2026-09-30T07:22:53.422Z"
+  },
+  "matplotlib/matplotlib@f6a781f77f5ddf1204c60ca7c544809407d4a807:lib/mpl_toolkits/axes_grid1/axes_grid.py": {
+    "repo": "matplotlib/matplotlib",
+    "commit": "f6a781f77f5ddf1204c60ca7c544809407d4a807",
+    "path": "lib/mpl_toolkits/axes_grid1/axes_grid.py",
+    "sha256": "2054de93702ab09e7e2a04e3782cf71f38c7924626ebf9ba92caccdb2112b50d",
+    "bytes": 21940,
+    "lines": 572,
+    "fetchedAt": "2026-10-31T07:45:54.442Z"
   },
   "mwaskom/seaborn@0f5a013e2cf43562deec3b879458e59a73853813:seaborn/_stats/regression.py": {
     "repo": "mwaskom/seaborn",
@@ -278,6 +1385,15 @@
     "lines": 742,
     "fetchedAt": "2026-09-30T07:23:06.651Z"
   },
+  "psf/requests@a0df2cbb10419037d11d04352b3175405ab52941:requests/models.py": {
+    "repo": "psf/requests",
+    "commit": "a0df2cbb10419037d11d04352b3175405ab52941",
+    "path": "requests/models.py",
+    "sha256": "db8968b317791fc238d7f024e329d1846f861def3e508e8200de5c1fabad54bf",
+    "bytes": 28778,
+    "lines": 889,
+    "fetchedAt": "2026-10-31T07:45:16.762Z"
+  },
   "psf/requests@fe693c492242ae532211e0c173324f09ca8cf227:requests/models.py": {
     "repo": "psf/requests",
     "commit": "fe693c492242ae532211e0c173324f09ca8cf227",
@@ -377,6 +1493,15 @@
     "lines": 489,
     "fetchedAt": "2026-09-30T07:23:07.194Z"
   },
+  "pylint-dev/pylint@e90702074e68e20dc8e5df5013ee3ecf22139c3e:pylint/reporters/text.py": {
+    "repo": "pylint-dev/pylint",
+    "commit": "e90702074e68e20dc8e5df5013ee3ecf22139c3e",
+    "path": "pylint/reporters/text.py",
+    "sha256": "93e570d7754d4faaaf53e894c703903b1452080c737bf56ca8fb9b2de62b879d",
+    "bytes": 10598,
+    "lines": 316,
+    "fetchedAt": "2026-10-31T07:45:17.267Z"
+  },
   "pytest-dev/pytest@10ca84ffc56c2dd2d9dc4bd71b7b898e083500cd:src/_pytest/assertion/rewrite.py": {
     "repo": "pytest-dev/pytest",
     "commit": "10ca84ffc56c2dd2d9dc4bd71b7b898e083500cd",
@@ -385,6 +1510,15 @@
     "bytes": 41272,
     "lines": 1085,
     "fetchedAt": "2026-09-30T07:22:59.152Z"
+  },
+  "pytest-dev/pytest@1aefb24b37c30fba8fd79a744829ca16e252f340:src/_pytest/assertion/util.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "1aefb24b37c30fba8fd79a744829ca16e252f340",
+    "path": "src/_pytest/assertion/util.py",
+    "sha256": "a1f7f7e19fff1fcab21e1157214be976026f2af5904d8fcb2322cdbd111ef021",
+    "bytes": 12850,
+    "lines": 392,
+    "fetchedAt": "2026-10-31T07:45:20.299Z"
   },
   "pytest-dev/pytest@2051e30b9b596e944524ccb787ed20f9f5be93e3:src/_pytest/logging.py": {
     "repo": "pytest-dev/pytest",
@@ -395,6 +1529,15 @@
     "lines": 663,
     "fetchedAt": "2026-09-30T07:23:07.459Z"
   },
+  "pytest-dev/pytest@29e336bd9bf87eaef8e2683196ee1975f1ad4088:src/_pytest/junitxml.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "29e336bd9bf87eaef8e2683196ee1975f1ad4088",
+    "path": "src/_pytest/junitxml.py",
+    "sha256": "b4b94088818f38684caeeb572cf0fc8518159517cb191206444e40c396fc549e",
+    "bytes": 23344,
+    "lines": 692,
+    "fetchedAt": "2026-10-31T07:45:23.063Z"
+  },
   "pytest-dev/pytest@2f7415cfbc4b6ca62f9013f1abd27136f46b9653:src/_pytest/pathlib.py": {
     "repo": "pytest-dev/pytest",
     "commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
@@ -403,6 +1546,33 @@
     "bytes": 26379,
     "lines": 788,
     "fetchedAt": "2026-09-30T07:22:58.808Z"
+  },
+  "pytest-dev/pytest@450d2646233c670654744d3d24330b69895bb9d2:src/_pytest/_code/code.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "450d2646233c670654744d3d24330b69895bb9d2",
+    "path": "src/_pytest/_code/code.py",
+    "sha256": "36d2ffe9fa804c47c02f282d1da722b706dc2f39f36eb3c507152d27c0df4525",
+    "bytes": 34241,
+    "lines": 1038,
+    "fetchedAt": "2026-10-31T07:45:17.755Z"
+  },
+  "pytest-dev/pytest@4787fd64a4ca0dba5528b5651bddd254102fe9f3:src/_pytest/_io/saferepr.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "4787fd64a4ca0dba5528b5651bddd254102fe9f3",
+    "path": "src/_pytest/_io/saferepr.py",
+    "sha256": "b8e903a8682da25fc8dabbdd5d7fe177e3ce0f157c62919144533d73152b657a",
+    "bytes": 3275,
+    "lines": 104,
+    "fetchedAt": "2026-10-31T07:45:27.845Z"
+  },
+  "pytest-dev/pytest@4964b468c83c06971eb743fbc57cc404f760c573:src/_pytest/tmpdir.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "4964b468c83c06971eb743fbc57cc404f760c573",
+    "path": "src/_pytest/tmpdir.py",
+    "sha256": "f9bc97fde997b783de72f311bbe0c53d4240b4498dff6b23620c65a88c35eac4",
+    "bytes": 8169,
+    "lines": 232,
+    "fetchedAt": "2026-10-31T07:45:40.267Z"
   },
   "pytest-dev/pytest@4a2fdce62b73944030cff9b3e52862868ca9584d:src/_pytest/python.py": {
     "repo": "pytest-dev/pytest",
@@ -413,6 +1583,24 @@
     "lines": 1482,
     "fetchedAt": "2026-09-30T07:23:04.308Z"
   },
+  "pytest-dev/pytest@56bf819c2f4eaf8b36bd8c42c06bb59d5a3bfc0f:src/_pytest/nodes.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "56bf819c2f4eaf8b36bd8c42c06bb59d5a3bfc0f",
+    "path": "src/_pytest/nodes.py",
+    "sha256": "0a8f2600bee9054f788f9e0517416dacc9a506bee63f8a1f3ebad37f0cee2b3f",
+    "bytes": 20538,
+    "lines": 608,
+    "fetchedAt": "2026-10-31T07:45:30.233Z"
+  },
+  "pytest-dev/pytest@69356d20cfee9a81972dcbf93d8caf9eabe113e8:src/_pytest/python.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "69356d20cfee9a81972dcbf93d8caf9eabe113e8",
+    "path": "src/_pytest/python.py",
+    "sha256": "3333299ba036237065dde4170efcb46fdebf807fd0c86906f55ab7deacd46c4a",
+    "bytes": 64449,
+    "lines": 1701,
+    "fetchedAt": "2026-10-31T07:45:42.726Z"
+  },
   "pytest-dev/pytest@6995257cf470d2143ad1683824962de4071c0eb7:src/_pytest/assertion/rewrite.py": {
     "repo": "pytest-dev/pytest",
     "commit": "6995257cf470d2143ad1683824962de4071c0eb7",
@@ -421,6 +1609,114 @@
     "bytes": 46326,
     "lines": 1172,
     "fetchedAt": "2026-09-30T07:22:58.494Z"
+  },
+  "pytest-dev/pytest@7b77fc086aab8b3a8ebc890200371884555eea1e:src/_pytest/mark/evaluate.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "7b77fc086aab8b3a8ebc890200371884555eea1e",
+    "path": "src/_pytest/mark/evaluate.py",
+    "sha256": "d099d7c20c270c0c2afc14966e3382bca05462a2be5e002528cdce7ba3aec5bb",
+    "bytes": 4579,
+    "lines": 136,
+    "fetchedAt": "2026-10-31T07:45:32.110Z"
+  },
+  "pytest-dev/pytest@7f7a36478abe7dd1fa993b115d22606aa0e35e88:src/_pytest/skipping.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "7f7a36478abe7dd1fa993b115d22606aa0e35e88",
+    "path": "src/_pytest/skipping.py",
+    "sha256": "9ce81773726e1f9d52b9441e8141da781170ae3bc786c9e92a09917c8aca85cb",
+    "bytes": 10727,
+    "lines": 316,
+    "fetchedAt": "2026-10-31T07:45:37.707Z"
+  },
+  "pytest-dev/pytest@e2ee3144ed6e241dea8d96215fcdca18b3892551:src/_pytest/_code/source.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "e2ee3144ed6e241dea8d96215fcdca18b3892551",
+    "path": "src/_pytest/_code/source.py",
+    "sha256": "73b032870a0ab8018c1da35cb2822c8fdd1e307c60aa57ec0a4a4dde35e8d495",
+    "bytes": 7054,
+    "lines": 213,
+    "fetchedAt": "2026-10-31T07:45:44.915Z"
+  },
+  "pytest-dev/pytest@e670ff76cbad80108bde9bab616b66771b8653cf:src/_pytest/main.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "e670ff76cbad80108bde9bab616b66771b8653cf",
+    "path": "src/_pytest/main.py",
+    "sha256": "2293b01dc61fb25da70e702357db7d7b5811d84d08bab14dcece917d6b3662b1",
+    "bytes": 24761,
+    "lines": 715,
+    "fetchedAt": "2026-10-31T07:45:25.706Z"
+  },
+  "pytest-dev/pytest@e6e300e729dd33956e5448d8be9a0b1540b4e53a:src/_pytest/skipping.py": {
+    "repo": "pytest-dev/pytest",
+    "commit": "e6e300e729dd33956e5448d8be9a0b1540b4e53a",
+    "path": "src/_pytest/skipping.py",
+    "sha256": "ac312088b60e729ac230f8803a9baf5ec745a9d387fcde1a066ecb9b6e10b262",
+    "bytes": 10713,
+    "lines": 315,
+    "fetchedAt": "2026-10-31T07:45:35.043Z"
+  },
+  "scikit-learn/scikit-learn@02dc9ed680e7f53f1b0d410dcdd37341c7958eb1:sklearn/preprocessing/_encoders.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "02dc9ed680e7f53f1b0d410dcdd37341c7958eb1",
+    "path": "sklearn/preprocessing/_encoders.py",
+    "sha256": "3e2258d784750267c362d39872e767ab680629ebd53bd95f058f2c2e318fb253",
+    "bytes": 32927,
+    "lines": 843,
+    "fetchedAt": "2026-10-31T07:45:18.202Z"
+  },
+  "scikit-learn/scikit-learn@06632c0d185128a53c57ccc73b25b6408e90bb89:sklearn/model_selection/_split.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "06632c0d185128a53c57ccc73b25b6408e90bb89",
+    "path": "sklearn/model_selection/_split.py",
+    "sha256": "1b876ac6384ef15b6225ee40950021e67183b74e9c895537c028a740bd79e897",
+    "bytes": 78561,
+    "lines": 2169,
+    "fetchedAt": "2026-10-31T07:45:45.492Z"
+  },
+  "scikit-learn/scikit-learn@0e3c1879b06d839171b7d0a607d71bbb19a966a9:sklearn/utils/_pprint.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "0e3c1879b06d839171b7d0a607d71bbb19a966a9",
+    "path": "sklearn/utils/_pprint.py",
+    "sha256": "eafed6b21d6af4cd7871227791f80292d1cc7c58aca5a3a1567c9a248d83e6f2",
+    "bytes": 18057,
+    "lines": 436,
+    "fetchedAt": "2026-10-31T07:45:32.484Z"
+  },
+  "scikit-learn/scikit-learn@1c8668b0a021832386470ddf740d834e02c66f69:sklearn/mixture/base.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "1c8668b0a021832386470ddf740d834e02c66f69",
+    "path": "sklearn/mixture/base.py",
+    "sha256": "0d24ba0f9a12e8dca935c2423009120853aa8e1db488981ebd5c631134fcfb5d",
+    "bytes": 18167,
+    "lines": 537,
+    "fetchedAt": "2026-10-31T07:45:20.605Z"
+  },
+  "scikit-learn/scikit-learn@26f690961a52946dd2f53bf0fdd4264b2ae5be90:sklearn/feature_selection/mutual_info_.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "26f690961a52946dd2f53bf0fdd4264b2ae5be90",
+    "path": "sklearn/feature_selection/mutual_info_.py",
+    "sha256": "d1fb4cb684c0fdaf4304d5acff08aeb91d276539b15abfb228a98802abff4a56",
+    "bytes": 16912,
+    "lines": 450,
+    "fetchedAt": "2026-10-31T07:45:30.565Z"
+  },
+  "scikit-learn/scikit-learn@2c867b8f822eb7a684f0d5c4359e4426e1c9cfe0:sklearn/utils/_set_output.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "2c867b8f822eb7a684f0d5c4359e4426e1c9cfe0",
+    "path": "sklearn/utils/_set_output.py",
+    "sha256": "88a5e6f47c8dee8e072724e1ddd002a3a291279e77f901d8204eea07556fe515",
+    "bytes": 8890,
+    "lines": 280,
+    "fetchedAt": "2026-10-31T07:45:54.909Z"
+  },
+  "scikit-learn/scikit-learn@3aefc834dce72e850bff48689bea3c7dff5f3fad:sklearn/ensemble/iforest.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "3aefc834dce72e850bff48689bea3c7dff5f3fad",
+    "path": "sklearn/ensemble/iforest.py",
+    "sha256": "1e339b68311c1a4c583db7c8c24eb2ad447ef19ffe35e1810f2eecdd37139912",
+    "bytes": 19780,
+    "lines": 511,
+    "fetchedAt": "2026-10-31T07:45:28.286Z"
   },
   "scikit-learn/scikit-learn@3b5abf76597ce6aff76192869f92647c1b5259e7:sklearn/utils/validation.py": {
     "repo": "scikit-learn/scikit-learn",
@@ -440,6 +1736,33 @@
     "lines": 504,
     "fetchedAt": "2026-09-30T07:23:07.747Z"
   },
+  "scikit-learn/scikit-learn@4db04923a754b6a2defa1b172f55d492b85d165e:sklearn/isotonic.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "4db04923a754b6a2defa1b172f55d492b85d165e",
+    "path": "sklearn/isotonic.py",
+    "sha256": "282869cc2ba40712d06f28319e36495977aa5171e3e1e05beba1c1619d3e04cb",
+    "bytes": 15150,
+    "lines": 454,
+    "fetchedAt": "2026-10-31T07:45:50.097Z"
+  },
+  "scikit-learn/scikit-learn@6adb209acd63825affc884abcd85381f148fb1b0:sklearn/utils/multiclass.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "6adb209acd63825affc884abcd85381f148fb1b0",
+    "path": "sklearn/utils/multiclass.py",
+    "sha256": "b734be5c4b072e458668c22361d09b92d52a5fe7e0604526ad82dffab40df7c3",
+    "bytes": 17679,
+    "lines": 522,
+    "fetchedAt": "2026-10-31T07:45:53.248Z"
+  },
+  "scikit-learn/scikit-learn@70b0ddea992c01df1a41588fa9e2d130fb6b13f8:sklearn/metrics/cluster/_supervised.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "70b0ddea992c01df1a41588fa9e2d130fb6b13f8",
+    "path": "sklearn/metrics/cluster/_supervised.py",
+    "sha256": "a1f9628721b4a536b11d6fdf6c41b58fbb2b5998f8d9c356acc7d83c6269d13a",
+    "bytes": 34572,
+    "lines": 970,
+    "fetchedAt": "2026-10-31T07:45:48.505Z"
+  },
   "scikit-learn/scikit-learn@96a02f3934952d486589dddd3f00b40d5a5ab5f2:sklearn/neighbors/base.py": {
     "repo": "scikit-learn/scikit-learn",
     "commit": "96a02f3934952d486589dddd3f00b40d5a5ab5f2",
@@ -448,6 +1771,42 @@
     "bytes": 31253,
     "lines": 810,
     "fetchedAt": "2026-09-30T07:23:04.750Z"
+  },
+  "scikit-learn/scikit-learn@a5743ed36fbd3fbc8e351bdab16561fbfca7dfa1:sklearn/linear_model/logistic.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "a5743ed36fbd3fbc8e351bdab16561fbfca7dfa1",
+    "path": "sklearn/linear_model/logistic.py",
+    "sha256": "f6fa8e5823b600af4082cfaa2b2ae9aa9af6eb7b19b0d3db305884662be1a277",
+    "bytes": 91688,
+    "lines": 2247,
+    "fetchedAt": "2026-10-31T07:45:38.219Z"
+  },
+  "scikit-learn/scikit-learn@a62775e99f2a5ea3d51db7160fad783f6cd8a4c5:sklearn/pipeline.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "a62775e99f2a5ea3d51db7160fad783f6cd8a4c5",
+    "path": "sklearn/pipeline.py",
+    "sha256": "5edf09a246eab29e377a248c1da61e2dd4bef20fc1eb1db9089b2410569f82bf",
+    "bytes": 34070,
+    "lines": 932,
+    "fetchedAt": "2026-10-31T07:45:26.238Z"
+  },
+  "scikit-learn/scikit-learn@b34751b7ed02b2cfcc36037fb729d4360480a299:sklearn/ensemble/voting.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "b34751b7ed02b2cfcc36037fb729d4360480a299",
+    "path": "sklearn/ensemble/voting.py",
+    "sha256": "d7422b3ef8d3db225d27d3a6980fcf131eaf8bbbb9b1aef2d9cf2d47844c87fc",
+    "bytes": 17578,
+    "lines": 489,
+    "fetchedAt": "2026-10-31T07:45:35.464Z"
+  },
+  "scikit-learn/scikit-learn@b8a4da8baa1137f173e7035f104067c7d2ffde22:sklearn/cluster/_affinity_propagation.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "b8a4da8baa1137f173e7035f104067c7d2ffde22",
+    "path": "sklearn/cluster/_affinity_propagation.py",
+    "sha256": "0f6eea5df5e80271464803ceb27e8e8b8d0a5bbd6787a9ea31deeb6e12292ae5",
+    "bytes": 15685,
+    "lines": 444,
+    "fetchedAt": "2026-10-31T07:45:47.025Z"
   },
   "scikit-learn/scikit-learn@b90661d6a46aa3619d3eec94d5281f5888add501:sklearn/linear_model/ridge.py": {
     "repo": "scikit-learn/scikit-learn",
@@ -467,6 +1826,42 @@
     "lines": 831,
     "fetchedAt": "2026-09-30T07:22:59.832Z"
   },
+  "scikit-learn/scikit-learn@cd25abee0ad0ac95225d4a9be8948eff69f49690:sklearn/compose/_column_transformer.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "cd25abee0ad0ac95225d4a9be8948eff69f49690",
+    "path": "sklearn/compose/_column_transformer.py",
+    "sha256": "04364f464309ee0848f96db288dc47150dd5197cf01c8966bad9567b05d61e84",
+    "bytes": 44630,
+    "lines": 1132,
+    "fetchedAt": "2026-10-31T07:45:51.735Z"
+  },
+  "scikit-learn/scikit-learn@df7dd8391148a873d157328a4f0328528a0c4ed9:sklearn/neighbors/nca.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "df7dd8391148a873d157328a4f0328528a0c4ed9",
+    "path": "sklearn/neighbors/nca.py",
+    "sha256": "84e777637fbbc4e189d55c5e69d83950135ef09c6a281b54e943c13f1fd5d80a",
+    "bytes": 20189,
+    "lines": 516,
+    "fetchedAt": "2026-10-31T07:45:40.601Z"
+  },
+  "scikit-learn/scikit-learn@f8b108d0c6f2f82b2dc4e32a6793f9d9ac9cf2f4:sklearn/decomposition/kernel_pca.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "f8b108d0c6f2f82b2dc4e32a6793f9d9ac9cf2f4",
+    "path": "sklearn/decomposition/kernel_pca.py",
+    "sha256": "7e5132f4bdcc90034ac31b046d9c09d1a3c41156508c42dc745137624831750b",
+    "bytes": 11741,
+    "lines": 324,
+    "fetchedAt": "2026-10-31T07:45:23.475Z"
+  },
+  "scikit-learn/scikit-learn@fdbaa58acbead5a254f2e6d597dc1ab3b947f4c6:sklearn/svm/base.py": {
+    "repo": "scikit-learn/scikit-learn",
+    "commit": "fdbaa58acbead5a254f2e6d597dc1ab3b947f4c6",
+    "path": "sklearn/svm/base.py",
+    "sha256": "b14f92983984a44716d81c10d97564aab73db0d2589a6799f474b21e81ca4345",
+    "bytes": 36806,
+    "lines": 953,
+    "fetchedAt": "2026-10-31T07:45:43.134Z"
+  },
   "sphinx-doc/sphinx@195e911f1dab04b8ddeacbe04b7d214aaf81bb0b:sphinx/ext/autodoc/typehints.py": {
     "repo": "sphinx-doc/sphinx",
     "commit": "195e911f1dab04b8ddeacbe04b7d214aaf81bb0b",
@@ -475,6 +1870,60 @@
     "bytes": 7359,
     "lines": 199,
     "fetchedAt": "2026-09-30T07:23:00.880Z"
+  },
+  "sphinx-doc/sphinx@2c2335bbb8af99fa132e1573bbf45dc91584d5a2:sphinx/ext/autodoc/__init__.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "2c2335bbb8af99fa132e1573bbf45dc91584d5a2",
+    "path": "sphinx/ext/autodoc/__init__.py",
+    "sha256": "e9cc1acee8de09330c7005f302a336d0949efe5df4fcd763b7e00b0f92901ea8",
+    "bytes": 92733,
+    "lines": 2284,
+    "fetchedAt": "2026-10-31T07:45:23.985Z"
+  },
+  "sphinx-doc/sphinx@332d80ba8433aea41c3709fa52737ede4405072b:sphinx/util/typing.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "332d80ba8433aea41c3709fa52737ede4405072b",
+    "path": "sphinx/util/typing.py",
+    "sha256": "9731591f281f9e41b0568851a683787886d8ea1c1c181c206601fbbfe8e57ada",
+    "bytes": 18804,
+    "lines": 463,
+    "fetchedAt": "2026-10-31T07:45:35.820Z"
+  },
+  "sphinx-doc/sphinx@3ea1ec84cc610f7a9f4f6b354e264565254923ff:sphinx/domains/std.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "3ea1ec84cc610f7a9f4f6b354e264565254923ff",
+    "path": "sphinx/domains/std.py",
+    "sha256": "7d44decd65e27c742894388397f5992a83a6f3fed3728ca257845acc508bac93",
+    "bytes": 46931,
+    "lines": 1132,
+    "fetchedAt": "2026-10-31T07:45:28.614Z"
+  },
+  "sphinx-doc/sphinx@3ed7590ed411bd93b26098faab4f23619cdb2267:sphinx/ext/napoleon/docstring.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "3ed7590ed411bd93b26098faab4f23619cdb2267",
+    "path": "sphinx/ext/napoleon/docstring.py",
+    "sha256": "fc71ee1d4b5d6ff10c58e8874126d5d1681a4ecbf658774ff363328bd281559d",
+    "bytes": 46927,
+    "lines": 1296,
+    "fetchedAt": "2026-10-31T07:45:38.553Z"
+  },
+  "sphinx-doc/sphinx@4ec6cbe341fd84468c448e20082c778043bbea4b:sphinx/environment/adapters/indexentries.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "4ec6cbe341fd84468c448e20082c778043bbea4b",
+    "path": "sphinx/environment/adapters/indexentries.py",
+    "sha256": "1df68c90e6a019b178554b22eae56c79bd9eb8e3583e416cd8a867543475a0a9",
+    "bytes": 7621,
+    "lines": 177,
+    "fetchedAt": "2026-10-31T07:45:18.516Z"
+  },
+  "sphinx-doc/sphinx@5d8d6275a54f2c5fb72b82383b5712c22d337634:sphinx/ext/autodoc/__init__.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "5d8d6275a54f2c5fb72b82383b5712c22d337634",
+    "path": "sphinx/ext/autodoc/__init__.py",
+    "sha256": "a7c395b2de8eca6b347700811b6d2fe5752adc17fceef6be735b7ed9e0091778",
+    "bytes": 95076,
+    "lines": 2342,
+    "fetchedAt": "2026-10-31T07:45:26.751Z"
   },
   "sphinx-doc/sphinx@71db08c05197545944949d5aa76cd340e7143627:sphinx/util/rst.py": {
     "repo": "sphinx-doc/sphinx",
@@ -503,6 +1952,42 @@
     "lines": 2904,
     "fetchedAt": "2026-09-30T07:23:00.575Z"
   },
+  "sphinx-doc/sphinx@7ca279e33aebb60168d35e6be4ed059f4a68f2c1:sphinx/ext/autodoc/importer.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "7ca279e33aebb60168d35e6be4ed059f4a68f2c1",
+    "path": "sphinx/ext/autodoc/importer.py",
+    "sha256": "5bae7e3a3b7d0a94fb566bc9d335fd342e6970622e28c365e563cf3effb3d7d1",
+    "bytes": 12373,
+    "lines": 340,
+    "fetchedAt": "2026-10-31T07:45:43.504Z"
+  },
+  "sphinx-doc/sphinx@82ef497a8c88f0f6e50d84520e7276bfbf65025d:sphinx/ext/viewcode.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "82ef497a8c88f0f6e50d84520e7276bfbf65025d",
+    "path": "sphinx/ext/viewcode.py",
+    "sha256": "4341a9bcd744e6b1ac7b661e8d9679405d40792211c84176c7d80ad3c6130a9f",
+    "bytes": 11461,
+    "lines": 296,
+    "fetchedAt": "2026-10-31T07:45:41.059Z"
+  },
+  "sphinx-doc/sphinx@88b81a06eb635a1596617f8971fa97a84c069e93:sphinx/builders/manpage.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "88b81a06eb635a1596617f8971fa97a84c069e93",
+    "path": "sphinx/builders/manpage.py",
+    "sha256": "24b8ce671f05bbbe349d9d7c949be737a523d2b2eb4d1e9266ee0d8302f455ec",
+    "bytes": 4177,
+    "lines": 124,
+    "fetchedAt": "2026-10-31T07:45:21.005Z"
+  },
+  "sphinx-doc/sphinx@b19bce971e82f2497d67fdacdeca8db08ae0ba56:sphinx/ext/autodoc/__init__.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "b19bce971e82f2497d67fdacdeca8db08ae0ba56",
+    "path": "sphinx/ext/autodoc/__init__.py",
+    "sha256": "7c4d2136e294933e49d3e9ba409e1aefc20afe51b745ed5c8d016e580af1f298",
+    "bytes": 106327,
+    "lines": 2618,
+    "fetchedAt": "2026-10-31T07:45:33.306Z"
+  },
   "sphinx-doc/sphinx@c087d717f6ed183dd422359bf91210dc59689d63:sphinx/ext/napoleon/docstring.py": {
     "repo": "sphinx-doc/sphinx",
     "commit": "c087d717f6ed183dd422359bf91210dc59689d63",
@@ -511,6 +1996,222 @@
     "bytes": 38341,
     "lines": 1040,
     "fetchedAt": "2026-09-30T07:23:08.078Z"
+  },
+  "sphinx-doc/sphinx@e4bd3bd3ddd42c6642ff779a4f7381f219655c2c:sphinx/domains/std.py": {
+    "repo": "sphinx-doc/sphinx",
+    "commit": "e4bd3bd3ddd42c6642ff779a4f7381f219655c2c",
+    "path": "sphinx/domains/std.py",
+    "sha256": "434702b83becf7f86eb1c4375accf7d4c5b87cf25571df93e8e5347ea2091b8b",
+    "bytes": 47002,
+    "lines": 1133,
+    "fetchedAt": "2026-10-31T07:45:30.948Z"
+  },
+  "sympy/sympy@09786a173e7a0a488f46dd6000177c23e5d24eed:sympy/utilities/codegen.py": {
+    "repo": "sympy/sympy",
+    "commit": "09786a173e7a0a488f46dd6000177c23e5d24eed",
+    "path": "sympy/utilities/codegen.py",
+    "sha256": "e940ef5d609e4969e6bea9db12538f9027af9fd3bc1ae524bb99da53ad2be4fd",
+    "bytes": 81519,
+    "lines": 2233,
+    "fetchedAt": "2026-10-31T07:46:06.101Z"
+  },
+  "sympy/sympy@0dbdc0ea83d339936da175f8c3a97d0d6bafb9f8:sympy/printing/pretty/pretty.py": {
+    "repo": "sympy/sympy",
+    "commit": "0dbdc0ea83d339936da175f8c3a97d0d6bafb9f8",
+    "path": "sympy/printing/pretty/pretty.py",
+    "sha256": "24bde05ef663b04f3de45b4bff664db2dc5e50b4eb7a30e1604b72374c7e6d59",
+    "bytes": 83239,
+    "lines": 2392,
+    "fetchedAt": "2026-10-31T07:45:57.575Z"
+  },
+  "sympy/sympy@0e987498b00167fdd4a08a41c852a97cb70ce8f2:sympy/printing/mathml.py": {
+    "repo": "sympy/sympy",
+    "commit": "0e987498b00167fdd4a08a41c852a97cb70ce8f2",
+    "path": "sympy/printing/mathml.py",
+    "sha256": "97d5e7fd747861a45631d213d36f420005bcdfe06b0d4a382846d321f1d05aae",
+    "bytes": 46125,
+    "lines": 1322,
+    "fetchedAt": "2026-10-31T07:46:03.818Z"
+  },
+  "sympy/sympy@126f80578140e752ad5135aac77b8ff887eede3e:sympy/functions/elementary/complexes.py": {
+    "repo": "sympy/sympy",
+    "commit": "126f80578140e752ad5135aac77b8ff887eede3e",
+    "path": "sympy/functions/elementary/complexes.py",
+    "sha256": "a05b6f03933a41428a9007199a637d3902c975632ce77e36af5d63eb84d34497",
+    "bytes": 42420,
+    "lines": 1445,
+    "fetchedAt": "2026-10-31T07:46:29.624Z"
+  },
+  "sympy/sympy@15f56f3b0006d2ed2c29bde3c43e91618012c849:sympy/printing/latex.py": {
+    "repo": "sympy/sympy",
+    "commit": "15f56f3b0006d2ed2c29bde3c43e91618012c849",
+    "path": "sympy/printing/latex.py",
+    "sha256": "ee30112a6f22980e9ba15857b9f6589c04afba3a11d456c0ceb25192d076bc3c",
+    "bytes": 89334,
+    "lines": 2456,
+    "fetchedAt": "2026-10-31T07:46:01.802Z"
+  },
+  "sympy/sympy@1923822ddf8265199dbd9ef9ce09641d3fd042b9:sympy/solvers/diophantine.py": {
+    "repo": "sympy/sympy",
+    "commit": "1923822ddf8265199dbd9ef9ce09641d3fd042b9",
+    "path": "sympy/solvers/diophantine.py",
+    "sha256": "115abf9757d6a7dea7e46f4e30ef64a055b35cb4afb32d5667c8bba23974d0a1",
+    "bytes": 99228,
+    "lines": 3343,
+    "fetchedAt": "2026-10-31T07:46:12.088Z"
+  },
+  "sympy/sympy@1abbc0ac3e552cb184317194e5d5c5b9dd8fb640:sympy/physics/units/util.py": {
+    "repo": "sympy/sympy",
+    "commit": "1abbc0ac3e552cb184317194e5d5c5b9dd8fb640",
+    "path": "sympy/physics/units/util.py",
+    "sha256": "f2a7beaf2dc2ee31fb966697a23df266623cdc518098bca429ca3e680e9238b5",
+    "bytes": 7137,
+    "lines": 195,
+    "fetchedAt": "2026-10-31T07:46:22.352Z"
+  },
+  "sympy/sympy@1d3327b8e90a186df6972991963a5ae87053259d:sympy/simplify/fu.py": {
+    "repo": "sympy/sympy",
+    "commit": "1d3327b8e90a186df6972991963a5ae87053259d",
+    "path": "sympy/simplify/fu.py",
+    "sha256": "7bb98c24d3df3c03cd881104706108012ede4eee631771fd65f438d8d7ffc7ff",
+    "bytes": 66734,
+    "lines": 2216,
+    "fetchedAt": "2026-10-31T07:46:08.221Z"
+  },
+  "sympy/sympy@25fbcce5b1a4c7e3956e6062930f4a44ce95a632:sympy/functions/elementary/complexes.py": {
+    "repo": "sympy/sympy",
+    "commit": "25fbcce5b1a4c7e3956e6062930f4a44ce95a632",
+    "path": "sympy/functions/elementary/complexes.py",
+    "sha256": "f73271cafe0a5fbd526bfbbc125537149749a5f14d0c438e391465d200d8d2b6",
+    "bytes": 38389,
+    "lines": 1217,
+    "fetchedAt": "2026-10-31T07:46:18.563Z"
+  },
+  "sympy/sympy@2c83657ff1c62fc2761b639469fdac7f7561a72a:sympy/solvers/polysys.py": {
+    "repo": "sympy/sympy",
+    "commit": "2c83657ff1c62fc2761b639469fdac7f7561a72a",
+    "path": "sympy/solvers/polysys.py",
+    "sha256": "fa495579c64fa1f211572a6625d7654afad8c46be569e839f71d86bd4b7b5811",
+    "bytes": 11281,
+    "lines": 395,
+    "fetchedAt": "2026-10-31T07:46:31.295Z"
+  },
+  "sympy/sympy@2dfa7457f20ee187fbb09b5b6a1631da4458388c:sympy/matrices/sparse.py": {
+    "repo": "sympy/sympy",
+    "commit": "2dfa7457f20ee187fbb09b5b6a1631da4458388c",
+    "path": "sympy/matrices/sparse.py",
+    "sha256": "19da4474b7728b60fa1fde74ba01355bd9dac2f0fa74d7e6e6a924965d6c0368",
+    "bytes": 39037,
+    "lines": 1300,
+    "fetchedAt": "2026-10-31T07:45:27.166Z"
+  },
+  "sympy/sympy@31c68eef3ffef39e2e792b0ec92cd92b7010eb2a:sympy/geometry/util.py": {
+    "repo": "sympy/sympy",
+    "commit": "31c68eef3ffef39e2e792b0ec92cd92b7010eb2a",
+    "path": "sympy/geometry/util.py",
+    "sha256": "d2a4b859d73fda221e923070f9e9ce7cbcdb6717de2480132e5e399bedf079b1",
+    "bytes": 19180,
+    "lines": 681,
+    "fetchedAt": "2026-10-31T07:46:02.998Z"
+  },
+  "sympy/sympy@3546ac7ed78e1780c1a76929864bb33330055740:sympy/core/numbers.py": {
+    "repo": "sympy/sympy",
+    "commit": "3546ac7ed78e1780c1a76929864bb33330055740",
+    "path": "sympy/core/numbers.py",
+    "sha256": "08882b54c6ce3fc52e4df968be88ff0268e2cd0e5341b5c59812628a23a33d38",
+    "bytes": 115379,
+    "lines": 3872,
+    "fetchedAt": "2026-10-31T07:45:38.984Z"
+  },
+  "sympy/sympy@3dff1b98a78f28c953ae2140b69356b8391e399c:sympy/polys/polytools.py": {
+    "repo": "sympy/sympy",
+    "commit": "3dff1b98a78f28c953ae2140b69356b8391e399c",
+    "path": "sympy/polys/polytools.py",
+    "sha256": "ee82a3c2b4af445260dcc58b94861294dd1fdc927cc6934639310a66ff6ae080",
+    "bytes": 182916,
+    "lines": 7152,
+    "fetchedAt": "2026-10-31T07:46:15.291Z"
+  },
+  "sympy/sympy@3ff4717b6aef6086e78f01cdfa06f64ae23aed7e:sympy/geometry/point.py": {
+    "repo": "sympy/sympy",
+    "commit": "3ff4717b6aef6086e78f01cdfa06f64ae23aed7e",
+    "path": "sympy/geometry/point.py",
+    "sha256": "54b6446efd9876eee6430a67f75728d0e2957a5cbff5901bf29449a111d5a52e",
+    "bytes": 36722,
+    "lines": 1377,
+    "fetchedAt": "2026-10-31T07:46:32.185Z"
+  },
+  "sympy/sympy@41490b75f3621408e0468b0e7b6dc409601fc6ff:sympy/printing/pretty/pretty.py": {
+    "repo": "sympy/sympy",
+    "commit": "41490b75f3621408e0468b0e7b6dc409601fc6ff",
+    "path": "sympy/printing/pretty/pretty.py",
+    "sha256": "10afc77038d98d0f2a4a7c84f9d1b7413024095aadeecc5929e94e1fad3282d1",
+    "bytes": 89831,
+    "lines": 2553,
+    "fetchedAt": "2026-10-31T07:46:04.483Z"
+  },
+  "sympy/sympy@479939f8c65c8c2908bbedc959549a257a7c0b0b:sympy/matrices/expressions/matexpr.py": {
+    "repo": "sympy/sympy",
+    "commit": "479939f8c65c8c2908bbedc959549a257a7c0b0b",
+    "path": "sympy/matrices/expressions/matexpr.py",
+    "sha256": "c2cd2d1c416fc238b667114130cfe20c9854a136e43086cc42718171bae9ce6f",
+    "bytes": 14874,
+    "lines": 549,
+    "fetchedAt": "2026-10-31T07:45:18.931Z"
+  },
+  "sympy/sympy@4da0b64558e9551a11a99bccc63557ba34f50c58:sympy/core/numbers.py": {
+    "repo": "sympy/sympy",
+    "commit": "4da0b64558e9551a11a99bccc63557ba34f50c58",
+    "path": "sympy/core/numbers.py",
+    "sha256": "ea38d72e3435aed46d65701fa5bb88a1195b1a2bd5650d7122e2085ca52ef662",
+    "bytes": 114180,
+    "lines": 3844,
+    "fetchedAt": "2026-10-31T07:45:47.539Z"
+  },
+  "sympy/sympy@514579c655bf22e2af14f0743376ae1d7befe345:sympy/physics/units/unitsystem.py": {
+    "repo": "sympy/sympy",
+    "commit": "514579c655bf22e2af14f0743376ae1d7befe345",
+    "path": "sympy/physics/units/unitsystem.py",
+    "sha256": "2c765fbe5101c3209644e3b9a9cc8f89e1c7a4efdf0655b1dc5d61380a4d03d1",
+    "bytes": 7512,
+    "lines": 207,
+    "fetchedAt": "2026-10-31T07:46:36.542Z"
+  },
+  "sympy/sympy@516fa83e69caf1e68306cfc912a13f36c434d51c:sympy/utilities/iterables.py": {
+    "repo": "sympy/sympy",
+    "commit": "516fa83e69caf1e68306cfc912a13f36c434d51c",
+    "path": "sympy/utilities/iterables.py",
+    "sha256": "403af0a7ad0df2af6711b7a2cf8d918ab3b7cbb9fc35665a6815c4e521ff79f1",
+    "bytes": 77356,
+    "lines": 2716,
+    "fetchedAt": "2026-10-31T07:46:16.211Z"
+  },
+  "sympy/sympy@58598660a3f6ab3d918781c4988c2e4b2bdd9297:sympy/parsing/mathematica.py": {
+    "repo": "sympy/sympy",
+    "commit": "58598660a3f6ab3d918781c4988c2e4b2bdd9297",
+    "path": "sympy/parsing/mathematica.py",
+    "sha256": "165814ad79acaf6c4d2f91671a1b7b98ba4e5dd002af92523070f96b57c460db",
+    "bytes": 39186,
+    "lines": 1080,
+    "fetchedAt": "2026-10-31T07:46:37.407Z"
+  },
+  "sympy/sympy@58e78209c8577b9890e957b624466e5beed7eb08:sympy/matrices/expressions/matexpr.py": {
+    "repo": "sympy/sympy",
+    "commit": "58e78209c8577b9890e957b624466e5beed7eb08",
+    "path": "sympy/matrices/expressions/matexpr.py",
+    "sha256": "287f03b2176200e89f539d6a7105e1f0171281592a32cf10314ab38aef7261f3",
+    "bytes": 38192,
+    "lines": 1233,
+    "fetchedAt": "2026-10-31T07:46:08.939Z"
+  },
+  "sympy/sympy@5c1644ff85e15752f9f8721bc142bfbf975e7805:sympy/core/mul.py": {
+    "repo": "sympy/sympy",
+    "commit": "5c1644ff85e15752f9f8721bc142bfbf975e7805",
+    "path": "sympy/core/mul.py",
+    "sha256": "4abe631554da4e048bcf741912cfb8d505ed23f881dae1433fd15c5d50e922fd",
+    "bytes": 60104,
+    "lines": 1777,
+    "fetchedAt": "2026-10-31T07:45:48.827Z"
   },
   "sympy/sympy@5c2e1f96a7ff562d4a778f4ca9ffc9c81557197e:sympy/functions/elementary/trigonometric.py": {
     "repo": "sympy/sympy",
@@ -521,6 +2222,87 @@
     "lines": 2810,
     "fetchedAt": "2026-09-30T07:23:01.947Z"
   },
+  "sympy/sympy@62000f37b8821573ba00280524ffb4ac4a380875:sympy/core/expr.py": {
+    "repo": "sympy/sympy",
+    "commit": "62000f37b8821573ba00280524ffb4ac4a380875",
+    "path": "sympy/core/expr.py",
+    "sha256": "1d1b5c504ac71ee62ba9514d65068da68bffb27c58a26d90ccd850b9264503e1",
+    "bytes": 136587,
+    "lines": 3963,
+    "fetchedAt": "2026-10-31T07:46:10.454Z"
+  },
+  "sympy/sympy@624217179aaf8d094e6ff75b7493ad1ee47599b0:sympy/core/mod.py": {
+    "repo": "sympy/sympy",
+    "commit": "624217179aaf8d094e6ff75b7493ad1ee47599b0",
+    "path": "sympy/core/mod.py",
+    "sha256": "95f63d0f7861a28e7fd511cb4839ba0a9981527fe1720ce60531343d41a89ae5",
+    "bytes": 7405,
+    "lines": 240,
+    "fetchedAt": "2026-10-31T07:46:27.063Z"
+  },
+  "sympy/sympy@662cfb818e865f580e18b59efbb3540c34232beb:sympy/core/mod.py": {
+    "repo": "sympy/sympy",
+    "commit": "662cfb818e865f580e18b59efbb3540c34232beb",
+    "path": "sympy/core/mod.py",
+    "sha256": "932ab1316e9361cff930320c138db3a8b6161553b55885e2d5eb3c874d64dd4e",
+    "bytes": 4488,
+    "lines": 156,
+    "fetchedAt": "2026-10-31T07:45:33.657Z"
+  },
+  "sympy/sympy@674afc619d7f5c519b6a5393a8b0532a131e57e0:sympy/functions/combinatorial/numbers.py": {
+    "repo": "sympy/sympy",
+    "commit": "674afc619d7f5c519b6a5393a8b0532a131e57e0",
+    "path": "sympy/functions/combinatorial/numbers.py",
+    "sha256": "5bae6b51e5d42e97406685ecbec7f3a23d3a4bea35ed2fddd0f462de0b78ffe3",
+    "bytes": 51511,
+    "lines": 1652,
+    "fetchedAt": "2026-10-31T07:45:36.197Z"
+  },
+  "sympy/sympy@67e3c956083d0128a621f65ee86a7dacd4f9f19f:sympy/matrices/common.py": {
+    "repo": "sympy/sympy",
+    "commit": "67e3c956083d0128a621f65ee86a7dacd4f9f19f",
+    "path": "sympy/matrices/common.py",
+    "sha256": "5ed32fd5034684de71da7bec65461ce0c009fac955faad7957127e544387dc71",
+    "bytes": 66874,
+    "lines": 2320,
+    "fetchedAt": "2026-10-31T07:45:43.852Z"
+  },
+  "sympy/sympy@7121bdf1facdd90d05b6994b4c2e5b2865a4638a:sympy/matrices/common.py": {
+    "repo": "sympy/sympy",
+    "commit": "7121bdf1facdd90d05b6994b4c2e5b2865a4638a",
+    "path": "sympy/matrices/common.py",
+    "sha256": "c41e75a1f36e6d567d477147fd934b85ab285394b9cdab7f5b4caf7a31f27479",
+    "bytes": 67041,
+    "lines": 2324,
+    "fetchedAt": "2026-10-31T07:45:45.843Z"
+  },
+  "sympy/sympy@74227f900b05009d4eed62e34a166228788a32ca:sympy/core/basic.py": {
+    "repo": "sympy/sympy",
+    "commit": "74227f900b05009d4eed62e34a166228788a32ca",
+    "path": "sympy/core/basic.py",
+    "sha256": "e7f573e632ee95fcbd9fbcdfe3937c7f53b1820a3e84ec69f338a90114cfff12",
+    "bytes": 67503,
+    "lines": 2070,
+    "fetchedAt": "2026-10-31T07:46:13.477Z"
+  },
+  "sympy/sympy@748ce73479ee2cd5c861431091001cc18943c735:sympy/assumptions/refine.py": {
+    "repo": "sympy/sympy",
+    "commit": "748ce73479ee2cd5c861431091001cc18943c735",
+    "path": "sympy/assumptions/refine.py",
+    "sha256": "5ba8e6bfdb9c1bf483ded815dfef82c2011e6a51bed2ed3e031d203d68fe17a5",
+    "bytes": 11481,
+    "lines": 385,
+    "fetchedAt": "2026-10-31T07:46:25.325Z"
+  },
+  "sympy/sympy@84c125972ad535b2dfb245f8d311d347b45e5b8a:sympy/printing/latex.py": {
+    "repo": "sympy/sympy",
+    "commit": "84c125972ad535b2dfb245f8d311d347b45e5b8a",
+    "path": "sympy/printing/latex.py",
+    "sha256": "5024b525dfbb5c3231a0d8eb9080c153045e042489653a62cfa817affa39c41b",
+    "bytes": 80159,
+    "lines": 2220,
+    "fetchedAt": "2026-10-31T07:45:50.458Z"
+  },
   "sympy/sympy@8dcb12a6cf500e8738d6729ab954a261758f49ca:sympy/printing/ccode.py": {
     "repo": "sympy/sympy",
     "commit": "8dcb12a6cf500e8738d6729ab954a261758f49ca",
@@ -529,6 +2311,186 @@
     "bytes": 14048,
     "lines": 402,
     "fetchedAt": "2026-09-30T07:23:01.609Z"
+  },
+  "sympy/sympy@8fc63c2d71752389a44367b8ef4aba8a91af6a45:sympy/printing/latex.py": {
+    "repo": "sympy/sympy",
+    "commit": "8fc63c2d71752389a44367b8ef4aba8a91af6a45",
+    "path": "sympy/printing/latex.py",
+    "sha256": "0933d525fdb2586fd17c2f7f867bcd7b200d068ba952b417e629eb3db51269a8",
+    "bytes": 84965,
+    "lines": 2351,
+    "fetchedAt": "2026-10-31T07:45:56.713Z"
+  },
+  "sympy/sympy@9da013ad0ddc3cd96fe505f2e47c63e372040916:sympy/core/exprtools.py": {
+    "repo": "sympy/sympy",
+    "commit": "9da013ad0ddc3cd96fe505f2e47c63e372040916",
+    "path": "sympy/core/exprtools.py",
+    "sha256": "ffe5d797fb0135c8b0bd6107d21bda3da969822404ae2b0958a0a3446b3f209e",
+    "bytes": 51427,
+    "lines": 1569,
+    "fetchedAt": "2026-10-31T07:46:11.192Z"
+  },
+  "sympy/sympy@9ef28fba5b4d6d0168237c9c005a550e6dc27d81:sympy/printing/mathematica.py": {
+    "repo": "sympy/sympy",
+    "commit": "9ef28fba5b4d6d0168237c9c005a550e6dc27d81",
+    "path": "sympy/printing/mathematica.py",
+    "sha256": "b23fd6ab02ccc287ab8f8bbcc6e3fd0e7ba1c358eef7843260a12a874baf2b74",
+    "bytes": 4304,
+    "lines": 132,
+    "fetchedAt": "2026-10-31T07:46:00.131Z"
+  },
+  "sympy/sympy@9ef28fba5b4d6d0168237c9c005a550e6dc27d81:sympy/simplify/trigsimp.py": {
+    "repo": "sympy/sympy",
+    "commit": "9ef28fba5b4d6d0168237c9c005a550e6dc27d81",
+    "path": "sympy/simplify/trigsimp.py",
+    "sha256": "a2b0ac394d47759805aa18ad1c960ee3156c845b9447465d8bdbf228f498cc9f",
+    "bytes": 44416,
+    "lines": 1191,
+    "fetchedAt": "2026-10-31T07:46:00.988Z"
+  },
+  "sympy/sympy@a106f4782a9dbe7f8fd16030f15401d977e03ae9:sympy/core/power.py": {
+    "repo": "sympy/sympy",
+    "commit": "a106f4782a9dbe7f8fd16030f15401d977e03ae9",
+    "path": "sympy/core/power.py",
+    "sha256": "3c0500e2f6b29a24e62047b4e3728de5476fc2595fbcbf62c888aafd8481cc96",
+    "bytes": 65197,
+    "lines": 1746,
+    "fetchedAt": "2026-10-31T07:46:20.862Z"
+  },
+  "sympy/sympy@a3389a25ec84d36f5cf04a4f2562d820f131db64:sympy/integrals/intpoly.py": {
+    "repo": "sympy/sympy",
+    "commit": "a3389a25ec84d36f5cf04a4f2562d820f131db64",
+    "path": "sympy/integrals/intpoly.py",
+    "sha256": "4bcf54ed7419cbb6b8383b88786a44a8f8d196b6212fa14842504345fadf19e1",
+    "bytes": 27380,
+    "lines": 782,
+    "fetchedAt": "2026-10-31T07:45:28.968Z"
+  },
+  "sympy/sympy@a7e6f093c98a3c4783848a19fce646e32b6e0161:sympy/printing/pretty/pretty.py": {
+    "repo": "sympy/sympy",
+    "commit": "a7e6f093c98a3c4783848a19fce646e32b6e0161",
+    "path": "sympy/printing/pretty/pretty.py",
+    "sha256": "6f2d51017145eb2c6743236e2b6e7aea55825f719347188ba351e6209bb183d9",
+    "bytes": 91285,
+    "lines": 2594,
+    "fetchedAt": "2026-10-31T07:46:05.298Z"
+  },
+  "sympy/sympy@aa22709cb7df2d7503803d4b2c0baa7aa21440b6:sympy/printing/latex.py": {
+    "repo": "sympy/sympy",
+    "commit": "aa22709cb7df2d7503803d4b2c0baa7aa21440b6",
+    "path": "sympy/printing/latex.py",
+    "sha256": "797475ce98dd7c3c409156af49908786b4b7287128e8118d690578e0fed84600",
+    "bytes": 112304,
+    "lines": 3086,
+    "fetchedAt": "2026-10-31T07:46:26.082Z"
+  },
+  "sympy/sympy@ab864967e71c950a15771bb6c3723636026ba876:sympy/core/mul.py": {
+    "repo": "sympy/sympy",
+    "commit": "ab864967e71c950a15771bb6c3723636026ba876",
+    "path": "sympy/core/mul.py",
+    "sha256": "76ee7589112d5d9ff9e8bbdb9aada1e88d85cfdbb3c3f3c912fd5ebf5dee65b8",
+    "bytes": 69976,
+    "lines": 2010,
+    "fetchedAt": "2026-10-31T07:46:21.639Z"
+  },
+  "sympy/sympy@b17abcb09cbcee80a90f6750e0f9b53f0247656c:sympy/core/numbers.py": {
+    "repo": "sympy/sympy",
+    "commit": "b17abcb09cbcee80a90f6750e0f9b53f0247656c",
+    "path": "sympy/core/numbers.py",
+    "sha256": "828f6b429e90d43e415d80e10c439d5f143bf2832b84b05651ca3348b21a0d63",
+    "bytes": 114212,
+    "lines": 3844,
+    "fetchedAt": "2026-10-31T07:45:52.072Z"
+  },
+  "sympy/sympy@b17ef6effe278d5b861d65896cc53442a6370d8f:sympy/matrices/expressions/blockmatrix.py": {
+    "repo": "sympy/sympy",
+    "commit": "b17ef6effe278d5b861d65896cc53442a6370d8f",
+    "path": "sympy/matrices/expressions/blockmatrix.py",
+    "sha256": "458d5081667bc57c3f942c5973854a5ca7cce1b6d45d92e4ef5be3839c62c98d",
+    "bytes": 18584,
+    "lines": 572,
+    "fetchedAt": "2026-10-31T07:46:14.367Z"
+  },
+  "sympy/sympy@b4777fdcef467b7132c055f8ac2c9a5059e6a145:sympy/core/function.py": {
+    "repo": "sympy/sympy",
+    "commit": "b4777fdcef467b7132c055f8ac2c9a5059e6a145",
+    "path": "sympy/core/function.py",
+    "sha256": "2cad2e22c4d8ba8a0b41c34afc4f84468315cf4152f061a290b3a05e2d630657",
+    "bytes": 115499,
+    "lines": 3390,
+    "fetchedAt": "2026-10-31T07:46:28.602Z"
+  },
+  "sympy/sympy@b4777fdcef467b7132c055f8ac2c9a5059e6a145:sympy/printing/str.py": {
+    "repo": "sympy/sympy",
+    "commit": "b4777fdcef467b7132c055f8ac2c9a5059e6a145",
+    "path": "sympy/printing/str.py",
+    "sha256": "c2bb3b6e8e4425640e7c4f1306b209c64fa4a93b9b400417b7147cd012fd9eb9",
+    "bytes": 32213,
+    "lines": 998,
+    "fetchedAt": "2026-10-31T07:46:27.885Z"
+  },
+  "sympy/sympy@b678d8103e48fdb1af335dbf0080b3d5366f2d17:sympy/core/operations.py": {
+    "repo": "sympy/sympy",
+    "commit": "b678d8103e48fdb1af335dbf0080b3d5366f2d17",
+    "path": "sympy/core/operations.py",
+    "sha256": "b2ab9457c55a5c63a1937686ad24143d519354219b5fec7fbc6e2d30bc663caf",
+    "bytes": 16577,
+    "lines": 462,
+    "fetchedAt": "2026-10-31T07:45:31.358Z"
+  },
+  "sympy/sympy@b7c5ba2bf3ffd5cf453b25af7c8ddd9a639800cb:sympy/utilities/lambdify.py": {
+    "repo": "sympy/sympy",
+    "commit": "b7c5ba2bf3ffd5cf453b25af7c8ddd9a639800cb",
+    "path": "sympy/utilities/lambdify.py",
+    "sha256": "63ac0a62d45ee8d5488f4b799763003bddeffd4b48b3b776b1cf6d2ff3d5ab9c",
+    "bytes": 32496,
+    "lines": 934,
+    "fetchedAt": "2026-10-31T07:45:58.303Z"
+  },
+  "sympy/sympy@b9af885473ad7e34b5b0826cb424dd26d8934670:sympy/physics/quantum/tensorproduct.py": {
+    "repo": "sympy/sympy",
+    "commit": "b9af885473ad7e34b5b0826cb424dd26d8934670",
+    "path": "sympy/physics/quantum/tensorproduct.py",
+    "sha256": "c3d6a3e5e70f151992096563998697c03e1ba50c5437ec32777413dca538bd9a",
+    "bytes": 14659,
+    "lines": 421,
+    "fetchedAt": "2026-10-31T07:46:38.252Z"
+  },
+  "sympy/sympy@ba80d1e493f21431b4bf729b3e0452cd47eb9566:sympy/ntheory/residue_ntheory.py": {
+    "repo": "sympy/sympy",
+    "commit": "ba80d1e493f21431b4bf729b3e0452cd47eb9566",
+    "path": "sympy/ntheory/residue_ntheory.py",
+    "sha256": "6077b626c15b2d6f93ba854498e578583651bca307db79f031b5de4a58a1833b",
+    "bytes": 33035,
+    "lines": 1303,
+    "fetchedAt": "2026-10-31T07:46:12.752Z"
+  },
+  "sympy/sympy@bdb49c4abfb35554a3c8ce761696ffff3bb837fe:sympy/utilities/iterables.py": {
+    "repo": "sympy/sympy",
+    "commit": "bdb49c4abfb35554a3c8ce761696ffff3bb837fe",
+    "path": "sympy/utilities/iterables.py",
+    "sha256": "884be9e39b428daaa909d0ab3e53b5c6490310ecf225c450fc48d2d225fdd027",
+    "bytes": 78022,
+    "lines": 2732,
+    "fetchedAt": "2026-10-31T07:46:20.137Z"
+  },
+  "sympy/sympy@c5cef2499d6eed024b0db5c792d6ec7c53baa470:sympy/tensor/array/ndim_array.py": {
+    "repo": "sympy/sympy",
+    "commit": "c5cef2499d6eed024b0db5c792d6ec7c53baa470",
+    "path": "sympy/tensor/array/ndim_array.py",
+    "sha256": "7ce3c9cb0bd24472a70a4dff40dcd7bca11646177baf25f8bf35eac65341f32b",
+    "bytes": 18791,
+    "lines": 593,
+    "fetchedAt": "2026-10-31T07:46:33.926Z"
+  },
+  "sympy/sympy@c807dfe7569692cad24f02a08477b70c1679a4dd:sympy/combinatorics/permutations.py": {
+    "repo": "sympy/sympy",
+    "commit": "c807dfe7569692cad24f02a08477b70c1679a4dd",
+    "path": "sympy/combinatorics/permutations.py",
+    "sha256": "63cbe34d7e97959d3ef974dc0c96504a7470a32017f7a5a1f27db2f3356fef43",
+    "bytes": 79424,
+    "lines": 2836,
+    "fetchedAt": "2026-10-31T07:45:24.498Z"
   },
   "sympy/sympy@ca6ef27272be31c9dc3753ede9232c39df9a75d8:sympy/printing/mathematica.py": {
     "repo": "sympy/sympy",
@@ -539,6 +2501,42 @@
     "lines": 125,
     "fetchedAt": "2026-09-30T07:23:05.416Z"
   },
+  "sympy/sympy@cffd4e0f86fefd4802349a9f9b19ed70934ea354:sympy/core/_print_helpers.py": {
+    "repo": "sympy/sympy",
+    "commit": "cffd4e0f86fefd4802349a9f9b19ed70934ea354",
+    "path": "sympy/core/_print_helpers.py",
+    "sha256": "cc55d811d3d83daf7bb1a83e295e5073366136d2c7337f16d9dbb46ed05d5085",
+    "bytes": 2201,
+    "lines": 61,
+    "fetchedAt": "2026-10-31T07:46:23.377Z"
+  },
+  "sympy/sympy@d3b4158dea271485e3daa11bf82e69b8dab348ce:sympy/physics/units/prefixes.py": {
+    "repo": "sympy/sympy",
+    "commit": "d3b4158dea271485e3daa11bf82e69b8dab348ce",
+    "path": "sympy/physics/units/prefixes.py",
+    "sha256": "10d574e0150779e6d72b653c8dfed941d610f9d6541a6d4ada6e81630258176c",
+    "bytes": 6224,
+    "lines": 220,
+    "fetchedAt": "2026-10-31T07:46:39.624Z"
+  },
+  "sympy/sympy@d3fcdb72bfcbb560eb45264ac1c03f359436edef:sympy/matrices/matrices.py": {
+    "repo": "sympy/sympy",
+    "commit": "d3fcdb72bfcbb560eb45264ac1c03f359436edef",
+    "path": "sympy/matrices/matrices.py",
+    "sha256": "c9777338de1abcc7dc10250217325f7422c7ebfb93ee39b82c372af37962f9d9",
+    "bytes": 172159,
+    "lines": 5587,
+    "fetchedAt": "2026-10-31T07:45:21.564Z"
+  },
+  "sympy/sympy@d57aaf064041fe52c0fa357639b069100f8b28e1:sympy/physics/vector/point.py": {
+    "repo": "sympy/sympy",
+    "commit": "d57aaf064041fe52c0fa357639b069100f8b28e1",
+    "path": "sympy/physics/vector/point.py",
+    "sha256": "f2ccf64e91886a78afcd794ca9602c024e87c899212b9f2e846f57f4ad1af61d",
+    "bytes": 17502,
+    "lines": 567,
+    "fetchedAt": "2026-10-31T07:46:19.410Z"
+  },
   "sympy/sympy@d60497958f6dea7f5e25bc41e9107a6a63694d01:sympy/polys/domains/polynomialring.py": {
     "repo": "sympy/sympy",
     "commit": "d60497958f6dea7f5e25bc41e9107a6a63694d01",
@@ -548,6 +2546,33 @@
     "lines": 149,
     "fetchedAt": "2026-09-30T07:23:08.437Z"
   },
+  "sympy/sympy@d822fcba181155b85ff2b29fe525adbafb22b448:sympy/simplify/cse_main.py": {
+    "repo": "sympy/sympy",
+    "commit": "d822fcba181155b85ff2b29fe525adbafb22b448",
+    "path": "sympy/simplify/cse_main.py",
+    "sha256": "94342506c88ae32652b096178179633620aaabf1839b0965fdcc7301ed690756",
+    "bytes": 30093,
+    "lines": 917,
+    "fetchedAt": "2026-10-31T07:46:32.901Z"
+  },
+  "sympy/sympy@d9b18c518d64d0ebe8e35a98c2fb519938b9b151:sympy/polys/monomials.py": {
+    "repo": "sympy/sympy",
+    "commit": "d9b18c518d64d0ebe8e35a98c2fb519938b9b151",
+    "path": "sympy/polys/monomials.py",
+    "sha256": "a913e1f14ed39320d24446a01a19da552348947ad008a6aacf3fbcb5d8bce453",
+    "bytes": 18968,
+    "lines": 637,
+    "fetchedAt": "2026-10-31T07:46:30.443Z"
+  },
+  "sympy/sympy@e0ef1da13e2ab2a77866c05246f73c871ca9388c:sympy/polys/factortools.py": {
+    "repo": "sympy/sympy",
+    "commit": "e0ef1da13e2ab2a77866c05246f73c871ca9388c",
+    "path": "sympy/polys/factortools.py",
+    "sha256": "f45b0f05633b0e4c9f7205b87831f69ab1a92919d41f04a0b5001f703cebbcc1",
+    "bytes": 34292,
+    "lines": 1367,
+    "fetchedAt": "2026-10-31T07:46:17.862Z"
+  },
   "sympy/sympy@e2918c1205c47345eb73c9be68b14c0f15fdeb17:sympy/printing/latex.py": {
     "repo": "sympy/sympy",
     "commit": "e2918c1205c47345eb73c9be68b14c0f15fdeb17",
@@ -556,5 +2581,122 @@
     "bytes": 77322,
     "lines": 2157,
     "fetchedAt": "2026-09-30T07:23:02.334Z"
+  },
+  "sympy/sympy@e727339af6dc22321b00f52d971cda39e4ce89fb:sympy/sets/sets.py": {
+    "repo": "sympy/sympy",
+    "commit": "e727339af6dc22321b00f52d971cda39e4ce89fb",
+    "path": "sympy/sets/sets.py",
+    "sha256": "a91b5df0f13590d1214e1253424635c228ea240c2fd44aab3fa22ae06a29409d",
+    "bytes": 60095,
+    "lines": 2102,
+    "fetchedAt": "2026-10-31T07:46:06.820Z"
+  },
+  "sympy/sympy@e8c22f6eac7314be8d92590bfff92ced79ee03e2:sympy/physics/units/unitsystem.py": {
+    "repo": "sympy/sympy",
+    "commit": "e8c22f6eac7314be8d92590bfff92ced79ee03e2",
+    "path": "sympy/physics/units/unitsystem.py",
+    "sha256": "fc8ce616d7227f673f01a4166dc3ac848eca7bbfca5229c6bc756f135c853bfb",
+    "bytes": 7571,
+    "lines": 206,
+    "fetchedAt": "2026-10-31T07:46:38.940Z"
+  },
+  "sympy/sympy@eb926a1d0c1158bf43f01eaf673dc84416b5ebb1:sympy/printing/pretty/pretty.py": {
+    "repo": "sympy/sympy",
+    "commit": "eb926a1d0c1158bf43f01eaf673dc84416b5ebb1",
+    "path": "sympy/printing/pretty/pretty.py",
+    "sha256": "dd5d70a1d1b2486e6441a052ef6cedbb2abcae7c01ce3136fa9f8840b38117ca",
+    "bytes": 98445,
+    "lines": 2800,
+    "fetchedAt": "2026-10-31T07:46:24.304Z"
+  },
+  "sympy/sympy@f35ad6411f86a15dd78db39c29d1e5291f66f9b5:sympy/polys/polyoptions.py": {
+    "repo": "sympy/sympy",
+    "commit": "f35ad6411f86a15dd78db39c29d1e5291f66f9b5",
+    "path": "sympy/polys/polyoptions.py",
+    "sha256": "4e1c96f58d57abcc723c4807778e703941d190e930bf0c7efcba111675b59a96",
+    "bytes": 21096,
+    "lines": 776,
+    "fetchedAt": "2026-10-31T07:45:56.036Z"
+  },
+  "sympy/sympy@f57fe3f4b3f2cab225749e1b3b38ae1bf80b62f0:sympy/functions/elementary/hyperbolic.py": {
+    "repo": "sympy/sympy",
+    "commit": "f57fe3f4b3f2cab225749e1b3b38ae1bf80b62f0",
+    "path": "sympy/functions/elementary/hyperbolic.py",
+    "sha256": "894be519b972e0c3ece8982cbd1f3022ad80bcc3f741a06aa97d68bd8daccbb7",
+    "bytes": 40282,
+    "lines": 1404,
+    "fetchedAt": "2026-10-31T07:45:41.405Z"
+  },
+  "sympy/sympy@f5e965947af2410ded92cfad987aaf45262ea434:sympy/geometry/point.py": {
+    "repo": "sympy/sympy",
+    "commit": "f5e965947af2410ded92cfad987aaf45262ea434",
+    "path": "sympy/geometry/point.py",
+    "sha256": "8d534dab03cae5e2025487fd0eff54869639b4f15a9ccdb720749feeb5bc3f9b",
+    "bytes": 36067,
+    "lines": 1352,
+    "fetchedAt": "2026-10-31T07:46:09.631Z"
+  },
+  "sympy/sympy@f91de695585c1fbc7d4f49ee061f64fcb1c2c4d8:sympy/printing/pycode.py": {
+    "repo": "sympy/sympy",
+    "commit": "f91de695585c1fbc7d4f49ee061f64fcb1c2c4d8",
+    "path": "sympy/printing/pycode.py",
+    "sha256": "d5014c930b481f2fea9b5a1ac70c824aeefd2b357c7695c6d1afc56e1411987a",
+    "bytes": 25747,
+    "lines": 757,
+    "fetchedAt": "2026-10-31T07:46:07.520Z"
+  },
+  "sympy/sympy@f9e030b57623bebdc2efa7f297c1b5ede08fcebf:sympy/matrices/expressions/blockmatrix.py": {
+    "repo": "sympy/sympy",
+    "commit": "f9e030b57623bebdc2efa7f297c1b5ede08fcebf",
+    "path": "sympy/matrices/expressions/blockmatrix.py",
+    "sha256": "f5ea5a8cf9d11d39f32c923853ef60c05a5e4c4b45ca6a103dac7a94cf1e207d",
+    "bytes": 18600,
+    "lines": 572,
+    "fetchedAt": "2026-10-31T07:46:17.133Z"
+  },
+  "sympy/sympy@fa9b4b140ec0eaf75a62c1111131626ef0f6f524:sympy/printing/pretty/pretty.py": {
+    "repo": "sympy/sympy",
+    "commit": "fa9b4b140ec0eaf75a62c1111131626ef0f6f524",
+    "path": "sympy/printing/pretty/pretty.py",
+    "sha256": "cecf8594cd81ff83cbde98d1ac3fda2e2effe360bcc38561073e39f8c93663cc",
+    "bytes": 104234,
+    "lines": 2923,
+    "fetchedAt": "2026-10-31T07:46:35.055Z"
+  },
+  "sympy/sympy@fb536869fb7aa28b2695ad7a3b70949926b291c4:sympy/printing/latex.py": {
+    "repo": "sympy/sympy",
+    "commit": "fb536869fb7aa28b2695ad7a3b70949926b291c4",
+    "path": "sympy/printing/latex.py",
+    "sha256": "74555cf0beebcdd40c5bde6845ed72c0c56f3186356a8d8b8cbc35c9e57d251d",
+    "bytes": 83547,
+    "lines": 2306,
+    "fetchedAt": "2026-10-31T07:45:55.287Z"
+  },
+  "sympy/sympy@fb536869fb7aa28b2695ad7a3b70949926b291c4:sympy/printing/pretty/pretty.py": {
+    "repo": "sympy/sympy",
+    "commit": "fb536869fb7aa28b2695ad7a3b70949926b291c4",
+    "path": "sympy/printing/pretty/pretty.py",
+    "sha256": "a95a68829fe648dcad6050b58ef03e5b7dbd64badbf3c487ecdea733d791c75a",
+    "bytes": 81892,
+    "lines": 2366,
+    "fetchedAt": "2026-10-31T07:45:53.683Z"
+  },
+  "sympy/sympy@fb59d703e6863ed803c98177b59197b5513332e9:sympy/printing/latex.py": {
+    "repo": "sympy/sympy",
+    "commit": "fb59d703e6863ed803c98177b59197b5513332e9",
+    "path": "sympy/printing/latex.py",
+    "sha256": "7f3ea523fcb51c3bbed9156afd6e0468f82f6e10522c0c183956d0cb1f75c6a8",
+    "bytes": 89330,
+    "lines": 2458,
+    "fetchedAt": "2026-10-31T07:45:59.213Z"
+  },
+  "sympy/sympy@fdc707f73a65a429935c01532cd3970d3355eab6:sympy/utilities/lambdify.py": {
+    "repo": "sympy/sympy",
+    "commit": "fdc707f73a65a429935c01532cd3970d3355eab6",
+    "path": "sympy/utilities/lambdify.py",
+    "sha256": "1ae249dd35553eaa5dd085e90707d1518eeb00939666d7d688710b8be6f1632d",
+    "bytes": 51123,
+    "lines": 1403,
+    "fetchedAt": "2026-10-31T07:46:35.872Z"
   }
 }
