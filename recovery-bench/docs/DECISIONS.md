@@ -1627,3 +1627,114 @@ task is cloned with `baseCommit` set to forty zeroes. The cache is keyed
 `repo@sha:path`, so no warm-cache run can reach that key. A second test asserts
 the *real* task IS cached, so the construction cannot hide a genuine warm-cache
 regression.
+
+---
+
+## D42 — a7 completed, and resume paid for itself: 240 cells never re-run
+
+a7 finished 31 Oct 2026. The grid planned **1,200 cells**; the arm wrote **960
+rows over 240 tasks**, and `sweep --verify` still reports *"COMPLETE — every
+planned cell has exactly one row."* Both are true, and the gap is the resume
+logic working:
+
+```
+a5 tasks  60    a7 tasks 240    overlap 0    union 300
+```
+
+a5's `l0_baseline | r1 | n0` cells are **bit-identical in shape** to a7's: same
+task, same two models, same two formats, same single repeat. 60 tasks x 2 models
+x 2 formats = **240 cells that already had rows**, so the sweep skipped them and
+ran only the 960 new ones. The saving is real — 240 calls, roughly 2.9M tokens,
+not spent to re-measure what a5 had already measured.
+
+**The consequence for analysis is the one thing to get right: the full-benchmark
+C1 result is not "arm a7". It is a cell *shape* that spans two arms** —
+`l0_baseline`, `repeat 0`, both formats, both models — and any query filtering on
+`arm == "a7_format_full_benchmark"` silently reports 240 of 300 tasks.
+
+### C1 over all 300 SWE-bench Lite instances
+
+```
+600 cell-pairs   587 complete   13 dropped as BROKEN (D18)   0 incomplete
+
+search_replace applied, unified_diff did not   b = 490
+unified_diff applied, search_replace did not   c =   5
+both applied                                        75
+neither applied                                     17
+                                              ──────────
+discordant                                         495
+
+exact McNemar  p = 4.79e-138
+```
+
+Against a5's 60-task result (`b = 301, c = 1`, p = 7.44e-89). The claim moves
+from *"60 stratified instances"* to **every instance in the benchmark**, and the
+effect does not soften — it sharpens.
+
+| format | model | applied | rate |
+|---|---|---:|---:|
+| `search_replace` | `muse_30b` | 283 / 293 | **96.6%** |
+| `search_replace` | `nemotron_ultra` | 286 / 299 | **95.7%** |
+| `unified_diff` | `muse_30b` | 74 / 293 | 25.3% |
+| `unified_diff` | `nemotron_ultra` | 6 / 296 | **2.0%** |
+
+The mechanism replicates exactly, and it is overwhelmingly one failure:
+
+```
+unified_diff    hunk_count_mismatch        340
+                no_file_header             143
+                hunk_header_unparseable      2
+search_replace  search_not_found             8
+                search_not_found_whitespace  6
+                search_ambiguous             2
+                block_unterminated           1
+```
+
+**483 of 485 `unified_diff` failures are the model mis-stating its own hunk
+geometry** — a line count in a header that does not match the body it wrote, or
+no file header at all. The 550B model is twelve times worse at it than the 30B,
+which reproduces a5's inversion (D-note in `a5-format-result`) on five times the
+data.
+
+### The failure census, which is what phase 2 was waiting for
+
+Scoring every `search_replace` baseline attempt over all 300 tasks:
+
+```
+600 attempts scored
+ 23 genuine failures   (3.8%)
+ 19 distinct tasks
+  4 tasks fail on BOTH models
+```
+
+The four that fail on both: `django-11564`, `django-15061`, `sympy-16792`,
+`sympy-20590`.
+
+**19 measured tasks against the 4 inherited from the pilot.** Lower than the ~40
+projected from a7's first 60 tasks — the early sample ran at 6.7% and the full
+benchmark at 3.8%, so the projection was high by nearly half, and the honest
+number is the one from all 300. It is still **4.75x the pool** C2 currently
+rests on, and it is a census rather than an inheritance: the Methods section can
+now say *where the tasks came from*.
+
+D40's sizing is therefore revised downward, and phase 2 gets cheaper:
+
+```
+D40 planned   ~40 tasks x 3 repeats  ≈ 1,080 cells  ≈ 14M tokens
+actual pool    19 tasks x 5 repeats  ≈   855 cells  ≈ 11M tokens
+```
+
+With only 19 tasks, repeats go back up to 5 rather than down to 3: the argument
+in D40 was that task count buys independence that repeats do not, and at 19
+tasks there is quota to afford both. One task still cannot supply half the
+signal, which was the defect.
+
+### Quota, since it is the real budget (D38)
+
+```
+a7 alone        11,703,932 tokens
+nvidia total    29,156,047 of 56,000,000
+remaining       26,843,953
+```
+
+Phase 2's ~11M fits with ~16M to spare. No money was involved at any point.

@@ -68,9 +68,25 @@ Two errors are easy to make here and both have been made in drafts of this work:
 
 ### The edit-format result is broad
 
-`search_replace` **96.4%** against `unified_diff` **13.1%**, paired on the same bug,
-model and prompt. Exact McNemar on **302 discordant of 360 pairs**, p = 7.44e-89, across
-**60 tasks**.
+**Now measured over every instance in SWE-bench Lite.** `search_replace` **96.1%**
+against `unified_diff` **13.6%**, paired on the same bug, model and prompt. Exact
+McNemar on **495 discordant of 587 pairs**, p = 4.79e-138, across **all 300 tasks**.
+
+The 60-task figure it replaces was `b = 301, c = 1` of 360 pairs, p = 7.44e-89. Going
+to the full benchmark did not soften the effect, it sharpened it.
+
+| format | model | applied | rate |
+|---|---|---:|---:|
+| `search_replace` | `muse_30b` | 283 / 293 | 96.6% |
+| `search_replace` | `nemotron_ultra` | 286 / 299 | 95.7% |
+| `unified_diff` | `muse_30b` | 74 / 293 | 25.3% |
+| `unified_diff` | `nemotron_ultra` | 6 / 296 | **2.0%** |
+
+One caution specific to how this is queried: the result spans **two arms**. a7's resume
+correctly skipped the 240 cells a5 had already measured in exactly the same shape, so
+filtering rows on `arm == "a7_format_full_benchmark"` returns 240 of the 300 tasks. The
+unit is the cell shape (`l0_baseline`, `repeat 0`, both formats, both models), not the
+arm label. See **D42**.
 
 This is the one result in the study with breadth. The main caution is §1: it measures
 which format *applies*, not which format is *correct*.

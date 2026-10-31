@@ -1,7 +1,7 @@
 {
   "generated_by": "packages/pipeline/analysis/liveTriage.ts",
   "source": "data/sweep_rows.jsonl",
-  "rows": 2026,
+  "rows": 2564,
   "skipped": 0,
   "arms": [
     "a1_replication",
@@ -12,7 +12,7 @@
     "a6_qwencloud",
     "a7_format_full_benchmark"
   ],
-  "tasks": 166,
+  "tasks": 300,
   "models": [
     "gemini_flash",
     "muse_30b",
@@ -21,26 +21,26 @@
     "qwen_max"
   ],
   "counts": {
-    "FORMAT": 881,
+    "FORMAT": 1118,
     "LOGIC": 0,
-    "BROKEN": 202,
+    "BROKEN": 209,
     "LOST": 6,
-    "unverified": 943,
+    "unverified": 1237,
     "contaminated": 0
   },
-  "measuring": 1824,
-  "notMeasuring": 202,
+  "measuring": 2355,
+  "notMeasuring": 209,
   "modelCalls": 0,
   "formatReasons": {
-    "no_file_header": 142,
-    "hunk_count_mismatch": 313,
-    "APPLY_FAIL": 28,
-    "search_not_found": 87,
-    "search_not_found_whitespace": 21,
-    "hunk_header_unparseable": 1,
-    "NO_PATCH": 106,
-    "block_unterminated": 182,
-    "search_ambiguous": 1
+    "no_file_header": 201,
+    "hunk_count_mismatch": 472,
+    "APPLY_FAIL": 34,
+    "search_not_found": 90,
+    "search_not_found_whitespace": 23,
+    "hunk_header_unparseable": 3,
+    "NO_PATCH": 110,
+    "block_unterminated": 183,
+    "search_ambiguous": 2
   },
   "trajectories": {
     "total": 216,
