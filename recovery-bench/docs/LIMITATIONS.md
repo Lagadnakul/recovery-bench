@@ -267,6 +267,26 @@ on effect size. The pre-registered **N = 150** gives H1 between **4.6% and 23.5%
 - **Some derived JSON carries a generation timestamp**, so it differs on every run even
   when no value changed. That makes it undiffable and eventually gets a timestamp
   committed as if it were a result.
+- **A row count is not evidence of completeness.** Resume keys on whether a cell has a
+  row, not on whether that row holds a measurement (`RowStore.has`, `store.ts:132`). A
+  cell that failed on the network is recorded as `PROVIDER_ERROR` with `usage: null` and
+  zero tokens — the model was never asked — and resume will never retry it. On 31 Oct
+  2026 a WiFi change produced 17 such rows in `p2_muse_recovery`; they were deleted by
+  hand so the cells could be refilled. **The guarantee comes from `verify`'s MISSING
+  list, not from the row total.** (D44)
+- **A design refusal and a dead socket share one outcome kind.** Both surface as
+  `PROVIDER_ERROR`, so they cannot be separated by kind alone — the 31 Oct purge had to
+  filter on `usage === null` as well to avoid deleting refusals, which *are* data.
+- **The budget gate compares a projection against the ceiling, not the headroom.** It
+  ignores the spend recorded in its own ledger, so a grid that cannot finish is greenlit
+  and fails mid-run under `stop_on_exhaustion`. At the end of this study the gate
+  reported 24% of capacity for a grid that was 57% of what actually remained. (D43)
+- **Arm labels are not task sets.** Resume is arm-agnostic, so a cell already measured
+  under an earlier arm is skipped rather than duplicated — correct behaviour that leaves
+  the later arm's label covering fewer tasks than it planned. The 300-task format result
+  spans `a5` and `a7` (D42), and both phase 2 arms are one task short because
+  `django__django-11564` was already in `a3` and `a2` (D44). **Select by task id and
+  model, never by arm.**
 
 ---
 

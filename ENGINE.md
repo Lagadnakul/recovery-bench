@@ -10,8 +10,11 @@ You asked a direct question and it deserves a direct answer before anything else
 >
 > **§1 below is no longer true, and the change is the point.** When this document was
 > written no API key had ever been used. You then said to finish the live sweep. It is
-> finished: **all six arms ran, 1,604 rows, 1,428 real calls, 18.1M tokens**, across
-> 25–26 October 2026.
+> finished, and then extended: **nine arms, 3,351 rows, 42.6M NVIDIA tokens**, across
+> 25–31 October 2026. a1–a6 closed at 1,604 rows on 25–26 Oct; `a7` took C1 to all 300
+> SWE-bench Lite instances; `p2_ultra_recovery` and `p2_muse_recovery` replaced the four
+> inherited recovery tasks with a measured failure pool. Only `p2_muse_recovery` is
+> unfinished — 158 of 450 cells. See **STATUS.md** for the resume command.
 >
 > | arm | rows | what it measures | headline |
 > |---|---|---|---|
@@ -22,7 +25,7 @@ You asked a direct question and it deserves a direct answer before anything else
 > | `a6_qwencloud` | 56 | fourth vendor | `l2_5` refused 16/16, confirming D34 cross-vendor |
 > | `a1_replication` | 28 | the pilot, re-run | 0 discordant pairs against a floor of 6 — it **cannot** reject |
 >
-> So the files §1 cites as absent now **exist**: `data/sweep_rows.jsonl` holds 1,604 rows
+> So the files §1 cites as absent now **exist**: `data/sweep_rows.jsonl` holds 3,351 rows
 > and is **committed** (primary data, not a derived artifact), and `data/ledger.jsonl`
 > records the spend. §6 has been rewritten.
 >
@@ -90,7 +93,7 @@ You are writing a **Registered Report** for MSR 2027. A Stage 1 Registered Repor
 That means the correct state of the project in November is exactly this one:
 
 - a **pilot** with real measurements (you have it: 20 tasks, 12 resolved, Docker-verified),
-- an **engine** that provably works offline and is ready to run (you have it: 572 tests),
+- an **engine** that provably works offline and is ready to run (you have it: 596 tests),
 - a **power analysis** proving the design can answer the question (built, Phase 1),
 - a **feasibility demonstration** that the method is implementable (built, Phase 2),
 - and **no Stage 2 data at all**, because collecting it before in-principle acceptance is pointless.
@@ -133,9 +136,9 @@ The archive is **gitignored on purpose** — every file already lives upstream a
 | **Phase 2** | Triage + CC-OS: the method is implementable | **done** · M2 |
 | **Phase 3** | Dashboard, six views | **done** — shipped 27–28 Oct 2026 at `console/` |
 | **The live sweep** | a1–a6, 1,604 cells | **done** — every planned cell has exactly one row |
-| **a7** | Baseline over all 300 instances | **running** (31 Oct 2026) |
-| **Phase 2 recovery arms** | Reflection on a7's measured failure pool | **planned** · D40 |
-| **§6/§7 over live rows** | Triage + CC-OS read `sweep_rows.jsonl` | **planned** · D39 |
+| **a7** | Format over all 300 instances | **done** 31 Oct 2026 — C1 at p = 4.79e-138 · D42 |
+| **Phase 2 recovery arms** | Reflection on a7's measured failure pool | `p2_ultra` **done**; `p2_muse` **158 cells left** · D43, D44 |
+| **§6/§7 over live rows** | Triage + CC-OS read `sweep_rows.jsonl` | **done** 31 Oct 2026 — LOST fires 6–0 · D41 |
 | **Phase 4** | Writing the paper | **not started** — the only thing left |
 
 Stage 2 and the 4 Feb 2027 IPA date are **void**: the venue changed on 31 Oct 2026
@@ -143,7 +146,7 @@ from an MSR 2027 Registered Report to a standalone Scopus journal paper submitte
 in November 2026, because Stage 2 could not publish before the May 2027 degree
 deadline. See **D37**.
 
-Current totals: **572 tests across 29 files, 0 failures, 6,102 assertions.** All **7** `bun run verify` gates green in ~31s.
+Current totals: **596 tests across 30 files, 0 failures, 6,159 assertions.** All **8** `bun run verify` gates green in ~19s.
 
 ### How each finished phase was done
 
@@ -181,7 +184,7 @@ recovery-bench/
 │   └── analysis/             read the archive, compute every number
 ├── packages/dashboard/       React 19 + Vite, opens from file://
 ├── scripts/verify.ts         all seven gates, one command
-└── tests/                    572 tests
+└── tests/                    596 tests
 ```
 
 ### 4.1 `packages/core` — the contract
@@ -254,7 +257,7 @@ Three things that the live run added to this layer, each with its own decision e
    load their own resume snapshot and both run every outstanding cell. `a2` ended its
    first attempt with **419 rows for 260 cells**, 159 duplicates, 74 of whose pairs
    disagreed because they were independent model calls. That attempt was discarded. The
-   final sweep has **zero duplicate keys across all 1,604 rows**.
+   final sweep has **zero duplicate keys across all 3,351 rows**.
 2. **Resume now rebuilds lineage history.** A skipped cell used to `continue` without
    feeding its attempt forward, so a resumed round 4 silently reflected on the round-0
    baseline. Nothing in the output showed it. `tests/sweepResume.test.ts` pins it with a
@@ -415,7 +418,7 @@ The ones that still shape decisions: **D2** 8 of 24 cells produced no evaluable 
 |---|---|
 | ~~No live API call~~ | **DONE.** 1,428 calls, 18.1M tokens, 25–26 Oct 2026 |
 | ~~Thinking adapter, budget guard, quota record~~ | **DONE.** `doctor --live` records the per-key check |
-| ~~`a1`–`a6` not yet run~~ | **ALL SIX DONE**, 1,604 rows, zero duplicate keys |
+| ~~`a1`–`a6` not yet run~~ | **ALL SIX DONE**, plus a7 and phase 2 — 3,351 rows, zero duplicate keys |
 | **No Docker test run** | D6. The 73 test-verified rows are the archive's, and there will never be another. **This is why every live row measures `APPLIED`, not `RESOLVED`** — `evidenceSource` is `none` on all of them |
 | **a4 cannot answer its own question** | Baseline apply rate **0%**. You cannot measure recovery from a model that never succeeded. Report it as a format-capability result |
 | **32 cells lost to the cascade** | D36. A round killed by a 503 leaves every later round in its lineage with nothing to reflect on. The refusal is correct; the serial design is the cost |
@@ -445,7 +448,7 @@ bun run doctor          # preconditions, offline
 bun run report          # regenerate master_table.md from the archive
 bun run power           # the sample-size analysis
 bun run ccos            # triage + CC-OS
-bun test                # 572 tests
+bun test                # 596 tests
 
 # these spend quota — the full grid has already been run
 bun run doctor:live     # probe endpoints with real keys
@@ -463,7 +466,7 @@ On this machine Bun is at `~/.bun/bin/bun.exe` and is not on the Bash PATH — u
 ## 8. The shape of the paper, as the evidence now stands
 
 The sweep changed this section. Before 25 October the protocol rested on the archive and
-on arithmetic. It now rests on 1,604 rows of primary data.
+on arithmetic. It now rests on 3,351 rows of primary data.
 
 ### The results, ranked by how hard they are to argue with
 
@@ -509,7 +512,7 @@ and these models apply 96–98% of the time. D34 dropped it from a3/a4; it is re
 ### What must travel with every one of these
 
 `APPLIED` is **patch-apply success, not a test pass**. `evidenceSource` is `none` on all
-1,604 live rows because D6 put Docker permanently out of reach. Four tasks in the recovery
+3,351 live rows because D6 put Docker permanently out of reach. Four tasks in the recovery
 arms means pairs cluster within task. **State all three before a reviewer does.**
 
 ### The recommendation, unchanged and now better supported

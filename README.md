@@ -9,6 +9,11 @@ holds the dissertation, the evidence behind every number in it, a working
 re-implementation of the whole pipeline, and the plan for the semester-4
 research paper.
 
+> **Start at [`STATUS.md`](STATUS.md)** — what is done, what is pending, and the
+> one command still outstanding. It is the single source of truth for project
+> state; the reasoning behind every decision lives in
+> [`recovery-bench/docs/DECISIONS.md`](recovery-bench/docs/DECISIONS.md) (D0–D44).
+
 ---
 
 ## The finding so far

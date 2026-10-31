@@ -1835,3 +1835,185 @@ correctly. The command had been run without `--env-file ../.env.local`, so only
 one key was visible and the per-key ceiling was the pool. **The capacity line
 scales with the keys actually present in the environment**, which is right, and
 means a projection run without the env file is not a projection of the real run.
+
+## D44 — Phase 2 ran, the pools overlapped prior arms, and resume cannot see a bad row
+
+Phase 2 was launched 31 Oct 2026 and stopped the same evening, on request, to
+be resumed the following day. This records the state it was stopped in and the
+two things the run exposed.
+
+### `p2_ultra_recovery` printed INCOMPLETE and is nevertheless complete
+
+```
+planned   585
+written   540
+MISSING   45 cell(s) have no row:
+        django__django-11564|l0_baseline|nemotron_ultra|search_replace|nothink|r0|n0
+        ... and 44 more, all the same task
+```
+
+All 45 missing cells are one task, `django__django-11564`, and it was never
+called. The cause is not a failure:
+
+```
+django__django-11564 · nemotron_ultra · search_replace · 45 cells → 45/45 present under a3_capability
+django__django-11564 · muse_30b       · search_replace · 45 cells → 45/45 present under a2_workhorse
+```
+
+`django__django-11564` is **one of a3's four inherited tasks** (the others being
+`astropy-7746`, `django-11019`, `django-11283`). It was left in both phase 2
+pools by mistake. `RowStore.has` keys on `cellKey`, which is arm-agnostic, so
+resume correctly recognised 45 identical cells and skipped them in both arms.
+
+**The measurement exists and is valid.** a3 ran that task under identical
+parameters — same model, strategies, rounds, repeats, format and thinking — so
+these are the same cells, filed under a different arm label.
+
+> **Analysis hazard.** Filtering on `arm == "p2_ultra_recovery"` yields **12
+> tasks, not 13**, and `arm == "p2_muse_recovery"` yields **9, not 10**. The
+> thirteenth and tenth live under `a3_capability` and `a2_workhorse`. This is
+> D42's hazard a second time: the 300-task C1 result also spans two arms.
+> **Select phase 2's pools by task id and model, never by arm.**
+
+### 🔴 Resume is outcome-blind, so a network failure becomes a permanent hole
+
+`packages/pipeline/matrix/store.ts:132`:
+
+```ts
+has(cell: Cell): boolean {
+  return this.done.has(cellKey(cell));
+}
+```
+
+It asks whether a row exists, not whether the row contains a measurement. A
+`PROVIDER_ERROR` row is a row, so a cell that failed on the network is treated
+as done for ever and resume will never retry it.
+
+Mid-run the machine changed WiFi networks. The sweep survived — the process was
+never interrupted and kept writing — but 17 cells were recorded as:
+
+```
+status=null  retries=2  usage=null  "getaddrinfo ENOTFOUND integrate.api.nvidia.com"
+status=null  retries=2  usage=null  "ECONNRESET: The socket connection was closed unexpectedly."
+status=502   retries=2  usage=null  "HTTP 502 Bad Gateway"
+status=null  retries=2  usage=null  "The operation timed out."       ×10
+```
+
+Zero tokens, `usage: null`: **the model was never asked.** All 17 were in
+`p2_muse_recovery`; `p2_ultra_recovery` had none. They were deleted from
+`data/sweep_rows.jsonl` (backup taken first) so that resume refills exactly
+those cells. Verified afterwards: `bun run verify` 8/8, and the arm's remaining
+outcomes are `APPLIED 157 / MALFORMED 76 / NO_PATCH 14`, all real.
+
+Checked before deleting: none of the 17 was a design refusal. Design refusals
+also surface as `PROVIDER_ERROR` (a known defect listed in Threats to Validity)
+and **would not be safe to delete**, so the filter required `usage === null`
+alongside the arm and the kind.
+
+**Not fixed in code.** Making `has` outcome-aware would change resume semantics
+for every archived arm mid-study. Recorded here, and for Threats to Validity,
+as the reason a sweep's row count is not by itself evidence of completeness —
+`verify`'s MISSING list is.
+
+### The 300s timeout is a quota artefact, not a network fault
+
+Latency over the run, same model and prompt shape throughout:
+
+```
+58s → 276s → 291s → 285s → 256s → 240s ...  (timeout_s: 300, max_retries: 2)
+```
+
+The ten `"The operation timed out."` rows are client-side: NVIDIA's queue crept
+past the 300s ceiling. The cause is the key pool, not the provider or the
+router. Per-key NVIDIA spend at the stop:
+
+```
+KEY_1  7.97M  99.7%      KEY_5  3.65M  45.6%
+KEY_2  7.97M  99.6%      KEY_6  3.62M  45.3%
+KEY_3  7.96M  99.5%      KEY_7  3.49M  43.7%
+KEY_4  7.97M  99.6%
+                         TOTAL 42.63M of 56M, headroom 13.37M
+```
+
+Keys 1–4 are spent, so all traffic funnels through three keys instead of seven
+and each queues deeper. The rotation is behaving as D28 designed; the cost is
+latency at the end of a long study, which is worth stating where D35's per-key
+accounting is described. **Quota is not the constraint for what remains** — 158
+cells at ~12k tokens is ~1.9M against 13.37M.
+
+### State at the stop
+
+```
+p2_ultra_recovery   585 planned   540 rows + 45 in a3   COMPLETE
+p2_muse_recovery    450 planned   247 rows + 45 in a2   158 CELLS TO RUN
+```
+
+The 158 outstanding cells are concentrated in six tasks: `sympy-16792`,
+`sympy-20590` and `sympy-23191` have their five baselines and none of their
+forty recovery rounds; `sympy-13895` is missing 24; `sphinx-8474` and
+`sympy-13146` are missing 7 each (those fourteen being the purged network
+failures). The lock at `data/sweep.lock` was left in place deliberately: it
+records a dead pid, and `acquireSweepLock` takes over a stale lock rather than
+refusing, so the resume needs no manual cleanup.
+
+## D45 — Phase 2 changed C4: the clean 6–0 was a small-sample artefact
+
+Re-running `bun run live-triage` after phase 2's rows landed (3,351 rows, still
+**zero model calls**) moved the LOST result substantially. Both numbers are
+correct; the later one is the one to publish.
+
+```
+                     rows    trajectories   eligible(≥3)        LOST   distinct tasks
+D41  (31 Oct, am)   1,989             216      38 / 36       0  vs  6         0 /  2
+D45  (31 Oct, pm)   3,351             392      93 / 92      10  vs 23         4 / 11
+                                               l1    l2      l1     l2       l1    l2
+```
+
+### What changed, stated plainly
+
+**`l1_blind_retry` fires too.** D41 reported `0` for blind retry against `6` for
+reflection and called the asymmetry exposure-matched. It was matched — 38 against
+36 — but at that exposure a true rate of ~11% would be expected to produce around
+four firings, so observing zero was ordinary sampling variation. **The 6–0 was
+never as clean as it looked, and it should not have been described without that
+caveat.** Phase 2's recovery arms are 4 rounds × 5 repeats on failure-selected
+tasks, which is precisely where deep trajectories come from: eligible
+trajectories went from 74 to 185.
+
+### What survives, and is stronger
+
+```
+l2_reflection    23 / 92   = 25.0%
+l1_blind_retry   10 / 93   = 10.8%
+risk ratio 2.33×          Fisher exact two-sided p = 1.285e-2
+```
+
+Exposure is still matched (92 against 93), and the claim is now about a **rate**
+rather than a presence/absence. That is a better claim: it is falsifiable, it
+has a magnitude, and it does not depend on one arm scoring exactly zero.
+
+**The clustering caveat is much weaker than it was, and this is the real gain.**
+D41's six firings came from **2 distinct tasks** — the same weakness
+`LIMITATIONS.md` §3 records for the McNemar result, and the reason phase 2 was
+reinstated at all (D40). The 23 firings now come from **11 distinct tasks**. The
+finding is no longer carried by a single bug.
+
+**The caveat is not gone.** 23 firings over 11 tasks across repeats are still not
+23 independent observations, so the Fisher p is nominal and optimistic — it
+assumes independence the data does not have. State it as nominal, with the task
+count beside it, exactly as `docs/live_triage.md` §3 now does.
+
+### Why this is reported rather than quietly replaced
+
+The earlier figure is in the decision log, in memory and in `live_triage.md`'s
+history. Writing the new number without the comparison would leave two
+incompatible results on record with nothing explaining the difference, and the
+difference is itself the interesting part: **it is a worked demonstration of C5
+on this project's own data.** C5 says the pilot was underpowered and could never
+have rejected. D41 was underpowered in the same way and produced a result that
+looked cleaner than the truth. The honest version of C4 only appeared once the
+sample grew — which is the paper's own argument, applied to the paper.
+
+`p2_muse_recovery` still has 158 cells outstanding, so these numbers will move
+once more. Re-run `bun run live-triage` after it completes and update
+`STATUS.md` §2 before any figure is drawn.
