@@ -1738,3 +1738,100 @@ remaining       26,843,953
 ```
 
 Phase 2's ~11M fits with ~16M to spare. No money was involved at any point.
+
+---
+
+## D43 — Phase 2's pools are per model, and the budget gate measures the wrong thing
+
+`configs/phase2.yaml`, written 31 Oct 2026. Two arms, 1,035 cells, 13.63M
+tokens projected.
+
+```
+p2_ultra_recovery   nemotron_ultra   13 tasks   585 cells   8.27M
+p2_muse_recovery    muse_30b         10 tasks   450 cells   5.35M
+```
+
+### The pools are split by model, and that is the design
+
+a7's census produced 23 failures over 19 distinct tasks (D42). The obvious move
+is one 19-task pool for both models. **That would be the `stratified_60` mistake
+again.**
+
+The 23 failures are **(task, model) pairs, not tasks**. Only 4 tasks fail on
+both models; 6 of the 19 fail only on `muse_30b` while `nemotron_ultra` applies
+cleanly. A 19-task pool would hand `nemotron_ultra` six tasks it had already
+solved, and **a recovery arm whose baseline already succeeds measures nothing** —
+the ceiling effect that refuted the `stratified_60` extension before it was run,
+and the mirror image of a4's floor.
+
+So: 13 tasks for `nemotron_ultra`, 10 for `muse_30b`, each the set that model
+actually failed.
+
+### One variable changed from a3, deliberately
+
+Model, strategies, rounds, repeats, format and thinking are all a3's values.
+Only the task pool differs, which makes this a replication rather than a new
+experiment: a disagreement with a3 can only be attributed to the tasks.
+
+**Repeats stay at 5, reversing D40's plan to cut them to 3.** That trade —
+repeats for tasks, because McNemar pairs at the task level and five repeats of
+one bug are not five independent observations — was sized against a projected
+~40-task pool. The real pool is 13 and 10, so there is quota for both, and
+keeping 5 preserves the clean comparison. **What fixes the clustering is going
+from 4 tasks to 13, not cutting repeats.**
+
+`search_replace` only: the pool was measured on it, and adding `unified_diff`
+would floor every cell at the 2.0% apply rate D42 measured for
+`nemotron_ultra` — a4's exact mistake. No `l2_5_diagnose_revise`: D34, it would
+contribute refusals rather than data.
+
+Both arms are reported separately, never pooled. a3 found the effect, a2 found a
+null, a4 leaned the other way, and `LIMITATIONS.md` §3 reports three answers
+rather than one average that describes none of them. `p2_muse_recovery` is worth
+running on its own terms: it turns a2's null on 4 tasks into a null on 10, and a
+null is only as strong as the sample that failed to reject.
+
+### 🔴 A defect in the budget gate, found while projecting this
+
+The projection reports:
+
+```
+nvidia   13.63M / 56.00M tokens (24%)  [7 keys]
+```
+
+**56M is the ceiling. It is not the headroom.** The ledger already records
+31.9M spent, and per key:
+
+| key | used | of 8M | headroom |
+|---|---:|---:|---:|
+| `NVIDIA_KEY_1` | 6.69M | 83.6% | 1.31M |
+| `NVIDIA_KEY_2` | 6.69M | 83.6% | 1.31M |
+| `NVIDIA_KEY_3` | 6.86M | 85.7% | 1.14M |
+| `NVIDIA_KEY_4` | 6.81M | 85.1% | 1.19M |
+| `NVIDIA_KEY_5` | 1.76M | 22.0% | 6.24M |
+| `NVIDIA_KEY_6` | 1.64M | 20.5% | 6.36M |
+| `NVIDIA_KEY_7` | 1.50M | 18.7% | 6.50M |
+
+**Real pool headroom is 24.1M, not 56M.** Phase 2's 13.63M is therefore **57%
+of what remains**, not 24% of anything. It fits — and the honest statement is
+that it is roughly the last large sweep these keys can carry.
+
+**The gate compares a projection against a ceiling while ignoring the spend
+recorded in its own ledger.** A grid that genuinely cannot finish would be
+greenlit, and it would fail mid-run with `stop_on_exhaustion: skip_arm` instead
+of refusing up front. That is the same class of defect as D25 (the committed
+grid exceeded its own budget unnoticed) and as the 3x cold-cache under-report
+logged for a7: the projector is optimistic in every direction that matters.
+
+Not fixed here, because phase 2 fits on the measured headroom and the sweep is
+about to run. Logged for Threats to Validity and for whoever extends this next.
+Keys 1–4 will exhaust early and the pool will rotate onto 5–7, which is the
+designed behaviour (D28) and not a failure.
+
+### A second, smaller observation
+
+The projector showed `13.63M / 8.00M (170%) EXCEEDS` on the first attempt —
+correctly. The command had been run without `--env-file ../.env.local`, so only
+one key was visible and the per-key ceiling was the pool. **The capacity line
+scales with the keys actually present in the environment**, which is right, and
+means a projection run without the env file is not a projection of the real run.
